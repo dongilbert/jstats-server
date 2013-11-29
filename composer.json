@@ -1,0 +1,40 @@
+{
+    "name": "joomla/jstats-server",
+    "type": "library",
+    "description": "Joomla Stats Collection Server",
+    "keywords": ["joomla"],
+    "homepage": "http://github.com/dongilbert/jstats",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Don Gilbert",
+            "email": "don@dongilbert.net",
+            "homepage": "http://dongilbert.net/"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "joomla/application": "~1.0@beta",
+        "joomla/di": "~1.0@beta",
+        "joomla/input": "~1.0@beta",
+        "joomla/session": "~1.0@beta",
+        "joomla/string": "~1.0@beta",
+        "joomla/registry": "~1.0@beta",
+        "joomla/uri": "~1.0@beta",
+        "joomla/filesystem": "~1.0@beta",
+        "joomla/filter": "~1.0@beta",
+        "joomla/compat": "~1.0@beta",
+        "joomla/utilities": "~1.0@beta",
+        "joomla/log": "~1.0@beta",
+        "joomla/date": "~1.0@beta",
+        "joomla/router": "~1.0@beta",
+        "joomla/controller": "~1.0@beta",
+        "joomla/model": "~1.0@beta",
+        "joomla/database": "~1.0@beta"
+    },
+    "autoload": {
+        "psr-0": {
+            "Stats": "src"
+        }
+    }
+}
