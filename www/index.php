@@ -3,13 +3,22 @@
 require __DIR__ . "/../boot.php";
 
 use Joomla\DI\Container;
-use Stats\Providers;
+use Stats\Providers\ConfigServiceProvider;
+use Stats\Providers\DatabaseServiceProvider;
 
-$container = (new Joomla\DI\Container)
-	->registerServiceProvider(new Providers\ConfigServiceProvider(APPROOT . "/etc/config.php"))
-	->registerServiceProvider(new Providers\DatabaseServiceProvider);
+$container = (new Container)
+	->registerServiceProvider(new ConfigServiceProvider(APPROOT . "/etc/config.php"))
+	->registerServiceProvider(new DatabaseServiceProvider);
 
+$app = new Stats\Application;
 
-$app = (new Stats\Application)->setContainer($container);
+$router = (new Stats\Router($app->input))
+	->setControllerPrefix("Stats\\Controllers\\")
+	->setDefaultController("DefaultController")
+	->addMap("/hi/:name", "HelloController")
+	->addMap("/submit", "SubmitController");
 
-$app->execute();
+$app
+	->setContainer($container)
+	->setRouter($router)
+	->execute();

@@ -5,6 +5,11 @@ namespace Stats\Providers;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
+/**
+ * Class ConfigServiceProvider
+ *
+ * @package Stats\Providers
+ */
 class ConfigServiceProvider implements ServiceProviderInterface
 {
 	/**

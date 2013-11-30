@@ -12,7 +12,8 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	{
 		$container->share(
 			"Joomla\\Database\\DatabaseDriver",
-			function () use ($container) {
+			function () use ($container)
+			{
 				$config = $container->get("config");
 
 				return DatabaseDriver::getInstance($config["database"]);
@@ -25,7 +26,8 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 		 */
 		$container->set(
 			"db",
-			function () use ($container) {
+			function () use ($container)
+			{
 				return $container->get("Joomla\\Database\\DatabaseDriver");
 			}
 		);
