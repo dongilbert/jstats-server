@@ -15,7 +15,7 @@ class SubmitController extends DefaultController
 
 		$data = [
 			"php_version" => $input->getRaw("php_version"),
-			"mysql_version" => $input->getRaw("mysql_version")
+			"db_version" => $input->getRaw("db_version")
 		];
 
 		$data = array_map(
@@ -25,6 +25,8 @@ class SubmitController extends DefaultController
 			},
 			$data
 		);
+
+		$data["db_type"] => $input->getCmd("db_type"),
 
 		/** @var \Stats\Models\Stats $model */
 		$model = $this->container->buildSharedObject("Stats\\Models\\Stats");
