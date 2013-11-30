@@ -26,7 +26,7 @@ class SubmitController extends DefaultController
 			$data
 		);
 
-		$data["db_type"] => $input->getCmd("db_type"),
+		$data["db_type"] = $input->getCmd("db_type");
 
 		/** @var \Stats\Models\Stats $model */
 		$model = $this->container->buildSharedObject("Stats\\Models\\Stats");
