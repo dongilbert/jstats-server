@@ -28,7 +28,7 @@ class SubmitController extends DefaultController
 		);
 
 		$data["db_type"] = $input->getCmd("db_type");
-		$data["server_OS"] = $input->getString("server_OS");
+		$data["server_os"] = $input->getString("server_os");
 
 		/** @var \Stats\Models\Stats $model */
 		$model = $this->container->buildSharedObject("Stats\\Models\\Stats");
