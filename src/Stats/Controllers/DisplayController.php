@@ -11,6 +11,11 @@ class DisplayController extends DefaultController
 
 	public function execute()
 	{
-		return "Hello " . $this->getInput()->getCmd("name");
+		/** @var \Stats\Models\StatsModel $model */
+		$model = $this->container->buildSharedObject("Stats\\Models\\StatsModel");
+
+		$model->getItems();
+
+		return print_r($items, true);
 	}
 }
