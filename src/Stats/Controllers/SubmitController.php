@@ -28,6 +28,7 @@ class SubmitController extends DefaultController
 			$data
 		);
 
+		$data["unique_id"] = $input->getString("unique_id");
 		$data["db_type"] = $input->getString("db_type");
 		$data["server_os"] = $input->getString("server_os");
 
