@@ -5,7 +5,7 @@ return [
 	'database' => [
 		'host' => 'localhost',
 		'user' => 'root',
-		'password' => 'root',
+		'password' => 'bitnami',
 		'database' => 'jstats_server',
 		'prefix' => 'jos_',
 		'driver' => 'mysqli'
