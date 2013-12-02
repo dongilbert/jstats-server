@@ -14,8 +14,7 @@ $app = new Stats\Application;
 
 $router = (new Stats\Router($app->input))
 	->setControllerPrefix("Stats\\Controllers\\")
-	->setDefaultController("DefaultController")
-	->addMap("/", "DisplayController")
+	->setDefaultController("DisplayController")
 	->addMap("/hi/:name", "HelloController")
 	->addMap("/submit", "SubmitController");
 

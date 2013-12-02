@@ -11,7 +11,7 @@ class StatsModel extends AbstractDatabaseModel
 		$db = $this->getDb();
 		$query = $db->getQuery(true)
 			->select("*")
-			->from("#__stats");
+			->from("#__jstats");
 
 		return $db->setQuery($query)->loadObjectList();
 	}
