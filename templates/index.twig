@@ -7,11 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="blue" />
-    <link href="{{ uri.base.path }}jtracker/core/css/template.css" rel="stylesheet" media="screen">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ uri.base.path }}images/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ uri.base.path }}images/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ uri.base.path }}images/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="{{ uri.base.path }}images/apple-touch-icon-57-precomposed.png">
+    <link href="{{ uri.base.path }}assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
     <style type="text/css">
         h1, h2, h3, h4, h5, h6, .site-title {
@@ -57,6 +53,7 @@
 
     <div class="body">
 
+        <div class="container">
             <noscript><h2 class="alert">Please activate JavaScript in your browser.</h2></noscript>
 
             {% block content %}{% endblock %}
@@ -65,12 +62,8 @@
     </div>
 
 {% block JavaScriptBottom %}
-    <script src="{{ uri.base.path }}vendor/jquery/jquery{{ jdebug ? "" : ".min" }}.js"></script>
-    <script src="{{ uri.base.path }}vendor/bootstrap/js/bootstrap-affix.js"></script>
-    <script src="{{ uri.base.path }}vendor/bootstrap/js/bootstrap-dropdown.js"></script>
-    <script src="{{ uri.base.path }}vendor/bootstrap/js/bootstrap-tab.js"></script>
-    <script src="{{ uri.base.path }}vendor/bootstrap/js/bootstrap-tooltip.js"></script>
-    <script src="{{ uri.base.path }}jtracker/core/js/jtracker{{ jdebug ? "" : ".min" }}.js"></script>
+    <script src="{{ uri.base.path }}assets/js/jquery.min.js"></script>
+    <script src="{{ uri.base.path }}assets/js/bootstrap.js"></script>
 
    <script type="text/javascript">jQuery('.hasTooltip').tooltip();</script>
 

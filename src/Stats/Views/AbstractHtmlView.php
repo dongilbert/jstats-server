@@ -11,6 +11,7 @@ namespace Stats\Views;
 use Joomla\Model\ModelInterface;
 use Joomla\View\AbstractView;
 use Joomla\View\Renderer\RendererInterface;
+use Stats\Renderer\Extensions\StatsExtension;
 
 /**
  * Abstract HTML view class for the Tracker application
@@ -55,13 +56,7 @@ abstract class AbstractHtmlView extends AbstractView
 		// Check if the specified renderer exists in the application
 		if (false == class_exists($className))
 		{
-			$className = 'Joomla\\View\\Renderer\\' . ucfirst($renderer);
-
-			// Check if the specified renderer exists in the Framework
-			if (false == class_exists($className))
-			{
-				throw new \RuntimeException(sprintf('Invalid renderer: %s', $renderer));
-			}
+			throw new \RuntimeException(sprintf('Invalid renderer: %s', $renderer));
 		}
 
 		$config = array();

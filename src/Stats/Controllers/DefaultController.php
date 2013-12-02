@@ -31,5 +31,7 @@ class DefaultController extends AbstractController implements ContainerAwareInte
 	public function setContainer(Container $container)
 	{
 		$this->container = $container;
+
+		return $this;
 	}
 }

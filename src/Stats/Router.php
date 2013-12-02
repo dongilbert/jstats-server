@@ -34,6 +34,11 @@ class Router extends JRouter
 			$controller->setContainer($this->app->getContainer());
 		}
 
+		if (method_exists($controller, 'setApplication'))
+		{
+			$controller->setApplication($this->app);
+		}
+
 		return $controller;
 	}
 
