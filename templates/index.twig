@@ -1,0 +1,80 @@
+{# Copyright (C) 2012 - 2013 Open Source Matters, Inc. All rights reserved. #}
+{# GNU General Public License version 2 or later; see LICENSE.txt #}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="blue" />
+    <link href="{{ uri.base.path }}jtracker/core/css/template.css" rel="stylesheet" media="screen">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ uri.base.path }}images/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ uri.base.path }}images/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ uri.base.path }}images/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="{{ uri.base.path }}images/apple-touch-icon-57-precomposed.png">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        h1, h2, h3, h4, h5, h6, .site-title {
+            font-family: 'Open Sans', sans-serif;
+        }
+    </style>
+    {% block headerCSS %}{% endblock %}
+    <title>{% block title %}Joomla! Environment Stats{% endblock %}</title>
+</head>
+<body class="site">
+
+    <header class="header">
+        <div class="container">
+            <div class="row-fluid">
+                {% block header %}
+                    <div class="span7">
+                        <h1 class="page-title">Joomla! Environment Stats</h1>
+                    </div>
+                    <div class="span5">
+                        <div class="btn-toolbar pull-right">
+                            <div class="btn-group">
+                                <a href="http://www.joomla.org/download.html" class="btn btn-large btn-warning">{{ "Download" }} <span class="hidden-tablet">Joomla</span></a>
+                            </div>
+                            <div class="btn-group">
+                                <a href="http://demo.joomla.org/" class="btn btn-large btn-primary">{{ "Demo" }} <span class="hidden-tablet">Joomla</span></a>
+                            </div>
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
+        </div>
+    </header>
+
+    <div class="subnav" data-spy="affix" data-offset-top="25">
+        <div class="container">
+            {% block subnav %}
+                <ul class="nav menu nav-pills">
+                    {% block prependMenu %}{% endblock %}
+                </ul>
+            {% endblock %}
+        </div>
+    </div>
+
+    <div class="body">
+
+            <noscript><h2 class="alert">Please activate JavaScript in your browser.</h2></noscript>
+
+            {% block content %}{% endblock %}
+
+        </div>
+    </div>
+
+{% block JavaScriptBottom %}
+    <script src="{{ uri.base.path }}vendor/jquery/jquery{{ jdebug ? "" : ".min" }}.js"></script>
+    <script src="{{ uri.base.path }}vendor/bootstrap/js/bootstrap-affix.js"></script>
+    <script src="{{ uri.base.path }}vendor/bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="{{ uri.base.path }}vendor/bootstrap/js/bootstrap-tab.js"></script>
+    <script src="{{ uri.base.path }}vendor/bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="{{ uri.base.path }}jtracker/core/js/jtracker{{ jdebug ? "" : ".min" }}.js"></script>
+
+   <script type="text/javascript">jQuery('.hasTooltip').tooltip();</script>
+
+{% endblock %}
+
+</body>
+</html>

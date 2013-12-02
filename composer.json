@@ -30,11 +30,14 @@
         "joomla/router": "~1.0@beta",
         "joomla/controller": "~1.0@beta",
         "joomla/model": "~1.0@beta",
-        "joomla/database": "~1.0@beta"
+        "joomla/view": "~1.0@beta",
+        "joomla/database": "~1.0@beta",
+        "twig/twig": "~1.0@stable"
     },
     "autoload": {
         "psr-0": {
-            "Stats": "src"
+            "Stats": "src",
+            "Joomla": "src"
         }
     }
 }

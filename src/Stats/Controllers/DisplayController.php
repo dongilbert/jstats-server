@@ -2,6 +2,8 @@
 
 namespace Stats\Controllers;
 
+use Stats\Views\Stats\StatsHtmlView;
+
 class DisplayController extends DefaultController
 {
 	/**
@@ -14,8 +16,9 @@ class DisplayController extends DefaultController
 		/** @var \Stats\Models\StatsModel $model */
 		$model = $this->container->buildSharedObject("Stats\\Models\\StatsModel");
 
-		$items = $model->getItems();
+		$view = new StatsHtmlView($model);
+		$view->setLayout("stats/stats.index");
 
-		return print_r($items, true);
+		return $view->render();
 	}
 }
