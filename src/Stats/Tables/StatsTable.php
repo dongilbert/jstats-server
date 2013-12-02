@@ -45,7 +45,7 @@ class StatsTable extends AbstractTable
 	{
 		foreach ($this->tableFields as $key => $value)
 		{
-			$this->tableFields[$key] = $this->db->escape($value);
+			$this->tableFields->{$key} = $this->db->escape($value);
 		}
 
 		return $this;
