@@ -11,7 +11,6 @@ class SubmitController extends DefaultController
 
 	public function execute()
 	{
-		die("test");
 		$input = $this->getInput();
 
 		$data = [
