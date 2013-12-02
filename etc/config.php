@@ -3,11 +3,11 @@
 return [
 	'debug' => (getenv('ENV') === 'development'),
 	'database' => [
-		'host' => '',
-		'user' => '',
-		'password' => '',
-		'database' => '',
-		'prefix' => '',
+		'host' => 'localhost',
+		'user' => 'root',
+		'password' => 'root',
+		'database' => 'jstats_server',
+		'prefix' => 'jos_',
 		'driver' => 'mysqli'
 	],
 ];

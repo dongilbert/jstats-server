@@ -19,6 +19,7 @@ class SubmitController extends DefaultController
 			"cms_version" => $input->getRaw("cms_version")
 		];
 
+		// Filter the submitted version data.
 		$data = array_map(
 			function ($value)
 			{
@@ -27,14 +28,15 @@ class SubmitController extends DefaultController
 			$data
 		);
 
-		$data["db_type"] = $input->getCmd("db_type");
+		$data["db_type"] = $input->getString("db_type");
 		$data["server_os"] = $input->getString("server_os");
 
-		/** @var \Stats\Models\Stats $model */
-		$model = $this->container->buildSharedObject("Stats\\Models\\Stats");
+		/** @var \Stats\Tables\StatsTable $table */
+		$table = $this->container->buildSharedObject("Stats\\Tables\\StatsTable");
 
-		$model->data = $data;
-
-		return print_r($data, true);
+		if (! $table->save($data))
+		{
+			throw new \RuntimeException('There was an error storing the data.', 404);
+		}
 	}
 }
