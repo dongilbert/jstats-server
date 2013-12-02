@@ -14,7 +14,7 @@ class DisplayController extends DefaultController
 		/** @var \Stats\Models\StatsModel $model */
 		$model = $this->container->buildSharedObject("Stats\\Models\\StatsModel");
 
-		$model->getItems();
+		$items = $model->getItems();
 
 		return print_r($items, true);
 	}
