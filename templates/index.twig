@@ -1,7 +1,7 @@
 {# Copyright (C) 2012 - 2013 Open Source Matters, Inc. All rights reserved. #}
 {# GNU General Public License version 2 or later; see LICENSE.txt #}
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+<html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,16 +41,6 @@
         </div>
     </header>
 
-    <div class="subnav" data-spy="affix" data-offset-top="25">
-        <div class="container">
-            {% block subnav %}
-                <ul class="nav menu nav-pills">
-                    {% block prependMenu %}{% endblock %}
-                </ul>
-            {% endblock %}
-        </div>
-    </div>
-
     <div class="body">
 
         <div class="container">
@@ -63,10 +53,9 @@
 
 {% block JavaScriptBottom %}
     <script src="{{ uri.base.path }}assets/js/jquery.min.js"></script>
-    <script src="{{ uri.base.path }}assets/js/bootstrap.js"></script>
-
-   <script type="text/javascript">jQuery('.hasTooltip').tooltip();</script>
-
+    <script src="{{ uri.base.path }}assets/js/bootstrap.min.js"></script>
+    <script src="{{ uri.base.path }}assets/js/canvasjs.min.js"></script>
+   {% block footerJS %}{% endblock %}
 {% endblock %}
 
 </body>

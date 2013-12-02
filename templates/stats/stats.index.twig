@@ -10,17 +10,31 @@
 
     <h2>{{ "Stats" }}</h2>
 
-    <table class="table table-bordered table-hover">
-        <tr>
-            <th>{{ "Unique ID" }}</th>
-            <th>{{ "ID" }}</th>
-        </tr>
-        {% for u in items %}
-            <tr>
-                <td><a href="{{ uri.base.path }}user/{{ u.id }}">{{ u.unique_id }}</a></td>
-                <td>{{ u.id }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+    <div id="chartCanvas" style="width:400px;height:400px"></div>
 
+{% endblock %}
+
+{% block footerJS %}
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+        var chart = new CanvasJS.Chart("chartCanvas", {
+            title: {
+                text: "Installed Joomla! Versions"
+            },
+            data: [{
+                type: "doughnut",
+                dataPoints: [
+{% for point in data.cms_version %}
+                    {
+                        y: {{ point.count }},
+                        indexLabel: '{{ point.name }}'
+                    },
+{% endfor %}
+                ]
+            }]
+        });
+
+        chart.render();
+    });
+</script>
 {% endblock %}

@@ -34,7 +34,45 @@ class StatsHtmlView extends AbstractHtmlView
 	 */
 	public function render()
 	{
-		$this->renderer->set('items', $this->model->getItems());
+		$items = $this->model->getItems();
+
+		$data = [
+			'php_version' => [],
+			'db_type' => [],
+			'db_version' => [],
+			'cms_version' => [],
+			'server_os' => []
+		];
+
+		foreach ($items as $item)
+		{
+			foreach ($data as $key => $value)
+			{
+				if (! isset($data[$key][$item->{$key}]))
+				{
+					$data[$key][$item->{$key}] = 0;
+				}
+
+				$data[$key][$item->{$key}]++;
+			}
+		}
+
+		$tmp = [];
+
+		foreach ($data as $key => $value)
+		{
+			foreach ($value as $name => $count)
+			{
+				$tmp[$key][] = [
+					'name' => $name,
+					'count' => $count
+				];
+			}
+		}
+
+		$data = $tmp;
+
+		$this->renderer->set('data', $data);
 
 		return parent::render();
 	}
