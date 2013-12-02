@@ -35,7 +35,7 @@ class SubmitController extends DefaultController
 		/** @var \Stats\Tables\StatsTable $table */
 		$table = $this->container->buildSharedObject("Stats\\Tables\\StatsTable");
 
-		if (! $table->save($data))
+		if (empty($data['unique_id']) || ! $table->save($data))
 		{
 			throw new \RuntimeException('There was an error storing the data.', 404);
 		}
