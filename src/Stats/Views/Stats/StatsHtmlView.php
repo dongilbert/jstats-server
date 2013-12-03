@@ -72,6 +72,8 @@ class StatsHtmlView extends AbstractHtmlView
 
 		$data = $tmp;
 
+		$data['total'] = count($items);
+
 		$this->renderer->set('data', $data);
 
 		return parent::render();
