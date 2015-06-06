@@ -17,7 +17,7 @@ class DisplayController extends DefaultController
 		$extension = new StatsExtension;
 		$extension->setApplication($this->getApplication());
 
-		$view->getRenderer()->addExtension($extension);
+		$view->getRenderer()->getRenderer()->addExtension($extension);
 
 		$view->setLayout("stats/stats.index");
 

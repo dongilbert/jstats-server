@@ -49,9 +49,9 @@ abstract class AbstractHtmlView extends AbstractView
 	{
 		parent::__construct($model);
 
-		$renderer = 'twig';
+		$renderer = 'TwigRenderer';
 
-		$className = 'Joomla\\View\\Renderer\\' . ucfirst($renderer);
+		$className = 'Joomla\\Renderer\\' . ucfirst($renderer);
 
 		// Check if the specified renderer exists in the application
 		if (false == class_exists($className))
@@ -59,12 +59,20 @@ abstract class AbstractHtmlView extends AbstractView
 			throw new \RuntimeException(sprintf('Invalid renderer: %s', $renderer));
 		}
 
-		$config = array();
+		$config = array(
+			'extension'  => '.twig',
+			'twig_cache_dir'     => 'cache/twig/',
+			'delimiters'         => array(
+				'tag_comment'    => array('{#', '#}'),
+				'tag_block'      => array('{%', '%}'),
+				'tag_variable'   => array('{{', '}}')
+			)
+		);
 
 		switch ($renderer)
 		{
-			case 'twig':
-				$config['templates_base_dir'] = JPATH_TEMPLATES;
+			case 'TwigRenderer':
+				$config['path'] = JPATH_TEMPLATES;
 
 				break;
 
@@ -79,7 +87,10 @@ abstract class AbstractHtmlView extends AbstractView
 		// Register additional paths.
 		if (!empty($templatesPaths))
 		{
-			$this->renderer->setTemplatesPaths($templatesPaths, true);
+			foreach($templatesPaths as $templatePath)
+			{
+				$this->getRenderer()->addFolder($templatePath);
+			}
 		}
 	}
 
@@ -145,7 +156,7 @@ abstract class AbstractHtmlView extends AbstractView
 	 */
 	public function render()
 	{
-		return $this->renderer->render($this->layout);
+		return $this->getRenderer()->render($this->layout);
 	}
 
 	/**
