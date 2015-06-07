@@ -10,7 +10,7 @@ class DisplayController extends DefaultController
 	public function execute()
 	{
 		/** @var \Stats\Models\StatsModel $model */
-		$model = $this->container->buildSharedObject("Stats\\Models\\StatsModel");
+		$model = $this->getContainer()->buildSharedObject("Stats\\Models\\StatsModel");
 
 		$view = new StatsHtmlView($model);
 
