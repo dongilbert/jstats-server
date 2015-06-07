@@ -2,16 +2,13 @@
 
 namespace Stats;
 
-use Joomla\DI\Container;
-use Joomla\DI\ContainerAwareInterface;
 use Joomla\Application\AbstractWebApplication;
+use Joomla\DI\ContainerAwareInterface;
+use Joomla\DI\ContainerAwareTrait;
 
 class Application extends AbstractWebApplication implements ContainerAwareInterface
 {
-	/**
-	 * @var Container
-	 */
-	protected $container;
+	use ContainerAwareTrait;
 
 	/**
 	 * @var Router
@@ -40,28 +37,6 @@ class Application extends AbstractWebApplication implements ContainerAwareInterf
 
 			$this->setBody($e->getMessage());
 		}
-	}
-
-	/**
-	 * Set the application DI Container
-	 *
-	 * @param Container $container
-	 *
-	 * @return Application
-	 */
-	public function setContainer(Container $container)
-	{
-		$this->container = $container;
-
-		return $this;
-	}
-
-	/**
-	 * @return Container
-	 */
-	public function getContainer()
-	{
-		return $this->container;
 	}
 
 	/**

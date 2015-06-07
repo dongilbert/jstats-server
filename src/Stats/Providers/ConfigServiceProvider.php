@@ -34,7 +34,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->share("config", function () use ($container) {
+		$container->share("config", function () {
 			return include $this->path;
 		});
 	}

@@ -11,7 +11,6 @@ namespace Stats\Views;
 use Joomla\Model\ModelInterface;
 use Joomla\View\AbstractView;
 use Joomla\Renderer\RendererInterface;
-use Stats\Renderer\Extensions\StatsExtension;
 
 /**
  * Abstract HTML view class for the Tracker application
