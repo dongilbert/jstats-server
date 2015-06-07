@@ -61,12 +61,7 @@ abstract class AbstractHtmlView extends AbstractView
 
 		$config = array(
 			'extension'  => '.twig',
-			'twig_cache_dir'     => 'cache/twig/',
-			'delimiters'         => array(
-				'tag_comment'    => array('{#', '#}'),
-				'tag_block'      => array('{%', '%}'),
-				'tag_variable'   => array('{{', '}}')
-			)
+			'twig_cache_dir'     => 'cache/twig/'
 		);
 
 		switch ($renderer)
