@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cd924f8b3cf143d2bf2689c64e7c9989",
+    "hash": "795cc3f6f59bfda4b55a8036450c0a9b",
     "packages": [
         {
             "name": "joomla/application",
@@ -577,12 +577,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/renderer.git",
-                "reference": "b51bafb8db0d0280660acd750c189720c54ff137"
+                "reference": "0bd2b628e4c1e392199d855391b618cba270e4fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/renderer/zipball/b51bafb8db0d0280660acd750c189720c54ff137",
-                "reference": "b51bafb8db0d0280660acd750c189720c54ff137",
+                "url": "https://api.github.com/repos/joomla-framework/renderer/zipball/0bd2b628e4c1e392199d855391b618cba270e4fc",
+                "reference": "0bd2b628e4c1e392199d855391b618cba270e4fc",
                 "shasum": ""
             },
             "require": {
@@ -623,7 +623,7 @@
                 "joomla",
                 "renderer"
             ],
-            "time": "2015-05-03 16:09:45"
+            "time": "2015-06-07 17:17:06"
         },
         {
             "name": "joomla/router",
@@ -800,32 +800,32 @@
         },
         {
             "name": "joomla/view",
-            "version": "1.2.0",
+            "version": "dev-2.0-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/view.git",
-                "reference": "2254fec4b1a11d2dfd0fe9dd096b263194583d22"
+                "reference": "0965f04416ec7f7aba48da69836074ea18fdf14d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/view/zipball/2254fec4b1a11d2dfd0fe9dd096b263194583d22",
-                "reference": "2254fec4b1a11d2dfd0fe9dd096b263194583d22",
+                "url": "https://api.github.com/repos/joomla-framework/view/zipball/0965f04416ec7f7aba48da69836074ea18fdf14d",
+                "reference": "0965f04416ec7f7aba48da69836074ea18fdf14d",
                 "shasum": ""
             },
             "require": {
-                "joomla/filesystem": "~1.0",
-                "joomla/model": "~1.0",
+                "joomla/model": "~1.0|2.0.*@dev",
+                "joomla/renderer": "2.x@dev",
                 "php": ">=5.3.10"
             },
             "require-dev": {
-                "joomla/test": "~1.0",
-                "phpunit/phpunit": "4.*",
-                "squizlabs/php_codesniffer": "1.*"
+                "joomla/test": "1.*@stable",
+                "phpunit/phpunit": "4.*@stable",
+                "squizlabs/php_codesniffer": "1.*@stable"
             },
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-2.0-dev": "2.0-dev"
                 }
             },
             "autoload": {
@@ -845,7 +845,7 @@
                 "joomla",
                 "view"
             ],
-            "time": "2014-09-01 02:30:31"
+            "time": "2015-06-07 15:45:57"
         },
         {
             "name": "psr/log",
@@ -947,6 +947,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "joomla/view": 20,
         "joomla/renderer": 20
     },
     "prefer-stable": false,

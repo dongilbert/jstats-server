@@ -23,6 +23,18 @@ class StatsExtension extends \Twig_Extension
 	protected $app;
 
 	/**
+	 * Constructor
+	 *
+	 * @param   Application  $app  The application object
+	 *
+	 * @since   1.0
+	 */
+	public function __construct(Application $app)
+	{
+		$this->app = $app;
+	}
+
+	/**
 	 * Returns the name of the extension.
 	 *
 	 * @return  string  The extension name.
@@ -33,14 +45,6 @@ class StatsExtension extends \Twig_Extension
 	{
 		return 'stats';
 	}
-
-	public function setApplication(Application $app)
-	{
-		$this->app = $app;
-
-		return $this;
-	}
-
 
 	/**
 	 * Returns a list of global variables to add to the existing list.

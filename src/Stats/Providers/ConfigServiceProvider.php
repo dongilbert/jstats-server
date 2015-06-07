@@ -4,6 +4,7 @@ namespace Stats\Providers;
 
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Registry\Registry;
 
 /**
  * Class ConfigServiceProvider
@@ -13,29 +14,56 @@ use Joomla\DI\ServiceProviderInterface;
 class ConfigServiceProvider implements ServiceProviderInterface
 {
 	/**
-	 * Path to the config file.
+	 * Configuration instance
 	 *
-	 * @var string
+	 * @var    Registry
+	 * @since  1.0
 	 */
-	protected $path;
+	private $config;
 
 	/**
-	 * Class constructor.
+	 * Constructor.
 	 *
-	 * @param string $path Path to the config file.
+	 * @param string $file Path to the config file.
+	 *
+	 * @since   1.0
+	 * @throws  \RuntimeException
 	 */
-	public function __construct($path)
+	public function __construct($file)
 	{
-		$this->path = $path;
+		// Verify the configuration exists and is readable.
+		if (!is_readable($file))
+		{
+			throw new \RuntimeException('Configuration file does not exist or is unreadable.');
+		}
+
+		// Load the configuration file into an object.
+		$configObject = json_decode(file_get_contents($file));
+
+		if ($configObject === null)
+		{
+			throw new \RuntimeException(sprintf('Unable to parse the configuration file %s.', $file));
+		}
+
+		$this->config = (new Registry)->loadObject($configObject);
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Registers the service provider with a DI container.
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
 	 */
 	public function register(Container $container)
 	{
-		$container->share("config", function () {
-			return include $this->path;
-		});
+		$container->set('config',
+			function ()
+			{
+				return $this->config;
+			}, true, true
+		);
 	}
 }

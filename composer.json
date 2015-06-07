@@ -29,7 +29,7 @@
         "joomla/router": "~1.1",
         "joomla/controller": "~1.1",
         "joomla/model": "~1.1",
-        "joomla/view": "~1.1",
+        "joomla/view": "2.*@dev",
         "joomla/database": "~1.1",
         "twig/twig": "1.*",
 		"joomla/renderer": "2.*@dev"
