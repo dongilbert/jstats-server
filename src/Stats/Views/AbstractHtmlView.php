@@ -59,10 +59,7 @@ abstract class AbstractHtmlView extends AbstractView
 			throw new \RuntimeException(sprintf('Invalid renderer: %s', $renderer));
 		}
 
-		$config = array(
-			'extension'  => '.twig',
-			'twig_cache_dir'     => 'cache/twig/'
-		);
+		$config = array();
 
 		switch ($renderer)
 		{
