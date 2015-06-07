@@ -10,7 +10,7 @@ namespace Stats\Views;
 
 use Joomla\Model\ModelInterface;
 use Joomla\View\AbstractView;
-use Joomla\View\Renderer\RendererInterface;
+use Joomla\Renderer\RendererInterface;
 use Stats\Renderer\Extensions\StatsExtension;
 
 /**
@@ -81,7 +81,7 @@ abstract class AbstractHtmlView extends AbstractView
 		{
 			foreach($templatesPaths as $templatePath)
 			{
-				$this->getRenderer()->addFolder($templatePath);
+				$this->getRenderer()->addFolder(\Twig_Loader_Filesystem::MAIN_NAMESPACE, $templatePath);
 			}
 		}
 	}
