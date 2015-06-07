@@ -17,7 +17,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 				{
 					$config = $container->get("config");
 
-					return DatabaseDriver::getInstance($config["database"]);
+					return DatabaseDriver::getInstance((array) $config["database"]);
 				},
 				true
 			);

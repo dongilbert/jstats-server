@@ -1,0 +1,17 @@
+{
+	"database": {
+		"driver"  : "mysqli",
+		"host"    : "localhost",
+		"user"    : "root",
+		"password": "bitnami",
+		"database": "jstats_server",
+		"prefix"  : "jos_",
+		"debug"   : false
+	},
+	"template": {
+		"renderer" : "twig",
+		"debug"    : false,
+		"extension": ".twig"
+	},
+	"errorReporting": 0
+}

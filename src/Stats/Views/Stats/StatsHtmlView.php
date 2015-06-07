@@ -8,14 +8,14 @@
 
 namespace Stats\Views\Stats;
 
-use Stats\Views\AbstractHtmlView;
+use Joomla\View\BaseHtmlView;
 
 /**
  * The projects item view
  *
  * @since  1.0
  */
-class StatsHtmlView extends AbstractHtmlView
+class StatsHtmlView extends BaseHtmlView
 {
 	/**
 	 * The model object.
@@ -74,7 +74,7 @@ class StatsHtmlView extends AbstractHtmlView
 
 		$data['total'] = count($items);
 
-		$this->renderer->set('data', $data);
+		$this->getRenderer()->set('data', $data);
 
 		return parent::render();
 	}
