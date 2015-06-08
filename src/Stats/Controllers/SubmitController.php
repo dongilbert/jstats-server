@@ -4,11 +4,6 @@ namespace Stats\Controllers;
 
 class SubmitController extends DefaultController
 {
-	/**
-	 * @var \Joomla\Application\AbstractWebApplication
-	 */
-	protected $app;
-
 	public function execute()
 	{
 		$input = $this->getInput();
