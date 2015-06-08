@@ -8,6 +8,12 @@ class SubmitController extends DefaultController
 	{
 		$input = $this->getInput();
 
+		// Only accept POST requests
+		if ($input->getMethod() !== 'POST')
+		{
+			throw new \RuntimeException('This method only accepts POST requests.', 405);
+		}
+
 		$data = [
 			"php_version" => $input->getRaw("php_version"),
 			"db_version" => $input->getRaw("db_version"),
