@@ -11,7 +11,7 @@ class StatsModel extends AbstractDatabaseModel
 		$db = $this->getDb();
 		$query = $db->getQuery(true)
 			->select("*")
-			->from("#__jstats")
+			->from($db->quoteName("#__jstats"))
 			->group("unique_id");
 
 		return $db->setQuery($query)->loadObjectList();
