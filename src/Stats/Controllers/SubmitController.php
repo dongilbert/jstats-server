@@ -34,7 +34,7 @@ class SubmitController extends DefaultController
 		$data["server_os"] = $input->getString("server_os");
 
 		/** @var \Stats\Tables\StatsTable $table */
-		$table = $this->container->buildSharedObject("Stats\\Tables\\StatsTable");
+		$table = $this->getContainer()->buildSharedObject("Stats\\Tables\\StatsTable");
 
 		if (empty($data['unique_id']) || ! $table->save($data))
 		{
