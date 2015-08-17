@@ -49,7 +49,8 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 					->setContainer($container)
 					->setControllerPrefix('Stats\\Controllers\\')
 					->setDefaultController('DisplayController')
-					->addMap('/submit', 'SubmitController');
+					->addMap('/submit', 'SubmitController')
+					->addMap('/:source', 'DisplayController');
 
 				return $router;
 			},

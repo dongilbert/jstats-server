@@ -11,6 +11,8 @@ class StatsJsonView extends BaseJsonView
 {
 	private $authorizedRaw = false;
 
+	private $source;
+
 	public function isAuthorizedRaw($authorizedRaw)
 	{
 		$this->authorizedRaw = $authorizedRaw;
@@ -152,8 +154,27 @@ class StatsJsonView extends BaseJsonView
 
 		$responseData['total'] = $total;
 
+		// If a partial source was requested, only return that, or throw an exception if it doesn't exist
+		if ($this->source)
+		{
+			if (!isset($responseData[$this->source]))
+			{
+				throw new \InvalidArgumentException('An invalid data source was requested.', 404);
+			}
+
+			$responseData = [
+				$this->source => $responseData[$this->source],
+				'total'       => $total
+			];
+		}
+
 		$this->addData('data', $responseData);
 
 		return parent::render();
+	}
+
+	public function setSource($source)
+	{
+		$this->source = $source;
 	}
 }
