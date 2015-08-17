@@ -2,39 +2,35 @@
 
 namespace Stats;
 
+use Joomla\DI\ContainerAwareInterface;
+use Joomla\DI\ContainerAwareTrait;
 use Joomla\Router\RestRouter;
 use Joomla\Controller\ControllerInterface;
-use Joomla\DI\ContainerAwareInterface;
 
-class Router extends RestRouter
+class Router extends RestRouter implements ContainerAwareInterface
 {
-	/**
-	 * @var Application
-	 */
-	public $app;
+	use ContainerAwareTrait;
 
 	protected function fetchController($name)
 	{
-		/** @var \Stats\Controllers\DefaultController $controller */
-		$controller = parent::fetchController($name);
+		// Derive the controller class name.
+		$class = $this->controllerPrefix . ucfirst($name);
 
-		if ($controller instanceof ContainerAwareInterface)
+		// If the controller class does not exist panic.
+		if (!class_exists($class))
 		{
-			$controller->setContainer($this->app->getContainer());
+			throw new \RuntimeException(sprintf('Unable to locate controller `%s`.', $class), 404);
 		}
 
-		if ($controller instanceof ControllerInterface)
+		// If the controller does not follows the implementation.
+		if (!is_subclass_of($class, 'Joomla\\Controller\\ControllerInterface'))
 		{
-			$controller->setApplication($this->app);
+			throw new \RuntimeException(
+				sprintf('Invalid Controller. Controllers must implement Joomla\Controller\ControllerInterface. `%s`.', $class), 500
+			);
 		}
 
-		return $controller;
-	}
-
-	public function setApplication(Application $app)
-	{
-		$this->app = $app;
-
-		return $this;
+		// Instantiate the controller.
+		return $this->getContainer()->get($class);
 	}
 }

@@ -3,13 +3,9 @@
 namespace Stats;
 
 use Joomla\Application\AbstractWebApplication;
-use Joomla\DI\ContainerAwareInterface;
-use Joomla\DI\ContainerAwareTrait;
 
-class Application extends AbstractWebApplication implements ContainerAwareInterface
+class Application extends AbstractWebApplication
 {
-	use ContainerAwareTrait;
-
 	public $mimeType = 'application/json';
 
 	/**

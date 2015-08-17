@@ -2,8 +2,25 @@
 
 namespace Stats\Controllers;
 
-class SubmitControllerPost extends DefaultController
+use Joomla\Controller\AbstractController;
+use Stats\Models\StatsModel;
+
+/**
+ * @method         \Stats\Application  getApplication()  Get the application object.
+ * @property-read  \Stats\Application  $app              Application object
+ */
+class SubmitControllerPost extends AbstractController
 {
+	/**
+	 * @var StatsModel
+	 */
+	private $model;
+
+	public function __construct(StatsModel $model)
+	{
+		$this->model = $model;
+	}
+
 	public function execute()
 	{
 		$input = $this->getInput();
@@ -27,19 +44,13 @@ class SubmitControllerPost extends DefaultController
 		$data['db_type']   = $input->getString('db_type');
 		$data['server_os'] = $input->getString('server_os');
 
-		/** @var \Stats\Tables\StatsTable $table */
-		$table = $this->getContainer()->buildSharedObject('Stats\\Tables\\StatsTable');
-
 		// We require at a minimum a unique ID and the CMS version
 		if (empty($data['unique_id']) || empty($data['cms_version']))
 		{
 			throw new \RuntimeException('There was an error storing the data.', 401);
 		}
 
-		/** @var \Stats\Models\StatsModel $model */
-		$model = $this->getContainer()->alias('Joomla\Model\ModelInterface', 'Stats\\Models\\StatsModel')->buildSharedObject('Stats\\Models\\StatsModel');
-
-		$model->save((object) $data);
+		$this->model->save((object) $data);
 
 		$response = [
 			'error'   => false,
