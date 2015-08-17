@@ -8,5 +8,8 @@
 		"prefix"  : "",
 		"debug"   : false
 	},
+	"stats": {
+		"rawdata": false
+	},
 	"errorReporting": 0
 }

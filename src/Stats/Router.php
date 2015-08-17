@@ -13,16 +13,6 @@ class Router extends RestRouter
 	 */
 	public $app;
 
-	/**
-	 * Get a JController object for a given name.
-	 *
-	 * @param   string  $name  The controller name (excluding prefix) for which to fetch and instance.
-	 *
-	 * @return  ControllerInterface
-	 *
-	 * @since   1.0
-	 * @throws  \RuntimeException
-	 */
 	protected function fetchController($name)
 	{
 		/** @var \Stats\Controllers\DefaultController $controller */

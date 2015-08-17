@@ -15,18 +15,12 @@ class Application extends AbstractWebApplication implements ContainerAwareInterf
 	 */
 	protected $router;
 
-	/**
-	 * Execute the Application
-	 *
-	 * @return void
-	 */
 	public function doExecute()
 	{
 		try
 		{
 			$controller = $this->router->getController($this->get('uri.route'));
-
-			$this->setBody($controller->execute());
+			$controller->execute();
 		}
 		catch (\Exception $e)
 		{
@@ -43,11 +37,11 @@ class Application extends AbstractWebApplication implements ContainerAwareInterf
 		}
 	}
 
-	/**
-	 * @param Router $router
-	 *
-	 * @return $this
-	 */
+	protected function initialise()
+	{
+		$this->mimeType = 'application/json';
+	}
+
 	public function setRouter(Router $router)
 	{
 		$this->router = $router;
