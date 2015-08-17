@@ -3,15 +3,10 @@
 		"driver"  : "mysqli",
 		"host"    : "localhost",
 		"user"    : "root",
-		"password": "bitnami",
+		"password": "root",
 		"database": "jstats_server",
 		"prefix"  : "jos_",
 		"debug"   : false
-	},
-	"template": {
-		"renderer" : "twig",
-		"debug"    : false,
-		"extension": ".twig"
 	},
 	"errorReporting": 0
 }

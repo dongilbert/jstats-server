@@ -24,7 +24,7 @@ class Application extends AbstractWebApplication implements ContainerAwareInterf
 	{
 		try
 		{
-			$controller = $this->router->getController($this->get("uri.route"));
+			$controller = $this->router->getController($this->get('uri.route'));
 
 			$this->setBody($controller->execute());
 		}
@@ -32,7 +32,11 @@ class Application extends AbstractWebApplication implements ContainerAwareInterf
 		{
 			if ($e->getCode() === 404)
 			{
-				http_response_code(404);
+				$this->setHeader('HTTP/1.1 404 Not Found', 404, true);
+			}
+			else
+			{
+				$this->setHeader('HTTP/1.1 500 Internal Server Error', 500, true);
 			}
 
 			$this->setBody($e->getMessage());
@@ -47,8 +51,6 @@ class Application extends AbstractWebApplication implements ContainerAwareInterf
 	public function setRouter(Router $router)
 	{
 		$this->router = $router;
-
-		$this->router->setApplication($this);
 
 		return $this;
 	}

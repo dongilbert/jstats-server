@@ -10,14 +10,14 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 {
 	public function register(Container $container)
 	{
-		$container->alias("db", "Joomla\\Database\\DatabaseDriver")
+		$container->alias('db', 'Joomla\\Database\\DatabaseDriver')
 			->share(
-				"Joomla\\Database\\DatabaseDriver",
+				'Joomla\\Database\\DatabaseDriver',
 				function () use ($container)
 				{
-					$config = $container->get("config");
+					$config = $container->get('config');
 
-					return DatabaseDriver::getInstance((array) $config["database"]);
+					return DatabaseDriver::getInstance((array) $config['database']);
 				},
 				true
 			);

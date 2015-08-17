@@ -2,12 +2,11 @@
 
 namespace Stats;
 
-use Joomla\Router\Router as JRouter;
+use Joomla\Router\RestRouter;
 use Joomla\Controller\ControllerInterface;
 use Joomla\DI\ContainerAwareInterface;
-use Psr\Log\InvalidArgumentException;
 
-class Router extends JRouter
+class Router extends RestRouter
 {
 	/**
 	 * @var Application
@@ -34,7 +33,7 @@ class Router extends JRouter
 			$controller->setContainer($this->app->getContainer());
 		}
 
-		if (method_exists($controller, 'setApplication'))
+		if ($controller instanceof ControllerInterface)
 		{
 			$controller->setApplication($this->app);
 		}

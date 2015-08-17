@@ -8,14 +8,14 @@
 
 namespace Stats\Views\Stats;
 
-use Joomla\View\BaseHtmlView;
+use Joomla\View\BaseJsonView;
 
 /**
  * The projects item view
  *
  * @since  1.0
  */
-class StatsHtmlView extends BaseHtmlView
+class StatsJsonView extends BaseJsonView
 {
 	/**
 	 * The model object.
