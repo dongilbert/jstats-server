@@ -12,8 +12,22 @@ use Stats\Models\StatsModel;
 use Stats\Router;
 use Stats\Views\Stats\StatsJsonView;
 
+/**
+ * Application service provider
+ *
+ * @since  1.0
+ */
 class ApplicationServiceProvider implements ServiceProviderInterface
 {
+	/**
+	 * Registers the service provider with a DI container.
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function register(Container $container)
 	{
 		$container->alias('Stats\\Application', 'Joomla\\Application\\AbstractApplication')

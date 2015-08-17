@@ -5,19 +5,51 @@ namespace Stats\Views\Stats;
 use Joomla\View\BaseJsonView;
 
 /**
+ * JSON response for requesting the stats data.
+ *
  * @property-read  \Stats\Models\StatsModel  $model  The model object.
+ *
+ * @since          1.0
  */
 class StatsJsonView extends BaseJsonView
 {
+	/**
+	 * Flag if the response should return the raw data.
+	 *
+	 * @var    boolean
+	 * @since  1.0
+	 */
 	private $authorizedRaw = false;
 
+	/**
+	 * The data source to return.
+	 *
+	 * @var    string
+	 * @since  1.0
+	 */
 	private $source;
 
+	/**
+	 * Set whether the raw data should be returned.
+	 *
+	 * @param   boolean  $authorizedRaw  Flag if the response should return the raw data.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function isAuthorizedRaw($authorizedRaw)
 	{
 		$this->authorizedRaw = $authorizedRaw;
 	}
 
+	/**
+	 * Method to render the view.
+	 *
+	 * @return  string  The rendered view.
+	 *
+	 * @since   1.0
+	 */
 	public function render()
 	{
 		$items = $this->model->getItems();
@@ -173,6 +205,15 @@ class StatsJsonView extends BaseJsonView
 		return parent::render();
 	}
 
+	/**
+	 * Set the data source.
+	 *
+	 * @param   string  $source  Data source to return.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function setSource($source)
 	{
 		$this->source = $source;

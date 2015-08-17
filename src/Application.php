@@ -4,15 +4,36 @@ namespace Stats;
 
 use Joomla\Application\AbstractWebApplication;
 
+/**
+ * Web application for the stats server
+ *
+ * @since  1.0
+ */
 class Application extends AbstractWebApplication
 {
+	/**
+	 * Response mime type.
+	 *
+	 * @var    string
+	 * @since  1.0
+	 */
 	public $mimeType = 'application/json';
 
 	/**
-	 * @var Router
+	 * Application router.
+	 *
+	 * @var    Router
+	 * @since  1.0
 	 */
-	protected $router;
+	private $router;
 
+	/**
+	 * Method to run the application routines.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function doExecute()
 	{
 		try
@@ -33,6 +54,15 @@ class Application extends AbstractWebApplication
 		}
 	}
 
+	/**
+	 * Set the HTTP Response Header for error conditions.
+	 *
+	 * @param   \Exception  $exception  The Exception object to process.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	private function setErrorHeader(\Exception $exception)
 	{
 		switch ($exception->getCode())
@@ -60,6 +90,15 @@ class Application extends AbstractWebApplication
 		}
 	}
 
+	/**
+	 * Set the application's router.
+	 *
+	 * @param   Router  $router  Router object to set.
+	 *
+	 * @return  $this
+	 *
+	 * @since   1.0
+	 */
 	public function setRouter(Router $router)
 	{
 		$this->router = $router;

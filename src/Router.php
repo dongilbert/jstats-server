@@ -2,15 +2,30 @@
 
 namespace Stats;
 
+use Joomla\Controller\ControllerInterface;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Router\RestRouter;
-use Joomla\Controller\ControllerInterface;
 
+/**
+ * Stats application router
+ *
+ * @since  1.0
+ */
 class Router extends RestRouter implements ContainerAwareInterface
 {
 	use ContainerAwareTrait;
 
+	/**
+	 * Get a controller object for a given name.
+	 *
+	 * @param   string  $name  The controller name (excluding prefix) for which to fetch and instance.
+	 *
+	 * @return  ControllerInterface
+	 *
+	 * @since   1.0
+	 * @throws  \RuntimeException
+	 */
 	protected function fetchController($name)
 	{
 		// Derive the controller class name.

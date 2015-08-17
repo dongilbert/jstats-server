@@ -4,8 +4,20 @@ namespace Stats\Models;
 
 use Joomla\Model\AbstractDatabaseModel;
 
+/**
+ * Statistics database model
+ *
+ * @since  1.0
+ */
 class StatsModel extends AbstractDatabaseModel
 {
+	/**
+	 * Loads the statistics data from the database.
+	 *
+	 * @return  \stdClass[]  Array of data objects.
+	 *
+	 * @since   1.0
+	 */
 	public function getItems()
 	{
 		$db = $this->getDb();
@@ -18,6 +30,15 @@ class StatsModel extends AbstractDatabaseModel
 		)->loadObjectList();
 	}
 
+	/**
+	 * Saves the given data.
+	 *
+	 * @param   \stdClass  $data  Data object to save.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function save($data)
 	{
 		$db = $this->getDb();

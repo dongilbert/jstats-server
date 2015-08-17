@@ -6,21 +6,43 @@ use Joomla\Controller\AbstractController;
 use Stats\Models\StatsModel;
 
 /**
+ * Controller for processing submitted statistics data.
+ *
  * @method         \Stats\Application  getApplication()  Get the application object.
  * @property-read  \Stats\Application  $app              Application object
+ *
+ * @since          1.0
  */
 class SubmitControllerPost extends AbstractController
 {
 	/**
-	 * @var StatsModel
+	 * Statistics model object.
+	 *
+	 * @var    StatsModel
+	 * @since  1.0
 	 */
 	private $model;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param   StatsModel  $model  Statistics model object.
+	 *
+	 * @since   1.0
+	 */
 	public function __construct(StatsModel $model)
 	{
 		$this->model = $model;
 	}
 
+	/**
+	 * Execute the controller.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.0
+	 * @throws  \RuntimeException
+	 */
 	public function execute()
 	{
 		$input = $this->getInput();
