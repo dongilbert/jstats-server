@@ -1,26 +1,42 @@
 <?php
 
-require __DIR__ . "/../boot.php";
+require dirname(__DIR__) . '/boot.php';
 
 use Joomla\DI\Container;
+use Stats\Providers\ApplicationServiceProvider;
 use Stats\Providers\ConfigServiceProvider;
 use Stats\Providers\DatabaseServiceProvider;
-use Stats\Providers\TwigServiceProvider;
 
 $container = (new Container)
-	->registerServiceProvider(new ConfigServiceProvider(APPROOT . "/etc/config.json"))
+	->registerServiceProvider(new ApplicationServiceProvider)
+	->registerServiceProvider(new ConfigServiceProvider(APPROOT . '/etc/config.json'))
 	->registerServiceProvider(new DatabaseServiceProvider);
 
-$app = $container->alias('app', 'Stats\Application')->buildObject('Stats\Application');
-$container->registerServiceProvider(new TwigServiceProvider);
-$app->setContainer($container);
+// Set error reporting based on config
+$errorReporting = (int) $container->get('config')->get('errorReporting', 0);
+error_reporting($errorReporting);
+ini_set('display_errors', (bool) $errorReporting);
 
-$router = (new Stats\Router($app->input))
-	->setControllerPrefix("Stats\\Controllers\\")
-	->setDefaultController("DisplayController")
-	->addMap("/submit", "SubmitController");
+// Execute the application
+try
+{
+	$app = $container->get('Stats\\Application');
+	$app->execute();
+}
+catch (\Exception $e)
+{
+	if (!headers_sent())
+	{
+		header('HTTP/1.1 500 Internal Server Error', null, 500);
+		header('Content-Type: application/json; charset=utf-8');
+	}
 
-$app
-	->setContainer($container)
-	->setRouter($router)
-	->execute();
+	$response = [
+		'error' => true,
+		'message' => 'An error occurred while executing the application: ' . $e->getMessage()
+	];
+
+	echo json_encode($response);
+
+	exit(1);
+}

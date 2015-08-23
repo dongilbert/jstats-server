@@ -1,0 +1,15 @@
+{
+	"database": {
+		"driver"  : "mysqli",
+		"host"    : "",
+		"user"    : "",
+		"password": "",
+		"database": "",
+		"prefix"  : "",
+		"debug"   : false
+	},
+	"stats": {
+		"rawdata": false
+	},
+	"errorReporting": 0
+}

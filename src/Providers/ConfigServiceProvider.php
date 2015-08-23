@@ -7,9 +7,9 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Registry\Registry;
 
 /**
- * Class ConfigServiceProvider
+ * Configuration service provider
  *
- * @package Stats\Providers
+ * @since  1.0
  */
 class ConfigServiceProvider implements ServiceProviderInterface
 {
@@ -24,7 +24,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
 	/**
 	 * Constructor.
 	 *
-	 * @param string $file Path to the config file.
+	 * @param   string  $file  Path to the config file.
 	 *
 	 * @since   1.0
 	 * @throws  \RuntimeException
@@ -59,11 +59,13 @@ class ConfigServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->set('config',
+		$container->share(
+			'config',
 			function ()
 			{
 				return $this->config;
-			}, true, true
+			},
+			true
 		);
 	}
 }

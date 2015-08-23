@@ -7,4 +7,4 @@ CREATE TABLE IF NOT EXISTS `jos_jstats` (
   `cms_version` varchar(255) NOT NULL,
   `server_os` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
