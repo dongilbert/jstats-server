@@ -7,7 +7,7 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Input\Input;
 use Stats\Application;
 use Stats\Controllers\DisplayControllerGet;
-use Stats\Controllers\SubmitControllerPost;
+use Stats\Controllers\SubmitControllerCreate;
 use Stats\Models\StatsModel;
 use Stats\Router;
 use Stats\Views\Stats\StatsJsonView;
@@ -88,10 +88,10 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		);
 
 		$container->share(
-			'Stats\\Controllers\\SubmitControllerPost',
+			'Stats\\Controllers\\SubmitControllerCreate',
 			function (Container $container)
 			{
-				$controller = new SubmitControllerPost(
+				$controller = new SubmitControllerCreate(
 					$container->get('Stats\\Models\\StatsModel')
 				);
 
