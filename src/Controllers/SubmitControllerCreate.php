@@ -13,7 +13,7 @@ use Stats\Models\StatsModel;
  *
  * @since          1.0
  */
-class SubmitControllerPost extends AbstractController
+class SubmitControllerCreate extends AbstractController
 {
 	/**
 	 * Statistics model object.
