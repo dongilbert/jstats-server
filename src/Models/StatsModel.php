@@ -53,7 +53,6 @@ class StatsModel extends AbstractDatabaseModel
 
 		if ($recordExists)
 		{
-			$data->unique_id = $recordExists;
 			$db->updateObject('#__jstats', $data, ['unique_id']);
 		}
 		else
