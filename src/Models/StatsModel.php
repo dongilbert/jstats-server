@@ -46,19 +46,19 @@ class StatsModel extends AbstractDatabaseModel
 		// Check if a row exists for this unique ID and update the existing record if so
 		$recordExists = $db->setQuery(
 			$db->getQuery(true)
-				->select('id')
+				->select('unique_id')
 				->from('#__jstats')
 				->where('unique_id = ' . $db->quote($data->unique_id))
 		)->loadResult();
 
 		if ($recordExists)
 		{
-			$data->id = $recordExists;
-			$db->updateObject('#__jstats', $data, ['id']);
+			$data->unique_id = $recordExists;
+			$db->updateObject('#__jstats', $data, ['unique_id']);
 		}
 		else
 		{
-			$db->insertObject('#__jstats', $data, ['id']);
+			$db->insertObject('#__jstats', $data, ['unique_id']);
 		}
 	}
 }
