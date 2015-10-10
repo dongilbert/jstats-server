@@ -4,6 +4,9 @@ In order to better understand our install base and end user environments, this p
 those stats back to a Joomla controlled central server. No worries though, __no__ identifying data is captured
 at any point, and most data is dumped every 12 hours, after analysis and stat storage.
 
+## Build Status
+Travis-CI: [![Build Status](https://travis-ci.org/joomla/joomla-cms.png)](https://travis-ci.org/joomla/joomla-cms)
+
 ## Installation
 
 1. Clone this repo on your server into the folder **jstats-server**
