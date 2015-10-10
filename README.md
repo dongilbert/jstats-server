@@ -5,7 +5,7 @@ those stats back to a Joomla controlled central server. No worries though, __no_
 at any point, and most data is dumped every 12 hours, after analysis and stat storage.
 
 ## Build Status
-Travis-CI: [![Build Status](https://travis-ci.org/joomla/joomla-cms.png)](https://travis-ci.org/joomla/joomla-cms)
+Travis-CI: [![Build Status](https://travis-ci.org/joomla-extensions/jstats-server.png)](https://travis-ci.org/joomla-extensions/jstats-server)
 
 ## Installation
 
