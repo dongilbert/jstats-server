@@ -49,6 +49,7 @@ class StatsJsonView extends BaseJsonView
 	 * @return  string  The rendered view.
 	 *
 	 * @since   1.0
+	 * @throws  \InvalidArgumentException
 	 */
 	public function render()
 	{
