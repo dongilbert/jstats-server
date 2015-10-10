@@ -9,11 +9,11 @@ use Stats\Providers\DatabaseServiceProvider;
  */
 class DatabaseServiceProviderTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @testdox The database service provider is registered to the DI container
-     *
-     * @covers Stats\Providers\DatabaseServiceProvider::register
-     */
+	/**
+	 * @testdox The database service provider is registered to the DI container
+	 *
+	 * @covers  Stats\Providers\DatabaseServiceProvider::register
+	 */
 	public function testTheDatabaseServiceProviderIsRegisteredToTheContainer()
 	{
 		$container = new Container;

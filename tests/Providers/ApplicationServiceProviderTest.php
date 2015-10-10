@@ -9,11 +9,11 @@ use Stats\Providers\ApplicationServiceProvider;
  */
 class ApplicationServiceProviderTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @testdox The application service provider is registered to the DI container
-     *
-     * @covers Stats\Providers\ApplicationServiceProvider::register
-     */
+	/**
+	 * @testdox The application service provider is registered to the DI container
+	 *
+	 * @covers  Stats\Providers\ApplicationServiceProvider::register
+	 */
 	public function testTheApplicationServiceProviderIsRegisteredToTheContainer()
 	{
 		$container = new Container;
