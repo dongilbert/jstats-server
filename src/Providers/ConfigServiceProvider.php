@@ -37,15 +37,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
 			throw new \RuntimeException('Configuration file does not exist or is unreadable.');
 		}
 
-		// Load the configuration file into an object.
-		$configObject = json_decode(file_get_contents($file));
-
-		if ($configObject === null)
-		{
-			throw new \RuntimeException(sprintf('Unable to parse the configuration file %s.', $file));
-		}
-
-		$this->config = (new Registry)->loadObject($configObject);
+		$this->config = (new Registry)->loadFile($file);
 	}
 
 	/**
