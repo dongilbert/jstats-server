@@ -43,6 +43,9 @@ class StatsModel extends AbstractDatabaseModel
 	{
 		$db = $this->getDb();
 
+		// Set the modified date of the record
+		$data->modified = (new \DateTime('now', new \DateTimeZone('UTC')))->format($db->getDateFormat());
+
 		// Check if a row exists for this unique ID and update the existing record if so
 		$recordExists = $db->setQuery(
 			$db->getQuery(true)
