@@ -6,11 +6,13 @@ use Joomla\DI\Container;
 use Stats\Providers\ApplicationServiceProvider;
 use Stats\Providers\ConfigServiceProvider;
 use Stats\Providers\DatabaseServiceProvider;
+use Stats\Providers\MonologServiceProvider;
 
 $container = (new Container)
 	->registerServiceProvider(new ApplicationServiceProvider)
 	->registerServiceProvider(new ConfigServiceProvider(APPROOT . '/etc/config.json'))
-	->registerServiceProvider(new DatabaseServiceProvider);
+	->registerServiceProvider(new DatabaseServiceProvider)
+	->registerServiceProvider(new MonologServiceProvider);
 
 // Set error reporting based on config
 $errorReporting = (int) $container->get('config')->get('errorReporting', 0);

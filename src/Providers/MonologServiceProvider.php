@@ -9,15 +9,19 @@ use Monolog\Processor\WebProcessor;
 
 /**
  * Monolog service provider
+ *
+ * @since  1.0
  */
-class MonologProvider implements ServiceProviderInterface
+class MonologServiceProvider implements ServiceProviderInterface
 {
 	/**
-	 * {@inheritdoc}
+	 * Registers the service provider with a DI container.
 	 *
-	 * @param Container $container The DI container
+	 * @param   Container  $container  The DI container.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   1.0
 	 */
 	public function register(Container $container)
 	{
