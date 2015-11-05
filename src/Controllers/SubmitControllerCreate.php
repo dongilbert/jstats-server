@@ -57,7 +57,7 @@ class SubmitControllerCreate extends AbstractController
 		$data = array_map(
 			function ($value)
 			{
-				return preg_replace('/[^0-9.-]/', '', $value);
+				return preg_replace('/[^0-9.]/', '', $value);
 			},
 			$data
 		);
