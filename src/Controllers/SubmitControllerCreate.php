@@ -69,6 +69,11 @@ class SubmitControllerCreate extends AbstractController
 		// We require at a minimum a unique ID and the CMS version
 		if (empty($data['unique_id']) || empty($data['cms_version']))
 		{
+			$this->getApplication()->getLogger()->info(
+				'Missing required data from request.',
+				['postData' => $data]
+			);
+
 			throw new \RuntimeException('There was an error storing the data.', 401);
 		}
 
