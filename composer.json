@@ -24,7 +24,8 @@
         "joomla/renderer": "2.*@dev",
         "joomla/router": "~1.1",
         "joomla/uri": "~1.1",
-        "joomla/view": "2.*@dev"
+        "joomla/view": "2.*@dev",
+        "monolog/monolog": "~1.17"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.8",

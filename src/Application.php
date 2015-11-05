@@ -43,6 +43,12 @@ class Application extends AbstractWebApplication
 		}
 		catch (\Exception $e)
 		{
+			// Log the error for reference
+			$this->getLogger()->error(
+				$e->getMessage(),
+				['trace' => $e->getTraceAsString()]
+			);
+
 			$this->setErrorHeader($e);
 
 			$data = [

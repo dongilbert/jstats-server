@@ -11,5 +11,8 @@
 	"stats": {
 		"rawdata": false
 	},
+	"log": {
+		"level": "error"
+	},
 	"errorReporting": 0
 }
