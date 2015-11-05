@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `jos_jstats` (
-  `unique_id` varchar(32) NOT NULL,
+  `unique_id` varchar(40) NOT NULL,
   `php_version` varchar(255) NOT NULL,
   `db_type` varchar(255) NOT NULL,
   `db_version` varchar(255) NOT NULL,
