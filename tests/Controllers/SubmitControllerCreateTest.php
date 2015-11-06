@@ -77,9 +77,20 @@ class SubmitControllerCreateTest extends \PHPUnit_Framework_TestCase
 		$mockModel->expects($this->never())
 			->method('save');
 
+		$mockLogger = $this->getMockBuilder('Psr\Log\LoggerInterface')
+			->getMock();
+
+		$mockLogger->expects($this->once())
+			->method('info');
+
 		$mockApp = $this->getMockBuilder('Stats\Application')
 			->disableOriginalConstructor()
+			->setMethods(['getLogger'])
 			->getMock();
+
+		$mockApp->expects($this->once())
+			->method('getLogger')
+			->willReturn($mockLogger);
 
 		$mockInput = $this->getMockBuilder('Joomla\Input\Input')
 			->disableOriginalConstructor()
