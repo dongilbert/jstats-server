@@ -78,7 +78,7 @@ class MonologServiceProvider implements ServiceProviderInterface
 				function (Container $container)
 				{
 					return new Logger(
-						'MauticDashboard',
+						'JStatsServer',
 						[
 							$container->get('monolog.handler.application')
 						],
@@ -95,7 +95,7 @@ class MonologServiceProvider implements ServiceProviderInterface
 			function (Container $container)
 			{
 				return new Logger(
-					'MauticDashboard',
+					'JStatsServer',
 					[
 						$container->get('monolog.handler.database')
 					],
