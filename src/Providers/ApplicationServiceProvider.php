@@ -8,6 +8,7 @@ use Joomla\Input\Input;
 use Stats\Application;
 use Stats\Controllers\DisplayControllerGet;
 use Stats\Controllers\SubmitControllerCreate;
+use Stats\Controllers\SubmitControllerGet;
 use Stats\Models\StatsModel;
 use Stats\Router;
 use Stats\Views\Stats\StatsJsonView;
@@ -95,6 +96,20 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 				$controller = new SubmitControllerCreate(
 					$container->get('Stats\\Models\\StatsModel')
 				);
+
+				$controller->setApplication($container->get('Joomla\\Application\\AbstractApplication'));
+				$controller->setInput($container->get('Joomla\\Input\\Input'));
+
+				return $controller;
+			},
+			true
+		);
+
+		$container->share(
+			'Stats\\Controllers\\SubmitControllerGet',
+			function (Container $container)
+			{
+				$controller = new SubmitControllerGet;
 
 				$controller->setApplication($container->get('Joomla\\Application\\AbstractApplication'));
 				$controller->setInput($container->get('Joomla\\Input\\Input'));
