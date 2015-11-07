@@ -14,11 +14,9 @@ class SubmitControllerGetTest extends \PHPUnit_Framework_TestCase
 	 * @covers  Stats\Controllers\SubmitControllerGet::execute
 	 * @expectedException  \RuntimeException
 	 */
-	public function testTheControllerDoesNotAllowARecordWithNoCmsVersionToBeSaved()
+	public function testTheSubmitRouteOnlyAllowsPostRequests()
 	{
 		$controller = (new SubmitControllerGet)
-			->setApplication($mockApp)
-			->setInput($mockInput)
 			->execute();
 	}
 }
