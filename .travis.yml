@@ -12,6 +12,7 @@ php:
 env:
   global:
     - USE_SCRUTINIZER="no"
+
 matrix:
   include:
     - php: 5.6
