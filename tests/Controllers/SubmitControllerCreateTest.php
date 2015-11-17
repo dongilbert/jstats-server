@@ -28,6 +28,10 @@ class SubmitControllerCreateTest extends \PHPUnit_Framework_TestCase
 	 * @testdox The controller is executed correctly
 	 *
 	 * @covers  Stats\Controllers\SubmitControllerCreate::execute
+	 * @covers  Stats\Controllers\SubmitControllerCreate::checkCMSVersion
+	 * @covers  Stats\Controllers\SubmitControllerCreate::checkDatabaseType
+	 * @covers  Stats\Controllers\SubmitControllerCreate::checkPHPVersion
+	 * @covers  Stats\Controllers\SubmitControllerCreate::validateVersionNumber
 	 */
 	public function testTheControllerIsExecutedCorrectly()
 	{
@@ -66,6 +70,10 @@ class SubmitControllerCreateTest extends \PHPUnit_Framework_TestCase
 	 * @testdox The controller does not allow a record with no CMS version to be saved
 	 *
 	 * @covers  Stats\Controllers\SubmitControllerCreate::execute
+	 * @covers  Stats\Controllers\SubmitControllerCreate::checkCMSVersion
+	 * @covers  Stats\Controllers\SubmitControllerCreate::checkDatabaseType
+	 * @covers  Stats\Controllers\SubmitControllerCreate::checkPHPVersion
+	 * @covers  Stats\Controllers\SubmitControllerCreate::validateVersionNumber
 	 * @expectedException  \RuntimeException
 	 */
 	public function testTheControllerDoesNotAllowARecordWithNoCmsVersionToBeSaved()
@@ -107,8 +115,7 @@ class SubmitControllerCreateTest extends \PHPUnit_Framework_TestCase
 
 		$controller = (new SubmitControllerCreate($mockModel))
 			->setApplication($mockApp)
-			->setInput($mockInput);
-
-		$controller->execute();
+			->setInput($mockInput)
+			->execute();
 	}
 }
