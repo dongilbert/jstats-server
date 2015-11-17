@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "cd2cbbd0a365074e8388fde84082711e",
+    "content-hash": "63cf11845273fc14e6fdb75360a75e35",
     "packages": [
         {
             "name": "joomla/application",
@@ -459,29 +460,29 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/renderer.git",
-                "reference": "98d0a3a08293744db3ba637c984f8d0436690df3"
+                "reference": "3e466afb027cffbb014f3a60495ac590e5215c3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/renderer/zipball/98d0a3a08293744db3ba637c984f8d0436690df3",
-                "reference": "98d0a3a08293744db3ba637c984f8d0436690df3",
+                "url": "https://api.github.com/repos/joomla-framework/renderer/zipball/3e466afb027cffbb014f3a60495ac590e5215c3b",
+                "reference": "3e466afb027cffbb014f3a60495ac590e5215c3b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.10"
             },
             "require-dev": {
-                "league/plates": "~2.0",
+                "league/plates": "~2.0|~3.0",
                 "mustache/mustache": "~2.0",
                 "squizlabs/php_codesniffer": "1.*",
-                "symfony/templating": "~2.0",
-                "twig/twig": "~1.0"
+                "symfony/templating": "~2.0|~3.0",
+                "twig/twig": "~1.0|~2.0"
             },
             "suggest": {
-                "league/plates": "Install ~2.0 if you are using the Plates template engine.",
+                "league/plates": "Install ~2.0|~3.0 if you are using the Plates template engine.",
                 "mustache/mustache": "Install ~2.0 if you are using the Mustache template engine.",
-                "symfony/templating": "Install ~2.0 if you are using Symfony's PHP template component.",
-                "twig/twig": "Install ~1.0 if you are using the Twig template engine."
+                "symfony/templating": "Install ~2.0|~3.0 if you are using Symfony's PHP template component.",
+                "twig/twig": "Install ~1.0|~2.0 if you are using the Twig template engine."
             },
             "type": "joomla-package",
             "extra": {
@@ -505,7 +506,7 @@
                 "joomla",
                 "renderer"
             ],
-            "time": "2015-08-22 19:16:57"
+            "time": "2015-11-15 05:00:24"
         },
         {
             "name": "joomla/router",
@@ -1337,16 +1338,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.16",
+            "version": "4.8.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "625f8c345606ed0f3a141dfb88f4116f0e22978e"
+                "reference": "fa33d4ad96481b91df343d83e8c8aabed6b1dfd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/625f8c345606ed0f3a141dfb88f4116f0e22978e",
-                "reference": "625f8c345606ed0f3a141dfb88f4116f0e22978e",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/fa33d4ad96481b91df343d83e8c8aabed6b1dfd3",
+                "reference": "fa33d4ad96481b91df343d83e8c8aabed6b1dfd3",
                 "shasum": ""
             },
             "require": {
@@ -1405,7 +1406,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-10-23 06:48:33"
+            "time": "2015-11-11 11:32:49"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
