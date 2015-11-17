@@ -6,6 +6,7 @@ at any point, and we only keep latest data last sent to us so most data is dumpe
 
 ## Build Status
 Travis-CI: [![Build Status](https://travis-ci.org/joomla-extensions/jstats-server.png)](https://travis-ci.org/joomla-extensions/jstats-server)
+Scrutinizer-CI: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/joomla-extensions/jstats-server/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/joomla-extensions/jstats-server/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/joomla-extensions/jstats-server/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/joomla-extensions/jstats-server/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/joomla-extensions/jstats-server/badges/build.png?b=master)](https://scrutinizer-ci.com/g/joomla-extensions/jstats-server/build-status/master)
 
 ## Installation
 
