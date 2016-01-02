@@ -1,4 +1,5 @@
 <?php
+
 namespace Stats\Providers;
 
 use Joomla\DI\Container;
@@ -6,6 +7,7 @@ use Joomla\DI\ServiceProviderInterface;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\WebProcessor;
+use Psr\Log\LoggerInterface;
 
 /**
  * Monolog service provider
@@ -70,11 +72,11 @@ class MonologServiceProvider implements ServiceProviderInterface
 		);
 
 		// Register the main Logger
-		$container->alias('monolog', 'Monolog\\Logger')
-			->alias('monolog.logger.application', 'Monolog\\Logger')
-			->alias('Psr\\Log\\LoggerInterface', 'Monolog\\Logger')
+		$container->alias('monolog', Logger::class)
+			->alias('monolog.logger.application', Logger::class)
+			->alias(LoggerInterface::class, Logger::class)
 			->share(
-				'Monolog\\Logger',
+				Logger::class,
 				function (Container $container)
 				{
 					return new Logger(

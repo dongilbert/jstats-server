@@ -24,9 +24,9 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->alias('db', 'Joomla\\Database\\DatabaseDriver')
+		$container->alias('db', DatabaseDriver::class)
 			->share(
-				'Joomla\\Database\\DatabaseDriver',
+				DatabaseDriver::class,
 				function (Container $container)
 				{
 					$config = $container->get('config');

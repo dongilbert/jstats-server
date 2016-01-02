@@ -2,6 +2,8 @@
 
 namespace Stats\Providers;
 
+use Joomla\Application as JoomlaApplication;
+use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Input\Input;
@@ -31,17 +33,17 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->alias('Stats\\Application', 'Joomla\\Application\\AbstractApplication')
-			->alias('Joomla\\Application\\AbstractWebApplication', 'Joomla\\Application\\AbstractApplication')
+		$container->alias(Application::class, JoomlaApplication\AbstractApplication::class)
+			->alias(JoomlaApplication\AbstractWebApplication::class, JoomlaApplication\AbstractApplication::class)
 			->share(
-				'Joomla\\Application\\AbstractApplication',
+				JoomlaApplication\AbstractApplication::class,
 				function (Container $container)
 				{
-					$application = new Application($container->get('Joomla\\Input\\Input'), $container->get('config'));
+					$application = new Application($container->get(Input::class), $container->get('config'));
 
 					// Inject extra services
 					$application->setLogger($container->get('monolog.logger.application'));
-					$application->setRouter($container->get('Stats\\Router'));
+					$application->setRouter($container->get(Router::class));
 
 					return $application;
 				},
@@ -49,7 +51,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 			);
 
 		$container->share(
-			'Joomla\\Input\\Input',
+			Input::class,
 			function ()
 			{
 				return new Input($_REQUEST);
@@ -58,7 +60,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		);
 
 		$container->share(
-			'Stats\\Router',
+			Router::class,
 			function (Container $container)
 			{
 				$router = (new Router($container->get('Joomla\\Input\\Input')))
@@ -74,11 +76,11 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		);
 
 		$container->share(
-			'Stats\\Controllers\\DisplayControllerGet',
+			DisplayControllerGet::class,
 			function (Container $container)
 			{
 				$controller = new DisplayControllerGet(
-					$container->get('Stats\\Views\\Stats\\StatsJsonView')
+					$container->get(StatsJsonView::class)
 				);
 
 				$controller->setApplication($container->get('Joomla\\Application\\AbstractApplication'));
@@ -90,15 +92,15 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		);
 
 		$container->share(
-			'Stats\\Controllers\\SubmitControllerCreate',
+			SubmitControllerCreate::class,
 			function (Container $container)
 			{
 				$controller = new SubmitControllerCreate(
 					$container->get('Stats\\Models\\StatsModel')
 				);
 
-				$controller->setApplication($container->get('Joomla\\Application\\AbstractApplication'));
-				$controller->setInput($container->get('Joomla\\Input\\Input'));
+				$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$controller->setInput($container->get(Input::class));
 
 				return $controller;
 			},
@@ -106,13 +108,13 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		);
 
 		$container->share(
-			'Stats\\Controllers\\SubmitControllerGet',
+			SubmitControllerGet::class,
 			function (Container $container)
 			{
 				$controller = new SubmitControllerGet;
 
-				$controller->setApplication($container->get('Joomla\\Application\\AbstractApplication'));
-				$controller->setInput($container->get('Joomla\\Input\\Input'));
+				$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$controller->setInput($container->get(Input::class));
 
 				return $controller;
 			},
@@ -120,22 +122,22 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		);
 
 		$container->share(
-			'Stats\\Models\\StatsModel',
+			StatsModel::class,
 			function (Container $container)
 			{
 				return new StatsModel(
-					$container->get('Joomla\\Database\\DatabaseDriver')
+					$container->get(DatabaseDriver::class)
 				);
 			},
 			true
 		);
 
 		$container->share(
-			'Stats\\Views\\Stats\\StatsJsonView',
+			StatsJsonView::class,
 			function (Container $container)
 			{
 				return new StatsJsonView(
-					$container->get('Stats\\Models\\StatsModel')
+					$container->get(StatsModel::class)
 				);
 			},
 			true

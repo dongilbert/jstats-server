@@ -3,6 +3,7 @@
 require dirname(__DIR__) . '/boot.php';
 
 use Joomla\DI\Container;
+use Stats\Application;
 use Stats\Providers\ApplicationServiceProvider;
 use Stats\Providers\ConfigServiceProvider;
 use Stats\Providers\DatabaseServiceProvider;
@@ -22,7 +23,7 @@ ini_set('display_errors', (bool) $errorReporting);
 // Execute the application
 try
 {
-	$app = $container->get('Stats\\Application');
+	$app = $container->get(Application::class);
 	$app->execute();
 }
 catch (\Exception $e)
