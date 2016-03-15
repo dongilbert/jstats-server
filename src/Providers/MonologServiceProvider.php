@@ -6,6 +6,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Monolog\Processor\PsrLogMessageProcessor;
 use Monolog\Processor\WebProcessor;
 use Psr\Log\LoggerInterface;
 
@@ -27,6 +28,15 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
+		// Register the PSR-3 processor
+		$container->share(
+			'monolog.processor.psr3',
+			function ()
+			{
+				return new PsrLogMessageProcessor;
+			}
+		);
+
 		// Register the web processor
 		$container->share(
 			'monolog.processor.web',
@@ -47,7 +57,7 @@ class MonologServiceProvider implements ServiceProviderInterface
 				$level = strtoupper($config->get('log.application', $config->get('log.level', 'error')));
 
 				return new StreamHandler(
-					APPROOT . '/logs/app.log',
+					APPROOT . '/logs/stats.log',
 					constant('\\Monolog\\Logger::' . $level)
 				);
 			}
@@ -65,7 +75,7 @@ class MonologServiceProvider implements ServiceProviderInterface
 				$level = $config->get('database.debug', false) ? 'DEBUG' : strtoupper($config->get('log.database', $config->get('log.level', 'error')));
 
 				return new StreamHandler(
-					APPROOT . '/logs/database.log',
+					APPROOT . '/logs/stats.log',
 					constant('\\Monolog\\Logger::' . $level)
 				);
 			}
@@ -80,7 +90,7 @@ class MonologServiceProvider implements ServiceProviderInterface
 				function (Container $container)
 				{
 					return new Logger(
-						'JStatsServer',
+						'Application',
 						[
 							$container->get('monolog.handler.application')
 						],
@@ -97,11 +107,12 @@ class MonologServiceProvider implements ServiceProviderInterface
 			function (Container $container)
 			{
 				return new Logger(
-					'JStatsServer',
+					'Database',
 					[
 						$container->get('monolog.handler.database')
 					],
 					[
+						$container->get('monolog.processor.psr3'),
 						$container->get('monolog.processor.web')
 					]
 				);
