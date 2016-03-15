@@ -22,4 +22,15 @@ class ConfigServiceProviderTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertTrue($container->exists('config'));
 	}
+
+	/**
+	 * @testdox The config service provider throws an Exception if an invalid file is given
+	 *
+	 * @covers  Stats\Providers\ConfigServiceProvider::__construct
+	 * @expectedException  \RuntimeException
+	 */
+	public function testTheConfigServiceProviderThrowsAnExceptionIfAnInvalidFileIsGiven()
+	{
+		new ConfigServiceProvider('/bad/file/path.json');
+	}
 }
