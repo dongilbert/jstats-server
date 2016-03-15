@@ -113,7 +113,7 @@ class SubmitControllerCreateTest extends \PHPUnit_Framework_TestCase
 			->method('getString')
 			->willReturnOnConsecutiveCalls('1a2b3c4d', 'mysql', 'Darwin 14.1.0');
 
-		$controller = (new SubmitControllerCreate($mockModel))
+		(new SubmitControllerCreate($mockModel))
 			->setApplication($mockApp)
 			->setInput($mockInput)
 			->execute();

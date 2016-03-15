@@ -31,9 +31,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 			->method('getController')
 			->willReturn($mockController);
 
-		$app = new Application;
-		$app->setRouter($mockRouter);
-		$app->execute();
+		(new Application)
+			->setRouter($mockRouter)
+			->execute();
 	}
 
 	/**

@@ -63,7 +63,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 			Router::class,
 			function (Container $container)
 			{
-				$router = (new Router($container->get('Joomla\\Input\\Input')))
+				$router = (new Router($container->get(Input::class)))
 					->setContainer($container)
 					->setControllerPrefix('Stats\\Controllers\\')
 					->setDefaultController('DisplayController')
@@ -83,8 +83,8 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 					$container->get(StatsJsonView::class)
 				);
 
-				$controller->setApplication($container->get('Joomla\\Application\\AbstractApplication'));
-				$controller->setInput($container->get('Joomla\\Input\\Input'));
+				$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$controller->setInput($container->get(Input::class));
 
 				return $controller;
 			},
@@ -96,7 +96,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 			function (Container $container)
 			{
 				$controller = new SubmitControllerCreate(
-					$container->get('Stats\\Models\\StatsModel')
+					$container->get(StatsModel::class)
 				);
 
 				$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));

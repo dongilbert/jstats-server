@@ -38,15 +38,14 @@ class Application extends AbstractWebApplication
 	{
 		try
 		{
-			$controller = $this->router->getController($this->get('uri.route'));
-			$controller->execute();
+			$this->router->getController($this->get('uri.route'))->execute();
 		}
 		catch (\Exception $e)
 		{
 			// Log the error for reference
 			$this->getLogger()->error(
-				$e->getMessage(),
-				['trace' => $e->getTraceAsString()]
+				sprintf('Uncaught Exception of type %s caught.', get_class($e)),
+				['exception' => $e]
 			);
 
 			$this->setErrorHeader($e);
