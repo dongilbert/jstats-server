@@ -20,10 +20,16 @@ class SubmitControllerGet extends AbstractController
 	 * @return  boolean
 	 *
 	 * @since   1.0
-	 * @throws  \RuntimeException
 	 */
 	public function execute()
 	{
-		throw new \RuntimeException('This route only accepts POST requests.');
+		$response = [
+			'error'   => true,
+			'message' => 'This route only accepts POST requests.'
+		];
+
+		$this->getApplication()->setBody(json_encode($response));
+
+		return true;
 	}
 }

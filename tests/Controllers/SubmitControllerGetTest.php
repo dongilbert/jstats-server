@@ -9,14 +9,19 @@ use Stats\Controllers\SubmitControllerGet;
 class SubmitControllerGetTest extends \PHPUnit_Framework_TestCase
 {
 	/**
-	 * @testdox The /submit route only allows POST requests
+	 * @testdox The controller is executed correctly
 	 *
 	 * @covers  Stats\Controllers\SubmitControllerGet::execute
-	 * @expectedException  \RuntimeException
 	 */
 	public function testTheSubmitRouteOnlyAllowsPostRequests()
 	{
+		$mockApp = $this->getMockBuilder('Stats\Application')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$controller = (new SubmitControllerGet)
-			->execute();
+			->setApplication($mockApp);
+
+		$this->assertTrue($controller->execute());
 	}
 }
