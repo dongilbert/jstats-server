@@ -70,12 +70,25 @@ class StatsJsonView extends BaseJsonView
 			{
 				if (!is_null($item->$key))
 				{
-					if (!isset($data[$key][$item->$key]))
+					// Special case, if the server is empty then change the key to "unknown"
+					if ($key === 'server_os' && empty($item->$key))
 					{
-						$data[$key][$item->$key] = 0;
-					}
+						if (!isset($data[$key]['unknown']))
+						{
+							$data[$key]['unknown'] = 0;
+						}
 
-					$data[$key][$item->$key]++;
+						$data[$key]['unknown']++;
+					}
+					else
+					{
+						if (!isset($data[$key][$item->$key]))
+						{
+							$data[$key][$item->$key] = 0;
+						}
+
+						$data[$key][$item->$key]++;
+					}
 				}
 			}
 		}
@@ -111,7 +124,8 @@ class StatsJsonView extends BaseJsonView
 
 						foreach ($dataGroup as $row)
 						{
-							$version = substr($row['name'], 0, 3);
+							$exploded = explode('.', $row['name']);
+							$version  = $exploded[0] . '.' . (isset($exploded[1]) ? $exploded[1] : '0');
 
 							// If the container does not exist, add it
 							if (!isset($counts[$version]))
@@ -126,7 +140,7 @@ class StatsJsonView extends BaseJsonView
 
 						foreach ($counts as $version => $count)
 						{
-							$sanitizedData[$version] = round($count / $total, 4) * 100;
+							$sanitizedData[$version] = round(($count / $total) * 100, 4);
 						}
 
 						$responseData[$key] = $sanitizedData;
@@ -142,11 +156,6 @@ class StatsJsonView extends BaseJsonView
 							$fullOs = explode(' ', $row['name']);
 							$os     = $fullOs[0];
 
-							if (!$os)
-							{
-								$os = 'unknown';
-							}
-
 							// If the container does not exist, add it
 							if (!isset($counts[$os]))
 							{
@@ -160,7 +169,7 @@ class StatsJsonView extends BaseJsonView
 
 						foreach ($counts as $os => $count)
 						{
-							$sanitizedData[$os] = round($count / $total, 4) * 100;
+							$sanitizedData[$os] = round(($count / $total) * 100, 4);
 						}
 
 						$responseData[$key] = $sanitizedData;
@@ -175,7 +184,7 @@ class StatsJsonView extends BaseJsonView
 
 						foreach ($dataGroup as $row)
 						{
-							$sanitizedData[$row['name']] = round($row['count'] / $total, 4) * 100;
+							$sanitizedData[$row['name']] = round(($row['count'] / $total) * 100, 4);
 						}
 
 						$responseData[$key] = $sanitizedData;

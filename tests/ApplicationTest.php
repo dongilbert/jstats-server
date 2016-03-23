@@ -37,12 +37,31 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Data provider for testTheApplicationHandlesExceptionsCorrectly
+	 *
+	 * @return  array
+	 */
+	public function dataApplicationExceptions()
+	{
+		return [
+			'401' => [401],
+			'403' => [403],
+			'404' => [404],
+			'500' => [500],
+		];
+	}
+
+	/**
 	 * @testdox The application handles Exceptions correctly
+	 *
+	 * @param   integer  $code  The Exception code
 	 *
 	 * @covers  Stats\Application::doExecute
 	 * @covers  Stats\Application::setErrorHeader
+	 *
+	 * @dataProvider dataApplicationExceptions
 	 */
-	public function testTheApplicationHandlesExceptionsCorrectly()
+	public function testTheApplicationHandlesExceptionsCorrectly($code)
 	{
 		$mockController = $this->getMockBuilder('Stats\Controllers\DisplayControllerGet')
 			->disableOriginalConstructor()
@@ -50,7 +69,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
 		$mockController->expects($this->once())
 			->method('execute')
-			->willThrowException(new \Exception('Test failure', 404));
+			->willThrowException(new \Exception('Test failure', $code));
 
 		$mockRouter = $this->getMockBuilder('Stats\Router')
 			->disableOriginalConstructor()
@@ -67,6 +86,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 		ob_start();
 		$app->execute();
 		ob_end_clean();
+
+		// The status header should be first in the stack
+		$statusHeader = $app->getHeaders()[0];
+
+		$this->assertEquals($statusHeader['value'], $code, 'The Status header was not correctly set.');
 	}
 
 	/**

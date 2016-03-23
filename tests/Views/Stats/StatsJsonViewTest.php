@@ -57,6 +57,14 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 					'db_version'  => '9.4.0',
 					'server_os'   => 'Darwin 14.1.0'
 				],
+				(object) [
+					'unique_id'   => '3c',
+					'php_version' => PHP_VERSION,
+					'cms_version' => '3.5.0',
+					'db_type'     => 'sqlsrv',
+					'db_version'  => '10.50.2500',
+					'server_os'   => ''
+				],
 			]);
 
 		$phpVersion = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
@@ -64,11 +72,11 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 		$returnData = [
 			'data' => [
 				'php_version' => [$phpVersion => 100],
-				'db_type'     => ['mysql' => 50, 'postgresql' => 50],
-				'db_version'  => ['5.6' => 50, '9.4' => 50],
+				'db_type'     => ['mysql' => round((1 / 3) * 100, 4), 'postgresql' => round((1 / 3) * 100, 4), 'sqlsrv' => round((1 / 3) * 100, 4)],
+				'db_version'  => ['5.6' => round((1 / 3) * 100, 4), '9.4' => round((1 / 3) * 100, 4), '10.50' => round((1 / 3) * 100, 4)],
 				'cms_version' => ['3.5.0' => 100],
-				'server_os'   => ['Darwin' => 100],
-				'total'       => 2
+				'server_os'   => ['Darwin' => round((2 / 3) * 100, 4), 'unknown' => round((1 / 3) * 100, 4)],
+				'total'       => 3
 			]
 		];
 
@@ -107,6 +115,14 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 					'db_version'  => '9.4.0',
 					'server_os'   => 'Darwin 14.1.0'
 				],
+				(object) [
+					'unique_id'   => '3c',
+					'php_version' => PHP_VERSION,
+					'cms_version' => '3.5.0',
+					'db_type'     => 'sqlsrv',
+					'db_version'  => '10.50.2500',
+					'server_os'   => ''
+				],
 			]);
 
 		$returnData = [
@@ -114,7 +130,7 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 				'php_version' => [
 					[
 						'name'  => PHP_VERSION,
-						'count' => 2
+						'count' => 3
 					]
 				],
 				'db_type'     => [
@@ -125,8 +141,11 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 					[
 						'name'  => 'postgresql',
 						'count' => 1
-					]
-
+					],
+					[
+						'name'  => 'sqlsrv',
+						'count' => 1
+					],
 				],
 				'db_version'  => [
 					[
@@ -136,21 +155,29 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 					[
 						'name'  => '9.4.0',
 						'count' => 1
-					]
+					],
+					[
+						'name'  => '10.50.2500',
+						'count' => 1
+					],
 				],
 				'cms_version' => [
 					[
 						'name'  => '3.5.0',
-						'count' => 2
-					]
+						'count' => 3
+					],
 				],
 				'server_os'   => [
 					[
 						'name'  => 'Darwin 14.1.0',
 						'count' => 2
-					]
+					],
+					[
+						'name'  => 'unknown',
+						'count' => 1
+					],
 				],
-				'total'       => 2
+				'total'       => 3
 			]
 		];
 
@@ -191,6 +218,14 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 					'db_version'  => '9.4.0',
 					'server_os'   => 'Darwin 14.1.0'
 				],
+				(object) [
+					'unique_id'   => '3c',
+					'php_version' => PHP_VERSION,
+					'cms_version' => '3.5.0',
+					'db_type'     => 'sqlsrv',
+					'db_version'  => '10.50.2500',
+					'server_os'   => ''
+				],
 			]);
 
 		$phpVersion = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
@@ -198,7 +233,7 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 		$returnData = [
 			'data' => [
 				'php_version' => [$phpVersion => 100],
-				'total'       => 2
+				'total'       => 3
 			]
 		];
 
@@ -239,6 +274,14 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 					'db_type'     => 'postgresql',
 					'db_version'  => '9.4.0',
 					'server_os'   => 'Darwin 14.1.0'
+				],
+				(object) [
+					'unique_id'   => '3c',
+					'php_version' => PHP_VERSION,
+					'cms_version' => '3.5.0',
+					'db_type'     => 'sqlsrv',
+					'db_version'  => '10.50.2500',
+					'server_os'   => ''
 				],
 			]);
 
