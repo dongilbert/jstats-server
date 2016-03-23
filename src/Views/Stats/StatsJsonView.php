@@ -140,7 +140,7 @@ class StatsJsonView extends BaseJsonView
 
 						foreach ($counts as $version => $count)
 						{
-							$sanitizedData[$version] = round(($count / $total) * 100, 4);
+							$sanitizedData[$version] = round(($count / $total) * 100, 2);
 						}
 
 						$responseData[$key] = $sanitizedData;
@@ -169,7 +169,7 @@ class StatsJsonView extends BaseJsonView
 
 						foreach ($counts as $os => $count)
 						{
-							$sanitizedData[$os] = round(($count / $total) * 100, 4);
+							$sanitizedData[$os] = round(($count / $total) * 100, 2);
 						}
 
 						$responseData[$key] = $sanitizedData;
@@ -184,7 +184,7 @@ class StatsJsonView extends BaseJsonView
 
 						foreach ($dataGroup as $row)
 						{
-							$sanitizedData[$row['name']] = round(($row['count'] / $total) * 100, 4);
+							$sanitizedData[$row['name']] = round(($row['count'] / $total) * 100, 2);
 						}
 
 						$responseData[$key] = $sanitizedData;
