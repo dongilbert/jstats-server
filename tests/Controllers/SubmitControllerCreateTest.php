@@ -74,7 +74,6 @@ class SubmitControllerCreateTest extends \PHPUnit_Framework_TestCase
 	 * @covers  Stats\Controllers\SubmitControllerCreate::checkDatabaseType
 	 * @covers  Stats\Controllers\SubmitControllerCreate::checkPHPVersion
 	 * @covers  Stats\Controllers\SubmitControllerCreate::validateVersionNumber
-	 * @expectedException  \RuntimeException
 	 */
 	public function testTheControllerDoesNotAllowARecordWithNoCmsVersionToBeSaved()
 	{
@@ -93,7 +92,6 @@ class SubmitControllerCreateTest extends \PHPUnit_Framework_TestCase
 
 		$mockApp = $this->getMockBuilder('Stats\Application')
 			->disableOriginalConstructor()
-			->setMethods(['getLogger'])
 			->getMock();
 
 		$mockApp->expects($this->once())
@@ -113,9 +111,10 @@ class SubmitControllerCreateTest extends \PHPUnit_Framework_TestCase
 			->method('getString')
 			->willReturnOnConsecutiveCalls('1a2b3c4d', 'mysql', 'Darwin 14.1.0');
 
-		(new SubmitControllerCreate($mockModel))
+		$controller = (new SubmitControllerCreate($mockModel))
 			->setApplication($mockApp)
-			->setInput($mockInput)
-			->execute();
+			->setInput($mockInput);
+
+		$this->assertTrue($controller->execute());
 	}
 }

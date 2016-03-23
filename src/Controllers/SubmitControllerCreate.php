@@ -56,7 +56,6 @@ class SubmitControllerCreate extends AbstractController
 	 * @return  boolean
 	 *
 	 * @since   1.0
-	 * @throws  \RuntimeException
 	 */
 	public function execute()
 	{
@@ -88,18 +87,29 @@ class SubmitControllerCreate extends AbstractController
 				['postData' => $originalData]
 			);
 
-			throw new \RuntimeException('There was an error storing the data.', 401);
+			$response = [
+				'error'   => true,
+				'message' => 'There was an error storing the data.'
+			];
+
+			$this->getApplication()->setHeader('HTTP/1.1 500 Internal Server Error', 500, true);
+			$this->getApplication()->setBody(json_encode($response));
+	
+			return true;
 		}
 
 		// If the below data does not pass tests, we do not accept the POST
 		if ($data['php_version'] === false || $data['cms_version'] === false || $data['db_type'] === false || $data['db_version'] === false)
 		{
-			$this->getApplication()->getLogger()->info(
-				'The request data is invalid.',
-				['postData' => $originalData]
-			);
-
-			throw new \RuntimeException('Invalid data submission.', 401);
+			$response = [
+				'error'   => true,
+				'message' => 'Invalid data submission.'
+			];
+	
+			$this->getApplication()->setHeader('HTTP/1.1 500 Internal Server Error', 500, true);
+			$this->getApplication()->setBody(json_encode($response));
+	
+			return true;
 		}
 
 		$this->model->save((object) $data);
