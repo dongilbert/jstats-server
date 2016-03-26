@@ -8,7 +8,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Input\Input;
-use Stats\Application;
+use Stats\WebApplication;
 use Stats\Controllers\DisplayControllerGet;
 use Stats\Controllers\SubmitControllerCreate;
 use Stats\Controllers\SubmitControllerGet;
@@ -34,13 +34,13 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->alias(Application::class, JoomlaApplication\AbstractApplication::class)
+		$container->alias(WebApplication::class, JoomlaApplication\AbstractApplication::class)
 			->alias(JoomlaApplication\AbstractWebApplication::class, JoomlaApplication\AbstractApplication::class)
 			->share(
 				JoomlaApplication\AbstractApplication::class,
 				function (Container $container)
 				{
-					$application = new Application($container->get(Input::class), $container->get('config'));
+					$application = new WebApplication($container->get(Input::class), $container->get('config'));
 
 					// Inject extra services
 					$application->setLogger($container->get('monolog.logger.application'));

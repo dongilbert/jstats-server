@@ -1,7 +1,12 @@
 <?php
+
 namespace Stats\Tests\Controllers;
 
+use Joomla\Input\Input;
+use Psr\Log\LoggerInterface;
 use Stats\Controllers\SubmitControllerCreate;
+use Stats\Models\StatsModel;
+use Stats\WebApplication;
 
 /**
  * Test class for \Stats\Controllers\SubmitControllerCreate
@@ -15,7 +20,7 @@ class SubmitControllerCreateTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testTheControllerIsInstantiatedCorrectly()
 	{
-		$mockModel = $this->getMockBuilder('Stats\Models\StatsModel')
+		$mockModel = $this->getMockBuilder(StatsModel::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -35,18 +40,18 @@ class SubmitControllerCreateTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testTheControllerIsExecutedCorrectly()
 	{
-		$mockModel = $this->getMockBuilder('Stats\Models\StatsModel')
+		$mockModel = $this->getMockBuilder(StatsModel::class)
 			->disableOriginalConstructor()
 			->getMock();
 
 		$mockModel->expects($this->once())
 			->method('save');
 
-		$mockApp = $this->getMockBuilder('Stats\Application')
+		$mockApp = $this->getMockBuilder(WebApplication::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$mockInput = $this->getMockBuilder('Joomla\Input\Input')
+		$mockInput = $this->getMockBuilder(Input::class)
 			->disableOriginalConstructor()
 			->setMethods(['getRaw', 'getString'])
 			->getMock();
@@ -77,20 +82,20 @@ class SubmitControllerCreateTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testTheControllerDoesNotAllowARecordWithNoCmsVersionToBeSaved()
 	{
-		$mockModel = $this->getMockBuilder('Stats\Models\StatsModel')
+		$mockModel = $this->getMockBuilder(StatsModel::class)
 			->disableOriginalConstructor()
 			->getMock();
 
 		$mockModel->expects($this->never())
 			->method('save');
 
-		$mockLogger = $this->getMockBuilder('Psr\Log\LoggerInterface')
+		$mockLogger = $this->getMockBuilder(LoggerInterface::class)
 			->getMock();
 
 		$mockLogger->expects($this->once())
 			->method('info');
 
-		$mockApp = $this->getMockBuilder('Stats\Application')
+		$mockApp = $this->getMockBuilder(WebApplication::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -98,7 +103,7 @@ class SubmitControllerCreateTest extends \PHPUnit_Framework_TestCase
 			->method('getLogger')
 			->willReturn($mockLogger);
 
-		$mockInput = $this->getMockBuilder('Joomla\Input\Input')
+		$mockInput = $this->getMockBuilder(Input::class)
 			->disableOriginalConstructor()
 			->setMethods(['getRaw', 'getString'])
 			->getMock();

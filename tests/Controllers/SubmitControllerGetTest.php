@@ -1,7 +1,9 @@
 <?php
+
 namespace Stats\Tests\Controllers;
 
 use Stats\Controllers\SubmitControllerGet;
+use Stats\WebApplication;
 
 /**
  * Test class for \Stats\Controllers\SubmitControllerGet
@@ -15,7 +17,7 @@ class SubmitControllerGetTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testTheSubmitRouteOnlyAllowsPostRequests()
 	{
-		$mockApp = $this->getMockBuilder('Stats\Application')
+		$mockApp = $this->getMockBuilder(WebApplication::class)
 			->disableOriginalConstructor()
 			->getMock();
 

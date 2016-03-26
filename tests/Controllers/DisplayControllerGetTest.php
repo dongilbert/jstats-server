@@ -4,7 +4,7 @@ namespace Stats\Tests\Controllers;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\Cache;
 use Joomla\Input\Input;
-use Stats\Application;
+use Stats\WebApplication;
 use Stats\Controllers\DisplayControllerGet;
 use Stats\Views\Stats\StatsJsonView;
 
@@ -54,7 +54,7 @@ class DisplayControllerGetTest extends \PHPUnit_Framework_TestCase
 		$mockCache->expects($this->never())
 			->method('contains');
 
-		$mockApp = $this->getMockBuilder(Application::class)
+		$mockApp = $this->getMockBuilder(WebApplication::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -96,7 +96,7 @@ class DisplayControllerGetTest extends \PHPUnit_Framework_TestCase
 
 		$mockCache = new ArrayCache;
 
-		$mockApp = $this->getMockBuilder(Application::class)
+		$mockApp = $this->getMockBuilder(WebApplication::class)
 			->disableOriginalConstructor()
 			->getMock();
 

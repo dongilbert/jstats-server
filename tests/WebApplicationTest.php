@@ -1,17 +1,17 @@
 <?php
 namespace Stats\Tests;
 
-use Stats\Application;
+use Stats\WebApplication;
 
 /**
- * Test class for \Stats\Application
+ * Test class for \Stats\WebApplication
  */
-class ApplicationTest extends \PHPUnit_Framework_TestCase
+class WebApplicationTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @testdox The application executes correctly
 	 *
-	 * @covers  Stats\Application::doExecute
+	 * @covers  Stats\WebApplication::doExecute
 	 */
 	public function testTheApplicationExecutesCorrectly()
 	{
@@ -31,7 +31,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 			->method('getController')
 			->willReturn($mockController);
 
-		(new Application)
+		(new WebApplication)
 			->setRouter($mockRouter)
 			->execute();
 	}
@@ -56,8 +56,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @param   integer  $code  The Exception code
 	 *
-	 * @covers  Stats\Application::doExecute
-	 * @covers  Stats\Application::setErrorHeader
+	 * @covers  Stats\WebApplication::doExecute
+	 * @covers  Stats\WebApplication::setErrorHeader
 	 *
 	 * @dataProvider dataApplicationExceptions
 	 */
@@ -79,7 +79,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 			->method('getController')
 			->willReturn($mockController);
 
-		$app = new Application;
+		$app = new WebApplication;
 		$app->setRouter($mockRouter);
 
 		// The execute method sends the response, which includes the body output; catch it in a buffer
@@ -96,7 +96,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @testdox The router is set to the application
 	 *
-	 * @covers  Stats\Application::setRouter
+	 * @covers  Stats\WebApplication::setRouter
 	 */
 	public function testTheRouterIsSetToTheApplication()
 	{
@@ -104,7 +104,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
-		$app = new Application;
+		$app = new WebApplication;
 		$app->setRouter($mockRouter);
 
 		$this->assertAttributeSame($mockRouter, 'router', $app);

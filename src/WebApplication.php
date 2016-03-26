@@ -9,7 +9,7 @@ use Joomla\Application\AbstractWebApplication;
  *
  * @since  1.0
  */
-class Application extends AbstractWebApplication
+class WebApplication extends AbstractWebApplication
 {
 	/**
 	 * Response mime type.
