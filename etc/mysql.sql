@@ -12,4 +12,4 @@ CREATE TABLE IF NOT EXISTS `jos_jstats` (
   KEY `idx_db_version` (`db_version`),
   KEY `idx_cms_version` (`cms_version`),
   KEY `idx_server_os` (`server_os`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
