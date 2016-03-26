@@ -14,17 +14,35 @@ class StatsModel extends AbstractDatabaseModel
 	/**
 	 * Loads the statistics data from the database.
 	 *
+	 * @param   string  $column  A single column to filter on
+	 *
 	 * @return  \stdClass[]  Array of data objects.
 	 *
 	 * @since   1.0
+	 * @throws  \InvalidArgumentException
 	 */
-	public function getItems()
+	public function getItems($column = null)
 	{
 		$db = $this->getDb();
 
+		// Validate the requested column is actually in the table
+		if ($column !== null)
+		{
+			$columnList = $db->getTableColumns('#__jstats');
+
+			if (!in_array($column, array_keys($columnList)))
+			{
+				throw new \InvalidArgumentException('An invalid data source was requested.', 404);
+			}
+		}
+		else
+		{
+			$column = '*';
+		}
+
 		return $db->setQuery(
 			$db->getQuery(true)
-				->select('*')
+				->select($column)
 				->from('#__jstats')
 				->group('unique_id')
 		)->loadObjectList();

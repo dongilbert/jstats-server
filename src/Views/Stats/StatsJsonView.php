@@ -53,7 +53,7 @@ class StatsJsonView extends BaseJsonView
 	 */
 	public function render()
 	{
-		$items = $this->model->getItems();
+		$items = $this->model->getItems($this->source);
 
 		$data = [
 			'php_version' => [],
@@ -63,12 +63,11 @@ class StatsJsonView extends BaseJsonView
 			'server_os'   => []
 		];
 
-
 		foreach ($items as $item)
 		{
 			foreach ($data as $key => $value)
 			{
-				if (!is_null($item->$key))
+				if (isset($item->$key) && !is_null($item->$key))
 				{
 					// Special case, if the server is empty then change the key to "unknown"
 					if ($key === 'server_os' && empty($item->$key))
@@ -195,20 +194,6 @@ class StatsJsonView extends BaseJsonView
 		}
 
 		$responseData['total'] = $total;
-
-		// If a partial source was requested, only return that, or throw an exception if it doesn't exist
-		if ($this->source)
-		{
-			if (!isset($responseData[$this->source]))
-			{
-				throw new \InvalidArgumentException('An invalid data source was requested.', 404);
-			}
-
-			$responseData = [
-				$this->source => $responseData[$this->source],
-				'total'       => $total
-			];
-		}
 
 		$this->addData('data', $responseData);
 

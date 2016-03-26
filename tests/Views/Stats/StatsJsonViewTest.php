@@ -1,6 +1,7 @@
 <?php
 namespace Stats\Tests\Views\Stats;
 
+use Stats\Models\StatsModel;
 use Stats\Views\Stats\StatsJsonView;
 
 /**
@@ -15,7 +16,7 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testTheAuthorizedRawFlagIsSetToTheView()
 	{
-		$mockModel = $this->getMockBuilder('Stats\Models\StatsModel')
+		$mockModel = $this->getMockBuilder(StatsModel::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -34,7 +35,7 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testTheStatisticsDataIsReturned()
 	{
-		$mockModel = $this->getMockBuilder('Stats\Models\StatsModel')
+		$mockModel = $this->getMockBuilder(StatsModel::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -92,7 +93,7 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testTheRawStatisticsDataIsReturned()
 	{
-		$mockModel = $this->getMockBuilder('Stats\Models\StatsModel')
+		$mockModel = $this->getMockBuilder(StatsModel::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -195,7 +196,7 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testTheStatisticsDataForASingleSourceIsReturned()
 	{
-		$mockModel = $this->getMockBuilder('Stats\Models\StatsModel')
+		$mockModel = $this->getMockBuilder(StatsModel::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -203,28 +204,13 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 			->method('getItems')
 			->willReturn([
 				(object) [
-					'unique_id'   => '1a',
 					'php_version' => PHP_VERSION,
-					'cms_version' => '3.5.0',
-					'db_type'     => 'mysql',
-					'db_version'  => '5.6.25',
-					'server_os'   => 'Darwin 14.1.0'
 				],
 				(object) [
-					'unique_id'   => '2b',
 					'php_version' => PHP_VERSION,
-					'cms_version' => '3.5.0',
-					'db_type'     => 'postgresql',
-					'db_version'  => '9.4.0',
-					'server_os'   => 'Darwin 14.1.0'
 				],
 				(object) [
-					'unique_id'   => '3c',
 					'php_version' => PHP_VERSION,
-					'cms_version' => '3.5.0',
-					'db_type'     => 'sqlsrv',
-					'db_version'  => '10.50.2500',
-					'server_os'   => ''
 				],
 			]);
 
@@ -244,60 +230,13 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @testdox An Exception is thrown if the requested data source does not exist
-	 *
-	 * @covers  Stats\Views\Stats\StatsJsonView::render
-	 * @uses    Stats\Views\Stats\StatsJsonView::setSource
-	 * @expectedException  \InvalidArgumentException
-	 */
-	public function testAnExceptionIsThrownIfTheRequestedDataSourceDoesNotExist()
-	{
-		$mockModel = $this->getMockBuilder('Stats\Models\StatsModel')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$mockModel->expects($this->once())
-			->method('getItems')
-			->willReturn([
-				(object) [
-					'unique_id'   => '1a',
-					'php_version' => PHP_VERSION,
-					'cms_version' => '3.5.0',
-					'db_type'     => 'mysql',
-					'db_version'  => '5.6.25',
-					'server_os'   => 'Darwin 14.1.0'
-				],
-				(object) [
-					'unique_id'   => '2b',
-					'php_version' => PHP_VERSION,
-					'cms_version' => '3.5.0',
-					'db_type'     => 'postgresql',
-					'db_version'  => '9.4.0',
-					'server_os'   => 'Darwin 14.1.0'
-				],
-				(object) [
-					'unique_id'   => '3c',
-					'php_version' => PHP_VERSION,
-					'cms_version' => '3.5.0',
-					'db_type'     => 'sqlsrv',
-					'db_version'  => '10.50.2500',
-					'server_os'   => ''
-				],
-			]);
-
-		$view = new StatsJsonView($mockModel);
-		$view->setSource('noway');
-		$view->render();
-	}
-
-	/**
 	 * @testdox The data source is set to the view
 	 *
 	 * @covers  Stats\Views\Stats\StatsJsonView::setSource
 	 */
 	public function testTheDataSourceIsSetToTheView()
 	{
-		$mockModel = $this->getMockBuilder('Stats\Models\StatsModel')
+		$mockModel = $this->getMockBuilder(StatsModel::class)
 			->disableOriginalConstructor()
 			->getMock();
 
