@@ -7,14 +7,18 @@ use Joomla\Application as JoomlaApplication;
 use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Input\Cli;
 use Joomla\Input\Input;
-use Stats\WebApplication;
+use Stats\CliApplication;
+use Stats\Commands\HelpCommand;
+use Stats\Console;
 use Stats\Controllers\DisplayControllerGet;
 use Stats\Controllers\SubmitControllerCreate;
 use Stats\Controllers\SubmitControllerGet;
 use Stats\Models\StatsModel;
 use Stats\Router;
 use Stats\Views\Stats\StatsJsonView;
+use Stats\WebApplication;
 
 /**
  * Application service provider
@@ -34,10 +38,30 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->alias(WebApplication::class, JoomlaApplication\AbstractApplication::class)
-			->alias(JoomlaApplication\AbstractWebApplication::class, JoomlaApplication\AbstractApplication::class)
+		$container->alias(CliApplication::class, JoomlaApplication\AbstractCliApplication::class)
 			->share(
-				JoomlaApplication\AbstractApplication::class,
+				JoomlaApplication\AbstractCliApplication::class,
+				function (Container $container)
+				{
+					$application = new CliApplication(
+						$container->get(Cli::class),
+						$container->get('config'),
+						$container->get(JoomlaApplication\Cli\CliOutput::class),
+						$container->get(Console::class)
+					);
+
+					// Inject extra services
+					$application->setContainer($container);
+					$application->setLogger($container->get('monolog.logger.cli'));
+
+					return $application;
+				},
+				true
+			);
+
+		$container->alias(WebApplication::class, JoomlaApplication\AbstractWebApplication::class)
+			->share(
+				JoomlaApplication\AbstractWebApplication::class,
 				function (Container $container)
 				{
 					$application = new WebApplication($container->get(Input::class), $container->get('config'));
@@ -61,6 +85,56 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		);
 
 		$container->share(
+			Cli::class,
+			function ()
+			{
+				return new Cli;
+			},
+			true
+		);
+
+		$container->share(
+			Console::class,
+			function (Container $container)
+			{
+				$console = new Console;
+				$console->setContainer($container);
+
+				return $console;
+			}
+		);
+
+		$container->share(
+			JoomlaApplication\Cli\Output\Processor\ColorProcessor::class,
+			function (Container $container)
+			{
+				$processor = new JoomlaApplication\Cli\Output\Processor\ColorProcessor;
+
+				/** @var Input $input */
+				$input = $container->get(Cli::class);
+
+				if ($input->get('nocolors'))
+				{
+					$processor->noColors = true;
+				}
+
+				// Setup app colors (also required in "nocolors" mode - to strip them).
+				$processor->addStyle('title', new JoomlaApplication\Cli\ColorStyle('yellow', '', ['bold']));
+
+				return $processor;
+			}
+		);
+
+		$container->alias(JoomlaApplication\Cli\CliOutput::class, JoomlaApplication\Cli\Output\Stdout::class)
+			->share(
+				JoomlaApplication\Cli\Output\Stdout::class,
+				function (Container $container)
+				{
+					return new JoomlaApplication\Cli\Output\Stdout($container->get(JoomlaApplication\Cli\Output\Processor\ColorProcessor::class));
+				}
+			);
+
+		$container->share(
 			Router::class,
 			function (Container $container)
 			{
@@ -72,6 +146,20 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 					->addMap('/:source', 'DisplayController');
 
 				return $router;
+			},
+			true
+		);
+
+		$container->share(
+			HelpCommand::class,
+			function (Container $container)
+			{
+				$command = new HelpCommand;
+
+				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$command->setInput($container->get(Input::class));
+
+				return $command;
 			},
 			true
 		);

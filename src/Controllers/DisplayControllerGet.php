@@ -9,8 +9,8 @@ use Stats\Views\Stats\StatsJsonView;
 /**
  * Controller for displaying submitted statistics data.
  *
- * @method         \Stats\Application  getApplication()  Get the application object.
- * @property-read  \Stats\Application  $app              Application object
+ * @method         \Stats\WebApplication  getApplication()  Get the application object.
+ * @property-read  \Stats\WebApplication  $app              Application object
  *
  * @since          1.0
  */

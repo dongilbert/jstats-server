@@ -46,7 +46,7 @@ class MonologServiceProvider implements ServiceProviderInterface
 			}
 		);
 
-		// Register the main application handler
+		// Register the web application handler
 		$container->share(
 			'monolog.handler.application',
 			function (Container $container)
@@ -81,25 +81,36 @@ class MonologServiceProvider implements ServiceProviderInterface
 			}
 		);
 
-		// Register the main Logger
-		$container->alias('monolog', Logger::class)
-			->alias('monolog.logger.application', Logger::class)
-			->alias(LoggerInterface::class, Logger::class)
-			->share(
-				Logger::class,
-				function (Container $container)
-				{
-					return new Logger(
-						'Application',
-						[
-							$container->get('monolog.handler.application')
-						],
-						[
-							$container->get('monolog.processor.web')
-						]
-					);
-				}
-			);
+		// Register the web application Logger
+		$container->share(
+			'monolog.logger.application',
+			function (Container $container)
+			{
+				return new Logger(
+					'Application',
+					[
+						$container->get('monolog.handler.application')
+					],
+					[
+						$container->get('monolog.processor.web')
+					]
+				);
+			}
+		);
+
+		// Register the CLI application Logger
+		$container->share(
+			'monolog.logger.cli',
+			function (Container $container)
+			{
+				return new Logger(
+					'Application',
+					[
+						$container->get('monolog.handler.application')
+					]
+				);
+			}
+		);
 
 		// Register the database Logger
 		$container->share(

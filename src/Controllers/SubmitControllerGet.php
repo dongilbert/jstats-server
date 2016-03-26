@@ -7,8 +7,8 @@ use Joomla\Controller\AbstractController;
 /**
  * Controller for processing submitted statistics data.
  *
- * @method         \Stats\Application  getApplication()  Get the application object.
- * @property-read  \Stats\Application  $app              Application object
+ * @method         \Stats\WebApplication  getApplication()  Get the application object.
+ * @property-read  \Stats\WebApplication  $app              Application object
  *
  * @since          1.0
  */
