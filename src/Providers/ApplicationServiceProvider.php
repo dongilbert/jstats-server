@@ -11,6 +11,7 @@ use Joomla\Input\Cli;
 use Joomla\Input\Input;
 use Stats\CliApplication;
 use Stats\Commands\HelpCommand;
+use Stats\Commands\SnapshotCommand;
 use Stats\Console;
 use Stats\Controllers\DisplayControllerGet;
 use Stats\Controllers\SubmitControllerCreate;
@@ -155,6 +156,20 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 			function (Container $container)
 			{
 				$command = new HelpCommand;
+
+				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$command->setInput($container->get(Input::class));
+
+				return $command;
+			},
+			true
+		);
+
+		$container->share(
+			SnapshotCommand::class,
+			function (Container $container)
+			{
+				$command = new SnapshotCommand($container->get(StatsJsonView::class));
 
 				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
 				$command->setInput($container->get(Input::class));
