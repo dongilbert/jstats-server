@@ -1,4 +1,5 @@
 <?php
+
 namespace Stats\Tests\Providers;
 
 use Joomla\DI\Container;

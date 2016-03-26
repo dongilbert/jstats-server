@@ -1,6 +1,7 @@
 <?php
 namespace Stats\Tests\Providers;
 
+use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Stats\Providers\DatabaseServiceProvider;
 
@@ -19,6 +20,6 @@ class DatabaseServiceProviderTest extends \PHPUnit_Framework_TestCase
 		$container = new Container;
 		$container->registerServiceProvider(new DatabaseServiceProvider);
 
-		$this->assertTrue($container->exists('Joomla\\Database\\DatabaseDriver'));
+		$this->assertTrue($container->exists(DatabaseDriver::class));
 	}
 }

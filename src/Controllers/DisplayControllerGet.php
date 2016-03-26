@@ -2,6 +2,7 @@
 
 namespace Stats\Controllers;
 
+use Doctrine\Common\Cache\Cache;
 use Joomla\Controller\AbstractController;
 use Stats\Views\Stats\StatsJsonView;
 
@@ -16,6 +17,14 @@ use Stats\Views\Stats\StatsJsonView;
 class DisplayControllerGet extends AbstractController
 {
 	/**
+	 * The cache handler.
+	 *
+	 * @var    Cache
+	 * @since  1.0
+	 */
+	private $cache;
+
+	/**
 	 * JSON view for displaying the statistics.
 	 *
 	 * @var    StatsJsonView
@@ -26,13 +35,15 @@ class DisplayControllerGet extends AbstractController
 	/**
 	 * Constructor.
 	 *
-	 * @param   StatsJsonView  $view  JSON view for displaying the statistics.
+	 * @param   StatsJsonView  $view   JSON view for displaying the statistics.
+	 * @param   Cache          $cache  The cache handler.
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(StatsJsonView $view)
+	public function __construct(StatsJsonView $view, Cache $cache)
 	{
-		$this->view = $view;
+		$this->cache = $cache;
+		$this->view  = $view;
 	}
 
 	/**
@@ -53,7 +64,28 @@ class DisplayControllerGet extends AbstractController
 		$this->view->isAuthorizedRaw($authorizedRaw);
 		$this->view->setSource($source);
 
-		$this->getApplication()->setBody($this->view->render());
+		// Serve cached data if the cache layer is enabled and the raw data source is not requested
+		if ($this->getApplication()->get('cache.enabled', false) && !$authorizedRaw)
+		{
+			$key = md5(get_class($this->view) . __METHOD__ . $source);
+
+			if ($this->cache->contains($key))
+			{
+				$body = $this->cache->fetch($key);
+			}
+			else
+			{
+				$body = $this->view->render();
+
+				$this->cache->save($key, $body, $this->getApplication()->get('cache.lifetime', 900));
+			}
+		}
+		else
+		{
+			$body = $this->view->render();
+		}
+
+		$this->getApplication()->setBody($body);
 
 		return true;
 	}

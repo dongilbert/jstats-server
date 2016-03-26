@@ -25,6 +25,7 @@
         "joomla/router": "~1.1",
         "joomla/uri": "~1.1",
         "joomla/view": "2.*@dev",
+        "doctrine/cache": "~1.6",
         "monolog/monolog": "~1.17"
     },
     "require-dev": {

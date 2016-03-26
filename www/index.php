@@ -5,12 +5,14 @@ require dirname(__DIR__) . '/boot.php';
 use Joomla\DI\Container;
 use Stats\Application;
 use Stats\Providers\ApplicationServiceProvider;
+use Stats\Providers\CacheServiceProvider;
 use Stats\Providers\ConfigServiceProvider;
 use Stats\Providers\DatabaseServiceProvider;
 use Stats\Providers\MonologServiceProvider;
 
 $container = (new Container)
 	->registerServiceProvider(new ApplicationServiceProvider)
+	->registerServiceProvider(new CacheServiceProvider)
 	->registerServiceProvider(new ConfigServiceProvider(APPROOT . '/etc/config.json'))
 	->registerServiceProvider(new DatabaseServiceProvider)
 	->registerServiceProvider(new MonologServiceProvider);
@@ -23,8 +25,7 @@ ini_set('display_errors', (bool) $errorReporting);
 // Execute the application
 try
 {
-	$app = $container->get(Application::class);
-	$app->execute();
+	$container->get(Application::class)->execute();
 }
 catch (\Exception $e)
 {

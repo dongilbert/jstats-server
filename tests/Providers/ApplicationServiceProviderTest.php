@@ -1,7 +1,9 @@
 <?php
+
 namespace Stats\Tests\Providers;
 
 use Joomla\DI\Container;
+use Stats\Application;
 use Stats\Providers\ApplicationServiceProvider;
 
 /**
@@ -19,6 +21,6 @@ class ApplicationServiceProviderTest extends \PHPUnit_Framework_TestCase
 		$container = new Container;
 		$container->registerServiceProvider(new ApplicationServiceProvider);
 
-		$this->assertTrue($container->exists('Stats\\Application'));
+		$this->assertTrue($container->exists(Application::class));
 	}
 }

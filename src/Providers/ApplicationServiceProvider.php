@@ -2,6 +2,7 @@
 
 namespace Stats\Providers;
 
+use Doctrine\Common\Cache\Cache;
 use Joomla\Application as JoomlaApplication;
 use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
@@ -80,7 +81,8 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 			function (Container $container)
 			{
 				$controller = new DisplayControllerGet(
-					$container->get(StatsJsonView::class)
+					$container->get(StatsJsonView::class),
+					$container->get(Cache::class)
 				);
 
 				$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));

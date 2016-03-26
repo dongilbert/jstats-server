@@ -2,9 +2,9 @@
 
 namespace Stats\Providers;
 
+use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Database\DatabaseDriver;
 
 /**
  * Database service provider
@@ -29,6 +29,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 				DatabaseDriver::class,
 				function (Container $container)
 				{
+					/** @var \Joomla\Registry\Registry $config */
 					$config = $container->get('config');
 
 					$db = DatabaseDriver::getInstance((array) $config->get('database'));
