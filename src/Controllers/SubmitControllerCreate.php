@@ -143,6 +143,14 @@ class SubmitControllerCreate extends AbstractController
 			return false;
 		}
 
+		// Joomla only uses major.minor.patch so everything else is invalid
+		$explodedVersion = explode('.', $version);
+
+		if (count($explodedVersion) > 3)
+		{
+			return false;
+		}
+		
 		// We are only collecting data for the 3.x series
 		if (version_compare($version, '3.0.0', '<') || version_compare($version, '4.0.0', '>='))
 		{
