@@ -67,7 +67,7 @@ class SubmitControllerCreate extends AbstractController
 			'cms_version' => $input->getRaw('cms_version'),
 			'unique_id'   => $input->getString('unique_id'),
 			'db_type'     => $input->getString('db_type'),
-			'server_os'   => $input->getString('server_os')
+			'server_os'   => $input->getString('server_os'),
 		];
 
 		// Backup the original POST before manipulating/validating data
@@ -89,7 +89,7 @@ class SubmitControllerCreate extends AbstractController
 
 			$response = [
 				'error'   => true,
-				'message' => 'There was an error storing the data.'
+				'message' => 'There was an error storing the data.',
 			];
 
 			$this->getApplication()->setHeader('HTTP/1.1 500 Internal Server Error', 500, true);
@@ -103,7 +103,7 @@ class SubmitControllerCreate extends AbstractController
 		{
 			$response = [
 				'error'   => true,
-				'message' => 'Invalid data submission.'
+				'message' => 'Invalid data submission.',
 			];
 	
 			$this->getApplication()->setHeader('HTTP/1.1 500 Internal Server Error', 500, true);
@@ -116,7 +116,7 @@ class SubmitControllerCreate extends AbstractController
 
 		$response = [
 			'error'   => false,
-			'message' => 'Data saved successfully'
+			'message' => 'Data saved successfully',
 		];
 
 		$this->getApplication()->setBody(json_encode($response));
@@ -150,7 +150,7 @@ class SubmitControllerCreate extends AbstractController
 		{
 			return false;
 		}
-		
+
 		// We are only collecting data for the 3.x series
 		if (version_compare($version, '3.0.0', '<') || version_compare($version, '4.0.0', '>='))
 		{
