@@ -122,4 +122,56 @@ class SubmitControllerCreateTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertTrue($controller->execute());
 	}
+
+	/**
+	 * @testdox The controller does not allow a record with an incorrectly formatted CMS version number to be saved
+	 *
+	 * @covers  Stats\Controllers\SubmitControllerCreate::execute
+	 * @covers  Stats\Controllers\SubmitControllerCreate::checkCMSVersion
+	 * @covers  Stats\Controllers\SubmitControllerCreate::checkDatabaseType
+	 * @covers  Stats\Controllers\SubmitControllerCreate::checkPHPVersion
+	 * @covers  Stats\Controllers\SubmitControllerCreate::validateVersionNumber
+	 */
+	public function testTheControllerDoesNotAllowARecordWithAnIncorrectlyFormattedCmsVersionNumberToBeSaved()
+	{
+		$mockModel = $this->getMockBuilder(StatsModel::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$mockModel->expects($this->never())
+			->method('save');
+
+		$mockLogger = $this->getMockBuilder(LoggerInterface::class)
+			->getMock();
+
+		$mockLogger->expects($this->once())
+			->method('info');
+
+		$mockApp = $this->getMockBuilder(WebApplication::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$mockApp->expects($this->once())
+			->method('getLogger')
+			->willReturn($mockLogger);
+
+		$mockInput = $this->getMockBuilder(Input::class)
+			->disableOriginalConstructor()
+			->setMethods(['getRaw', 'getString'])
+			->getMock();
+
+		$mockInput->expects($this->exactly(3))
+			->method('getRaw')
+			->willReturnOnConsecutiveCalls(PHP_VERSION, '5.6.23', '3.5.0.1');
+
+		$mockInput->expects($this->exactly(3))
+			->method('getString')
+			->willReturnOnConsecutiveCalls('1a2b3c4d', 'mysql', 'Darwin 14.1.0');
+
+		$controller = (new SubmitControllerCreate($mockModel))
+			->setApplication($mockApp)
+			->setInput($mockInput);
+
+		$this->assertTrue($controller->execute());
+	}
 }
