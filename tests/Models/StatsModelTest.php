@@ -22,14 +22,14 @@ class StatsModelTest extends \PHPUnit_Framework_TestCase
 
 		$mockDatabase = $this->getMockBuilder(DatabaseDriver::class)
 			->disableOriginalConstructor()
-			->setMethods(['getQuery', 'loadObjectList'])
+			->setMethods(['getQuery', 'loadObjectList', 'loadResult'])
 			->getMockForAbstractClass();
 
 		$mockQuery = $this->getMockBuilder(DatabaseQuery::class)
 			->disableOriginalConstructor()
 			->getMockForAbstractClass();
 
-		$mockDatabase->expects($this->once())
+		$mockDatabase->expects($this->exactly(2))
 			->method('getQuery')
 			->willReturn($mockQuery);
 
@@ -37,7 +37,11 @@ class StatsModelTest extends \PHPUnit_Framework_TestCase
 			->method('loadObjectList')
 			->willReturn($return);
 
-		$this->assertSame($return, (new StatsModel($mockDatabase))->getItems());
+		$mockDatabase->expects($this->once())
+			->method('loadResult')
+			->willReturn(2);
+
+		$this->assertSame([$return], (new StatsModel($mockDatabase))->getItems());
 	}
 
 	/**

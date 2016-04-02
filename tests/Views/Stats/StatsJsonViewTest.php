@@ -31,7 +31,9 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @testdox The statistics data is returned
 	 *
+	 * @covers  Stats\Views\Stats\StatsJsonView::buildResponseData
 	 * @covers  Stats\Views\Stats\StatsJsonView::render
+	 * @covers  Stats\Views\Stats\StatsJsonView::sanitizeData
 	 */
 	public function testTheStatisticsDataIsReturned()
 	{
@@ -41,32 +43,36 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 
 		$mockModel->expects($this->once())
 			->method('getItems')
-			->willReturn([
-				(object) [
-					'unique_id'   => '1a',
-					'php_version' => PHP_VERSION,
-					'cms_version' => '3.5.0',
-					'db_type'     => 'mysql',
-					'db_version'  => '5.6.25',
-					'server_os'   => 'Darwin 14.1.0'
-				],
-				(object) [
-					'unique_id'   => '2b',
-					'php_version' => PHP_VERSION,
-					'cms_version' => '3.5.0',
-					'db_type'     => 'postgresql',
-					'db_version'  => '9.4.0',
-					'server_os'   => 'Darwin 14.1.0'
-				],
-				(object) [
-					'unique_id'   => '3c',
-					'php_version' => PHP_VERSION,
-					'cms_version' => '3.5.0',
-					'db_type'     => 'sqlsrv',
-					'db_version'  => '10.50.2500',
-					'server_os'   => ''
-				],
-			]);
+			->willReturn(
+				[
+					[
+						(object) [
+							'unique_id'   => '1a',
+							'php_version' => PHP_VERSION,
+							'cms_version' => '3.5.0',
+							'db_type'     => 'mysql',
+							'db_version'  => '5.6.25',
+							'server_os'   => 'Darwin 14.1.0'
+						],
+						(object) [
+							'unique_id'   => '2b',
+							'php_version' => PHP_VERSION,
+							'cms_version' => '3.5.0',
+							'db_type'     => 'postgresql',
+							'db_version'  => '9.4.0',
+							'server_os'   => 'Darwin 14.1.0'
+						],
+						(object) [
+							'unique_id'   => '3c',
+							'php_version' => PHP_VERSION,
+							'cms_version' => '3.5.0',
+							'db_type'     => 'sqlsrv',
+							'db_version'  => '10.50.2500',
+							'server_os'   => ''
+						],
+					]
+				]
+			);
 
 		$phpVersion = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
 
@@ -89,6 +95,7 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @testdox The raw statistics data is returned
 	 *
+	 * @covers  Stats\Views\Stats\StatsJsonView::buildResponseData
 	 * @covers  Stats\Views\Stats\StatsJsonView::render
 	 */
 	public function testTheRawStatisticsDataIsReturned()
@@ -99,32 +106,36 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 
 		$mockModel->expects($this->once())
 			->method('getItems')
-			->willReturn([
-				(object) [
-					'unique_id'   => '1a',
-					'php_version' => PHP_VERSION,
-					'cms_version' => '3.5.0',
-					'db_type'     => 'mysql',
-					'db_version'  => '5.6.25',
-					'server_os'   => 'Darwin 14.1.0'
-				],
-				(object) [
-					'unique_id'   => '2b',
-					'php_version' => PHP_VERSION,
-					'cms_version' => '3.5.0',
-					'db_type'     => 'postgresql',
-					'db_version'  => '9.4.0',
-					'server_os'   => 'Darwin 14.1.0'
-				],
-				(object) [
-					'unique_id'   => '3c',
-					'php_version' => PHP_VERSION,
-					'cms_version' => '3.5.0',
-					'db_type'     => 'sqlsrv',
-					'db_version'  => '10.50.2500',
-					'server_os'   => ''
-				],
-			]);
+			->willReturn(
+				[
+					[
+						(object) [
+							'unique_id'   => '1a',
+							'php_version' => PHP_VERSION,
+							'cms_version' => '3.5.0',
+							'db_type'     => 'mysql',
+							'db_version'  => '5.6.25',
+							'server_os'   => 'Darwin 14.1.0'
+						],
+						(object) [
+							'unique_id'   => '2b',
+							'php_version' => PHP_VERSION,
+							'cms_version' => '3.5.0',
+							'db_type'     => 'postgresql',
+							'db_version'  => '9.4.0',
+							'server_os'   => 'Darwin 14.1.0'
+						],
+						(object) [
+							'unique_id'   => '3c',
+							'php_version' => PHP_VERSION,
+							'cms_version' => '3.5.0',
+							'db_type'     => 'sqlsrv',
+							'db_version'  => '10.50.2500',
+							'server_os'   => ''
+						],
+					]
+				]
+			);
 
 		$returnData = [
 			'data' => [
@@ -191,7 +202,10 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @testdox The statistics data for a single source is returned
 	 *
+	 * @covers  Stats\Views\Stats\StatsJsonView::buildResponseData
+	 * @covers  Stats\Views\Stats\StatsJsonView::processSingleSource
 	 * @covers  Stats\Views\Stats\StatsJsonView::render
+	 * @covers  Stats\Views\Stats\StatsJsonView::sanitizeData
 	 * @uses    Stats\Views\Stats\StatsJsonView::setSource
 	 */
 	public function testTheStatisticsDataForASingleSourceIsReturned()
@@ -202,17 +216,19 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 
 		$mockModel->expects($this->once())
 			->method('getItems')
-			->willReturn([
-				(object) [
-					'php_version' => PHP_VERSION,
-				],
-				(object) [
-					'php_version' => PHP_VERSION,
-				],
-				(object) [
-					'php_version' => PHP_VERSION,
-				],
-			]);
+			->willReturn(
+				[
+					(object) [
+						'php_version' => PHP_VERSION,
+					],
+					(object) [
+						'php_version' => PHP_VERSION,
+					],
+					(object) [
+						'php_version' => PHP_VERSION,
+					],
+				]
+			);
 
 		$phpVersion = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
 
@@ -220,6 +236,52 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 			'data' => [
 				'php_version' => [$phpVersion => 100],
 				'total'       => 3
+			]
+		];
+
+		$view = new StatsJsonView($mockModel);
+		$view->setSource('php_version');
+
+		$this->assertSame($returnData, json_decode($view->render(), true));
+	}
+
+	/**
+	 * @testdox The statistics data for the server OS source is returned
+	 *
+	 * @covers  Stats\Views\Stats\StatsJsonView::buildResponseData
+	 * @covers  Stats\Views\Stats\StatsJsonView::processSingleSource
+	 * @covers  Stats\Views\Stats\StatsJsonView::render
+	 * @covers  Stats\Views\Stats\StatsJsonView::sanitizeData
+	 * @uses    Stats\Views\Stats\StatsJsonView::setSource
+	 */
+	public function testTheStatisticsDataForTheServerOsSourceIsReturned()
+	{
+		$mockModel = $this->getMockBuilder(StatsModel::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$mockModel->expects($this->once())
+			->method('getItems')
+			->willReturn(
+				[
+					(object) [
+						'server_os' => 'Darwin 14.1.0',
+					],
+					(object) [
+						'server_os' => 'Darwin 14.1.0',
+					],
+					(object) [
+						'server_os' => '',
+					],
+				]
+			);
+
+		$phpVersion = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+
+		$returnData = [
+			'data' => [
+				'server_os' => ['Darwin' => round((2 / 3) * 100, 2), 'unknown' => round((1 / 3) * 100, 2)],
+				'total'     => 3
 			]
 		];
 

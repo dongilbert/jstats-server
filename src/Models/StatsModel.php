@@ -34,18 +34,40 @@ class StatsModel extends AbstractDatabaseModel
 			{
 				throw new \InvalidArgumentException('An invalid data source was requested.', 404);
 			}
-		}
-		else
-		{
-			$column = '*';
+
+			return $db->setQuery(
+				$db->getQuery(true)
+					->select($column)
+					->from('#__jstats')
+					->group('unique_id')
+			)->loadObjectList();
 		}
 
-		return $db->setQuery(
+		// If fetching all data from the table, we need to break this down a fair bit otherwise we're going to run out of memory
+		$totalRecords = $db->setQuery(
 			$db->getQuery(true)
-				->select($column)
+				->select('COUNT(unique_id)')
 				->from('#__jstats')
-				->group('unique_id')
-		)->loadObjectList();
+		)->loadResult();
+
+		$return = [];
+
+		// We can't have this as a single array, we run out of memory... This is gonna get interesting...
+		for ($offset = 0; $offset < $totalRecords; $offset + 25000)
+		{
+			$return[] = $db->setQuery(
+				$db->getQuery(true)
+					->select('*')
+					->from('#__jstats')
+					->group('unique_id'),
+				$offset,
+				25000
+			)->loadObjectList();
+
+			$offset += 25000;
+		}
+
+		return $return;
 	}
 
 	/**
