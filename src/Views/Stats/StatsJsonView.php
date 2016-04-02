@@ -77,18 +77,22 @@ class StatsJsonView extends BaseJsonView
 		$cms_version = [];
 		$server_os   = [];
 
-		// If we have the entire database, we have to loop within each loop to put it all together
 		if ($this->source)
 		{
 			return $this->processSingleSource($items);
 		}
 
-		foreach ($items as $group)
+		// If we have the entire database, we have to loop within each group to put it all together
+		for ($i = 0; $i < count($items); $i++)
 		{
+			$group = $items[$i];
+
 			$this->totalItems += count($group);
 
-			foreach ($group as $item)
+			for ($k = 0; $k < count($group); $k++)
 			{
+				$item = $group[$k];
+
 				foreach ($this->dataSources as $source)
 				{
 					if (isset($item->$source) && !is_null($item->$source))
@@ -114,8 +118,12 @@ class StatsJsonView extends BaseJsonView
 						}
 					}
 				}
+
+				unset($group[$k]);
 			}
 		}
+
+		unset($items);
 
 		$data = [
 			'php_version' => $php_version,
