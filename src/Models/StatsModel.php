@@ -57,7 +57,7 @@ class StatsModel extends AbstractDatabaseModel
 		{
 			$return[] = $db->setQuery(
 				$db->getQuery(true)
-					->select('*')
+					->select(['php_version', 'db_type', 'db_version', 'cms_version', 'server_os'])
 					->from('#__jstats')
 					->group('unique_id'),
 				$offset,
