@@ -83,10 +83,8 @@ class StatsJsonView extends BaseJsonView
 			return $this->processSingleSource($items);
 		}
 
-		for ($i = 0; $i <= count($items); $i++)
+		foreach ($items as $group)
 		{
-			$group = $items[$i];
-
 			$this->totalItems += count($group);
 
 			foreach ($group as $item)
@@ -117,11 +115,7 @@ class StatsJsonView extends BaseJsonView
 					}
 				}
 			}
-
-			unset($items[$i]);
 		}
-
-		unset($items);
 
 		$data = [
 			'php_version' => $php_version,
