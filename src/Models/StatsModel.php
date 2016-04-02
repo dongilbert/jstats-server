@@ -30,7 +30,8 @@ class StatsModel extends AbstractDatabaseModel
 		{
 			$columnList = $db->getTableColumns('#__jstats');
 
-			if (!in_array($column, array_keys($columnList)))
+			// The column should exist in the table and be part of the API
+			if (!in_array($column, array_keys($columnList)) && !in_array($column, ['unique_id', 'modified']))
 			{
 				throw new \InvalidArgumentException('An invalid data source was requested.', 404);
 			}
