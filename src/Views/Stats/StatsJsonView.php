@@ -83,16 +83,12 @@ class StatsJsonView extends BaseJsonView
 		}
 
 		// If we have the entire database, we have to loop within each group to put it all together
-		for ($i = 0; $i < count($items); $i++)
+		foreach ($items as $group)
 		{
-			$group = $items[$i];
-
 			$this->totalItems += count($group);
 
-			for ($k = 0; $k < count($group); $k++)
+			foreach ($group as $item)
 			{
-				$item = $group[$k];
-
 				foreach ($this->dataSources as $source)
 				{
 					if (isset($item->$source) && !is_null($item->$source))
@@ -118,8 +114,6 @@ class StatsJsonView extends BaseJsonView
 						}
 					}
 				}
-
-				unset($group[$k]);
 			}
 		}
 
