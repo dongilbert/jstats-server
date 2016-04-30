@@ -18,11 +18,11 @@ class StatsModelTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testTheModelReturnsAllItemsFromTheDatabase()
 	{
-		$return = [(object) ['unique_id' => '1a'], (object) ['unique_id' => '2b']];
+		$return = [['unique_id' => '1a'], ['unique_id' => '2b']];
 
 		$mockDatabase = $this->getMockBuilder(DatabaseDriver::class)
 			->disableOriginalConstructor()
-			->setMethods(['getQuery', 'loadObjectList', 'loadResult'])
+			->setMethods(['getQuery', 'loadAssocList', 'loadResult'])
 			->getMockForAbstractClass();
 
 		$mockQuery = $this->getMockBuilder(DatabaseQuery::class)
@@ -34,7 +34,7 @@ class StatsModelTest extends \PHPUnit_Framework_TestCase
 			->willReturn($mockQuery);
 
 		$mockDatabase->expects($this->once())
-			->method('loadObjectList')
+			->method('loadAssocList')
 			->willReturn($return);
 
 		$mockDatabase->expects($this->once())
@@ -51,11 +51,11 @@ class StatsModelTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testTheModelReturnsASingleSourceItemsFromTheDatabase()
 	{
-		$return = [(object) ['php_version' => PHP_VERSION], (object) ['php_version' => PHP_VERSION]];
+		$return = [['php_version' => PHP_VERSION], ['php_version' => PHP_VERSION]];
 
 		$mockDatabase = $this->getMockBuilder(DatabaseDriver::class)
 			->disableOriginalConstructor()
-			->setMethods(['getQuery', 'getTableColumns', 'loadObjectList'])
+			->setMethods(['getQuery', 'getTableColumns', 'loadAssocList'])
 			->getMockForAbstractClass();
 
 		$mockQuery = $this->getMockBuilder(DatabaseQuery::class)
@@ -81,7 +81,7 @@ class StatsModelTest extends \PHPUnit_Framework_TestCase
 			);
 
 		$mockDatabase->expects($this->once())
-			->method('loadObjectList')
+			->method('loadAssocList')
 			->willReturn($return);
 
 		$this->assertSame($return, (new StatsModel($mockDatabase))->getItems('php_version'));

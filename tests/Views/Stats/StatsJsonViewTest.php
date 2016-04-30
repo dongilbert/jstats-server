@@ -46,7 +46,7 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 			->willReturn(
 				[
 					[
-						(object) [
+						[
 							'unique_id'   => '1a',
 							'php_version' => PHP_VERSION,
 							'cms_version' => '3.5.0',
@@ -54,7 +54,7 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 							'db_version'  => '5.6.25',
 							'server_os'   => 'Darwin 14.1.0'
 						],
-						(object) [
+						[
 							'unique_id'   => '2b',
 							'php_version' => PHP_VERSION,
 							'cms_version' => '3.5.0',
@@ -62,7 +62,7 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 							'db_version'  => '9.4.0',
 							'server_os'   => 'Darwin 14.1.0'
 						],
-						(object) [
+						[
 							'unique_id'   => '3c',
 							'php_version' => PHP_VERSION,
 							'cms_version' => '3.5.0',
@@ -109,7 +109,7 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 			->willReturn(
 				[
 					[
-						(object) [
+						[
 							'unique_id'   => '1a',
 							'php_version' => PHP_VERSION,
 							'cms_version' => '3.5.0',
@@ -117,7 +117,7 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 							'db_version'  => '5.6.25',
 							'server_os'   => 'Darwin 14.1.0'
 						],
-						(object) [
+						[
 							'unique_id'   => '2b',
 							'php_version' => PHP_VERSION,
 							'cms_version' => '3.5.0',
@@ -125,7 +125,7 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 							'db_version'  => '9.4.0',
 							'server_os'   => 'Darwin 14.1.0'
 						],
-						(object) [
+						[
 							'unique_id'   => '3c',
 							'php_version' => PHP_VERSION,
 							'cms_version' => '3.5.0',
@@ -218,13 +218,13 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 			->method('getItems')
 			->willReturn(
 				[
-					(object) [
+					[
 						'php_version' => PHP_VERSION,
 					],
-					(object) [
+					[
 						'php_version' => PHP_VERSION,
 					],
-					(object) [
+					[
 						'php_version' => PHP_VERSION,
 					],
 				]
@@ -264,13 +264,13 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 			->method('getItems')
 			->willReturn(
 				[
-					(object) [
+					[
 						'server_os' => 'Darwin 14.1.0',
 					],
-					(object) [
+					[
 						'server_os' => 'Darwin 14.1.0',
 					],
-					(object) [
+					[
 						'server_os' => '',
 					],
 				]
