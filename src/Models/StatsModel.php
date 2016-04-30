@@ -68,6 +68,12 @@ class StatsModel extends AbstractDatabaseModel
 			$offset += 25000;
 		}
 
+		// Disconnect the DB to free some memory
+		$db->disconnect();
+
+		// And unset some variables
+		unset($db, $offset, $totalRecords);
+
 		return $return;
 	}
 

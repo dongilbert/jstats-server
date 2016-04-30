@@ -71,16 +71,19 @@ class StatsJsonView extends BaseJsonView
 	{
 		$items = $this->model->getItems($this->source);
 
-		$php_version = [];
-		$db_type     = [];
-		$db_version  = [];
-		$cms_version = [];
-		$server_os   = [];
+		// Null out the model now to free some memory
+		$this->model = null;
 
 		if ($this->source)
 		{
 			return $this->processSingleSource($items);
 		}
+
+		$php_version = [];
+		$db_type     = [];
+		$db_version  = [];
+		$cms_version = [];
+		$server_os   = [];
 
 		// If we have the entire database, we have to loop within each group to put it all together
 		foreach ($items as $group)
@@ -176,6 +179,8 @@ class StatsJsonView extends BaseJsonView
 				}
 			}
 		}
+
+		unset($data);
 
 		if (!$this->authorizedRaw)
 		{
