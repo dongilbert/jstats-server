@@ -2,6 +2,7 @@
 
 namespace Stats\Models;
 
+use Joomla\Database\Query\LimitableInterface;
 use Joomla\Model\AbstractDatabaseModel;
 
 /**
@@ -11,6 +12,14 @@ use Joomla\Model\AbstractDatabaseModel;
  */
 class StatsModel extends AbstractDatabaseModel
 {
+	/**
+	 * The query batch size
+	 *
+	 * @var    integer
+	 * @since  1.0
+	 */
+	private $batchSize = 25000;
+
 	/**
 	 * Loads the statistics data from the database.
 	 *
@@ -58,12 +67,25 @@ class StatsModel extends AbstractDatabaseModel
 			->from('#__jstats')
 			->group('unique_id');
 
-		// We can't have this as a single array, we run out of memory... This is gonna get interesting...
-		for ($offset = 0; $offset < $totalRecords; $offset + 25000)
-		{
-			$return[] = $db->setQuery($query, $offset, 25000)->loadAssocList();
+		$limitable = $query instanceof LimitableInterface;
 
-			$offset += 25000;
+		// We can't have this as a single array, we run out of memory... This is gonna get interesting...
+		for ($offset = 0; $offset < $totalRecords; $offset + $this->batchSize)
+		{
+			if ($limitable)
+			{
+				$query->setLimit($this->batchSize, $offset);
+
+				$db->setQuery($query);
+			}
+			else
+			{
+				$db->setQuery($query, $offset, $this->batchSize);
+			}
+
+			$return[] = $db->loadAssocList();
+
+			$offset += $this->batchSize;
 		}
 
 		// Disconnect the DB to free some memory
