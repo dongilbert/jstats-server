@@ -94,10 +94,10 @@ class StatsJsonView extends BaseJsonView
 			{
 				foreach ($this->dataSources as $source)
 				{
-					if (isset($item->$source) && !is_null($item->$source))
+					if (isset($item[$source]) && !is_null($item[$source]))
 					{
 						// Special case, if the server is empty then change the key to "unknown"
-						if ($source === 'server_os' && empty($item->$source))
+						if ($source === 'server_os' && empty($item[$source]))
 						{
 							if (!isset(${$source}['unknown']))
 							{
@@ -108,12 +108,12 @@ class StatsJsonView extends BaseJsonView
 						}
 						else
 						{
-							if (!isset(${$source}[$item->$source]))
+							if (!isset(${$source}[$item[$source]]))
 							{
-								${$source}[$item->$source] = 0;
+								${$source}[$item[$source]] = 0;
 							}
 
-							${$source}[$item->$source]++;
+							${$source}[$item[$source]]++;
 						}
 					}
 				}
@@ -211,10 +211,10 @@ class StatsJsonView extends BaseJsonView
 		{
 			foreach ($this->dataSources as $source)
 			{
-				if (isset($item->$source) && !is_null($item->$source))
+				if (isset($item[$source]) && !is_null($item[$source]))
 				{
 					// Special case, if the server is empty then change the key to "unknown"
-					if ($source === 'server_os' && empty($item->$source))
+					if ($source === 'server_os' && empty($item[$source]))
 					{
 						if (!isset($data[$source]['unknown']))
 						{
@@ -225,12 +225,12 @@ class StatsJsonView extends BaseJsonView
 					}
 					else
 					{
-						if (!isset($data[$source][$item->$source]))
+						if (!isset($data[$source][$item[$source]]))
 						{
-							$data[$source][$item->$source] = 0;
+							$data[$source][$item[$source]] = 0;
 						}
 
-						$data[$source][$item->$source]++;
+						$data[$source][$item[$source]]++;
 					}
 				}
 			}

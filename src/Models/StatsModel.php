@@ -16,7 +16,7 @@ class StatsModel extends AbstractDatabaseModel
 	 *
 	 * @param   string  $column  A single column to filter on
 	 *
-	 * @return  \stdClass[]  Array of data objects.
+	 * @return  \array[]  Array of data arrays.
 	 *
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
@@ -41,7 +41,7 @@ class StatsModel extends AbstractDatabaseModel
 					->select($column)
 					->from('#__jstats')
 					->group('unique_id')
-			)->loadObjectList();
+			)->loadAssocList();
 		}
 
 		// If fetching all data from the table, we need to break this down a fair bit otherwise we're going to run out of memory
@@ -63,7 +63,7 @@ class StatsModel extends AbstractDatabaseModel
 					->group('unique_id'),
 				$offset,
 				25000
-			)->loadObjectList();
+			)->loadAssocList();
 
 			$offset += 25000;
 		}
