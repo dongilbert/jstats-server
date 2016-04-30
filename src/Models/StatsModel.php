@@ -53,17 +53,15 @@ class StatsModel extends AbstractDatabaseModel
 
 		$return = [];
 
+		$query = $db->getQuery(true)
+			->select(['php_version', 'db_type', 'db_version', 'cms_version', 'server_os'])
+			->from('#__jstats')
+			->group('unique_id');
+
 		// We can't have this as a single array, we run out of memory... This is gonna get interesting...
 		for ($offset = 0; $offset < $totalRecords; $offset + 25000)
 		{
-			$return[] = $db->setQuery(
-				$db->getQuery(true)
-					->select(['php_version', 'db_type', 'db_version', 'cms_version', 'server_os'])
-					->from('#__jstats')
-					->group('unique_id'),
-				$offset,
-				25000
-			)->loadAssocList();
+			$return[] = $db->setQuery($query, $offset, 25000)->loadAssocList();
 
 			$offset += 25000;
 		}
@@ -72,7 +70,7 @@ class StatsModel extends AbstractDatabaseModel
 		$db->disconnect();
 
 		// And unset some variables
-		unset($db, $offset, $totalRecords);
+		unset($db, $query, $offset, $totalRecords);
 
 		return $return;
 	}
