@@ -13,19 +13,11 @@ use Joomla\Model\AbstractDatabaseModel;
 class StatsModel extends AbstractDatabaseModel
 {
 	/**
-	 * The query batch size
-	 *
-	 * @var    integer
-	 * @since  1.0
-	 */
-	private $batchSize = 25000;
-
-	/**
 	 * Loads the statistics data from the database.
 	 *
 	 * @param   string  $column  A single column to filter on
 	 *
-	 * @return  \Generator|array  A Generator containing the response data
+	 * @return  array  An array containing the response data
 	 *
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
@@ -33,13 +25,6 @@ class StatsModel extends AbstractDatabaseModel
 	public function getItems($column = null)
 	{
 		$db = $this->getDb();
-
-		// To keep from running out of memory, we need to know how many records are in the database to be able to loop correctly
-		$totalRecords = $db->setQuery(
-			$db->getQuery(true)
-				->select('COUNT(unique_id)')
-				->from('#__jstats')
-		)->loadResult();
 
 		// Validate the requested column is actually in the table
 		if ($column !== null)
@@ -58,41 +43,26 @@ class StatsModel extends AbstractDatabaseModel
 					->from('#__jstats_counter_' . $column)
 			)->loadAssocList();
 		}
-		else
+
+		$columnList = $db->getTableColumns('#__jstats');
+		$return     = [];
+
+		foreach (array_keys($columnList) as $column)
 		{
-			$query = $db->getQuery(true)
-				->select(['php_version', 'db_type', 'db_version', 'cms_version', 'server_os']);
-		}
-
-		$query->from('#__jstats')
-			->group('unique_id');
-
-		$limitable = $query instanceof LimitableInterface;
-
-		// We can't have this as a single array, we run out of memory... This is gonna get interesting...
-		for ($offset = 0; $offset < $totalRecords; $offset + $this->batchSize)
-		{
-			if ($limitable)
+			// The column should exist in the table and be part of the API
+			if (in_array($column, ['unique_id', 'modified']))
 			{
-				$query->setLimit($this->batchSize, $offset);
-
-				$db->setQuery($query);
-			}
-			else
-			{
-				$db->setQuery($query, $offset, $this->batchSize);
+				continue;
 			}
 
-			yield $db->loadAssocList();
-
-			$offset += $this->batchSize;
+			$return[$column] = $db->setQuery(
+				$db->getQuery(true)
+					->select('*')
+					->from('#__jstats_counter_' . $column)
+			)->loadAssocList();
 		}
 
-		// Disconnect the DB to free some memory
-		$db->disconnect();
-
-		// And unset some variables
-		unset($db, $query, $offset, $totalRecords);
+		return $return;
 	}
 
 	/**
