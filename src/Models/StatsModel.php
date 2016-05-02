@@ -25,7 +25,7 @@ class StatsModel extends AbstractDatabaseModel
 	 *
 	 * @param   string  $column  A single column to filter on
 	 *
-	 * @return  \Generator  A Generator containing the response data
+	 * @return  \Generator|array  A Generator containing the response data
 	 *
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
@@ -44,16 +44,23 @@ class StatsModel extends AbstractDatabaseModel
 		// Validate the requested column is actually in the table
 		if ($column !== null)
 		{
-			$columnList = $db->getTableColumns('#__jstats');
-
-			// The column should exist in the table and be part of the API
-			if (!in_array($column, array_keys($columnList)) && !in_array($column, ['unique_id', 'modified']))
+			switch ($column)
 			{
-				throw new \InvalidArgumentException('An invalid data source was requested.', 404);
-			}
+				case 'php_version':
+				case 'db_version':
+				case 'db_type':
+				case 'cms_version':
+				case 'server_os':
+					return $db->setQuery(
+						$db->getQuery(true)
+							->select('*')
+							->from('#__jstats_counter_' . $column)
+					)->loadAssocList($column);
+					break;
 
-			$query = $db->getQuery(true)
-				->select($column);
+				default:
+					throw new \InvalidArgumentException('An invalid data source was requested.', 404);
+			}
 		}
 		else
 		{

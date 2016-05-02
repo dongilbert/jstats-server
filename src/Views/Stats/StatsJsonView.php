@@ -193,50 +193,30 @@ class StatsJsonView extends BaseJsonView
 	/**
 	 * Process the response for a single data source.
 	 *
-	 * @param   \Generator  $generator  The source items to process.
+	 * @param   array  $items  The source items to process.
 	 *
 	 * @return  string  The rendered view.
 	 *
 	 * @since   1.0
 	 */
-	private function processSingleSource(\Generator $generator)
+	private function processSingleSource(array $items)
 	{
 		$data = [
 			${$this->source} = [],
 		];
 
-		foreach ($generator as $group)
+		$this->totalItems = 0;
+
+		foreach ($items as $key => $item)
 		{
-			$this->totalItems += count($group);
-
-			foreach ($group as $item)
+			// Special case, if the server is empty then change the key to "unknown"
+			if ($this->source === 'server_os' && empty($key))
 			{
-				foreach ($this->dataSources as $source)
-				{
-					if (isset($item[$source]) && !is_null($item[$source]))
-					{
-						// Special case, if the server is empty then change the key to "unknown"
-						if ($source === 'server_os' && empty($item[$source]))
-						{
-							if (!isset($data[$source]['unknown']))
-							{
-								$data[$source]['unknown'] = 0;
-							}
-
-							$data[$source]['unknown']++;
-						}
-						else
-						{
-							if (!isset($data[$source][$item[$source]]))
-							{
-								$data[$source][$item[$source]] = 0;
-							}
-
-							$data[$source][$item[$source]]++;
-						}
-					}
-				}
+				$key = 'unknown';
 			}
+
+			$data[$this->source][$key] = $item['count'];
+			$this->totalItems += $item['count'];
 		}
 
 		unset($generator);
