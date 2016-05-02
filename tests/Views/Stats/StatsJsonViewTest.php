@@ -218,7 +218,13 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 
 		$mockModel->expects($this->once())
 			->method('getItems')
-			->willReturn($generator());
+			->willReturn(
+				[
+					[
+						'php_version' => PHP_VERSION, 'count' => 3
+					],
+				]
+			);
 
 		$phpVersion = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
 
@@ -257,13 +263,10 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 			->willReturn(
 				[
 					[
-						'server_os' => 'Darwin 14.1.0',
+						'count' => 2, 'server_os' => 'Darwin 14.1.0',
 					],
 					[
-						'server_os' => 'Darwin 14.1.0',
-					],
-					[
-						'server_os' => '',
+						'count' => 1, 'server_os' => '',
 					],
 				]
 			);
@@ -278,7 +281,7 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 		];
 
 		$view = new StatsJsonView($mockModel);
-		$view->setSource('php_version');
+		$view->setSource('server_os');
 
 		$this->assertSame($returnData, json_decode($view->render(), true));
 	}

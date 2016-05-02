@@ -56,7 +56,7 @@ class StatsModel extends AbstractDatabaseModel
 				$db->getQuery(true)
 					->select('*')
 					->from('#__jstats_counter_' . $column)
-			)->loadAssocList($column);
+			)->loadAssocList();
 		}
 		else
 		{
