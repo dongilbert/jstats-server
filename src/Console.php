@@ -70,7 +70,11 @@ class Console implements ContainerAwareInterface
 				throw new \RuntimeException(sprintf('Required class "%s" not found.', $className));
 			}
 
-			$commands[strtolower(str_replace('Command', '', $command))] = $this->getContainer()->get($className);
+			// If the class isn't instantiable, it isn't a valid command
+			if ((new \ReflectionClass($className))->isInstantiable())
+			{
+				$commands[strtolower(str_replace('Command', '', $command))] = $this->getContainer()->get($className);
+			}
 		}
 
 		return $commands;

@@ -4,7 +4,8 @@ namespace Stats\Providers;
 
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Github\Github;
+use Joomla\Github\Github as BaseGithub;
+use Stats\GitHub\GitHub;
 
 /**
  * GitHub service provider
@@ -24,15 +25,16 @@ class GitHubServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->alias('github', Github::class)
+		$container->alias('github', BaseGithub::class)
+			->alias(GitHub::class, BaseGithub::class)
 			->share(
-				Github::class,
+				BaseGithub::class,
 				function (Container $container)
 				{
 					/** @var \Joomla\Registry\Registry $config */
 					$config = $container->get('config');
 
-					return new Github((array) $config->get('github'));
+					return new GitHub($config->extract('github'));
 				},
 				true
 			);

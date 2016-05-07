@@ -11,11 +11,13 @@ use Joomla\Input\Cli;
 use Joomla\Input\Input;
 use Stats\CliApplication;
 use Stats\Commands\HelpCommand;
+use Stats\Commands\JoomlaTagsCommand;
 use Stats\Commands\SnapshotCommand;
 use Stats\Console;
 use Stats\Controllers\DisplayControllerGet;
 use Stats\Controllers\SubmitControllerCreate;
 use Stats\Controllers\SubmitControllerGet;
+use Stats\GitHub\GitHub;
 use Stats\Models\StatsModel;
 use Stats\Router;
 use Stats\Views\Stats\StatsJsonView;
@@ -156,6 +158,20 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 			function (Container $container)
 			{
 				$command = new HelpCommand;
+
+				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$command->setInput($container->get(Input::class));
+
+				return $command;
+			},
+			true
+		);
+
+		$container->share(
+			JoomlaTagsCommand::class,
+			function (Container $container)
+			{
+				$command = new JoomlaTagsCommand($container->get(GitHub::class));
 
 				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
 				$command->setInput($container->get(Input::class));
