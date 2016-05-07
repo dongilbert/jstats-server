@@ -12,6 +12,7 @@ use Stats\Providers\ApplicationServiceProvider;
 use Stats\Providers\CacheServiceProvider;
 use Stats\Providers\ConfigServiceProvider;
 use Stats\Providers\DatabaseServiceProvider;
+use Stats\Providers\GitHubServiceProvider;
 use Stats\Providers\MonologServiceProvider;
 
 $container = (new Container)
@@ -19,6 +20,7 @@ $container = (new Container)
 	->registerServiceProvider(new CacheServiceProvider)
 	->registerServiceProvider(new ConfigServiceProvider(APPROOT . '/etc/config.json'))
 	->registerServiceProvider(new DatabaseServiceProvider)
+	->registerServiceProvider(new GitHubServiceProvider)
 	->registerServiceProvider(new MonologServiceProvider);
 
 // Alias the web application to Joomla's base application class as this is the primary application for the environment

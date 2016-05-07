@@ -19,5 +19,14 @@
 		"lifetime": 900,
 		"adapter": "filesystem"
 	},
+	"github": {
+		"gh": {
+			"token": false
+		},
+		"api": {
+			"username": false,
+			"password": false
+		}
+	},
 	"errorReporting": 0
 }
