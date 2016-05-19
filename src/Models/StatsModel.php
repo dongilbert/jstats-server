@@ -25,7 +25,7 @@ class StatsModel extends AbstractDatabaseModel
 	 *
 	 * @param   string  $column  A single column to filter on
 	 *
-	 * @return  \array[]  Array of data arrays.
+	 * @return  \Generator  A Generator containing the response data
 	 *
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
@@ -45,56 +45,58 @@ class StatsModel extends AbstractDatabaseModel
 				throw new \InvalidArgumentException('An invalid data source was requested.', 404);
 			}
 
-			return $db->setQuery(
+			$db->setQuery(
 				$db->getQuery(true)
 					->select($column)
 					->from('#__jstats')
 					->group('unique_id')
-			)->loadAssocList();
+			);
+
+			yield $db->loadAssocList();
 		}
-
-		// If fetching all data from the table, we need to break this down a fair bit otherwise we're going to run out of memory
-		$totalRecords = $db->setQuery(
-			$db->getQuery(true)
-				->select('COUNT(unique_id)')
-				->from('#__jstats')
-		)->loadResult();
-
-		$return = [];
-
-		$query = $db->getQuery(true)
-			->select(['php_version', 'db_type', 'db_version', 'cms_version', 'server_os'])
-			->from('#__jstats')
-			->group('unique_id');
-
-		$limitable = $query instanceof LimitableInterface;
-
-		// We can't have this as a single array, we run out of memory... This is gonna get interesting...
-		for ($offset = 0; $offset < $totalRecords; $offset + $this->batchSize)
+		else
 		{
-			if ($limitable)
+			// If fetching all data from the table, we need to break this down a fair bit otherwise we're going to run out of memory
+			$totalRecords = $db->setQuery(
+				$db->getQuery(true)
+					->select('COUNT(unique_id)')
+					->from('#__jstats')
+			)->loadResult();
+
+			$return = [];
+
+			$query = $db->getQuery(true)
+				->select(['php_version', 'db_type', 'db_version', 'cms_version', 'server_os'])
+				->from('#__jstats')
+				->group('unique_id');
+
+			$limitable = $query instanceof LimitableInterface;
+
+			// We can't have this as a single array, we run out of memory... This is gonna get interesting...
+			for ($offset = 0; $offset < $totalRecords; $offset + $this->batchSize)
 			{
-				$query->setLimit($this->batchSize, $offset);
+				if ($limitable)
+				{
+					$query->setLimit($this->batchSize, $offset);
 
-				$db->setQuery($query);
+					$db->setQuery($query);
+				}
+				else
+				{
+					$db->setQuery($query, $offset, $this->batchSize);
+				}
+
+				yield $db->loadAssocList();
+
+				$offset += $this->batchSize;
 			}
-			else
-			{
-				$db->setQuery($query, $offset, $this->batchSize);
-			}
 
-			$return[] = $db->loadAssocList();
+			// Disconnect the DB to free some memory
+			$db->disconnect();
 
-			$offset += $this->batchSize;
+			// And unset some variables
+			unset($db, $query, $offset, $totalRecords);
 		}
-
-		// Disconnect the DB to free some memory
-		$db->disconnect();
-
-		// And unset some variables
-		unset($db, $query, $offset, $totalRecords);
-
-		return $return;
 	}
 
 	/**

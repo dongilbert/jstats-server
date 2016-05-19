@@ -41,7 +41,16 @@ class StatsModelTest extends \PHPUnit_Framework_TestCase
 			->method('loadResult')
 			->willReturn(2);
 
-		$this->assertSame([$return], (new StatsModel($mockDatabase))->getItems());
+		$items = (new StatsModel($mockDatabase))->getItems();
+
+		$this->assertInstanceOf('Generator', $items);
+
+		foreach ($items as $value)
+		{
+			$data = $value;
+		}
+
+		$this->assertSame($data, $return);
 	}
 
 	/**
@@ -84,7 +93,16 @@ class StatsModelTest extends \PHPUnit_Framework_TestCase
 			->method('loadAssocList')
 			->willReturn($return);
 
-		$this->assertSame($return, (new StatsModel($mockDatabase))->getItems('php_version'));
+		$items = (new StatsModel($mockDatabase))->getItems('php_version');
+
+		$this->assertInstanceOf('Generator', $items);
+
+		foreach ($items as $value)
+		{
+			$data = $value;
+		}
+
+		$this->assertSame($data, $return);
 	}
 
 	/**
@@ -114,7 +132,14 @@ class StatsModelTest extends \PHPUnit_Framework_TestCase
 				]
 			);
 
-		(new StatsModel($mockDatabase))->getItems('bad_column');
+		$items = (new StatsModel($mockDatabase))->getItems('bad_column');
+
+		$this->assertInstanceOf('Generator', $items);
+
+		foreach ($items as $value)
+		{
+			$data = $value;
+		}
 	}
 
 	/**
