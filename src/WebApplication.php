@@ -55,7 +55,7 @@ class WebApplication extends AbstractWebApplication
 				->setProtocolVersion('1')
 				->setTrackingId('UA-544070-16')
 				->setClientId(Uuid::uuid4()->toString())
-				->setDocumentPath($this->get('uri.route', '/'))
+				->setDocumentPath($this->get('uri.base.path'))
 				->setIpOverride($this->input->server->getString('REMOTE_ADDR'))
 				->setUserAgentOverride($this->input->server->getString('HTTP_USER_AGENT'));
 
