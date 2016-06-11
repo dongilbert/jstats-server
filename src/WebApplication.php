@@ -53,7 +53,7 @@ class WebApplication extends AbstractWebApplication
 			$this->analytics->setAsyncRequest(true)
 				->setProtocolVersion('1')
 				->setTrackingId('UA-544070-16')
-				->setDocumentPath($this->get('uri.route'))
+				->setDocumentPath($this->get('uri.route', '/'))
 				->setIpOverride($this->input->server->getString('REMOTE_ADDR'))
 				->setUserAgentOverride($this->input->server->getString('HTTP_USER_AGENT'));
 
