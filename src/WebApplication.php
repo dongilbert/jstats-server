@@ -56,8 +56,8 @@ class WebApplication extends AbstractWebApplication
 				->setTrackingId('UA-544070-16')
 				->setClientId(Uuid::uuid4()->toString())
 				->setDocumentPath($this->get('uri.base.path'))
-				->setIpOverride($this->input->server->getString('REMOTE_ADDR'))
-				->setUserAgentOverride($this->input->server->getString('HTTP_USER_AGENT'));
+				->setIpOverride($this->input->server->getString('REMOTE_ADDR', '127.0.0.1'))
+				->setUserAgentOverride($this->input->server->getString('HTTP_USER_AGENT', 'JoomlaStats/1.0'));
 
 			// Don't allow sending Analytics data to cause a failure
 			try
