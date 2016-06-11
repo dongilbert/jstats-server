@@ -3,6 +3,7 @@
 namespace Stats;
 
 use Joomla\Application\AbstractWebApplication;
+use Ramsey\Uuid\Uuid;
 use TheIconic\Tracking\GoogleAnalytics\Analytics;
 
 /**
@@ -53,6 +54,7 @@ class WebApplication extends AbstractWebApplication
 			$this->analytics->setAsyncRequest(true)
 				->setProtocolVersion('1')
 				->setTrackingId('UA-544070-16')
+				->setClientId(Uuid::uuid4()->toString())
 				->setDocumentPath($this->get('uri.route', '/'))
 				->setIpOverride($this->input->server->getString('REMOTE_ADDR'))
 				->setUserAgentOverride($this->input->server->getString('HTTP_USER_AGENT'));

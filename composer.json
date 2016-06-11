@@ -27,6 +27,7 @@
         "joomla/view": "2.*@dev",
         "doctrine/cache": "~1.6",
         "monolog/monolog": "~1.17",
+        "ramsey/uuid": "~3.4",
         "theiconic/php-ga-measurement-protocol": "^2.0"
     },
     "require-dev": {
