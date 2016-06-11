@@ -3,6 +3,7 @@
 namespace Stats;
 
 use Joomla\Application\AbstractWebApplication;
+use TheIconic\Tracking\GoogleAnalytics\Analytics;
 
 /**
  * Web application for the stats server
@@ -11,6 +12,14 @@ use Joomla\Application\AbstractWebApplication;
  */
 class WebApplication extends AbstractWebApplication
 {
+	/**
+	 * Application analytics object.
+	 *
+	 * @var    Analytics
+	 * @since  1.0
+	 */
+	private $analytics;
+
 	/**
 	 * Response mime type.
 	 *
@@ -36,6 +45,33 @@ class WebApplication extends AbstractWebApplication
 	 */
 	public function doExecute()
 	{
+		// On a GET request to the live domain, submit analytics data
+		if ($this->input->getMethod() === 'GET'
+			&& strpos($this->input->server->getString('HTTP_HOST', ''), 'developer.joomla.org') === 0
+			&& $this->analytics)
+		{
+			$this->analytics->setAsyncRequest(true)
+				->setProtocolVersion('1')
+				->setTrackingId('UA-544070-16')
+				->setDocumentPath($this->get('uri.route'))
+				->setIpOverride($this->input->server->getString('REMOTE_ADDR'))
+				->setUserAgentOverride($this->input->server->getString('HTTP_USER_AGENT'));
+
+			// Don't allow sending Analytics data to cause a failure
+			try
+			{
+				$this->analytics->sendPageview();
+			}
+			catch (\Exception $e)
+			{
+				// Log the error for reference
+				$this->getLogger()->error(
+					'Error sending analytics data.',
+					['exception' => $e]
+				);
+			}
+		}
+
 		try
 		{
 			$this->router->getController($this->get('uri.route'))->execute();
@@ -57,6 +93,22 @@ class WebApplication extends AbstractWebApplication
 
 			$this->setBody(json_encode($data));
 		}
+	}
+
+	/**
+	 * Set the application's analytics object.
+	 *
+	 * @param   Analytics  $analytics  Analytics object to set.
+	 *
+	 * @return  $this
+	 *
+	 * @since   1.0
+	 */
+	public function setAnalytics(Analytics $analytics)
+	{
+		$this->analytics = $analytics;
+
+		return $this;
 	}
 
 	/**

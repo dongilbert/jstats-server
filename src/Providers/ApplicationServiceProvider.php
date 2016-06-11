@@ -20,6 +20,7 @@ use Stats\Models\StatsModel;
 use Stats\Router;
 use Stats\Views\Stats\StatsJsonView;
 use Stats\WebApplication;
+use TheIconic\Tracking\GoogleAnalytics\Analytics;
 
 /**
  * Application service provider
@@ -68,6 +69,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 					$application = new WebApplication($container->get(Input::class), $container->get('config'));
 
 					// Inject extra services
+					$application->setAnalytics($container->get(Analytics::class));
 					$application->setLogger($container->get('monolog.logger.application'));
 					$application->setRouter($container->get(Router::class));
 
@@ -134,6 +136,14 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 					return new JoomlaApplication\Cli\Output\Stdout($container->get(JoomlaApplication\Cli\Output\Processor\ColorProcessor::class));
 				}
 			);
+
+		$container->share(
+			Analytics::class,
+			function ()
+			{
+				return new Analytics(true);
+			}
+		);
 
 		$container->share(
 			Router::class,
