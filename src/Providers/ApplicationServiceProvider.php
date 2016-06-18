@@ -9,13 +9,17 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Input\Cli;
 use Joomla\Input\Input;
+use Psr\Log\LoggerInterface;
 use Stats\CliApplication;
+use Stats\Commands\Database\MigrateCommand;
+use Stats\Commands\Database\StatusCommand;
 use Stats\Commands\HelpCommand;
 use Stats\Commands\SnapshotCommand;
 use Stats\Console;
 use Stats\Controllers\DisplayControllerGet;
 use Stats\Controllers\SubmitControllerCreate;
 use Stats\Controllers\SubmitControllerGet;
+use Stats\Database\Migrations;
 use Stats\Models\StatsModel;
 use Stats\Router;
 use Stats\Views\Stats\StatsJsonView;
@@ -180,6 +184,35 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 			function (Container $container)
 			{
 				$command = new SnapshotCommand($container->get(StatsJsonView::class));
+
+				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$command->setInput($container->get(Input::class));
+
+				return $command;
+			},
+			true
+		);
+
+		$container->share(
+			MigrateCommand::class,
+			function (Container $container)
+			{
+				$command = new MigrateCommand($container->get(Migrations::class));
+
+				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$command->setInput($container->get(Input::class));
+				$command->setLogger($container->get(LoggerInterface::class));
+
+				return $command;
+			},
+			true
+		);
+
+		$container->share(
+			StatusCommand::class,
+			function (Container $container)
+			{
+				$command = new StatusCommand($container->get(Migrations::class));
 
 				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
 				$command->setInput($container->get(Input::class));
