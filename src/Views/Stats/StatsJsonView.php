@@ -205,11 +205,11 @@ class StatsJsonView extends BaseJsonView
 			${$this->source} = [],
 		];
 
-		foreach ($generator as $items)
+		foreach ($generator as $group)
 		{
-			$this->totalItems = count($items);
+			$this->totalItems += count($group);
 
-			foreach ($items as $item)
+			foreach ($group as $item)
 			{
 				foreach ($this->dataSources as $source)
 				{
@@ -238,6 +238,8 @@ class StatsJsonView extends BaseJsonView
 				}
 			}
 		}
+
+		unset($generator);
 
 		$responseData = $this->buildResponseData($data);
 

@@ -64,7 +64,62 @@ class StatsModelTest extends \PHPUnit_Framework_TestCase
 
 		$mockDatabase = $this->getMockBuilder(DatabaseDriver::class)
 			->disableOriginalConstructor()
-			->setMethods(['getQuery', 'getTableColumns', 'loadAssocList'])
+			->setMethods(['getQuery', 'getTableColumns', 'loadAssocList', 'loadResult'])
+			->getMockForAbstractClass();
+
+		$mockQuery = $this->getMockBuilder(DatabaseQuery::class)
+			->disableOriginalConstructor()
+			->getMockForAbstractClass();
+
+		$mockDatabase->expects($this->exactly(2))
+			->method('getQuery')
+			->willReturn($mockQuery);
+
+		$mockDatabase->expects($this->once())
+			->method('getTableColumns')
+			->willReturn(
+				[
+					'unique_id'   => 'varchar',
+					'php_version' => 'varchar',
+					'db_type'     => 'varchar',
+					'db_version'  => 'varchar',
+					'cms_version' => 'varchar',
+					'server_os'   => 'varchar',
+					'modified'    => 'datetime',
+				]
+			);
+
+		$mockDatabase->expects($this->once())
+			->method('loadAssocList')
+			->willReturn($return);
+
+		$mockDatabase->expects($this->once())
+			->method('loadResult')
+			->willReturn(2);
+
+		$items = (new StatsModel($mockDatabase))->getItems('php_version');
+
+		$this->assertInstanceOf('Generator', $items);
+
+		foreach ($items as $value)
+		{
+			$data = $value;
+		}
+
+		$this->assertSame($data, $return);
+	}
+
+	/**
+	 * @testdox The model throws an Exception when an invalid source is specified
+	 *
+	 * @covers  Stats\Models\StatsModel::getItems
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testTheModelThrowsAnExceptionWhenAnInvalidSourceIsSpecified()
+	{
+		$mockDatabase = $this->getMockBuilder(DatabaseDriver::class)
+			->disableOriginalConstructor()
+			->setMethods(['getQuery', 'getTableColumns', 'loadResult'])
 			->getMockForAbstractClass();
 
 		$mockQuery = $this->getMockBuilder(DatabaseQuery::class)
@@ -90,47 +145,8 @@ class StatsModelTest extends \PHPUnit_Framework_TestCase
 			);
 
 		$mockDatabase->expects($this->once())
-			->method('loadAssocList')
-			->willReturn($return);
-
-		$items = (new StatsModel($mockDatabase))->getItems('php_version');
-
-		$this->assertInstanceOf('Generator', $items);
-
-		foreach ($items as $value)
-		{
-			$data = $value;
-		}
-
-		$this->assertSame($data, $return);
-	}
-
-	/**
-	 * @testdox The model throws an Exception when an invalid source is specified
-	 *
-	 * @covers  Stats\Models\StatsModel::getItems
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testTheModelThrowsAnExceptionWhenAnInvalidSourceIsSpecified()
-	{
-		$mockDatabase = $this->getMockBuilder(DatabaseDriver::class)
-			->disableOriginalConstructor()
-			->setMethods(['getTableColumns'])
-			->getMockForAbstractClass();
-
-		$mockDatabase->expects($this->once())
-			->method('getTableColumns')
-			->willReturn(
-				[
-					'unique_id'   => 'varchar',
-					'php_version' => 'varchar',
-					'db_type'     => 'varchar',
-					'db_version'  => 'varchar',
-					'cms_version' => 'varchar',
-					'server_os'   => 'varchar',
-					'modified'    => 'datetime',
-				]
-			);
+			->method('loadResult')
+			->willReturn(2);
 
 		$items = (new StatsModel($mockDatabase))->getItems('bad_column');
 
