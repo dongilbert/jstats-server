@@ -37,9 +37,9 @@ class StatusCommand extends AbstractController implements CommandInterface
 	}
 
 	/**
-	 * Execute the command.
+	 * Execute the controller.
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 */

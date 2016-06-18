@@ -14,6 +14,7 @@ use Stats\CliApplication;
 use Stats\Commands\Database\MigrateCommand;
 use Stats\Commands\Database\StatusCommand;
 use Stats\Commands\HelpCommand;
+use Stats\Commands\InstallCommand;
 use Stats\Commands\SnapshotCommand;
 use Stats\Console;
 use Stats\Controllers\DisplayControllerGet;
@@ -170,6 +171,20 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 			function (Container $container)
 			{
 				$command = new HelpCommand;
+
+				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$command->setInput($container->get(Input::class));
+
+				return $command;
+			},
+			true
+		);
+
+		$container->share(
+			InstallCommand::class,
+			function (Container $container)
+			{
+				$command = new InstallCommand($container->get(DatabaseDriver::class));
 
 				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
 				$command->setInput($container->get(Input::class));

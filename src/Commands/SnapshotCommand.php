@@ -7,7 +7,7 @@ use Stats\CommandInterface;
 use Stats\Views\Stats\StatsJsonView;
 
 /**
- * Help command
+ * Snapshot command
  *
  * @method         \Stats\CliApplication  getApplication()  Get the application object.
  * @property-read  \Stats\CliApplication  $app              Application object

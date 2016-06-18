@@ -41,9 +41,9 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 	}
 
 	/**
-	 * Execute the command.
+	 * Execute the controller.
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 */
