@@ -63,7 +63,7 @@ class DisplayControllerGetTest extends \PHPUnit_Framework_TestCase
 			->willReturnOnConsecutiveCalls('nope', false);
 
 		$mockInput = $this->getMockBuilder(Input::class)
-			->disableOriginalConstructor()
+			->setConstructorArgs([[]])
 			->enableProxyingToOriginalMethods()
 			->setMethods(['get'])
 			->getMock();
@@ -105,7 +105,7 @@ class DisplayControllerGetTest extends \PHPUnit_Framework_TestCase
 			->willReturnOnConsecutiveCalls('nope', true, 900, 'nope', true);
 
 		$mockInput = $this->getMockBuilder(Input::class)
-			->disableOriginalConstructor()
+			->setConstructorArgs([[]])
 			->enableProxyingToOriginalMethods()
 			->setMethods(['get'])
 			->getMock();
