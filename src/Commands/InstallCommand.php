@@ -7,7 +7,7 @@ use Joomla\Database\DatabaseDriver;
 use Stats\CommandInterface;
 
 /**
- * Snapshot command
+ * Install command
  *
  * @method         \Stats\CliApplication  getApplication()  Get the application object.
  * @property-read  \Stats\CliApplication  $app              Application object
