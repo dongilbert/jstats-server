@@ -64,6 +64,8 @@ class StatusCommand extends AbstractController implements CommandInterface
 				->out()
 				->out(sprintf('To update, run the <fg=magenta>%1$s</fg=magenta> command.', 'database:migrate'));
 		}
+
+		return true;
 	}
 
 	/**

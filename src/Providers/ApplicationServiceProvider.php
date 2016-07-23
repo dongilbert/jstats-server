@@ -11,6 +11,7 @@ use Joomla\Input\Cli;
 use Joomla\Input\Input;
 use Psr\Log\LoggerInterface;
 use Stats\CliApplication;
+use Stats\Commands\Cache\ClearCommand;
 use Stats\Commands\Database\MigrateCommand;
 use Stats\Commands\Database\StatusCommand;
 use Stats\Commands\HelpCommand;
@@ -199,6 +200,20 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 			function (Container $container)
 			{
 				$command = new SnapshotCommand($container->get(StatsJsonView::class));
+
+				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$command->setInput($container->get(Input::class));
+
+				return $command;
+			},
+			true
+		);
+
+		$container->share(
+			ClearCommand::class,
+			function (Container $container)
+			{
+				$command = new ClearCommand($container->get(Cache::class));
 
 				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
 				$command->setInput($container->get(Input::class));

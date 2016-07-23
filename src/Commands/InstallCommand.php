@@ -101,6 +101,8 @@ class InstallCommand extends AbstractController implements CommandInterface
 		$this->processSql()
 			->out()
 			->out('<fg=green;options=bold>Installation has been completed successfully.</fg=green;options=bold>');
+
+		return true;
 	}
 
 	/**
