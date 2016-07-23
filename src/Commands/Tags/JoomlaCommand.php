@@ -1,16 +1,16 @@
 <?php
 
-namespace Stats\Commands;
+namespace Stats\Commands\Tags;
 
 use Stats\Decorators\ValidateVersion;
 use Stats\GitHub\GitHub;
 
 /**
- * Abstract command for processing tags from GitHub
+ * Command for processing tags for the Joomla! CMS from GitHub
  *
  * @since  1.0
  */
-class JoomlaTagsCommand extends AbstractTagCommand
+class JoomlaCommand extends AbstractTagCommand
 {
 	use ValidateVersion;
 
@@ -116,7 +116,7 @@ class JoomlaTagsCommand extends AbstractTagCommand
 	 */
 	public function getDescription()
 	{
-		return 'Parses the release tags for the Joomla GitHub repository.';
+		return 'Parses the release tags for the Joomla! CMS GitHub repository.';
 	}
 
 	/**
@@ -128,6 +128,6 @@ class JoomlaTagsCommand extends AbstractTagCommand
 	 */
 	public function getTitle()
 	{
-		return 'Fetch Joomla Releases';
+		return 'Fetch Joomla! Releases';
 	}
 }

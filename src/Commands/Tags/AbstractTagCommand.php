@@ -1,6 +1,6 @@
 <?php
 
-namespace Stats\Commands;
+namespace Stats\Commands\Tags;
 
 use Joomla\Controller\AbstractController;
 use Stats\CommandInterface;

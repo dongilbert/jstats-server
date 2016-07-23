@@ -14,9 +14,9 @@ use Stats\CliApplication;
 use Stats\Commands\Cache\ClearCommand;
 use Stats\Commands\Database\MigrateCommand;
 use Stats\Commands\Database\StatusCommand;
+use Stats\Commands\Tags\JoomlaCommand;
 use Stats\Commands\HelpCommand;
 use Stats\Commands\InstallCommand;
-use Stats\Commands\JoomlaTagsCommand;
 use Stats\Commands\SnapshotCommand;
 use Stats\Commands\UpdateCommand;
 use Stats\Console;
@@ -199,20 +199,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		);
 
 		$container->share(
-			JoomlaTagsCommand::class,
-			function (Container $container)
-			{
-				$command = new JoomlaTagsCommand($container->get(GitHub::class));
-
-				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
-				$command->setInput($container->get(Input::class));
-
-				return $command;
-			},
-			true
-		);
-
-		$container->share(
 			SnapshotCommand::class,
 			function (Container $container)
 			{
@@ -274,6 +260,20 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 			function (Container $container)
 			{
 				$command = new StatusCommand($container->get(Migrations::class));
+
+				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$command->setInput($container->get(Input::class));
+
+				return $command;
+			},
+			true
+		);
+
+		$container->share(
+			JoomlaCommand::class,
+			function (Container $container)
+			{
+				$command = new JoomlaCommand($container->get(GitHub::class));
 
 				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
 				$command->setInput($container->get(Input::class));
