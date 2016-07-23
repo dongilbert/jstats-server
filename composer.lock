@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "70143e781db56641267215218a849a8c",
-    "content-hash": "33f0dd5da019d6210986717146cb0208",
+    "hash": "e4b0efae3dfd5aee68fd7bf5b9381c7c",
+    "content-hash": "f1e34ef17c6a331132bb44c9f2866dff",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -482,43 +482,6 @@
             "time": "2016-05-18 18:51:58"
         },
         {
-            "name": "joomla/date",
-            "version": "1.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla-framework/date.git",
-                "reference": "b985dc1a4ed41ea14c90fc09347c6bb44470aeaa"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/date/zipball/b985dc1a4ed41ea14c90fc09347c6bb44470aeaa",
-                "reference": "b985dc1a4ed41ea14c90fc09347c6bb44470aeaa",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.10"
-            },
-            "type": "joomla-package",
-            "autoload": {
-                "psr-4": {
-                    "Joomla\\Date\\": "src/",
-                    "Joomla\\Date\\Tests\\": "Tests/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "description": "Joomla Date Package",
-            "homepage": "https://github.com/joomla-framework/date",
-            "keywords": [
-                "date",
-                "framework",
-                "joomla"
-            ],
-            "time": "2014-02-09 01:27:57"
-        },
-        {
             "name": "joomla/di",
             "version": "1.3.1",
             "source": {
@@ -620,27 +583,26 @@
         },
         {
             "name": "joomla/github",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/github-api.git",
-                "reference": "39b4ad1221ce7d87b63c49a35df948b55b20d9c3"
+                "reference": "324f723e98686aafefcb5f67140e87100050fc5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/github-api/zipball/39b4ad1221ce7d87b63c49a35df948b55b20d9c3",
-                "reference": "39b4ad1221ce7d87b63c49a35df948b55b20d9c3",
+                "url": "https://api.github.com/repos/joomla-framework/github-api/zipball/324f723e98686aafefcb5f67140e87100050fc5c",
+                "reference": "324f723e98686aafefcb5f67140e87100050fc5c",
                 "shasum": ""
             },
             "require": {
-                "joomla/date": "~1.0",
-                "joomla/http": "~1.0",
+                "joomla/http": "^1.2.2",
                 "joomla/registry": "~1.0",
                 "joomla/uri": "~1.0",
-                "php": ">=5.3.10"
+                "php": ">=5.3.10|>=7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.*",
+                "phpunit/phpunit": "~4.8|>=5.0 <5.4",
                 "squizlabs/php_codesniffer": "1.*"
             },
             "type": "joomla-package",
@@ -651,8 +613,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Joomla\\Github\\": "src/",
-                    "Joomla\\Github\\Tests\\": "Tests/"
+                    "Joomla\\Github\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -666,7 +627,7 @@
                 "github",
                 "joomla"
             ],
-            "time": "2015-02-03 12:13:36"
+            "time": "2016-07-22 19:20:45"
         },
         {
             "name": "joomla/http",
