@@ -9,19 +9,27 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Input\Cli;
 use Joomla\Input\Input;
+use Psr\Log\LoggerInterface;
 use Stats\CliApplication;
+use Stats\Commands\Cache\ClearCommand;
+use Stats\Commands\Database\MigrateCommand;
+use Stats\Commands\Database\StatusCommand;
 use Stats\Commands\HelpCommand;
+use Stats\Commands\InstallCommand;
 use Stats\Commands\JoomlaTagsCommand;
 use Stats\Commands\SnapshotCommand;
+use Stats\Commands\UpdateCommand;
 use Stats\Console;
 use Stats\Controllers\DisplayControllerGet;
 use Stats\Controllers\SubmitControllerCreate;
 use Stats\Controllers\SubmitControllerGet;
+use Stats\Database\Migrations;
 use Stats\GitHub\GitHub;
 use Stats\Models\StatsModel;
 use Stats\Router;
 use Stats\Views\Stats\StatsJsonView;
 use Stats\WebApplication;
+use TheIconic\Tracking\GoogleAnalytics\Analytics;
 
 /**
  * Application service provider
@@ -70,6 +78,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 					$application = new WebApplication($container->get(Input::class), $container->get('config'));
 
 					// Inject extra services
+					$application->setAnalytics($container->get(Analytics::class));
 					$application->setLogger($container->get('monolog.logger.application'));
 					$application->setRouter($container->get(Router::class));
 
@@ -138,6 +147,14 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 			);
 
 		$container->share(
+			Analytics::class,
+			function ()
+			{
+				return new Analytics(true);
+			}
+		);
+
+		$container->share(
 			Router::class,
 			function (Container $container)
 			{
@@ -168,6 +185,20 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		);
 
 		$container->share(
+			InstallCommand::class,
+			function (Container $container)
+			{
+				$command = new InstallCommand($container->get(DatabaseDriver::class));
+
+				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$command->setInput($container->get(Input::class));
+
+				return $command;
+			},
+			true
+		);
+
+		$container->share(
 			JoomlaTagsCommand::class,
 			function (Container $container)
 			{
@@ -186,6 +217,63 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 			function (Container $container)
 			{
 				$command = new SnapshotCommand($container->get(StatsJsonView::class));
+
+				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$command->setInput($container->get(Input::class));
+
+				return $command;
+			},
+			true
+		);
+
+		$container->share(
+			UpdateCommand::class,
+			function (Container $container)
+			{
+				$command = new UpdateCommand;
+
+				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$command->setInput($container->get(Input::class));
+
+				return $command;
+			},
+			true
+		);
+
+		$container->share(
+			ClearCommand::class,
+			function (Container $container)
+			{
+				$command = new ClearCommand($container->get(Cache::class));
+
+				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$command->setInput($container->get(Input::class));
+
+				return $command;
+			},
+			true
+		);
+
+		$container->share(
+			MigrateCommand::class,
+			function (Container $container)
+			{
+				$command = new MigrateCommand($container->get(Migrations::class));
+
+				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$command->setInput($container->get(Input::class));
+				$command->setLogger($container->get(LoggerInterface::class));
+
+				return $command;
+			},
+			true
+		);
+
+		$container->share(
+			StatusCommand::class,
+			function (Container $container)
+			{
+				$command = new StatusCommand($container->get(Migrations::class));
 
 				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
 				$command->setInput($container->get(Input::class));

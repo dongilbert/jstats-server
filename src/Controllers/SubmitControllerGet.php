@@ -28,6 +28,10 @@ class SubmitControllerGet extends AbstractController
 			'message' => 'This route only accepts POST requests.'
 		];
 
+		// Set the response headers to indicate the method is not allowed
+		$this->getApplication()->setHeader('HTTP/1.1 405 Method Not Allowed', 405, true);
+		$this->getApplication()->setHeader('Allow', 'POST');
+
 		$this->getApplication()->setBody(json_encode($response));
 
 		return true;

@@ -25,7 +25,7 @@ class StatsModel extends AbstractDatabaseModel
 	 *
 	 * @param   string  $column  A single column to filter on
 	 *
-	 * @return  \array[]  Array of data arrays.
+	 * @return  \Generator  A Generator containing the response data
 	 *
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
@@ -33,6 +33,13 @@ class StatsModel extends AbstractDatabaseModel
 	public function getItems($column = null)
 	{
 		$db = $this->getDb();
+
+		// To keep from running out of memory, we need to know how many records are in the database to be able to loop correctly
+		$totalRecords = $db->setQuery(
+			$db->getQuery(true)
+				->select('COUNT(unique_id)')
+				->from('#__jstats')
+		)->loadResult();
 
 		// Validate the requested column is actually in the table
 		if ($column !== null)
@@ -45,26 +52,16 @@ class StatsModel extends AbstractDatabaseModel
 				throw new \InvalidArgumentException('An invalid data source was requested.', 404);
 			}
 
-			return $db->setQuery(
-				$db->getQuery(true)
-					->select($column)
-					->from('#__jstats')
-					->group('unique_id')
-			)->loadAssocList();
+			$query = $db->getQuery(true)
+				->select($column);
+		}
+		else
+		{
+			$query = $db->getQuery(true)
+				->select(['php_version', 'db_type', 'db_version', 'cms_version', 'server_os']);
 		}
 
-		// If fetching all data from the table, we need to break this down a fair bit otherwise we're going to run out of memory
-		$totalRecords = $db->setQuery(
-			$db->getQuery(true)
-				->select('COUNT(unique_id)')
-				->from('#__jstats')
-		)->loadResult();
-
-		$return = [];
-
-		$query = $db->getQuery(true)
-			->select(['php_version', 'db_type', 'db_version', 'cms_version', 'server_os'])
-			->from('#__jstats')
+		$query->from('#__jstats')
 			->group('unique_id');
 
 		$limitable = $query instanceof LimitableInterface;
@@ -83,7 +80,7 @@ class StatsModel extends AbstractDatabaseModel
 				$db->setQuery($query, $offset, $this->batchSize);
 			}
 
-			$return[] = $db->loadAssocList();
+			yield $db->loadAssocList();
 
 			$offset += $this->batchSize;
 		}
@@ -93,8 +90,6 @@ class StatsModel extends AbstractDatabaseModel
 
 		// And unset some variables
 		unset($db, $query, $offset, $totalRecords);
-
-		return $return;
 	}
 
 	/**

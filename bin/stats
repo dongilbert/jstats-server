@@ -8,6 +8,8 @@ use Joomla\Application\AbstractCliApplication;
 use Joomla\DI\Container;
 use Joomla\Input\Cli;
 use Joomla\Input\Input;
+use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Stats\CliApplication;
 use Stats\Providers\ApplicationServiceProvider;
 use Stats\Providers\CacheServiceProvider;

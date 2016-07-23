@@ -19,6 +19,3 @@ CREATE TABLE `#__migrations` (
   `version` varchar(25) NOT NULL COMMENT 'Applied migration versions',
   KEY `version` (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci;
-
-INSERT INTO `#__migrations` (`version`) VALUES
-('20160618001');

@@ -9,12 +9,46 @@ use Stats\WebApplication;
 class WebApplicationTest extends \PHPUnit_Framework_TestCase
 {
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 */
+	protected $backupServer;
+
+	/**
+	 * Sets up the fixture, for example, open a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 */
+	public function setUp()
+	{
+		parent::setUp();
+
+		$this->backupServer = $_SERVER;
+	}
+
+	/**
+	 * Tears down the fixture, for example, close a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+
+		parent::tearDown();
+	}
+
+	/**
 	 * @testdox The application executes correctly
 	 *
 	 * @covers  Stats\WebApplication::doExecute
 	 */
 	public function testTheApplicationExecutesCorrectly()
 	{
+		// Mock a GET request
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+
 		$mockController = $this->getMockBuilder('Stats\Controllers\DisplayControllerGet')
 			->disableOriginalConstructor()
 			->getMock();
@@ -63,6 +97,9 @@ class WebApplicationTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testTheApplicationHandlesExceptionsCorrectly($code)
 	{
+		// Mock a GET request
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+
 		$mockController = $this->getMockBuilder('Stats\Controllers\DisplayControllerGet')
 			->disableOriginalConstructor()
 			->getMock();

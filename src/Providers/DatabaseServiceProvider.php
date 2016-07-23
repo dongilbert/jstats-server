@@ -5,6 +5,9 @@ namespace Stats\Providers;
 use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
+use Stats\Database\Migrations;
 
 /**
  * Database service provider
@@ -40,5 +43,16 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 				},
 				true
 			);
+
+		$container->alias('db.migrations', Migrations::class)
+			->set(Migrations::class,
+			function (Container $container)
+			{
+				return new Migrations(
+					$container->get('db'),
+					new Filesystem(new Local(APPROOT . '/etc'))
+				);
+			}, true, true
+		);
 	}
 }

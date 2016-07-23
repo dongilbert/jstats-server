@@ -193,48 +193,53 @@ class StatsJsonView extends BaseJsonView
 	/**
 	 * Process the response for a single data source.
 	 *
-	 * @param   array  $items  The source items to process.
+	 * @param   \Generator  $generator  The source items to process.
 	 *
 	 * @return  string  The rendered view.
 	 *
 	 * @since   1.0
 	 */
-	private function processSingleSource(array $items)
+	private function processSingleSource(\Generator $generator)
 	{
 		$data = [
 			${$this->source} = [],
 		];
 
-		$this->totalItems = count($items);
-
-		foreach ($items as $item)
+		foreach ($generator as $group)
 		{
-			foreach ($this->dataSources as $source)
+			$this->totalItems += count($group);
+
+			foreach ($group as $item)
 			{
-				if (isset($item[$source]) && !is_null($item[$source]))
+				foreach ($this->dataSources as $source)
 				{
-					// Special case, if the server is empty then change the key to "unknown"
-					if ($source === 'server_os' && empty($item[$source]))
+					if (isset($item[$source]) && !is_null($item[$source]))
 					{
-						if (!isset($data[$source]['unknown']))
+						// Special case, if the server is empty then change the key to "unknown"
+						if ($source === 'server_os' && empty($item[$source]))
 						{
-							$data[$source]['unknown'] = 0;
-						}
+							if (!isset($data[$source]['unknown']))
+							{
+								$data[$source]['unknown'] = 0;
+							}
 
-						$data[$source]['unknown']++;
-					}
-					else
-					{
-						if (!isset($data[$source][$item[$source]]))
+							$data[$source]['unknown']++;
+						}
+						else
 						{
-							$data[$source][$item[$source]] = 0;
-						}
+							if (!isset($data[$source][$item[$source]]))
+							{
+								$data[$source][$item[$source]] = 0;
+							}
 
-						$data[$source][$item[$source]]++;
+							$data[$source][$item[$source]]++;
+						}
 					}
 				}
 			}
 		}
+
+		unset($generator);
 
 		$responseData = $this->buildResponseData($data);
 

@@ -57,22 +57,44 @@ class Console implements ContainerAwareInterface
 		/** @var \DirectoryIterator $fileInfo */
 		foreach (new \DirectoryIterator(__DIR__ . '/Commands') as $fileInfo)
 		{
-			if ($fileInfo->isDot() || !$fileInfo->isFile())
+			if ($fileInfo->isDot())
 			{
 				continue;
 			}
 
-			$command   = $fileInfo->getBasename('.php');
-			$className = __NAMESPACE__ . "\\Commands\\$command";
-
-			if (false == class_exists($className))
+			if ($fileInfo->isDir())
 			{
-				throw new \RuntimeException(sprintf('Required class "%s" not found.', $className));
+				$namespace = $fileInfo->getFilename();
+
+				/** @var \DirectoryIterator $subFileInfo */
+				foreach (new \DirectoryIterator($fileInfo->getPathname()) as $subFileInfo)
+				{
+					if ($subFileInfo->isDot() || !$subFileInfo->isFile())
+					{
+						continue;
+					}
+
+					$command   = $subFileInfo->getBasename('.php');
+					$className = __NAMESPACE__ . "\\Commands\\$namespace\\$command";
+
+					if (!class_exists($className))
+					{
+						throw new \RuntimeException(sprintf('Required class "%s" not found.', $className));
+					}
+
+					$commands[strtolower("$namespace:" . str_replace('Command', '', $command))] = $this->getContainer()->get($className);
+				}
 			}
-
-			// If the class isn't instantiable, it isn't a valid command
-			if ((new \ReflectionClass($className))->isInstantiable())
+			else
 			{
+				$command   = $fileInfo->getBasename('.php');
+				$className = __NAMESPACE__ . "\\Commands\\$command";
+
+				if (!class_exists($className))
+				{
+					throw new \RuntimeException(sprintf('Required class "%s" not found.', $className));
+				}
+
 				$commands[strtolower(str_replace('Command', '', $command))] = $this->getContainer()->get($className);
 			}
 		}
