@@ -14,6 +14,7 @@ use Stats\CliApplication;
 use Stats\Commands\Cache\ClearCommand;
 use Stats\Commands\Database\MigrateCommand;
 use Stats\Commands\Database\StatusCommand;
+use Stats\Commands\Tags\JoomlaCommand;
 use Stats\Commands\HelpCommand;
 use Stats\Commands\InstallCommand;
 use Stats\Commands\SnapshotCommand;
@@ -23,6 +24,7 @@ use Stats\Controllers\DisplayControllerGet;
 use Stats\Controllers\SubmitControllerCreate;
 use Stats\Controllers\SubmitControllerGet;
 use Stats\Database\Migrations;
+use Stats\GitHub\GitHub;
 use Stats\Models\StatsModel;
 use Stats\Router;
 use Stats\Views\Stats\StatsJsonView;
@@ -258,6 +260,20 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 			function (Container $container)
 			{
 				$command = new StatusCommand($container->get(Migrations::class));
+
+				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$command->setInput($container->get(Input::class));
+
+				return $command;
+			},
+			true
+		);
+
+		$container->share(
+			JoomlaCommand::class,
+			function (Container $container)
+			{
+				$command = new JoomlaCommand($container->get(GitHub::class));
 
 				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
 				$command->setInput($container->get(Input::class));

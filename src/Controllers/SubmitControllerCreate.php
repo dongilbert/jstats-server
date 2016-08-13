@@ -3,6 +3,7 @@
 namespace Stats\Controllers;
 
 use Joomla\Controller\AbstractController;
+use Stats\Decorators\ValidateVersion;
 use Stats\Models\StatsModel;
 
 /**
@@ -15,6 +16,8 @@ use Stats\Models\StatsModel;
  */
 class SubmitControllerCreate extends AbstractController
 {
+	use ValidateVersion;
+
 	/**
 	 * Statistics model object.
 	 *
@@ -151,8 +154,18 @@ class SubmitControllerCreate extends AbstractController
 			return false;
 		}
 
-		// We are only collecting data for the 3.x series
-		if (version_compare($version, '3.0.0', '<') || version_compare($version, '4.0.0', '>='))
+		// Import the valid release listing
+		$path = APPROOT . '/versions/joomla.json';
+
+		if (!file_exists($path))
+		{
+			throw new \RuntimeException('Missing Joomla release listing', 500);
+		}
+
+		$validVersions = json_decode(file_get_contents($path), true);
+
+		// Check that the version is in our valid release list
+		if (!in_array($version, $validVersions))
 		{
 			return false;
 		}
@@ -207,19 +220,5 @@ class SubmitControllerCreate extends AbstractController
 		}
 
 		return $version;
-	}
-
-	/**
-	 * Validates and filters the version number
-	 *
-	 * @param   string  $version  The version string to validate.
-	 *
-	 * @return  string|boolean  A validated version number on success or boolean false.
-	 *
-	 * @since   1.0
-	 */
-	private function validateVersionNumber($version)
-	{
-		return preg_match('/\d+(?:\.\d+)+/', $version, $matches) ? $matches[0] : false;
 	}
 }
