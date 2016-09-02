@@ -45,32 +45,56 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 			->method('getItems')
 			->willReturn(
 				[
-					[
+					'cms_version' => [
 						[
-							'unique_id'   => '1a',
-							'php_version' => PHP_VERSION,
 							'cms_version' => '3.5.0',
-							'db_type'     => 'mysql',
-							'db_version'  => '5.6.25',
-							'server_os'   => 'Darwin 14.1.0'
+							'count'       => 3,
+						],
+					],
+					'php_version' => [
+						[
+							'php_version' => PHP_VERSION,
+							'count'       => 3,
+						],
+					],
+					'db_type' => [
+						[
+							'db_type' => 'mysql',
+							'count'   => 1,
 						],
 						[
-							'unique_id'   => '2b',
-							'php_version' => PHP_VERSION,
-							'cms_version' => '3.5.0',
-							'db_type'     => 'postgresql',
-							'db_version'  => '9.4.0',
-							'server_os'   => 'Darwin 14.1.0'
+							'db_type' => 'postgresql',
+							'count'   => 1,
 						],
 						[
-							'unique_id'   => '3c',
-							'php_version' => PHP_VERSION,
-							'cms_version' => '3.5.0',
-							'db_type'     => 'sqlsrv',
-							'db_version'  => '10.50.2500',
-							'server_os'   => ''
+							'db_type' => 'sqlsrv',
+							'count'   => 1,
 						],
-					]
+					],
+					'db_version' => [
+						[
+							'db_version' => '5.6.25',
+							'count'      => 1,
+						],
+						[
+							'db_version' => '9.4.0',
+							'count'      => 1,
+						],
+						[
+							'db_version' => '10.50.2500',
+							'count'      => 1,
+						],
+					],
+					'server_os' => [
+						[
+							'server_os' => 'Darwin 14.1.0',
+							'count'     => 2,
+						],
+						[
+							'server_os' => '',
+							'count'     => 1,
+						],
+					],
 				]
 			);
 
@@ -108,32 +132,56 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 			->method('getItems')
 			->willReturn(
 				[
-					[
+					'cms_version' => [
 						[
-							'unique_id'   => '1a',
-							'php_version' => PHP_VERSION,
 							'cms_version' => '3.5.0',
-							'db_type'     => 'mysql',
-							'db_version'  => '5.6.25',
-							'server_os'   => 'Darwin 14.1.0'
+							'count'       => 3,
+						],
+					],
+					'php_version' => [
+						[
+							'php_version' => PHP_VERSION,
+							'count'       => 3,
+						],
+					],
+					'db_type' => [
+						[
+							'db_type' => 'mysql',
+							'count'   => 1,
 						],
 						[
-							'unique_id'   => '2b',
-							'php_version' => PHP_VERSION,
-							'cms_version' => '3.5.0',
-							'db_type'     => 'postgresql',
-							'db_version'  => '9.4.0',
-							'server_os'   => 'Darwin 14.1.0'
+							'db_type' => 'postgresql',
+							'count'   => 1,
 						],
 						[
-							'unique_id'   => '3c',
-							'php_version' => PHP_VERSION,
-							'cms_version' => '3.5.0',
-							'db_type'     => 'sqlsrv',
-							'db_version'  => '10.50.2500',
-							'server_os'   => ''
+							'db_type' => 'sqlsrv',
+							'count'   => 1,
 						],
-					]
+					],
+					'db_version' => [
+						[
+							'db_version' => '5.6.25',
+							'count'      => 1,
+						],
+						[
+							'db_version' => '9.4.0',
+							'count'      => 1,
+						],
+						[
+							'db_version' => '10.50.2500',
+							'count'      => 1,
+						],
+					],
+					'server_os' => [
+						[
+							'server_os' => 'Darwin 14.1.0',
+							'count'     => 2,
+						],
+						[
+							'server_os' => '',
+							'count'     => 1,
+						],
+					],
 				]
 			);
 
@@ -210,8 +258,6 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testTheStatisticsDataForASingleSourceIsReturned()
 	{
-		$this->markTestSkipped('Skipping until test is refactored for generators');
-
 		$mockModel = $this->getMockBuilder(StatsModel::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -252,8 +298,6 @@ class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testTheStatisticsDataForTheServerOsSourceIsReturned()
 	{
-		$this->markTestSkipped('Skipping until test is refactored for generators');
-
 		$mockModel = $this->getMockBuilder(StatsModel::class)
 			->disableOriginalConstructor()
 			->getMock();
