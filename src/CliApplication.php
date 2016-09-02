@@ -3,6 +3,7 @@
 namespace Stats;
 
 use Joomla\Application\AbstractCliApplication;
+use Joomla\Application\Cli\CliInput;
 use Joomla\Application\Cli\CliOutput;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
@@ -29,14 +30,15 @@ class CliApplication extends AbstractCliApplication implements ContainerAwareInt
 	/**
 	 * CliApplication constructor.
 	 *
-	 * @param   Input\Cli  $input    The application's input object.
-	 * @param   Registry   $config   The application's configuration.
-	 * @param   CliOutput  $output   The application's output object.
-	 * @param   Console    $console  The application's console object.
+	 * @param   Input\Cli  $input     The application's input object.
+	 * @param   Registry   $config    The application's configuration.
+	 * @param   CliOutput  $output    The application's output object.
+	 * @param   CliInput   $cliInput  The application's CLI input handler.
+	 * @param   Console    $console   The application's console object.
 	 */
-	public function __construct(Cli $input, Registry $config, CliOutput $output, Console $console)
+	public function __construct(Cli $input, Registry $config, CliOutput $output, CliInput $cliInput, Console $console)
 	{
-		parent::__construct($input, $config, $output);
+		parent::__construct($input, $config, $output, $cliInput);
 
 		$this->console = $console;
 	}

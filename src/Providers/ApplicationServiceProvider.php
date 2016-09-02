@@ -58,6 +58,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 						$container->get(Cli::class),
 						$container->get('config'),
 						$container->get(JoomlaApplication\Cli\CliOutput::class),
+						$container->get(JoomlaApplication\Cli\CliInput::class),
 						$container->get(Console::class)
 					);
 
@@ -134,6 +135,14 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 				$processor->addStyle('title', new JoomlaApplication\Cli\ColorStyle('yellow', '', ['bold']));
 
 				return $processor;
+			}
+		);
+
+		$container->share(
+			JoomlaApplication\Cli\CliInput::class,
+			function (Container $container)
+			{
+				return new JoomlaApplication\Cli\CliInput;
 			}
 		);
 
