@@ -24,14 +24,13 @@ class StatsModel extends AbstractDatabaseModel
 	 */
 	public function getItems($column = null)
 	{
-		$db = $this->getDb();
-		$query = $db->getQuery(true);
+		$db         = $this->getDb();
+		$query      = $db->getQuery(true);
+		$columnList = $db->getTableColumns('#__jstats');
 
 		// Validate the requested column is actually in the table
 		if ($column !== null)
 		{
-			$columnList = $db->getTableColumns('#__jstats');
-
 			// The column should exist in the table and be part of the API
 			if (!in_array($column, array_keys($columnList)) && !in_array($column, ['unique_id', 'modified']))
 			{
@@ -45,8 +44,7 @@ class StatsModel extends AbstractDatabaseModel
 			)->loadAssocList();
 		}
 
-		$columnList = $db->getTableColumns('#__jstats');
-		$return     = [];
+		$return = [];
 
 		foreach (array_keys($columnList) as $column)
 		{
