@@ -1,7 +1,7 @@
 # Joomla Environment Stats
 
 In order to better understand our install base and end user environments, a plugin has been created to send those stats back to a Joomla
-controlled central server. No worries though, __no__ identifying data is captured at any point, and we only keep latest data last sent to us.
+controlled central server. No worries though, __no__ identifying data is captured at any point, and we only keep the data last sent to us.
 
 ## Build Status
 Travis-CI: [![Build Status](https://travis-ci.org/joomla-extensions/jstats-server.png)](https://travis-ci.org/joomla-extensions/jstats-server)
