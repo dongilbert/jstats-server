@@ -18,6 +18,7 @@ use Stats\Commands\Tags\JoomlaCommand;
 use Stats\Commands\HelpCommand;
 use Stats\Commands\InstallCommand;
 use Stats\Commands\SnapshotCommand;
+use Stats\Commands\Tags\PhpCommand;
 use Stats\Commands\UpdateCommand;
 use Stats\Console;
 use Stats\Controllers\DisplayControllerGet;
@@ -283,6 +284,20 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 			function (Container $container)
 			{
 				$command = new JoomlaCommand($container->get(GitHub::class));
+
+				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+				$command->setInput($container->get(Input::class));
+
+				return $command;
+			},
+			true
+		);
+
+		$container->share(
+			PhpCommand::class,
+			function (Container $container)
+			{
+				$command = new PhpCommand($container->get(GitHub::class));
 
 				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
 				$command->setInput($container->get(Input::class));

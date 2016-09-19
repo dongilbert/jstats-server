@@ -97,7 +97,7 @@ class SubmitControllerCreate extends AbstractController
 
 			$this->getApplication()->setHeader('HTTP/1.1 500 Internal Server Error', 500, true);
 			$this->getApplication()->setBody(json_encode($response));
-	
+
 			return true;
 		}
 
@@ -108,10 +108,10 @@ class SubmitControllerCreate extends AbstractController
 				'error'   => true,
 				'message' => 'Invalid data submission.',
 			];
-	
+
 			$this->getApplication()->setHeader('HTTP/1.1 500 Internal Server Error', 500, true);
 			$this->getApplication()->setBody(json_encode($response));
-	
+
 			return true;
 		}
 
@@ -159,7 +159,7 @@ class SubmitControllerCreate extends AbstractController
 
 		if (!file_exists($path))
 		{
-			throw new \RuntimeException('Missing Joomla release listing', 500);
+			throw new \RuntimeException('Missing Joomla! release listing', 500);
 		}
 
 		$validVersions = json_decode(file_get_contents($path), true);
@@ -211,10 +211,26 @@ class SubmitControllerCreate extends AbstractController
 			return false;
 		}
 
-		$majorVersion = substr($version, 0, 1);
+		// We only track versions based on major.minor.patch so everything else is invalid
+		$explodedVersion = explode('.', $version);
 
-		// The version string should meet the minimum supported PHP version for 3.0.0 and be a released PHP version
-		if (version_compare($version, '5.3.1', '<') || version_compare($version, '8.0.0', '>=') || $majorVersion == 6)
+		if (count($explodedVersion) > 3)
+		{
+			return false;
+		}
+
+		// Import the valid release listing
+		$path = APPROOT . '/versions/php.json';
+
+		if (!file_exists($path))
+		{
+			throw new \RuntimeException('Missing PHP release listing', 500);
+		}
+
+		$validVersions = json_decode(file_get_contents($path), true);
+
+		// Check that the version is in our valid release list
+		if (!in_array($version, $validVersions))
 		{
 			return false;
 		}
