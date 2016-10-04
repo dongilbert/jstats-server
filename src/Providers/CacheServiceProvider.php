@@ -59,7 +59,7 @@ class CacheServiceProvider implements ServiceProviderInterface
 							// If the path is relative, make it absolute... Sorry Windows users, this breaks support for your environment
 							if (substr($path, 0, 1) !== '/')
 							{
-								$path = JPATH_ROOT . '/' . $path;
+								$path = APPROOT . '/' . $path;
 							}
 
 							$options = [
