@@ -2,8 +2,8 @@
 
 namespace Stats\Tests\Providers;
 
-use Doctrine\Common\Cache\Cache;
 use Joomla\DI\Container;
+use Psr\Cache\CacheItemPoolInterface;
 use Stats\Providers\CacheServiceProvider;
 
 /**
@@ -21,6 +21,6 @@ class CacheServiceProviderTest extends \PHPUnit_Framework_TestCase
 		$container = new Container;
 		$container->registerServiceProvider(new CacheServiceProvider);
 
-		$this->assertTrue($container->exists(Cache::class));
+		$this->assertTrue($container->exists(CacheItemPoolInterface::class));
 	}
 }

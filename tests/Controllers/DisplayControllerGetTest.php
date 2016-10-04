@@ -1,9 +1,9 @@
 <?php
 namespace Stats\Tests\Controllers;
 
-use Doctrine\Common\Cache\ArrayCache;
-use Doctrine\Common\Cache\Cache;
+use Joomla\Cache\Adapter\Runtime;
 use Joomla\Input\Input;
+use Psr\Cache\CacheItemPoolInterface;
 use Stats\WebApplication;
 use Stats\Controllers\DisplayControllerGet;
 use Stats\Views\Stats\StatsJsonView;
@@ -24,7 +24,7 @@ class DisplayControllerGetTest extends \PHPUnit_Framework_TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
-		$mockCache = $this->getMockBuilder(Cache::class)
+		$mockCache = $this->getMockBuilder(CacheItemPoolInterface::class)
 			->getMock();
 
 		$controller = new DisplayControllerGet($mockView, $mockCache);
@@ -48,11 +48,11 @@ class DisplayControllerGetTest extends \PHPUnit_Framework_TestCase
 			->method('render')
 			->willReturn(json_encode(['error' => false]));
 
-		$mockCache = $this->getMockBuilder(Cache::class)
+		$mockCache = $this->getMockBuilder(CacheItemPoolInterface::class)
 			->getMock();
 
 		$mockCache->expects($this->never())
-			->method('contains');
+			->method('hasItem');
 
 		$mockApp = $this->getMockBuilder(WebApplication::class)
 			->disableOriginalConstructor()
@@ -94,7 +94,7 @@ class DisplayControllerGetTest extends \PHPUnit_Framework_TestCase
 			->method('render')
 			->willReturn(json_encode(['error' => false]));
 
-		$mockCache = new ArrayCache;
+		$mockCache = new Runtime;
 
 		$mockApp = $this->getMockBuilder(WebApplication::class)
 			->disableOriginalConstructor()
@@ -123,6 +123,6 @@ class DisplayControllerGetTest extends \PHPUnit_Framework_TestCase
 		// Execute the controller a second time to validate the cache is used
 		$controller->execute();
 
-		$this->assertSame(1, $mockCache->getStats()['hits'], 'The request data should be served from the cache.');
+		$this->assertAttributeNotEmpty('db', $mockCache, 'The request data for the second controller execution should be served from the cache.');
 	}
 }

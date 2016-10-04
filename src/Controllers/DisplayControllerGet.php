@@ -2,8 +2,9 @@
 
 namespace Stats\Controllers;
 
-use Doctrine\Common\Cache\Cache;
 use Joomla\Controller\AbstractController;
+use Joomla\Cache\Item\Item;
+use Psr\Cache\CacheItemPoolInterface;
 use Stats\Views\Stats\StatsJsonView;
 
 /**
@@ -17,9 +18,9 @@ use Stats\Views\Stats\StatsJsonView;
 class DisplayControllerGet extends AbstractController
 {
 	/**
-	 * The cache handler.
+	 * The cache item pool.
 	 *
-	 * @var    Cache
+	 * @var    CacheItemPoolInterface
 	 * @since  1.0
 	 */
 	private $cache;
@@ -35,12 +36,12 @@ class DisplayControllerGet extends AbstractController
 	/**
 	 * Constructor.
 	 *
-	 * @param   StatsJsonView  $view   JSON view for displaying the statistics.
-	 * @param   Cache          $cache  The cache handler.
+	 * @param   StatsJsonView           $view   JSON view for displaying the statistics.
+	 * @param   CacheItemPoolInterface  $cache  The cache item pool.
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(StatsJsonView $view, Cache $cache)
+	public function __construct(StatsJsonView $view, CacheItemPoolInterface $cache)
 	{
 		$this->cache = $cache;
 		$this->view  = $view;
@@ -69,15 +70,27 @@ class DisplayControllerGet extends AbstractController
 		{
 			$key = md5(get_class($this->view) . __METHOD__ . $source);
 
-			if ($this->cache->contains($key))
+			if ($this->cache->hasItem($key))
 			{
-				$body = $this->cache->fetch($key);
+				$item = $this->cache->getItem($key);
+
+				// Make sure we got a hit on the item, otherwise we'll have to re-cache
+				if ($item->isHit())
+				{
+					$body = $item->get();
+				}
+				else
+				{
+					$body = $this->view->render();
+
+					$this->cacheData($key, $body);
+				}
 			}
 			else
 			{
 				$body = $this->view->render();
 
-				$this->cache->save($key, $body, $this->getApplication()->get('cache.lifetime', 900));
+				$this->cacheData($key, $body);
 			}
 		}
 		else
@@ -88,5 +101,23 @@ class DisplayControllerGet extends AbstractController
 		$this->getApplication()->setBody($body);
 
 		return true;
+	}
+
+	/**
+	 * Store the given data to the cache pool.
+	 *
+	 * @param   string  $key   The key for the cache item.
+	 * @param   mixed   $data  The data to be stored to cache.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	private function cacheData($key, $data)
+	{
+		$item = (new Item($key, $this->getApplication()->get('cache.lifetime', 900)))
+			->set($data);
+
+		$this->cache->save($item);
 	}
 }

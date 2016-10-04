@@ -2,10 +2,12 @@
 
 namespace Stats\Providers;
 
-use Doctrine\Common\Cache;
-use Doctrine\Common\Cache\Cache as CacheInterface;
+use Joomla\Cache\AbstractCacheItemPool;
+use Joomla\Cache\Adapter as CacheAdapter;
+use Joomla\Cache\CacheItemPoolInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Psr\Cache\CacheItemPoolInterface as PsrCacheItemPoolInterface;
 
 /**
  * Cache service provider
@@ -25,9 +27,11 @@ class CacheServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->alias('cache', CacheInterface::class)
+		$container->alias('cache', PsrCacheItemPoolInterface::class)
+			->alias(CacheItemPoolInterface::class, PsrCacheItemPoolInterface::class)
+			->alias(AbstractCacheItemPool::class, PsrCacheItemPoolInterface::class)
 			->share(
-				CacheInterface::class,
+				PsrCacheItemPoolInterface::class,
 				function (Container $container)
 				{
 					/** @var \Joomla\Registry\Registry $config */
@@ -36,18 +40,13 @@ class CacheServiceProvider implements ServiceProviderInterface
 					// If caching isn't enabled then just return a void cache
 					if (!$config->get('cache.enabled', false))
 					{
-						return new Cache\VoidCache;
+						return new CacheAdapter\None;
 					}
 
-					$adapter = $config->get('cache.adapter', 'filesystem');
+					$adapter = $config->get('cache.adapter', 'file');
 
 					switch ($adapter)
 					{
-						case 'array':
-							$handler = new Cache\ArrayCache;
-
-							break;
-
 						case 'filesystem':
 							$path = $config->get('cache.filesystem.path', 'cache');
 
@@ -57,40 +56,26 @@ class CacheServiceProvider implements ServiceProviderInterface
 								$path = sys_get_temp_dir();
 							}
 
-							// If the path is relative, make it absolute
+							// If the path is relative, make it absolute... Sorry Windows users, this breaks support for your environment
 							if (substr($path, 0, 1) !== '/')
 							{
-								$path = APPROOT . '/' . $path;
+								$path = JPATH_ROOT . '/' . $path;
 							}
 
-							$handler = new Cache\FilesystemCache($path);
+							$options = [
+								'file.path' => $path,
+							];
 
-							break;
+							return new CacheAdapter\File($options);
 
-						case 'phpfile':
-							$path = $config->get('cache.phpfile.path', 'cache');
+						case 'none':
+							return new CacheAdapter\None;
 
-							// If no path is given, fall back to the system's temporary directory
-							if (empty($path))
-							{
-								$path = sys_get_temp_dir();
-							}
-
-							// If the path is relative, make it absolute
-							if (substr($path, 0, 1) !== '/')
-							{
-								$path = APPROOT . '/' . $path;
-							}
-
-							$handler = new Cache\PhpFileCache($path);
-
-							break;
-
-						default:
-							throw new \InvalidArgumentException(sprintf('The "%s" cache adapter is not supported.', $adapter));
+						case 'runtime':
+							return new CacheAdapter\Runtime;
 					}
 
-					return $handler;
+					throw new \InvalidArgumentException(sprintf('The "%s" cache adapter is not supported.', $adapter));
 				},
 				true
 			);

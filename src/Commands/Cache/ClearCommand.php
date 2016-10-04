@@ -2,9 +2,8 @@
 
 namespace Stats\Commands\Cache;
 
-use Doctrine\Common\Cache\Cache;
-use Doctrine\Common\Cache\FlushableCache;
 use Joomla\Controller\AbstractController;
+use Psr\Cache\CacheItemPoolInterface;
 use Stats\CommandInterface;
 
 /**
@@ -18,9 +17,9 @@ use Stats\CommandInterface;
 class ClearCommand extends AbstractController implements CommandInterface
 {
 	/**
-	 * The cache handler.
+	 * The cache item pool.
 	 *
-	 * @var    Cache
+	 * @var    CacheItemPoolInterface
 	 * @since  1.0
 	 */
 	private $cache;
@@ -28,11 +27,11 @@ class ClearCommand extends AbstractController implements CommandInterface
 	/**
 	 * Constructor.
 	 *
-	 * @param   Cache  $cache  The cache handler
+	 * @param   CacheItemPoolInterface  $cache  The cache item pool
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(Cache $cache)
+	public function __construct(CacheItemPoolInterface $cache)
 	{
 		$this->cache = $cache;
 	}
@@ -48,22 +47,9 @@ class ClearCommand extends AbstractController implements CommandInterface
 	{
 		$this->getApplication()->outputTitle('Cache: Clear');
 
-		if ($this->cache instanceof FlushableCache)
-		{
-			$this->cache->flushAll();
+		$this->cache->clear();
 
-			$this->getApplication()->out('<info>The application cache has been cleared.</info>');
-		}
-		else
-		{
-			$this->getApplication()->out(
-				sprintf(
-					'<comment>This command only supports clearing the cache with %1$s instances that implement the %2$s interface.</comment>',
-					Cache::class,
-					FlushableCache::class
-				)
-			);
-		}
+		$this->getApplication()->out('<info>The application cache has been cleared.</info>');
 
 		return true;
 	}

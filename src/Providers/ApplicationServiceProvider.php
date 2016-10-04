@@ -2,13 +2,13 @@
 
 namespace Stats\Providers;
 
-use Doctrine\Common\Cache\Cache;
 use Joomla\Application as JoomlaApplication;
 use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Input\Cli;
 use Joomla\Input\Input;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use Stats\CliApplication;
 use Stats\Commands\Cache\ClearCommand;
@@ -240,7 +240,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 			ClearCommand::class,
 			function (Container $container)
 			{
-				$command = new ClearCommand($container->get(Cache::class));
+				$command = new ClearCommand($container->get(CacheItemPoolInterface::class));
 
 				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
 				$command->setInput($container->get(Input::class));
@@ -313,7 +313,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 			{
 				$controller = new DisplayControllerGet(
 					$container->get(StatsJsonView::class),
-					$container->get(Cache::class)
+					$container->get(CacheItemPoolInterface::class)
 				);
 
 				$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
