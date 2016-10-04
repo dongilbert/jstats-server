@@ -51,13 +51,20 @@ class ConfigServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->share(
-			'config',
-			function ()
-			{
-				return $this->config;
-			},
-			true
-		);
+		$container->share('config', [$this, 'getConfigService'], true);
+	}
+
+	/**
+	 * Get the `config` service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  Registry
+	 *
+	 * @since   1.0
+	 */
+	public function getConfigService(Container $container)
+	{
+		return $this->config;
 	}
 }

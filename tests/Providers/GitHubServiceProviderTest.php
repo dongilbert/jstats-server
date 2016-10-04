@@ -3,6 +3,7 @@ namespace Stats\Tests\Providers;
 
 use Joomla\DI\Container;
 use Joomla\Github\Github;
+use Joomla\Registry\Registry;
 use Stats\Providers\GitHubServiceProvider;
 
 /**
@@ -21,5 +22,27 @@ class GitHubServiceProviderTest extends \PHPUnit_Framework_TestCase
 		$container->registerServiceProvider(new GitHubServiceProvider);
 
 		$this->assertTrue($container->exists(Github::class));
+	}
+
+	/**
+	 * @testdox The GitHub service is created
+	 *
+	 * @covers  Stats\Providers\GitHubServiceProvider::getGithubService
+	 */
+	public function testTheGitHubServiceIsCreated()
+	{
+		$mockConfig = $this->createMock(Registry::class);
+		$mockConfig->expects($this->once())
+			->method('extract')
+			->with('github')
+			->willReturn($this->createMock(Registry::class));
+
+		$mockContainer = $this->createMock(Container::class);
+		$mockContainer->expects($this->once())
+			->method('get')
+			->with('config')
+			->willReturn($mockConfig);
+
+		$this->assertInstanceOf(Github::class, (new GitHubServiceProvider)->getGithubService($mockContainer));
 	}
 }

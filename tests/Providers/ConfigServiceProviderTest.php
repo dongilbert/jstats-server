@@ -2,6 +2,7 @@
 namespace Stats\Tests\Providers;
 
 use Joomla\DI\Container;
+use Joomla\Registry\Registry;
 use Stats\Providers\ConfigServiceProvider;
 
 /**
@@ -32,5 +33,17 @@ class ConfigServiceProviderTest extends \PHPUnit_Framework_TestCase
 	public function testTheConfigServiceProviderThrowsAnExceptionIfAnInvalidFileIsGiven()
 	{
 		new ConfigServiceProvider('/bad/file/path.json');
+	}
+
+	/**
+	 * @testdox The config service is created
+	 *
+	 * @covers  Stats\Providers\ConfigServiceProvider::getConfigService
+	 */
+	public function testTheConfigServiceIsCreated()
+	{
+		$this->assertInstanceOf(
+			Registry::class, (new ConfigServiceProvider(APPROOT . '/etc/config.dist.json'))->getConfigService($this->createMock(Container::class))
+		);
 	}
 }

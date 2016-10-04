@@ -27,16 +27,23 @@ class GitHubServiceProvider implements ServiceProviderInterface
 	{
 		$container->alias('github', BaseGithub::class)
 			->alias(GitHub::class, BaseGithub::class)
-			->share(
-				BaseGithub::class,
-				function (Container $container)
-				{
-					/** @var \Joomla\Registry\Registry $config */
-					$config = $container->get('config');
+			->share(BaseGithub::class, [$this, 'getGithubService'], true);
+	}
 
-					return new GitHub($config->extract('github'));
-				},
-				true
-			);
+	/**
+	 * Get the `github` service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  GitHub
+	 *
+	 * @since   1.0
+	 */
+	public function getGithubService(Container $container)
+	{
+		/** @var \Joomla\Registry\Registry $config */
+		$config = $container->get('config');
+
+		return new GitHub($config->extract('github'));
 	}
 }
