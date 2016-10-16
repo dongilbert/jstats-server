@@ -30,54 +30,61 @@ class CacheServiceProvider implements ServiceProviderInterface
 		$container->alias('cache', PsrCacheItemPoolInterface::class)
 			->alias(CacheItemPoolInterface::class, PsrCacheItemPoolInterface::class)
 			->alias(AbstractCacheItemPool::class, PsrCacheItemPoolInterface::class)
-			->share(
-				PsrCacheItemPoolInterface::class,
-				function (Container $container)
+			->share(PsrCacheItemPoolInterface::class, [$this, 'getCacheService'], true);
+	}
+
+	/**
+	 * Get the `cache` service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  PsrCacheItemPoolInterface
+	 *
+	 * @since   1.0
+	 */
+	public function getCacheService(Container $container)
+	{
+		/** @var \Joomla\Registry\Registry $config */
+		$config = $container->get('config');
+
+		// If caching isn't enabled then just return a void cache
+		if (!$config->get('cache.enabled', false))
+		{
+			return new CacheAdapter\None;
+		}
+
+		$adapter = $config->get('cache.adapter', 'file');
+
+		switch ($adapter)
+		{
+			case 'filesystem':
+				$path = $config->get('cache.filesystem.path', 'cache');
+
+				// If no path is given, fall back to the system's temporary directory
+				if (empty($path))
 				{
-					/** @var \Joomla\Registry\Registry $config */
-					$config = $container->get('config');
+					$path = sys_get_temp_dir();
+				}
 
-					// If caching isn't enabled then just return a void cache
-					if (!$config->get('cache.enabled', false))
-					{
-						return new CacheAdapter\None;
-					}
+				// If the path is relative, make it absolute... Sorry Windows users, this breaks support for your environment
+				if (substr($path, 0, 1) !== '/')
+				{
+					$path = APPROOT . '/' . $path;
+				}
 
-					$adapter = $config->get('cache.adapter', 'file');
+				$options = [
+					'file.path' => $path,
+				];
 
-					switch ($adapter)
-					{
-						case 'filesystem':
-							$path = $config->get('cache.filesystem.path', 'cache');
+				return new CacheAdapter\File($options);
 
-							// If no path is given, fall back to the system's temporary directory
-							if (empty($path))
-							{
-								$path = sys_get_temp_dir();
-							}
+			case 'none':
+				return new CacheAdapter\None;
 
-							// If the path is relative, make it absolute... Sorry Windows users, this breaks support for your environment
-							if (substr($path, 0, 1) !== '/')
-							{
-								$path = APPROOT . '/' . $path;
-							}
+			case 'runtime':
+				return new CacheAdapter\Runtime;
+		}
 
-							$options = [
-								'file.path' => $path,
-							];
-
-							return new CacheAdapter\File($options);
-
-						case 'none':
-							return new CacheAdapter\None;
-
-						case 'runtime':
-							return new CacheAdapter\Runtime;
-					}
-
-					throw new \InvalidArgumentException(sprintf('The "%s" cache adapter is not supported.', $adapter));
-				},
-				true
-			);
+		throw new \InvalidArgumentException(sprintf('The "%s" cache adapter is not supported.', $adapter));
 	}
 }
