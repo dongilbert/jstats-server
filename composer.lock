@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "composer/ca-bundle",
-            "version": "1.0.4",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "ec21a59414b99501e723b63fd664aa8ead9c5680"
+                "reference": "a795611394b3c05164fd0eb291b492b39339cba4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/ec21a59414b99501e723b63fd664aa8ead9c5680",
-                "reference": "ec21a59414b99501e723b63fd664aa8ead9c5680",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/a795611394b3c05164fd0eb291b492b39339cba4",
+                "reference": "a795611394b3c05164fd0eb291b492b39339cba4",
                 "shasum": ""
             },
             "require": {
@@ -63,7 +63,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2016-09-04 19:00:06"
+            "time": "2016-11-02 18:11:27"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -885,30 +885,34 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/renderer.git",
-                "reference": "5d4338bb6762568e6ea5e0415541dd63ca5752a6"
+                "reference": "2cfc9bdf96c52ef7a091c39aa10f9ad6366cb4ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/renderer/zipball/5d4338bb6762568e6ea5e0415541dd63ca5752a6",
-                "reference": "5d4338bb6762568e6ea5e0415541dd63ca5752a6",
+                "url": "https://api.github.com/repos/joomla-framework/renderer/zipball/2cfc9bdf96c52ef7a091c39aa10f9ad6366cb4ac",
+                "reference": "2cfc9bdf96c52ef7a091c39aa10f9ad6366cb4ac",
                 "shasum": ""
             },
             "require": {
                 "php": "^5.5.9|~7.0"
             },
             "require-dev": {
-                "league/plates": "~2.0|~3.0",
-                "mustache/mustache": "~2.0",
+                "illuminate/events": "~5.1",
+                "illuminate/filesystem": "~5.1",
+                "illuminate/view": "~5.1",
+                "league/plates": "~3.0",
+                "mustache/mustache": "~2.3",
+                "phpunit/phpunit": "~4.8|~5.0",
                 "squizlabs/php_codesniffer": "1.*",
-                "symfony/templating": "~2.0|~3.0",
-                "twig/twig": "~1.0|~2.0"
+                "symfony/templating": "~2.7|~3.0",
+                "twig/twig": "~1.14|~2.0"
             },
             "suggest": {
                 "illuminate/view": "Install ~5.1 if you are using Laravel's Blade template engine.",
-                "league/plates": "Install ~2.0|~3.0 if you are using the Plates template engine.",
-                "mustache/mustache": "Install ~2.0 if you are using the Mustache template engine.",
-                "symfony/templating": "Install ~2.0|~3.0 if you are using Symfony's PHP template component.",
-                "twig/twig": "Install ~1.0|~2.0 if you are using the Twig template engine."
+                "league/plates": "Install ~3.0 if you are using the Plates template engine.",
+                "mustache/mustache": "Install ~2.3 if you are using the Mustache template engine.",
+                "symfony/templating": "Install ~2.7|~3.0 if you are using Symfony's PHP template component.",
+                "twig/twig": "Install ~1.14|~2.0 if you are using the Twig template engine."
             },
             "type": "joomla-package",
             "extra": {
@@ -932,7 +936,7 @@
                 "joomla",
                 "renderer"
             ],
-            "time": "2016-09-26 10:08:05"
+            "time": "2016-10-25 23:01:57"
         },
         {
             "name": "joomla/router",
@@ -1854,16 +1858,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.5.4",
+            "version": "1.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "ea74994a3dc7f8d2f65a06009348f2d63c81e61f"
+                "reference": "399c1f9781e222f6eb6cc238796f5200d1b7f108"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/ea74994a3dc7f8d2f65a06009348f2d63c81e61f",
-                "reference": "ea74994a3dc7f8d2f65a06009348f2d63c81e61f",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/399c1f9781e222f6eb6cc238796f5200d1b7f108",
+                "reference": "399c1f9781e222f6eb6cc238796f5200d1b7f108",
                 "shasum": ""
             },
             "require": {
@@ -1892,7 +1896,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2016-09-16 13:37:59"
+            "time": "2016-10-31 17:19:45"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -2104,16 +2108,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "5f3f7e736d6319d5f1fc402aff8b026da26709a3"
+                "reference": "6cba06ff75a1a63a71033e1a01b89056f3af1e8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/5f3f7e736d6319d5f1fc402aff8b026da26709a3",
-                "reference": "5f3f7e736d6319d5f1fc402aff8b026da26709a3",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/6cba06ff75a1a63a71033e1a01b89056f3af1e8d",
+                "reference": "6cba06ff75a1a63a71033e1a01b89056f3af1e8d",
                 "shasum": ""
             },
             "require": {
@@ -2163,7 +2167,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-07-26 14:39:29"
+            "time": "2016-11-01 05:06:24"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -3002,16 +3006,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.1.5",
+            "version": "v3.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "368b9738d4033c8b93454cb0dbd45d305135a6d3"
+                "reference": "7ff51b06c6c3d5cc6686df69004a42c69df09e27"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/368b9738d4033c8b93454cb0dbd45d305135a6d3",
-                "reference": "368b9738d4033c8b93454cb0dbd45d305135a6d3",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/7ff51b06c6c3d5cc6686df69004a42c69df09e27",
+                "reference": "7ff51b06c6c3d5cc6686df69004a42c69df09e27",
                 "shasum": ""
             },
             "require": {
@@ -3047,7 +3051,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-09-25 08:27:07"
+            "time": "2016-10-24 18:41:13"
         },
         {
             "name": "webmozart/assert",
