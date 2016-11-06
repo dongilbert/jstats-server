@@ -82,6 +82,7 @@ class DisplayControllerGetTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @testdox The controller is executed correctly with caching
 	 *
+	 * @covers  Stats\Controllers\DisplayControllerGet::cacheData
 	 * @covers  Stats\Controllers\DisplayControllerGet::execute
 	 */
 	public function testTheControllerIsExecutedCorrectlyWithCaching()
