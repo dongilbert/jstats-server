@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ea9ff4482add12256e738d746fd8bf8e",
-    "content-hash": "a2bd4f3ce04aab40407a48553ee2f7c7",
+    "hash": "f305633a646eaae1b3a8e16829ce8276",
+    "content-hash": "ead13a95c8007378e1f317d046bfbd79",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1855,6 +1855,50 @@
                 "session"
             ],
             "time": "2015-12-14 18:23:13"
+        },
+        {
+            "name": "joomla/test",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-framework/test.git",
+                "reference": "2f993be0ac533f258978c898ef7fe505a3c02e2c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-framework/test/zipball/2f993be0ac533f258978c898ef7fe505a3c02e2c",
+                "reference": "2f993be0ac533f258978c898ef7fe505a3c02e2c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.10"
+            },
+            "require-dev": {
+                "joomla/database": "~1.0"
+            },
+            "suggest": {
+                "joomla/database": "To use the database test case, install joomla/database"
+            },
+            "type": "joomla-package",
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\Test\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Joomla Test Helper Package",
+            "homepage": "https://github.com/joomla-framework/test",
+            "keywords": [
+                "framework",
+                "joomla",
+                "phpunit",
+                "reflection",
+                "unit test"
+            ],
+            "time": "2015-03-14 17:39:02"
         },
         {
             "name": "myclabs/deep-copy",

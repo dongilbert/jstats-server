@@ -36,7 +36,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~5.4",
-        "joomla/session": "~1.3"
+        "joomla/session": "~1.3",
+        "joomla/test": "~1.1"
     },
     "autoload": {
         "psr-4": {
