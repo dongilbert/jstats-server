@@ -42,7 +42,7 @@ class CacheServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getCacheService(Container $container)
+	public function getCacheService(Container $container) : PsrCacheItemPoolInterface
 	{
 		/** @var \Joomla\Registry\Registry $config */
 		$config = $container->get('config');

@@ -44,7 +44,7 @@ class WebApplication extends AbstractWebApplication
 	 *
 	 * @since   1.0
 	 */
-	public function doExecute()
+	protected function doExecute()
 	{
 		// On a GET request to the live domain, submit analytics data
 		if ($this->input->getMethod() === 'GET'
@@ -78,11 +78,11 @@ class WebApplication extends AbstractWebApplication
 		{
 			$this->router->getController($this->get('uri.route'))->execute();
 		}
-		catch (\Exception $e)
+		catch (\Throwable $e)
 		{
 			// Log the error for reference
 			$this->getLogger()->error(
-				sprintf('Uncaught Exception of type %s caught.', get_class($e)),
+				sprintf('Uncaught Throwable of type %s caught.', get_class($e)),
 				['exception' => $e]
 			);
 
@@ -106,7 +106,7 @@ class WebApplication extends AbstractWebApplication
 	 *
 	 * @since   1.0
 	 */
-	public function setAnalytics(Analytics $analytics)
+	public function setAnalytics(Analytics $analytics) : WebApplication
 	{
 		$this->analytics = $analytics;
 
@@ -116,13 +116,13 @@ class WebApplication extends AbstractWebApplication
 	/**
 	 * Set the HTTP Response Header for error conditions.
 	 *
-	 * @param   \Exception  $exception  The Exception object to process.
+	 * @param   \Throwable  $exception  The Throwable object to process.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.0
 	 */
-	private function setErrorHeader(\Exception $exception)
+	private function setErrorHeader(\Throwable $exception)
 	{
 		switch ($exception->getCode())
 		{
@@ -158,7 +158,7 @@ class WebApplication extends AbstractWebApplication
 	 *
 	 * @since   1.0
 	 */
-	public function setRouter(Router $router)
+	public function setRouter(Router $router) : WebApplication
 	{
 		$this->router = $router;
 

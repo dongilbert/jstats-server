@@ -50,7 +50,7 @@ class Migrations
 	 *
 	 * @since   1.0
 	 */
-	public function checkStatus()
+	public function checkStatus() : array
 	{
 		$response = ['latest' => false];
 
@@ -114,7 +114,7 @@ class Migrations
 	 *
 	 * @since   1.0
 	 */
-	public function migrateDatabase($version = null)
+	public function migrateDatabase(string $version = '')
 	{
 		// Determine the migrations to apply
 		$appliedMigrations = $this->database->setQuery(
@@ -124,7 +124,7 @@ class Migrations
 		)->loadColumn();
 
 		// If a version is specified, check if that migration is already applied and if not, run that one only
-		if ($version !== null)
+		if ($version !== '')
 		{
 			// If it's already applied, there's nothing to do here
 			if (in_array($version, $appliedMigrations))
@@ -159,7 +159,7 @@ class Migrations
 	 * @since   1.0
 	 * @throws  FileNotFoundException
 	 */
-	private function doMigration($version)
+	private function doMigration(string $version)
 	{
 		$sqlFile = 'migrations/' . $version . '.sql';
 

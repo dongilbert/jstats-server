@@ -40,7 +40,7 @@ try
 {
 	$container->get(WebApplication::class)->execute();
 }
-catch (\Exception $e)
+catch (\Throwable $e)
 {
 	if (!headers_sent())
 	{

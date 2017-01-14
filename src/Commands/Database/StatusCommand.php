@@ -75,7 +75,7 @@ class StatusCommand extends AbstractController implements CommandInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return 'Check the database migration status.';
 	}
@@ -87,7 +87,7 @@ class StatusCommand extends AbstractController implements CommandInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return 'Database Migrations Status';
 	}

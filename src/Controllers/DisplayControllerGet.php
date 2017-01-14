@@ -60,7 +60,7 @@ class DisplayControllerGet extends AbstractController
 		$authorizedRaw = $this->getInput()->server->getString('HTTP_JOOMLA_RAW', 'fail') === $this->getApplication()->get('stats.rawdata', false);
 
 		// Check if a single data source is requested
-		$source = $this->getInput()->getString('source');
+		$source = $this->getInput()->getString('source', '');
 
 		$this->view->isAuthorizedRaw($authorizedRaw);
 		$this->view->setSource($source);
@@ -113,7 +113,7 @@ class DisplayControllerGet extends AbstractController
 	 *
 	 * @since   1.0
 	 */
-	private function cacheData($key, $data)
+	private function cacheData(string $key, $data)
 	{
 		$item = (new Item($key, $this->getApplication()->get('cache.lifetime', 900)))
 			->set($data);

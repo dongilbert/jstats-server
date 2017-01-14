@@ -29,7 +29,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
 	 * @since   1.0
 	 * @throws  \RuntimeException
 	 */
-	public function __construct($file)
+	public function __construct(string $file)
 	{
 		// Verify the configuration exists and is readable.
 		if (!is_readable($file))
@@ -63,7 +63,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getConfigService(Container $container)
+	public function getConfigService(Container $container) : Registry
 	{
 		return $this->config;
 	}

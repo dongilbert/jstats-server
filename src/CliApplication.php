@@ -70,7 +70,7 @@ class CliApplication extends AbstractCliApplication
 	 *
 	 * @since   1.0
 	 */
-	public function getConsole()
+	public function getConsole() : Console
 	{
 		return $this->console;
 	}
@@ -78,15 +78,15 @@ class CliApplication extends AbstractCliApplication
 	/**
 	 * Output a nicely formatted title for the application.
 	 *
-	 * @param   string   $title     The title to display.
-	 * @param   string   $subTitle  A subtitle.
-	 * @param   integer  $width     Total width in chars.
+	 * @param   string  $title     The title to display.
+	 * @param   string  $subTitle  A subtitle.
+	 * @param   int     $width     Total width in chars.
 	 *
 	 * @return  $this
 	 *
 	 * @since   1.0
 	 */
-	public function outputTitle($title, $subTitle = '', $width = 60)
+	public function outputTitle(string $title, string $subTitle = '', int $width = 60) : CliApplication
 	{
 		$this->out(str_repeat('-', $width));
 		$this->out(str_repeat(' ', $width / 2 - (strlen($title) / 2)) . '<title>' . $title . '</title>');

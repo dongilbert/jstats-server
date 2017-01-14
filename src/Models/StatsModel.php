@@ -30,7 +30,7 @@ class StatsModel extends AbstractDatabaseModel
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function getItems($column = null)
+	public function getItems(string $column = '') : \Generator
 	{
 		$db = $this->getDb();
 
@@ -42,7 +42,7 @@ class StatsModel extends AbstractDatabaseModel
 		)->loadResult();
 
 		// Validate the requested column is actually in the table
-		if ($column !== null)
+		if ($column !== '')
 		{
 			$columnList = $db->getTableColumns('#__jstats');
 
@@ -101,7 +101,7 @@ class StatsModel extends AbstractDatabaseModel
 	 *
 	 * @since   1.0
 	 */
-	public function save($data)
+	public function save(\stdClass $data)
 	{
 		$db = $this->getDb();
 

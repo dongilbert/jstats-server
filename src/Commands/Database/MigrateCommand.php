@@ -52,7 +52,7 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 		$this->getApplication()->outputTitle('Database Migrations: Migrate');
 
 		// If a version is given, we are only executing that migration
-		$version = $this->getApplication()->input->getString('version', $this->getApplication()->input->getString('v'));
+		$version = $this->getApplication()->input->getString('version', $this->getApplication()->input->getString('v', ''));
 
 		try
 		{
@@ -86,7 +86,7 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 	 *
 	 * @since   1.0
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return 'Migrate the database schema to a newer version.';
 	}
@@ -98,7 +98,7 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 	 *
 	 * @since   1.0
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return 'Database Migrations';
 	}

@@ -58,7 +58,7 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getMonologProcessorPsr3Service(Container $container)
+	public function getMonologProcessorPsr3Service(Container $container) : PsrLogMessageProcessor
 	{
 		return new PsrLogMessageProcessor;
 	}
@@ -72,7 +72,7 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getMonologProcessorWebService(Container $container)
+	public function getMonologProcessorWebService(Container $container) : WebProcessor
 	{
 		return new WebProcessor;
 	}
@@ -86,7 +86,7 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getMonologHandlerApplicationService(Container $container)
+	public function getMonologHandlerApplicationService(Container $container) : StreamHandler
 	{
 		/** @var \Joomla\Registry\Registry $config */
 		$config = $container->get('config');
@@ -105,7 +105,7 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getMonologHandlerDatabaseService(Container $container)
+	public function getMonologHandlerDatabaseService(Container $container) : StreamHandler
 	{
 		/** @var \Joomla\Registry\Registry $config */
 		$config = $container->get('config');
@@ -125,7 +125,7 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getMonologLoggerApplicationService(Container $container)
+	public function getMonologLoggerApplicationService(Container $container) : Logger
 	{
 		return new Logger(
 			'Application',
@@ -147,7 +147,7 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getMonologLoggerCliService(Container $container)
+	public function getMonologLoggerCliService(Container $container) : Logger
 	{
 		return new Logger(
 			'Application',
@@ -166,7 +166,7 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getMonologLoggerDatabaseService(Container $container)
+	public function getMonologLoggerDatabaseService(Container $container) : Logger
 	{
 		return new Logger(
 			'Application',

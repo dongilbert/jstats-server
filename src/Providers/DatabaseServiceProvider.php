@@ -43,7 +43,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getDbService(Container $container)
+	public function getDbService(Container $container) : DatabaseDriver
 	{
 		/** @var \Joomla\Registry\Registry $config */
 		$config = $container->get('config');
@@ -64,7 +64,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getDbMigrationsService(Container $container)
+	public function getDbMigrationsService(Container $container) : Migrations
 	{
 		return new Migrations(
 			$container->get('db'),

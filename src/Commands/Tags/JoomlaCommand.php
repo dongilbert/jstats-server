@@ -119,7 +119,7 @@ class JoomlaCommand extends AbstractTagCommand
 	 *
 	 * @since   1.0
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return 'Parses the release tags for the Joomla! CMS GitHub repository.';
 	}
@@ -131,7 +131,7 @@ class JoomlaCommand extends AbstractTagCommand
 	 *
 	 * @since   1.0
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return 'Fetch Joomla! Releases';
 	}

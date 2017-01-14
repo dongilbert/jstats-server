@@ -68,7 +68,7 @@ class HelpCommand extends AbstractController implements CommandInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return 'Provides basic use information for the stats application.';
 	}
@@ -80,7 +80,7 @@ class HelpCommand extends AbstractController implements CommandInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return 'Joomla Stats Application';
 	}

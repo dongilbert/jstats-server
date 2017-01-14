@@ -122,7 +122,7 @@ class PhpCommand extends AbstractTagCommand
 	 *
 	 * @since   1.0
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return 'Parses the release tags for the PHP GitHub repository.';
 	}
@@ -134,7 +134,7 @@ class PhpCommand extends AbstractTagCommand
 	 *
 	 * @since   1.0
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return 'Fetch PHP Releases';
 	}

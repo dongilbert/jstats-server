@@ -18,7 +18,7 @@ trait ValidateVersion
 	 *
 	 * @since   1.0
 	 */
-	protected function validateVersionNumber($version)
+	protected function validateVersionNumber(string $version)
 	{
 		return preg_match('/\d+(?:\.\d+)+/', $version, $matches) ? $matches[0] : false;
 	}

@@ -35,7 +35,7 @@ class StatsJsonView extends BaseJsonView
 	 * @var    string
 	 * @since  1.0
 	 */
-	private $source;
+	private $source = '';
 
 	/**
 	 * Count of the number of items.
@@ -48,13 +48,13 @@ class StatsJsonView extends BaseJsonView
 	/**
 	 * Set whether the raw data should be returned.
 	 *
-	 * @param   boolean  $authorizedRaw  Flag if the response should return the raw data.
+	 * @param   bool  $authorizedRaw  Flag if the response should return the raw data.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.0
 	 */
-	public function isAuthorizedRaw($authorizedRaw)
+	public function isAuthorizedRaw(bool $authorizedRaw)
 	{
 		$this->authorizedRaw = $authorizedRaw;
 	}
@@ -148,7 +148,7 @@ class StatsJsonView extends BaseJsonView
 	 *
 	 * @since   1.0
 	 */
-	public function setSource($source)
+	public function setSource(string $source)
 	{
 		$this->source = $source;
 	}
@@ -162,7 +162,7 @@ class StatsJsonView extends BaseJsonView
 	 *
 	 * @since   1.0
 	 */
-	private function buildResponseData(array $data)
+	private function buildResponseData(array $data) : array
 	{
 		$responseData = [];
 
@@ -199,7 +199,7 @@ class StatsJsonView extends BaseJsonView
 	 *
 	 * @since   1.0
 	 */
-	private function processSingleSource(\Generator $generator)
+	private function processSingleSource(\Generator $generator) : string
 	{
 		$data = [
 			${$this->source} = [],
@@ -259,7 +259,7 @@ class StatsJsonView extends BaseJsonView
 	 *
 	 * @since   1.0
 	 */
-	private function sanitizeData(array $responseData)
+	private function sanitizeData(array $responseData) : array
 	{
 		foreach ($responseData as $key => $dataGroup)
 		{

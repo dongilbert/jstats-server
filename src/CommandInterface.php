@@ -18,7 +18,7 @@ interface CommandInterface extends ControllerInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getDescription();
+	public function getDescription() : string;
 
 	/**
 	 * Get the command's title
@@ -27,5 +27,5 @@ interface CommandInterface extends ControllerInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getTitle();
+	public function getTitle() : string;
 }

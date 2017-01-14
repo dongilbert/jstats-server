@@ -61,7 +61,7 @@ class ClearCommand extends AbstractController implements CommandInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return 'Clear the application cache.';
 	}
@@ -73,7 +73,7 @@ class ClearCommand extends AbstractController implements CommandInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return 'Clear Cache';
 	}

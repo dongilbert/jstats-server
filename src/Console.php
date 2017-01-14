@@ -2,9 +2,6 @@
 
 namespace Stats;
 
-use Joomla\Application\Cli\ColorStyle;
-use Joomla\Application\Cli\Output\Processor\ColorProcessor;
-use Joomla\Controller\AbstractController;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 
@@ -33,7 +30,7 @@ class Console implements ContainerAwareInterface
 	 * @since   1.0
 	 * @throws  \RuntimeException
 	 */
-	public function getCommands()
+	public function getCommands() : array
 	{
 		if (empty($this->commands))
 		{
@@ -50,7 +47,7 @@ class Console implements ContainerAwareInterface
 	 *
 	 * @since   1.0
 	 */
-	private function loadCommands()
+	private function loadCommands() : array
 	{
 		$commands = [];
 

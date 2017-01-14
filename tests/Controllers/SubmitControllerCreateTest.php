@@ -110,7 +110,7 @@ class SubmitControllerCreateTest extends \PHPUnit_Framework_TestCase
 
 		$mockInput->expects($this->exactly(3))
 			->method('getRaw')
-			->willReturnOnConsecutiveCalls(PHP_VERSION, '5.6.23', null);
+			->willReturnOnConsecutiveCalls(PHP_VERSION, '5.6.23', '');
 
 		$mockInput->expects($this->exactly(3))
 			->method('getString')

@@ -59,7 +59,7 @@ abstract class AbstractTagCommand extends AbstractController implements CommandI
 	 *
 	 * @since   1.0
 	 */
-	protected function getTags()
+	protected function getTags() : array
 	{
 		$tags = [];
 

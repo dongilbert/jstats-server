@@ -136,7 +136,7 @@ class SubmitControllerCreate extends AbstractController
 	 *
 	 * @since   1.0
 	 */
-	private function checkCMSVersion($version)
+	private function checkCMSVersion(string $version)
 	{
 		$version = $this->validateVersionNumber($version);
 
@@ -182,7 +182,7 @@ class SubmitControllerCreate extends AbstractController
 	 *
 	 * @since   1.0
 	 */
-	private function checkDatabaseType($database)
+	private function checkDatabaseType(string $database)
 	{
 		if (!in_array($database, $this->databaseTypes))
 		{
@@ -201,7 +201,7 @@ class SubmitControllerCreate extends AbstractController
 	 *
 	 * @since   1.0
 	 */
-	private function checkPHPVersion($version)
+	private function checkPHPVersion(string $version)
 	{
 		$version = $this->validateVersionNumber($version);
 

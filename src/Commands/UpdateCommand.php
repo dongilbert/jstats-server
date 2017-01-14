@@ -49,7 +49,7 @@ class UpdateCommand extends AbstractController implements CommandInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return 'Update the server to the current git HEAD.';
 	}
@@ -61,7 +61,7 @@ class UpdateCommand extends AbstractController implements CommandInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return 'Update Server';
 	}
@@ -76,7 +76,7 @@ class UpdateCommand extends AbstractController implements CommandInterface
 	 * @since   1.0
 	 * @throws  \RuntimeException
 	 */
-	private function runCommand($command)
+	private function runCommand(string $command) : string
 	{
 		$lastLine = system($command, $status);
 

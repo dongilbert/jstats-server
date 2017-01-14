@@ -39,7 +39,7 @@ class GitHubServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getGithubService(Container $container)
+	public function getGithubService(Container $container) : GitHub
 	{
 		/** @var \Joomla\Registry\Registry $config */
 		$config = $container->get('config');

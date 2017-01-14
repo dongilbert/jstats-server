@@ -120,7 +120,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getCacheClearCommandService(Container $container)
+	public function getCacheClearCommandService(Container $container) : AppCommands\Cache\ClearCommand
 	{
 		$command = new AppCommands\Cache\ClearCommand($container->get(CacheItemPoolInterface::class));
 
@@ -139,7 +139,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getCliApplicationService(Container $container)
+	public function getCliApplicationService(Container $container) : CliApplication
 	{
 		$application = new CliApplication(
 			$container->get(Cli::class),
@@ -150,7 +150,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		);
 
 		// Inject extra services
-		$application->setContainer($container);
 		$application->setLogger($container->get('monolog.logger.cli'));
 
 		return $application;
@@ -165,7 +164,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getCliInputService(Container $container)
+	public function getCliInputService(Container $container) : JoomlaApplication\Cli\CliInput
 	{
 		return new JoomlaApplication\Cli\CliInput;
 	}
@@ -179,7 +178,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getCliOutputService(Container $container)
+	public function getCliOutputService(Container $container) : JoomlaApplication\Cli\Output\Stdout
 	{
 		return new JoomlaApplication\Cli\Output\Stdout($container->get(JoomlaApplication\Cli\Output\Processor\ColorProcessor::class));
 	}
@@ -193,7 +192,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getColorProcessorService(Container $container)
+	public function getColorProcessorService(Container $container) : JoomlaApplication\Cli\Output\Processor\ColorProcessor
 	{
 		$processor = new JoomlaApplication\Cli\Output\Processor\ColorProcessor;
 
@@ -220,7 +219,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getConsoleService(Container $container)
+	public function getConsoleService(Container $container) : Console
 	{
 		$console = new Console;
 		$console->setContainer($container);
@@ -237,7 +236,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getDatabaseMigrateCommandService(Container $container)
+	public function getDatabaseMigrateCommandService(Container $container) : AppCommands\Database\MigrateCommand
 	{
 		$command = new AppCommands\Database\MigrateCommand($container->get(Migrations::class));
 
@@ -257,7 +256,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getDatabaseStatusCommandService(Container $container)
+	public function getDatabaseStatusCommandService(Container $container) : AppCommands\Database\StatusCommand
 	{
 		$command = new AppCommands\Database\StatusCommand($container->get(Migrations::class));
 
@@ -276,7 +275,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getDisplayControllerGetService(Container $container)
+	public function getDisplayControllerGetService(Container $container) : DisplayControllerGet
 	{
 		$controller = new DisplayControllerGet(
 			$container->get(StatsJsonView::class),
@@ -298,7 +297,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getHelpCommandService(Container $container)
+	public function getHelpCommandService(Container $container) : AppCommands\HelpCommand
 	{
 		$command = new AppCommands\HelpCommand;
 
@@ -317,7 +316,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getInputCliService(Container $container)
+	public function getInputCliService(Container $container) : Cli
 	{
 		return new Cli;
 	}
@@ -331,7 +330,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getInputService(Container $container)
+	public function getInputService(Container $container) : Input
 	{
 		return new Input($_REQUEST);
 	}
@@ -345,7 +344,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getInstallCommandService(Container $container)
+	public function getInstallCommandService(Container $container) : AppCommands\InstallCommand
 	{
 		$command = new AppCommands\InstallCommand($container->get(DatabaseDriver::class));
 
@@ -364,7 +363,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getRouterService(Container $container)
+	public function getRouterService(Container $container) : Router
 	{
 		$router = (new Router($container->get(Input::class)))
 			->setControllerPrefix('Stats\\Controllers\\')
@@ -386,7 +385,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getSnapshotCommandService(Container $container)
+	public function getSnapshotCommandService(Container $container) : AppCommands\SnapshotCommand
 	{
 		$command = new AppCommands\SnapshotCommand($container->get(StatsJsonView::class));
 
@@ -405,7 +404,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getStatsJsonViewService(Container $container)
+	public function getStatsJsonViewService(Container $container) : StatsJsonView
 	{
 		return new StatsJsonView(
 			$container->get(StatsModel::class)
@@ -421,7 +420,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getStatsModelService(Container $container)
+	public function getStatsModelService(Container $container) : StatsModel
 	{
 		return new StatsModel(
 			$container->get(DatabaseDriver::class)
@@ -437,7 +436,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getSubmitControllerCreateService(Container $container)
+	public function getSubmitControllerCreateService(Container $container) : SubmitControllerCreate
 	{
 		$controller = new SubmitControllerCreate(
 			$container->get(StatsModel::class)
@@ -458,7 +457,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getSubmitControllerGetService(Container $container)
+	public function getSubmitControllerGetService(Container $container) : SubmitControllerGet
 	{
 		$controller = new SubmitControllerGet;
 
@@ -477,7 +476,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getTagsJoomlaCommandService(Container $container)
+	public function getTagsJoomlaCommandService(Container $container) : AppCommands\Tags\JoomlaCommand
 	{
 		$command = new AppCommands\Tags\JoomlaCommand($container->get(GitHub::class));
 
@@ -496,7 +495,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getTagsPhpCommandService(Container $container)
+	public function getTagsPhpCommandService(Container $container) : AppCommands\Tags\PhpCommand
 	{
 		$command = new AppCommands\Tags\PhpCommand($container->get(GitHub::class));
 
@@ -515,7 +514,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getUpdateCommandService(Container $container)
+	public function getUpdateCommandService(Container $container) : AppCommands\UpdateCommand
 	{
 		$command = new AppCommands\UpdateCommand;
 
@@ -534,7 +533,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getWebApplicationService(Container $container)
+	public function getWebApplicationService(Container $container) : WebApplication
 	{
 		$application = new WebApplication($container->get(Input::class), $container->get('config'));
 
