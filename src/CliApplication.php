@@ -5,8 +5,6 @@ namespace Stats;
 use Joomla\Application\AbstractCliApplication;
 use Joomla\Application\Cli\CliInput;
 use Joomla\Application\Cli\CliOutput;
-use Joomla\DI\ContainerAwareInterface;
-use Joomla\DI\ContainerAwareTrait;
 use Joomla\Input\Cli;
 use Joomla\Registry\Registry;
 
@@ -15,10 +13,8 @@ use Joomla\Registry\Registry;
  *
  * @since  1.0
  */
-class CliApplication extends AbstractCliApplication implements ContainerAwareInterface
+class CliApplication extends AbstractCliApplication
 {
-	use ContainerAwareTrait;
-
 	/**
 	 * The application's console object
 	 *
