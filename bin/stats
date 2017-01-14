@@ -8,6 +8,7 @@ use Joomla\Application\AbstractCliApplication;
 use Joomla\DI\Container;
 use Joomla\Input\Cli;
 use Joomla\Input\Input;
+use Monolog\ErrorHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Stats\CliApplication;
@@ -35,6 +36,9 @@ $container->alias(Logger::class, 'monolog.logger.cli')
 
 // Alias the Joomla\Input\Input service to the CLI input class (overloads the original definition)
 $container->alias(Input::class, Cli::class);
+
+// Register deprecation logging via Monolog
+ErrorHandler::register($container->get(Logger::class), [E_DEPRECATED, E_USER_DEPRECATED], false, false);
 
 // Force error reporting to maximum
 error_reporting(-1);

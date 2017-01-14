@@ -5,6 +5,7 @@ require dirname(__DIR__) . '/boot.php';
 use Joomla\Application\AbstractApplication;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\DI\Container;
+use Monolog\ErrorHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Stats\WebApplication;
@@ -29,6 +30,9 @@ $container->alias(AbstractApplication::class, AbstractWebApplication::class);
 // Alias the `monolog.logger.application` service to the Monolog Logger class and PSR-3 interface as this is the primary logger for the environment
 $container->alias(Logger::class, 'monolog.logger.application')
 	->alias(LoggerInterface::class, 'monolog.logger.application');
+
+// Register deprecation logging via Monolog
+ErrorHandler::register($container->get(Logger::class), [E_DEPRECATED, E_USER_DEPRECATED], false, false);
 
 // Set error reporting based on config
 $errorReporting = (int) $container->get('config')->get('errorReporting', 0);
