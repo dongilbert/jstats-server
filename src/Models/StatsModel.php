@@ -2,16 +2,20 @@
 
 namespace Stats\Models;
 
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Query\LimitableInterface;
-use Joomla\Model\AbstractDatabaseModel;
+use Joomla\Model\DatabaseModelInterface;
+use Joomla\Model\DatabaseModelTrait;
 
 /**
  * Statistics database model
  *
  * @since  1.0
  */
-class StatsModel extends AbstractDatabaseModel
+class StatsModel implements DatabaseModelInterface
 {
+	use DatabaseModelTrait;
+
 	/**
 	 * The query batch size
 	 *
@@ -19,6 +23,18 @@ class StatsModel extends AbstractDatabaseModel
 	 * @since  1.0
 	 */
 	private $batchSize = 25000;
+
+	/**
+	 * Instantiate the model.
+	 *
+	 * @param   DatabaseDriver  $db  The database driver.
+	 *
+	 * @since   1.0
+	 */
+	public function __construct(DatabaseDriver $db)
+	{
+		$this->setDb($db);
+	}
 
 	/**
 	 * Loads the statistics data from the database.

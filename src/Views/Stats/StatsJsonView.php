@@ -3,13 +3,12 @@
 namespace Stats\Views\Stats;
 
 use Joomla\View\BaseJsonView;
+use Stats\Models\StatsModel;
 
 /**
  * JSON response for requesting the stats data.
  *
- * @property-read  \Stats\Models\StatsModel  $model  The model object.
- *
- * @since          1.0
+ * @since  1.0
  */
 class StatsJsonView extends BaseJsonView
 {
@@ -44,6 +43,18 @@ class StatsJsonView extends BaseJsonView
 	 * @since  1.0
 	 */
 	private $totalItems = 0;
+
+	/**
+	 * Instantiate the view.
+	 *
+	 * @param   StatsModel  $model  The model object.
+	 *
+	 * @since   1.0
+	 */
+	public function __construct(StatsModel $model)
+	{
+		$this->model = $model;
+	}
 
 	/**
 	 * Set whether the raw data should be returned.
