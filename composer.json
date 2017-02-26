@@ -1,17 +1,10 @@
 {
-    "name": "joomla/jstats-server",
+    "name": "joomla/statistics-server",
     "type": "project",
     "description": "Joomla Stats Collection Server",
     "keywords": ["joomla"],
-    "homepage": "http://github.com/joomla-extensions/jstats-server",
+    "homepage": "http://github.com/joomla/statistics-server",
     "license": "GPL-2.0+",
-    "authors": [
-        {
-            "name": "Don Gilbert",
-            "email": "don@dongilbert.net",
-            "homepage": "http://dongilbert.net/"
-        }
-    ],
     "require": {
         "php": ">=7.0",
         "joomla/application": "~1.6",
