@@ -129,7 +129,8 @@ class StatsModel implements DatabaseModelInterface
 			$db->getQuery(true)
 				->select('unique_id')
 				->from('#__jstats')
-				->where('unique_id = ' . $db->quote($data->unique_id))
+				->where('unique_id = :unique_id')
+				->bind('unique_id', $data->unique_id, \PDO::PARAM_STR)
 		)->loadResult();
 
 		if ($recordExists)

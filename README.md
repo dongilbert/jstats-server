@@ -9,7 +9,8 @@ Scrutinizer-CI: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/joomla
 
 ## Requirements
 
-* PHP 5.6+
+* PHP 7.0+
+* PDO with MySQL support
 * MySQL
 * Composer
 * Apache with mod_rewrite enabled and configured to allow the .htaccess file to be read
