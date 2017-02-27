@@ -373,7 +373,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	public function getRouterService(Container $container) : Router
 	{
 		$router = (new Router($container->get(Input::class)))
-			->setControllerPrefix('Stats\\Controllers\\')
+			->setControllerPrefix('Joomla\\StatsServer\\Controllers\\')
 			->setDefaultController('DisplayController')
 			->addMap('/submit', 'SubmitController')
 			->addMap('/:source', 'DisplayController');
