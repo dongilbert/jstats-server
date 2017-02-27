@@ -3,12 +3,13 @@ namespace Stats\Tests\Providers;
 
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
+use PHPUnit\Framework\TestCase;
 use Stats\Providers\ConfigServiceProvider;
 
 /**
  * Test class for \Stats\Providers\ConfigServiceProvider
  */
-class ConfigServiceProviderTest extends \PHPUnit_Framework_TestCase
+class ConfigServiceProviderTest extends TestCase
 {
 	/**
 	 * @testdox The config service provider is registered to the DI container

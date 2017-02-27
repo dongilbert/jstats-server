@@ -3,6 +3,7 @@ namespace Stats\Tests\Controllers;
 
 use Joomla\Cache\Adapter\Runtime;
 use Joomla\Input\Input;
+use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemPoolInterface;
 use Stats\WebApplication;
 use Stats\Controllers\DisplayControllerGet;
@@ -11,7 +12,7 @@ use Stats\Views\Stats\StatsJsonView;
 /**
  * Test class for \Stats\Controllers\DisplayControllerGet
  */
-class DisplayControllerGetTest extends \PHPUnit_Framework_TestCase
+class DisplayControllerGetTest extends TestCase
 {
 	/**
 	 * @testdox The controller is instantiated correctly

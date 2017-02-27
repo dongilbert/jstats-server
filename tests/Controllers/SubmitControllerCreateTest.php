@@ -3,6 +3,7 @@
 namespace Stats\Tests\Controllers;
 
 use Joomla\Input\Input;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Stats\Controllers\SubmitControllerCreate;
 use Stats\Models\StatsModel;
@@ -11,7 +12,7 @@ use Stats\WebApplication;
 /**
  * Test class for \Stats\Controllers\SubmitControllerCreate
  */
-class SubmitControllerCreateTest extends \PHPUnit_Framework_TestCase
+class SubmitControllerCreateTest extends TestCase
 {
 	/**
 	 * @testdox The controller is instantiated correctly

@@ -5,13 +5,14 @@ namespace Stats\Tests\Providers;
 use Joomla\Cache\Adapter as CacheAdapter;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
+use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemPoolInterface;
 use Stats\Providers\CacheServiceProvider;
 
 /**
  * Test class for \Stats\Providers\CacheServiceProvider
  */
-class CacheServiceProviderTest extends \PHPUnit_Framework_TestCase
+class CacheServiceProviderTest extends TestCase
 {
 	/**
 	 * @testdox The cache service provider is registered to the DI container

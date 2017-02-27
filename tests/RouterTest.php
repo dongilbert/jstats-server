@@ -1,12 +1,13 @@
 <?php
 namespace Stats\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Stats\Router;
 
 /**
  * Test class for \Stats\Router
  */
-class RouterTest extends \PHPUnit_Framework_TestCase
+class RouterTest extends TestCase
 {
 	/**
 	 * @testdox The router is instantiated correctly

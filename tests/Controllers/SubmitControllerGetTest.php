@@ -2,13 +2,14 @@
 
 namespace Stats\Tests\Controllers;
 
+use PHPUnit\Framework\TestCase;
 use Stats\Controllers\SubmitControllerGet;
 use Stats\WebApplication;
 
 /**
  * Test class for \Stats\Controllers\SubmitControllerGet
  */
-class SubmitControllerGetTest extends \PHPUnit_Framework_TestCase
+class SubmitControllerGetTest extends TestCase
 {
 	/**
 	 * @testdox The controller is executed correctly

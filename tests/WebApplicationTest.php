@@ -1,12 +1,13 @@
 <?php
 namespace Stats\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Stats\WebApplication;
 
 /**
  * Test class for \Stats\WebApplication
  */
-class WebApplicationTest extends \PHPUnit_Framework_TestCase
+class WebApplicationTest extends TestCase
 {
 	/**
 	 * Backup of the SERVER superglobal

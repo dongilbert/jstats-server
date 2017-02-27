@@ -4,12 +4,13 @@ namespace Stats\Tests\Models;
 
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseQuery;
+use PHPUnit\Framework\TestCase;
 use Stats\Models\StatsModel;
 
 /**
  * Test class for \Stats\Models\StatsModel
  */
-class StatsModelTest extends \PHPUnit_Framework_TestCase
+class StatsModelTest extends TestCase
 {
 	/**
 	 * @testdox The model returns all items from the database

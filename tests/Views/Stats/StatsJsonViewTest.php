@@ -1,13 +1,14 @@
 <?php
 namespace Stats\Tests\Views\Stats;
 
+use PHPUnit\Framework\TestCase;
 use Stats\Models\StatsModel;
 use Stats\Views\Stats\StatsJsonView;
 
 /**
  * Test class for \Stats\Views\Stats\StatsJsonView
  */
-class StatsJsonViewTest extends \PHPUnit_Framework_TestCase
+class StatsJsonViewTest extends TestCase
 {
 	/**
 	 * @testdox The authorized raw flag is set to the view

@@ -9,12 +9,13 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\PsrLogMessageProcessor;
 use Monolog\Processor\WebProcessor;
+use PHPUnit\Framework\TestCase;
 use Stats\Providers\MonologServiceProvider;
 
 /**
  * Test class for \Stats\Providers\MonologServiceProvider
  */
-class MonologServiceProviderTest extends \PHPUnit_Framework_TestCase
+class MonologServiceProviderTest extends TestCase
 {
 	/**
 	 * @testdox The Monolog service provider is registered to the DI container

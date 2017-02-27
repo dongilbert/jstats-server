@@ -4,6 +4,7 @@ namespace Stats\Tests\Providers;
 use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Stats\Database\Migrations;
 use Stats\Providers\DatabaseServiceProvider;
@@ -11,7 +12,7 @@ use Stats\Providers\DatabaseServiceProvider;
 /**
  * Test class for \Stats\Providers\DatabaseServiceProvider
  */
-class DatabaseServiceProviderTest extends \PHPUnit_Framework_TestCase
+class DatabaseServiceProviderTest extends TestCase
 {
 	/**
 	 * @testdox The database service provider is registered to the DI container

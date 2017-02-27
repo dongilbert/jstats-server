@@ -12,6 +12,7 @@ use Joomla\Input\Cli;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Test\TestHelper;
+use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use Stats\CliApplication;
@@ -32,7 +33,7 @@ use TheIconic\Tracking\GoogleAnalytics\Analytics;
 /**
  * Test class for \Stats\Providers\ApplicationServiceProvider
  */
-class ApplicationServiceProviderTest extends \PHPUnit_Framework_TestCase
+class ApplicationServiceProviderTest extends TestCase
 {
 	/**
 	 * Backup of the SERVER superglobal
