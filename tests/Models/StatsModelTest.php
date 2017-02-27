@@ -1,21 +1,28 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Tests\Models;
+namespace Joomla\StatsServer\Tests\Models;
 
-use Joomla\Database\DatabaseDriver;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Database\{
+	DatabaseDriver, DatabaseQuery
+};
+use Joomla\StatsServer\Models\StatsModel;
 use PHPUnit\Framework\TestCase;
-use Stats\Models\StatsModel;
 
 /**
- * Test class for \Stats\Models\StatsModel
+ * Test class for \Joomla\StatsServer\Models\StatsModel
  */
 class StatsModelTest extends TestCase
 {
 	/**
 	 * @testdox The model returns all items from the database
 	 *
-	 * @covers  Stats\Models\StatsModel::getItems
+	 * @covers  Joomla\StatsServer\Models\StatsModel::getItems
 	 */
 	public function testTheModelReturnsAllItemsFromTheDatabase()
 	{
@@ -57,7 +64,7 @@ class StatsModelTest extends TestCase
 	/**
 	 * @testdox The model returns a single source's items from the database
 	 *
-	 * @covers  Stats\Models\StatsModel::getItems
+	 * @covers  Joomla\StatsServer\Models\StatsModel::getItems
 	 */
 	public function testTheModelReturnsASingleSourceItemsFromTheDatabase()
 	{
@@ -113,7 +120,7 @@ class StatsModelTest extends TestCase
 	/**
 	 * @testdox The model throws an Exception when an invalid source is specified
 	 *
-	 * @covers  Stats\Models\StatsModel::getItems
+	 * @covers  Joomla\StatsServer\Models\StatsModel::getItems
 	 * @expectedException \InvalidArgumentException
 	 */
 	public function testTheModelThrowsAnExceptionWhenAnInvalidSourceIsSpecified()
@@ -162,7 +169,7 @@ class StatsModelTest extends TestCase
 	/**
 	 * @testdox The model inserts a new record
 	 *
-	 * @covers  Stats\Models\StatsModel::save
+	 * @covers  Joomla\StatsServer\Models\StatsModel::save
 	 */
 	public function testTheModelInsertsANewRecord()
 	{
@@ -195,7 +202,7 @@ class StatsModelTest extends TestCase
 	/**
 	 * @testdox The model updates an existing record
 	 *
-	 * @covers  Stats\Models\StatsModel::save
+	 * @covers  Joomla\StatsServer\Models\StatsModel::save
 	 */
 	public function testTheModelUpdatesAnExistingRecord()
 	{

@@ -1,19 +1,26 @@
 <?php
-namespace Stats\Tests\Views\Stats;
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
+
+namespace Joomla\StatsServer\Tests\Views\Stats;
 
 use PHPUnit\Framework\TestCase;
-use Stats\Models\StatsModel;
-use Stats\Views\Stats\StatsJsonView;
+use Joomla\StatsServer\Models\StatsModel;
+use Joomla\StatsServer\Views\Stats\StatsJsonView;
 
 /**
- * Test class for \Stats\Views\Stats\StatsJsonView
+ * Test class for \Joomla\StatsServer\Views\Stats\StatsJsonView
  */
 class StatsJsonViewTest extends TestCase
 {
 	/**
 	 * @testdox The authorized raw flag is set to the view
 	 *
-	 * @covers  Stats\Views\Stats\StatsJsonView::isAuthorizedRaw
+	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::isAuthorizedRaw
 	 */
 	public function testTheAuthorizedRawFlagIsSetToTheView()
 	{
@@ -32,9 +39,9 @@ class StatsJsonViewTest extends TestCase
 	/**
 	 * @testdox The statistics data is returned
 	 *
-	 * @covers  Stats\Views\Stats\StatsJsonView::buildResponseData
-	 * @covers  Stats\Views\Stats\StatsJsonView::render
-	 * @covers  Stats\Views\Stats\StatsJsonView::sanitizeData
+	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::buildResponseData
+	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::render
+	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::sanitizeData
 	 */
 	public function testTheStatisticsDataIsReturned()
 	{
@@ -98,8 +105,8 @@ class StatsJsonViewTest extends TestCase
 	/**
 	 * @testdox The raw statistics data is returned
 	 *
-	 * @covers  Stats\Views\Stats\StatsJsonView::buildResponseData
-	 * @covers  Stats\Views\Stats\StatsJsonView::render
+	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::buildResponseData
+	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::render
 	 */
 	public function testTheRawStatisticsDataIsReturned()
 	{
@@ -207,11 +214,11 @@ class StatsJsonViewTest extends TestCase
 	/**
 	 * @testdox The statistics data for a single source is returned
 	 *
-	 * @covers  Stats\Views\Stats\StatsJsonView::buildResponseData
-	 * @covers  Stats\Views\Stats\StatsJsonView::processSingleSource
-	 * @covers  Stats\Views\Stats\StatsJsonView::render
-	 * @covers  Stats\Views\Stats\StatsJsonView::sanitizeData
-	 * @uses    Stats\Views\Stats\StatsJsonView::setSource
+	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::buildResponseData
+	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::processSingleSource
+	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::render
+	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::sanitizeData
+	 * @uses    Joomla\StatsServer\Views\Stats\StatsJsonView::setSource
 	 */
 	public function testTheStatisticsDataForASingleSourceIsReturned()
 	{
@@ -243,11 +250,11 @@ class StatsJsonViewTest extends TestCase
 	/**
 	 * @testdox The statistics data for the server OS source is returned
 	 *
-	 * @covers  Stats\Views\Stats\StatsJsonView::buildResponseData
-	 * @covers  Stats\Views\Stats\StatsJsonView::processSingleSource
-	 * @covers  Stats\Views\Stats\StatsJsonView::render
-	 * @covers  Stats\Views\Stats\StatsJsonView::sanitizeData
-	 * @uses    Stats\Views\Stats\StatsJsonView::setSource
+	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::buildResponseData
+	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::processSingleSource
+	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::render
+	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::sanitizeData
+	 * @uses    Joomla\StatsServer\Views\Stats\StatsJsonView::setSource
 	 */
 	public function testTheStatisticsDataForTheServerOsSourceIsReturned()
 	{
@@ -291,7 +298,7 @@ class StatsJsonViewTest extends TestCase
 	/**
 	 * @testdox The data source is set to the view
 	 *
-	 * @covers  Stats\Views\Stats\StatsJsonView::setSource
+	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::setSource
 	 */
 	public function testTheDataSourceIsSetToTheView()
 	{

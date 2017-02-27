@@ -1,37 +1,43 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Tests\Providers;
+namespace Joomla\StatsServer\Tests\Providers;
 
 use Joomla\Application\AbstractApplication;
-use Joomla\Application\Cli\CliInput;
-use Joomla\Application\Cli\CliOutput;
-use Joomla\Application\Cli\Output\Processor\ColorProcessor;
+use Joomla\Application\Cli\{
+	CliInput, CliOutput, Output\Processor\ColorProcessor
+};
 use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
-use Joomla\Input\Cli;
-use Joomla\Input\Input;
+use Joomla\Input\{
+	Cli, Input
+};
 use Joomla\Registry\Registry;
 use Joomla\Test\TestHelper;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
-use Stats\CliApplication;
-use Stats\Commands as AppCommands;
-use Stats\Console;
-use Stats\Controllers\DisplayControllerGet;
-use Stats\Controllers\SubmitControllerCreate;
-use Stats\Controllers\SubmitControllerGet;
-use Stats\Database\Migrations;
-use Stats\GitHub\GitHub;
-use Stats\Models\StatsModel;
-use Stats\Router;
-use Stats\Views\Stats\StatsJsonView;
-use Stats\WebApplication;
-use Stats\Providers\ApplicationServiceProvider;
+use Joomla\StatsServer\{
+	CliApplication, Console, Router, WebApplication
+};
+use Joomla\StatsServer\Commands as AppCommands;
+use Joomla\StatsServer\Controllers\{
+	DisplayControllerGet, SubmitControllerCreate, SubmitControllerGet
+};
+use Joomla\StatsServer\Database\Migrations;
+use Joomla\StatsServer\GitHub\GitHub;
+use Joomla\StatsServer\Models\StatsModel;
+use Joomla\StatsServer\Views\Stats\StatsJsonView;
+use Joomla\StatsServer\Providers\ApplicationServiceProvider;
 use TheIconic\Tracking\GoogleAnalytics\Analytics;
 
 /**
- * Test class for \Stats\Providers\ApplicationServiceProvider
+ * Test class for \Joomla\StatsServer\Providers\ApplicationServiceProvider
  */
 class ApplicationServiceProviderTest extends TestCase
 {
@@ -69,7 +75,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The application service provider is registered to the DI container
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::register
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::register
 	 */
 	public function testTheApplicationServiceProviderIsRegisteredToTheContainer()
 	{
@@ -82,7 +88,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The Analytics class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getAnalyticsService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getAnalyticsService
 	 */
 	public function testTheAnalyticsClassServiceIsCreated()
 	{
@@ -92,7 +98,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The Cache\ClearCommand class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getCacheClearCommandService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getCacheClearCommandService
 	 */
 	public function testTheCacheClearCommandClassServiceIsCreated()
 	{
@@ -118,7 +124,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The CLI application service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getCliApplicationService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getCliApplicationService
 	 */
 	public function testTheCliApplicationServiceIsCreated()
 	{
@@ -159,7 +165,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The CliInput class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getCliInputService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getCliInputService
 	 */
 	public function testTheCliInputClassServiceIsCreated()
 	{
@@ -169,7 +175,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The CliOutput class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getCliOutputService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getCliOutputService
 	 */
 	public function testTheCliOutputClassServiceIsCreated()
 	{
@@ -185,7 +191,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The ColorProcessor class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getColorProcessorService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getColorProcessorService
 	 */
 	public function testTheColorProcessorClassServiceIsCreated()
 	{
@@ -210,7 +216,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The console service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getConsoleService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getConsoleService
 	 */
 	public function testTheConsoleServiceIsCreated()
 	{
@@ -220,7 +226,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The Database\MigrateCommand class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getDatabaseMigrateCommandService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getDatabaseMigrateCommandService
 	 */
 	public function testTheDatabaseMigrateCommandClassServiceIsCreated()
 	{
@@ -254,7 +260,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The Database\StatusCommand class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getDatabaseStatusCommandService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getDatabaseStatusCommandService
 	 */
 	public function testTheDatabaseStatusCommandClassServiceIsCreated()
 	{
@@ -283,7 +289,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The DisplayControllerGet class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getDisplayControllerGetService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getDisplayControllerGetService
 	 */
 	public function testTheDisplayControllerGetClassServiceIsCreated()
 	{
@@ -314,7 +320,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The HelpCommand class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getHelpCommandService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getHelpCommandService
 	 */
 	public function testTheHelpCommandClassServiceIsCreated()
 	{
@@ -335,7 +341,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The Input class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getInputService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getInputService
 	 */
 	public function testTheInputClassServiceIsCreated()
 	{
@@ -345,7 +351,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The Input\Cli class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getInputCliService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getInputCliService
 	 */
 	public function testTheInputCliClassServiceIsCreated()
 	{
@@ -355,7 +361,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The InstallCommand class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getInstallCommandService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getInstallCommandService
 	 */
 	public function testTheInstallCommandClassServiceIsCreated()
 	{
@@ -381,7 +387,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The Router service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getRouterService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getRouterService
 	 */
 	public function testTheRouterServiceIsCreated()
 	{
@@ -397,7 +403,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The SnapshotCommand class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getSnapshotCommandService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getSnapshotCommandService
 	 */
 	public function testTheSnapshotCommandClassServiceIsCreated()
 	{
@@ -423,7 +429,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The SubmitControllerCreate class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getSubmitControllerCreateService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getSubmitControllerCreateService
 	 */
 	public function testTheSubmitControllerCreateClassServiceIsCreated()
 	{
@@ -449,7 +455,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The StatsJsonView class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getStatsJsonViewService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getStatsJsonViewService
 	 */
 	public function testTheStatsJsonViewClassServiceIsCreated()
 	{
@@ -465,7 +471,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The StatsModel class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getStatsModelService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getStatsModelService
 	 */
 	public function testTheStatsModelClassServiceIsCreated()
 	{
@@ -481,7 +487,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The SubmitControllerGet class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getSubmitControllerGetService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getSubmitControllerGetService
 	 */
 	public function testTheSubmitControllerGetClassServiceIsCreated()
 	{
@@ -503,7 +509,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The Tags\JoomlaCommand class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getTagsJoomlaCommandService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getTagsJoomlaCommandService
 	 */
 	public function testTheTagsJoomlaCommandClassServiceIsCreated()
 	{
@@ -529,7 +535,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The Tags\PhpCommand class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getTagsPhpCommandService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getTagsPhpCommandService
 	 */
 	public function testTheTagsPhpCommandClassServiceIsCreated()
 	{
@@ -555,7 +561,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The UpdateCommand class service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getUpdateCommandService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getUpdateCommandService
 	 */
 	public function testTheUpdateCommandClassServiceIsCreated()
 	{
@@ -576,7 +582,7 @@ class ApplicationServiceProviderTest extends TestCase
 	/**
 	 * @testdox The web application service is created
 	 *
-	 * @covers  Stats\Providers\ApplicationServiceProvider::getWebApplicationService
+	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getWebApplicationService
 	 */
 	public function testTheWebApplicationServiceIsCreated()
 	{

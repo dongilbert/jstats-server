@@ -1,12 +1,19 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Providers;
+namespace Joomla\StatsServer\Providers;
 
-use Joomla\Cache\AbstractCacheItemPool;
-use Joomla\Cache\Adapter as CacheAdapter;
-use Joomla\Cache\CacheItemPoolInterface;
-use Joomla\DI\Container;
-use Joomla\DI\ServiceProviderInterface;
+use Joomla\Cache\{
+	AbstractCacheItemPool, Adapter as CacheAdapter, CacheItemPoolInterface
+};
+use Joomla\DI\{
+	Container, ServiceProviderInterface
+};
 use Psr\Cache\CacheItemPoolInterface as PsrCacheItemPoolInterface;
 
 /**

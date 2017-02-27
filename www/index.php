@@ -2,19 +2,18 @@
 
 require dirname(__DIR__) . '/boot.php';
 
-use Joomla\Application\AbstractApplication;
-use Joomla\Application\AbstractWebApplication;
+use Joomla\Application\{
+	AbstractApplication, AbstractWebApplication
+};
 use Joomla\DI\Container;
-use Monolog\ErrorHandler;
-use Monolog\Logger;
+use Joomla\StatsServer\WebApplication;
+use Joomla\StatsServer\Providers\{
+	ApplicationServiceProvider, CacheServiceProvider, ConfigServiceProvider, DatabaseServiceProvider, GitHubServiceProvider, MonologServiceProvider
+};
+use Monolog\{
+	ErrorHandler, Logger
+};
 use Psr\Log\LoggerInterface;
-use Stats\WebApplication;
-use Stats\Providers\ApplicationServiceProvider;
-use Stats\Providers\CacheServiceProvider;
-use Stats\Providers\ConfigServiceProvider;
-use Stats\Providers\DatabaseServiceProvider;
-use Stats\Providers\GitHubServiceProvider;
-use Stats\Providers\MonologServiceProvider;
 
 $container = (new Container)
 	->registerServiceProvider(new ApplicationServiceProvider)

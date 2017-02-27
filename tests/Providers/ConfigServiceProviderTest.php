@@ -1,21 +1,28 @@
 <?php
-namespace Stats\Tests\Providers;
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
+
+namespace Joomla\StatsServer\Tests\Providers;
 
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
+use Joomla\StatsServer\Providers\ConfigServiceProvider;
 use PHPUnit\Framework\TestCase;
-use Stats\Providers\ConfigServiceProvider;
 
 /**
- * Test class for \Stats\Providers\ConfigServiceProvider
+ * Test class for \Joomla\StatsServer\Providers\ConfigServiceProvider
  */
 class ConfigServiceProviderTest extends TestCase
 {
 	/**
 	 * @testdox The config service provider is registered to the DI container
 	 *
-	 * @covers  Stats\Providers\ConfigServiceProvider::__construct
-	 * @covers  Stats\Providers\ConfigServiceProvider::register
+	 * @covers  Joomla\StatsServer\Providers\ConfigServiceProvider::__construct
+	 * @covers  Joomla\StatsServer\Providers\ConfigServiceProvider::register
 	 */
 	public function testTheConfigServiceProviderIsRegisteredToTheContainer()
 	{
@@ -28,7 +35,7 @@ class ConfigServiceProviderTest extends TestCase
 	/**
 	 * @testdox The config service provider throws an Exception if an invalid file is given
 	 *
-	 * @covers  Stats\Providers\ConfigServiceProvider::__construct
+	 * @covers  Joomla\StatsServer\Providers\ConfigServiceProvider::__construct
 	 * @expectedException  \RuntimeException
 	 */
 	public function testTheConfigServiceProviderThrowsAnExceptionIfAnInvalidFileIsGiven()
@@ -39,7 +46,7 @@ class ConfigServiceProviderTest extends TestCase
 	/**
 	 * @testdox The config service is created
 	 *
-	 * @covers  Stats\Providers\ConfigServiceProvider::getConfigService
+	 * @covers  Joomla\StatsServer\Providers\ConfigServiceProvider::getConfigService
 	 */
 	public function testTheConfigServiceIsCreated()
 	{

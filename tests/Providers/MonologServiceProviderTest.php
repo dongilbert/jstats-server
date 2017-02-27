@@ -1,26 +1,34 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Tests\Providers;
+namespace Joomla\StatsServer\Tests\Providers;
 
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
-use Monolog\Handler\HandlerInterface;
-use Monolog\Handler\StreamHandler;
+use Joomla\StatsServer\Providers\MonologServiceProvider;
+use Monolog\Handler\{
+	HandlerInterface, StreamHandler
+};
 use Monolog\Logger;
-use Monolog\Processor\PsrLogMessageProcessor;
-use Monolog\Processor\WebProcessor;
+use Monolog\Processor\{
+	PsrLogMessageProcessor, WebProcessor
+};
 use PHPUnit\Framework\TestCase;
-use Stats\Providers\MonologServiceProvider;
 
 /**
- * Test class for \Stats\Providers\MonologServiceProvider
+ * Test class for \Joomla\StatsServer\Providers\MonologServiceProvider
  */
 class MonologServiceProviderTest extends TestCase
 {
 	/**
 	 * @testdox The Monolog service provider is registered to the DI container
 	 *
-	 * @covers  Stats\Providers\MonologServiceProvider::register
+	 * @covers  Joomla\StatsServer\Providers\MonologServiceProvider::register
 	 */
 	public function testTheDatabaseServiceProviderIsRegisteredToTheContainer()
 	{
@@ -33,7 +41,7 @@ class MonologServiceProviderTest extends TestCase
 	/**
 	 * @testdox The PSR-3 message processor service is created
 	 *
-	 * @covers  Stats\Providers\MonologServiceProvider::getMonologProcessorPsr3Service
+	 * @covers  Joomla\StatsServer\Providers\MonologServiceProvider::getMonologProcessorPsr3Service
 	 */
 	public function testThePsr3MessageProcessorServiceIsCreated()
 	{
@@ -45,7 +53,7 @@ class MonologServiceProviderTest extends TestCase
 	/**
 	 * @testdox The web message processor service is created
 	 *
-	 * @covers  Stats\Providers\MonologServiceProvider::getMonologProcessorWebService
+	 * @covers  Joomla\StatsServer\Providers\MonologServiceProvider::getMonologProcessorWebService
 	 */
 	public function testTheWebMessageProcessorServiceIsCreated()
 	{
@@ -57,7 +65,7 @@ class MonologServiceProviderTest extends TestCase
 	/**
 	 * @testdox The application message handler service is created
 	 *
-	 * @covers  Stats\Providers\MonologServiceProvider::getMonologHandlerApplicationService
+	 * @covers  Joomla\StatsServer\Providers\MonologServiceProvider::getMonologHandlerApplicationService
 	 */
 	public function testTheApplicationMessageHandlerServiceIsCreated()
 	{
@@ -81,7 +89,7 @@ class MonologServiceProviderTest extends TestCase
 	/**
 	 * @testdox The database message handler service is created
 	 *
-	 * @covers  Stats\Providers\MonologServiceProvider::getMonologHandlerDatabaseService
+	 * @covers  Joomla\StatsServer\Providers\MonologServiceProvider::getMonologHandlerDatabaseService
 	 */
 	public function testTheDatabaseMessageHandlerServiceIsCreated()
 	{
@@ -105,7 +113,7 @@ class MonologServiceProviderTest extends TestCase
 	/**
 	 * @testdox The application logger service is created
 	 *
-	 * @covers  Stats\Providers\MonologServiceProvider::getMonologLoggerApplicationService
+	 * @covers  Joomla\StatsServer\Providers\MonologServiceProvider::getMonologLoggerApplicationService
 	 */
 	public function testTheApplicationLoggerServiceIsCreated()
 	{
@@ -123,7 +131,7 @@ class MonologServiceProviderTest extends TestCase
 	/**
 	 * @testdox The CLI logger service is created
 	 *
-	 * @covers  Stats\Providers\MonologServiceProvider::getMonologLoggerCliService
+	 * @covers  Joomla\StatsServer\Providers\MonologServiceProvider::getMonologLoggerCliService
 	 */
 	public function testTheCliLoggerServiceIsCreated()
 	{
@@ -142,7 +150,7 @@ class MonologServiceProviderTest extends TestCase
 	/**
 	 * @testdox The database logger service is created
 	 *
-	 * @covers  Stats\Providers\MonologServiceProvider::getMonologLoggerDatabaseService
+	 * @covers  Joomla\StatsServer\Providers\MonologServiceProvider::getMonologLoggerDatabaseService
 	 */
 	public function testTheDatabaseLoggerServiceIsCreated()
 	{

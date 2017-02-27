@@ -1,16 +1,22 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Commands\Tags;
+namespace Joomla\StatsServer\Commands\Tags;
 
 use Joomla\Controller\AbstractController;
-use Stats\CommandInterface;
-use Stats\GitHub\GitHub;
+use Joomla\StatsServer\CommandInterface;
+use Joomla\StatsServer\GitHub\GitHub;
 
 /**
  * Abstract command for processing tags from GitHub
  *
- * @method         \Stats\CliApplication  getApplication()  Get the application object.
- * @property-read  \Stats\CliApplication  $app              Application object
+ * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
+ * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
  *
  * @since          1.0
  */

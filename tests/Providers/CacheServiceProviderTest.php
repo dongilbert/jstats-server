@@ -1,23 +1,29 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Tests\Providers;
+namespace Joomla\StatsServer\Tests\Providers;
 
 use Joomla\Cache\Adapter as CacheAdapter;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
+use Joomla\StatsServer\Providers\CacheServiceProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemPoolInterface;
-use Stats\Providers\CacheServiceProvider;
 
 /**
- * Test class for \Stats\Providers\CacheServiceProvider
+ * Test class for \Joomla\StatsServer\Providers\CacheServiceProvider
  */
 class CacheServiceProviderTest extends TestCase
 {
 	/**
 	 * @testdox The cache service provider is registered to the DI container
 	 *
-	 * @covers  Stats\Providers\CacheServiceProvider::register
+	 * @covers  Joomla\StatsServer\Providers\CacheServiceProvider::register
 	 */
 	public function testTheCacheServiceProviderIsRegisteredToTheContainer()
 	{
@@ -30,7 +36,7 @@ class CacheServiceProviderTest extends TestCase
 	/**
 	 * @testdox The cache service is created when caching is disabled
 	 *
-	 * @covers  Stats\Providers\CacheServiceProvider::getCacheService
+	 * @covers  Joomla\StatsServer\Providers\CacheServiceProvider::getCacheService
 	 */
 	public function testTheCacheServiceIsCreatedWhenCachingIsDisabled()
 	{
@@ -52,7 +58,7 @@ class CacheServiceProviderTest extends TestCase
 	/**
 	 * @testdox The cache service is created for the no-op cache
 	 *
-	 * @covers  Stats\Providers\CacheServiceProvider::getCacheService
+	 * @covers  Joomla\StatsServer\Providers\CacheServiceProvider::getCacheService
 	 */
 	public function testTheCacheServiceIsCreatedForTheNoOpCache()
 	{
@@ -73,7 +79,7 @@ class CacheServiceProviderTest extends TestCase
 	/**
 	 * @testdox The cache service is created for the filesystem cache with a relative path
 	 *
-	 * @covers  Stats\Providers\CacheServiceProvider::getCacheService
+	 * @covers  Joomla\StatsServer\Providers\CacheServiceProvider::getCacheService
 	 */
 	public function testTheCacheServiceIsCreatedForTheFilesystemCacheWithARelativePath()
 	{
@@ -99,7 +105,7 @@ class CacheServiceProviderTest extends TestCase
 	/**
 	 * @testdox The cache service is created for the filesystem cache with an empty path
 	 *
-	 * @covers  Stats\Providers\CacheServiceProvider::getCacheService
+	 * @covers  Joomla\StatsServer\Providers\CacheServiceProvider::getCacheService
 	 */
 	public function testTheCacheServiceIsCreatedForTheFilesystemCacheWithAnEmptyPath()
 	{
@@ -125,7 +131,7 @@ class CacheServiceProviderTest extends TestCase
 	/**
 	 * @testdox The cache service is created for the runtime cache
 	 *
-	 * @covers  Stats\Providers\CacheServiceProvider::getCacheService
+	 * @covers  Joomla\StatsServer\Providers\CacheServiceProvider::getCacheService
 	 */
 	public function testTheCacheServiceIsCreatedForTheRuntimeCache()
 	{
@@ -146,7 +152,7 @@ class CacheServiceProviderTest extends TestCase
 	/**
 	 * @testdox The cache service is not created for an unsupported adapter
 	 *
-	 * @covers  Stats\Providers\CacheServiceProvider::getCacheService
+	 * @covers  Joomla\StatsServer\Providers\CacheServiceProvider::getCacheService
 	 *
 	 * @expectedException  \InvalidArgumentException
 	 * @expectedExceptionMessage  The "invalid" cache adapter is not supported.

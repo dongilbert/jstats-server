@@ -1,10 +1,17 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats;
+namespace Joomla\StatsServer;
 
 use Joomla\Controller\ControllerInterface;
-use Joomla\DI\ContainerAwareInterface;
-use Joomla\DI\ContainerAwareTrait;
+use Joomla\DI\{
+	ContainerAwareInterface, ContainerAwareTrait
+};
 use Joomla\Router\RestRouter;
 
 /**

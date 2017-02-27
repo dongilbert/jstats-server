@@ -1,13 +1,20 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Providers;
+namespace Joomla\StatsServer\Providers;
 
 use Joomla\Database\DatabaseDriver;
-use Joomla\DI\Container;
-use Joomla\DI\ServiceProviderInterface;
+use Joomla\DI\{
+	Container, ServiceProviderInterface
+};
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
-use Stats\Database\Migrations;
+use Joomla\StatsServer\Database\Migrations;
 
 /**
  * Database service provider

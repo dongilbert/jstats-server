@@ -1,9 +1,15 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Commands\Tags;
+namespace Joomla\StatsServer\Commands\Tags;
 
-use Stats\Decorators\ValidateVersion;
-use Stats\GitHub\GitHub;
+use Joomla\StatsServer\Decorators\ValidateVersion;
+use Joomla\StatsServer\GitHub\GitHub;
 
 /**
  * Command for processing tags for the Joomla! CMS from GitHub

@@ -3,21 +3,21 @@
 
 require dirname(__DIR__) . '/boot.php';
 
-use Joomla\Application\AbstractApplication;
-use Joomla\Application\AbstractCliApplication;
+use Joomla\Application\{
+	AbstractApplication, AbstractCliApplication
+};
 use Joomla\DI\Container;
-use Joomla\Input\Cli;
-use Joomla\Input\Input;
-use Monolog\ErrorHandler;
-use Monolog\Logger;
+use Joomla\Input\{
+    Cli, Input
+};
+use Joomla\StatsServer\CliApplication;
+use Joomla\StatsServer\Providers\{
+	ApplicationServiceProvider, CacheServiceProvider, ConfigServiceProvider, DatabaseServiceProvider, GitHubServiceProvider, MonologServiceProvider
+};
+use Monolog\{
+	ErrorHandler, Logger
+};
 use Psr\Log\LoggerInterface;
-use Stats\CliApplication;
-use Stats\Providers\ApplicationServiceProvider;
-use Stats\Providers\CacheServiceProvider;
-use Stats\Providers\ConfigServiceProvider;
-use Stats\Providers\DatabaseServiceProvider;
-use Stats\Providers\GitHubServiceProvider;
-use Stats\Providers\MonologServiceProvider;
 
 $container = (new Container)
 	->registerServiceProvider(new ApplicationServiceProvider)

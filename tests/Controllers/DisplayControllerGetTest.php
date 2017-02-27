@@ -1,23 +1,30 @@
 <?php
-namespace Stats\Tests\Controllers;
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
+
+namespace Joomla\StatsServer\Tests\Controllers;
 
 use Joomla\Cache\Adapter\Runtime;
 use Joomla\Input\Input;
+use Joomla\StatsServer\Controllers\DisplayControllerGet;
+use Joomla\StatsServer\Views\Stats\StatsJsonView;
+use Joomla\StatsServer\WebApplication;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemPoolInterface;
-use Stats\WebApplication;
-use Stats\Controllers\DisplayControllerGet;
-use Stats\Views\Stats\StatsJsonView;
 
 /**
- * Test class for \Stats\Controllers\DisplayControllerGet
+ * Test class for \Joomla\StatsServer\Controllers\DisplayControllerGet
  */
 class DisplayControllerGetTest extends TestCase
 {
 	/**
 	 * @testdox The controller is instantiated correctly
 	 *
-	 * @covers  Stats\Controllers\DisplayControllerGet::__construct
+	 * @covers  Joomla\StatsServer\Controllers\DisplayControllerGet::__construct
 	 */
 	public function testTheControllerIsInstantiatedCorrectly()
 	{
@@ -37,7 +44,7 @@ class DisplayControllerGetTest extends TestCase
 	/**
 	 * @testdox The controller is executed correctly with no caching
 	 *
-	 * @covers  Stats\Controllers\DisplayControllerGet::execute
+	 * @covers  Joomla\StatsServer\Controllers\DisplayControllerGet::execute
 	 */
 	public function testTheControllerIsExecutedCorrectlyWithNoCaching()
 	{
@@ -83,8 +90,8 @@ class DisplayControllerGetTest extends TestCase
 	/**
 	 * @testdox The controller is executed correctly with caching
 	 *
-	 * @covers  Stats\Controllers\DisplayControllerGet::cacheData
-	 * @covers  Stats\Controllers\DisplayControllerGet::execute
+	 * @covers  Joomla\StatsServer\Controllers\DisplayControllerGet::cacheData
+	 * @covers  Joomla\StatsServer\Controllers\DisplayControllerGet::execute
 	 */
 	public function testTheControllerIsExecutedCorrectlyWithCaching()
 	{

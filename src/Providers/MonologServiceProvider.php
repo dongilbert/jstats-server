@@ -1,13 +1,21 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Providers;
+namespace Joomla\StatsServer\Providers;
 
-use Joomla\DI\Container;
-use Joomla\DI\ServiceProviderInterface;
+use Joomla\DI\{
+	Container, ServiceProviderInterface
+};
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use Monolog\Processor\PsrLogMessageProcessor;
-use Monolog\Processor\WebProcessor;
+use Monolog\Processor\{
+	PsrLogMessageProcessor, WebProcessor
+};
 
 /**
  * Monolog service provider

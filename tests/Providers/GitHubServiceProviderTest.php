@@ -1,21 +1,28 @@
 <?php
-namespace Stats\Tests\Providers;
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
+
+namespace Joomla\StatsServer\Tests\Providers;
 
 use Joomla\DI\Container;
 use Joomla\Github\Github;
 use Joomla\Registry\Registry;
+use Joomla\StatsServer\Providers\GitHubServiceProvider;
 use PHPUnit\Framework\TestCase;
-use Stats\Providers\GitHubServiceProvider;
 
 /**
- * Test class for \Stats\Providers\GitHubServiceProvider
+ * Test class for \Joomla\StatsServer\Providers\GitHubServiceProvider
  */
 class GitHubServiceProviderTest extends TestCase
 {
 	/**
 	 * @testdox The GitHub service provider is registered to the DI container
 	 *
-	 * @covers  Stats\Providers\GitHubServiceProvider::register
+	 * @covers  Joomla\StatsServer\Providers\GitHubServiceProvider::register
 	 */
 	public function testTheGitHubServiceProviderIsRegisteredToTheContainer()
 	{
@@ -28,7 +35,7 @@ class GitHubServiceProviderTest extends TestCase
 	/**
 	 * @testdox The GitHub service is created
 	 *
-	 * @covers  Stats\Providers\GitHubServiceProvider::getGithubService
+	 * @covers  Joomla\StatsServer\Providers\GitHubServiceProvider::getGithubService
 	 */
 	public function testTheGitHubServiceIsCreated()
 	{

@@ -33,12 +33,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Stats\\": "src/"
+            "Joomla\\StatsServer\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Stats\\Tests\\": "tests/"
+            "Joomla\\StatsServer\\Tests\\": "tests/"
         }
     },
     "config": {

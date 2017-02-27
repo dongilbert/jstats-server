@@ -1,17 +1,23 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Controllers;
+namespace Joomla\StatsServer\Controllers;
 
 use Joomla\Controller\AbstractController;
 use Joomla\Cache\Item\Item;
+use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use Psr\Cache\CacheItemPoolInterface;
-use Stats\Views\Stats\StatsJsonView;
 
 /**
  * Controller for displaying submitted statistics data.
  *
- * @method         \Stats\WebApplication  getApplication()  Get the application object.
- * @property-read  \Stats\WebApplication  $app              Application object
+ * @method         \Joomla\StatsServer\WebApplication  getApplication()  Get the application object.
+ * @property-read  \Joomla\StatsServer\WebApplication  $app              Application object
  *
  * @since          1.0
  */

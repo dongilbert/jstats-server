@@ -1,27 +1,34 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Providers;
+namespace Joomla\StatsServer\Providers;
 
 use Joomla\Application as JoomlaApplication;
 use Joomla\Database\DatabaseDriver;
-use Joomla\DI\Container;
-use Joomla\DI\ServiceProviderInterface;
-use Joomla\Input\Cli;
-use Joomla\Input\Input;
+use Joomla\DI\{
+	Container, ServiceProviderInterface
+};
+use Joomla\Input\{
+	Cli, Input
+};
+use Joomla\StatsServer\{
+	CliApplication, Console, Router, WebApplication
+};
+use Joomla\StatsServer\Commands as AppCommands;
+use Joomla\StatsServer\Controllers\{
+	DisplayControllerGet, SubmitControllerCreate, SubmitControllerGet
+};
+use Joomla\StatsServer\Database\Migrations;
+use Joomla\StatsServer\GitHub\GitHub;
+use Joomla\StatsServer\Models\StatsModel;
+use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
-use Stats\CliApplication;
-use Stats\Commands as AppCommands;
-use Stats\Console;
-use Stats\Controllers\DisplayControllerGet;
-use Stats\Controllers\SubmitControllerCreate;
-use Stats\Controllers\SubmitControllerGet;
-use Stats\Database\Migrations;
-use Stats\GitHub\GitHub;
-use Stats\Models\StatsModel;
-use Stats\Router;
-use Stats\Views\Stats\StatsJsonView;
-use Stats\WebApplication;
 use TheIconic\Tracking\GoogleAnalytics\Analytics;
 
 /**

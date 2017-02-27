@@ -1,23 +1,29 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Tests\Controllers;
+namespace Joomla\StatsServer\Tests\Controllers;
 
 use Joomla\Input\Input;
+use Joomla\StatsServer\Controllers\SubmitControllerCreate;
+use Joomla\StatsServer\Models\StatsModel;
+use Joomla\StatsServer\WebApplication;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Stats\Controllers\SubmitControllerCreate;
-use Stats\Models\StatsModel;
-use Stats\WebApplication;
 
 /**
- * Test class for \Stats\Controllers\SubmitControllerCreate
+ * Test class for \Joomla\StatsServer\Controllers\SubmitControllerCreate
  */
 class SubmitControllerCreateTest extends TestCase
 {
 	/**
 	 * @testdox The controller is instantiated correctly
 	 *
-	 * @covers  Stats\Controllers\SubmitControllerCreate::__construct
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::__construct
 	 */
 	public function testTheControllerIsInstantiatedCorrectly()
 	{
@@ -33,11 +39,11 @@ class SubmitControllerCreateTest extends TestCase
 	/**
 	 * @testdox The controller is executed correctly
 	 *
-	 * @covers  Stats\Controllers\SubmitControllerCreate::execute
-	 * @covers  Stats\Controllers\SubmitControllerCreate::checkCMSVersion
-	 * @covers  Stats\Controllers\SubmitControllerCreate::checkDatabaseType
-	 * @covers  Stats\Controllers\SubmitControllerCreate::checkPHPVersion
-	 * @covers  Stats\Controllers\SubmitControllerCreate::validateVersionNumber
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::execute
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::checkCMSVersion
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::checkDatabaseType
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::checkPHPVersion
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::validateVersionNumber
 	 */
 	public function testTheControllerIsExecutedCorrectly()
 	{
@@ -75,11 +81,11 @@ class SubmitControllerCreateTest extends TestCase
 	/**
 	 * @testdox The controller does not allow a record with no CMS version to be saved
 	 *
-	 * @covers  Stats\Controllers\SubmitControllerCreate::execute
-	 * @covers  Stats\Controllers\SubmitControllerCreate::checkCMSVersion
-	 * @covers  Stats\Controllers\SubmitControllerCreate::checkDatabaseType
-	 * @covers  Stats\Controllers\SubmitControllerCreate::checkPHPVersion
-	 * @covers  Stats\Controllers\SubmitControllerCreate::validateVersionNumber
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::execute
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::checkCMSVersion
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::checkDatabaseType
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::checkPHPVersion
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::validateVersionNumber
 	 */
 	public function testTheControllerDoesNotAllowARecordWithNoCmsVersionToBeSaved()
 	{
@@ -127,11 +133,11 @@ class SubmitControllerCreateTest extends TestCase
 	/**
 	 * @testdox The controller does not allow a record with an incorrectly formatted CMS version number to be saved
 	 *
-	 * @covers  Stats\Controllers\SubmitControllerCreate::execute
-	 * @covers  Stats\Controllers\SubmitControllerCreate::checkCMSVersion
-	 * @covers  Stats\Controllers\SubmitControllerCreate::checkDatabaseType
-	 * @covers  Stats\Controllers\SubmitControllerCreate::checkPHPVersion
-	 * @covers  Stats\Controllers\SubmitControllerCreate::validateVersionNumber
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::execute
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::checkCMSVersion
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::checkDatabaseType
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::checkPHPVersion
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::validateVersionNumber
 	 */
 	public function testTheControllerDoesNotAllowARecordWithAnIncorrectlyFormattedCmsVersionNumberToBeSaved()
 	{

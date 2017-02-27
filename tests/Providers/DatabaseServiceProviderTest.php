@@ -1,23 +1,30 @@
 <?php
-namespace Stats\Tests\Providers;
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
+
+namespace Joomla\StatsServer\Tests\Providers;
 
 use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
+use Joomla\StatsServer\Database\Migrations;
+use Joomla\StatsServer\Providers\DatabaseServiceProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Stats\Database\Migrations;
-use Stats\Providers\DatabaseServiceProvider;
 
 /**
- * Test class for \Stats\Providers\DatabaseServiceProvider
+ * Test class for \Joomla\StatsServer\Providers\DatabaseServiceProvider
  */
 class DatabaseServiceProviderTest extends TestCase
 {
 	/**
 	 * @testdox The database service provider is registered to the DI container
 	 *
-	 * @covers  Stats\Providers\DatabaseServiceProvider::register
+	 * @covers  Joomla\StatsServer\Providers\DatabaseServiceProvider::register
 	 */
 	public function testTheDatabaseServiceProviderIsRegisteredToTheContainer()
 	{
@@ -30,7 +37,7 @@ class DatabaseServiceProviderTest extends TestCase
 	/**
 	 * @testdox The database driver service is created
 	 *
-	 * @covers  Stats\Providers\DatabaseServiceProvider::getDbService
+	 * @covers  Joomla\StatsServer\Providers\DatabaseServiceProvider::getDbService
 	 */
 	public function testTheDatabaseDriverServiceIsCreated()
 	{
@@ -50,7 +57,7 @@ class DatabaseServiceProviderTest extends TestCase
 	/**
 	 * @testdox The database migrations service is created
 	 *
-	 * @covers  Stats\Providers\DatabaseServiceProvider::getDbMigrationsService
+	 * @covers  Joomla\StatsServer\Providers\DatabaseServiceProvider::getDbMigrationsService
 	 */
 	public function testTheDatabaseMigrationsServiceIsCreated()
 	{
