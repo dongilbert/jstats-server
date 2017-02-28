@@ -71,11 +71,11 @@ class SubmitControllerCreate extends AbstractController
 		$input = $this->getInput();
 
 		$data = [
-			'php_version' => $input->getRaw('php_version'),
-			'db_version'  => $input->getRaw('db_version'),
-			'cms_version' => $input->getRaw('cms_version'),
+			'php_version' => $input->getRaw('php_version', ''),
+			'db_version'  => $input->getRaw('db_version', ''),
+			'cms_version' => $input->getRaw('cms_version', ''),
 			'unique_id'   => $input->getString('unique_id'),
-			'db_type'     => $input->getString('db_type'),
+			'db_type'     => $input->getString('db_type', ''),
 			'server_os'   => $input->getString('server_os'),
 		];
 
