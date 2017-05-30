@@ -287,26 +287,27 @@
         },
         {
             "name": "joomla/application",
-            "version": "1.7.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/application.git",
-                "reference": "e1a2416d3aaeae3c927920b3e1b1c33095b16e03"
+                "reference": "9c93f22181ad5d6d4a18cd1aaacaa9e374efe0a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/application/zipball/e1a2416d3aaeae3c927920b3e1b1c33095b16e03",
-                "reference": "e1a2416d3aaeae3c927920b3e1b1c33095b16e03",
+                "url": "https://api.github.com/repos/joomla-framework/application/zipball/9c93f22181ad5d6d4a18cd1aaacaa9e374efe0a5",
+                "reference": "9c93f22181ad5d6d4a18cd1aaacaa9e374efe0a5",
                 "shasum": ""
             },
             "require": {
-                "joomla/input": "~1.2",
-                "joomla/registry": "~1.1",
+                "joomla/input": "~1.2|~2.0",
+                "joomla/registry": "^1.4.5|~2.0",
                 "php": "^5.3.10|~7.0",
                 "psr/log": "~1.0"
             },
             "require-dev": {
-                "joomla/session": "^1.2.1",
+                "joomla/event": "~1.2|~2.0",
+                "joomla/session": "^1.2.1|~2.0",
                 "joomla/test": "~1.1",
                 "joomla/uri": "~1.1",
                 "phpunit/phpunit": "~4.8|>=5.0 <5.4",
@@ -338,7 +339,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2016-12-10T17:26:50+00:00"
+            "time": "2017-05-29T11:07:37+00:00"
         },
         {
             "name": "joomla/cache",
@@ -346,20 +347,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/cache.git",
-                "reference": "a48f7a6b9e7481a01f2251005a6b1f5610378c04"
+                "reference": "e9e84ca60983deb510461ac1c61c19bd2943cd8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/cache/zipball/a48f7a6b9e7481a01f2251005a6b1f5610378c04",
-                "reference": "a48f7a6b9e7481a01f2251005a6b1f5610378c04",
+                "url": "https://api.github.com/repos/joomla-framework/cache/zipball/e9e84ca60983deb510461ac1c61c19bd2943cd8d",
+                "reference": "e9e84ca60983deb510461ac1c61c19bd2943cd8d",
                 "shasum": ""
             },
             "require": {
                 "php": "^5.5.9|~7.0",
-                "psr/cache": "~1.0"
+                "psr/cache": "~1.0",
+                "psr/simple-cache": "~1.0"
             },
             "provide": {
-                "psr/cache-implementation": "~1.0"
+                "psr/cache-implementation": "~1.0",
+                "psr/simple-cache-implementation": "~1.0"
             },
             "require-dev": {
                 "joomla/test": "~1.0",
@@ -396,7 +399,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2017-02-19 21:59:05"
+            "time": "2017-05-29 09:44:25"
         },
         {
             "name": "joomla/compat",
@@ -1088,12 +1091,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/view.git",
-                "reference": "6fc62f75ed84a82170362dba02c2f8d5a75e9713"
+                "reference": "6f0fa729ade5cff04cfefa0e3dacd260f072dd27"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/view/zipball/6fc62f75ed84a82170362dba02c2f8d5a75e9713",
-                "reference": "6fc62f75ed84a82170362dba02c2f8d5a75e9713",
+                "url": "https://api.github.com/repos/joomla-framework/view/zipball/6f0fa729ade5cff04cfefa0e3dacd260f072dd27",
+                "reference": "6f0fa729ade5cff04cfefa0e3dacd260f072dd27",
                 "shasum": ""
             },
             "require": {
@@ -1130,7 +1133,7 @@
                 "joomla",
                 "view"
             ],
-            "time": "2017-04-22 18:10:33"
+            "time": "2017-05-27 01:24:39"
         },
         {
             "name": "league/flysystem",
@@ -1483,6 +1486,54 @@
                 "psr-3"
             ],
             "time": "2016-10-10T12:19:37+00:00"
+        },
+        {
+            "name": "psr/simple-cache",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/simple-cache.git",
+                "reference": "753fa598e8f3b9966c886fe13f370baa45ef0e24"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/753fa598e8f3b9966c886fe13f370baa45ef0e24",
+                "reference": "753fa598e8f3b9966c886fe13f370baa45ef0e24",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\SimpleCache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interfaces for simple caching",
+            "keywords": [
+                "cache",
+                "caching",
+                "psr",
+                "psr-16",
+                "simple-cache"
+            ],
+            "time": "2017-01-02T13:31:39+00:00"
         },
         {
             "name": "ramsey/uuid",
