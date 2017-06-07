@@ -41,6 +41,7 @@ class SubmitControllerCreate extends AbstractController
 	private $databaseTypes = [
 		'mysql',
 		'mysqli',
+		'pgsql',
 		'pdomysql',
 		'postgresql',
 		'sqlazure',
@@ -119,6 +120,16 @@ class SubmitControllerCreate extends AbstractController
 			$this->getApplication()->setBody(json_encode($response));
 
 			return true;
+		}
+
+		// Account for configuration differences with 4.0
+		if (version_compare($data['cms_version'], '4.0', 'ge'))
+		{
+			// For 4.0 and later, we map `mysql` to the `pdomysql` option to correctly track the database type
+			if ($data['db_type'] === 'mysql')
+			{
+				$data['db_type'] = 'pdomysql';
+			}
 		}
 
 		$this->model->save((object) $data);
