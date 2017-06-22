@@ -79,6 +79,48 @@ class SubmitControllerCreateTest extends TestCase
 	}
 
 	/**
+	 * @testdox The controller is executed correctly for a Joomla! 4.0 installation running PDO MySQL
+	 *
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::execute
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::checkCMSVersion
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::checkDatabaseType
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::checkPHPVersion
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::validateVersionNumber
+	 */
+	public function testTheControllerIsExecutedCorrectlyForAJoomla4InstallationRunningPdoMysql()
+	{
+		$mockModel = $this->getMockBuilder(StatsModel::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$mockModel->expects($this->once())
+			->method('save');
+
+		$mockApp = $this->getMockBuilder(WebApplication::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$mockInput = $this->getMockBuilder(Input::class)
+			->disableOriginalConstructor()
+			->setMethods(['getRaw', 'getString'])
+			->getMock();
+
+		$mockInput->expects($this->exactly(3))
+			->method('getRaw')
+			->willReturnOnConsecutiveCalls(PHP_VERSION, '5.6.23', '4.0.0');
+
+		$mockInput->expects($this->exactly(3))
+			->method('getString')
+			->willReturnOnConsecutiveCalls('1a2b3c4d', 'mysql', 'Darwin 14.1.0');
+
+		$controller = (new SubmitControllerCreate($mockModel))
+			->setApplication($mockApp)
+			->setInput($mockInput);
+
+		$this->assertTrue($controller->execute());
+	}
+
+	/**
 	 * @testdox The controller does not allow a record with no CMS version to be saved
 	 *
 	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::execute
