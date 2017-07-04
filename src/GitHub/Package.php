@@ -12,8 +12,6 @@ use Joomla\Github\Package as BasePackage;
 
 /**
  * Extended GitHub API package class.
- *
- * @since  1.0
  */
 abstract class Package extends BasePackage
 {
@@ -24,7 +22,6 @@ abstract class Package extends BasePackage
 	 *
 	 * @return  Package  GitHub API package object.
 	 *
-	 * @since   1.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function __get($name)

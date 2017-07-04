@@ -14,32 +14,27 @@ use TheIconic\Tracking\GoogleAnalytics\Analytics;
 
 /**
  * Web application for the stats server
- *
- * @since  1.0
  */
 class WebApplication extends AbstractWebApplication
 {
 	/**
 	 * Application analytics object.
 	 *
-	 * @var    Analytics
-	 * @since  1.0
+	 * @var  Analytics
 	 */
 	private $analytics;
 
 	/**
 	 * Response mime type.
 	 *
-	 * @var    string
-	 * @since  1.0
+	 * @var  string
 	 */
 	public $mimeType = 'application/json';
 
 	/**
 	 * Application router.
 	 *
-	 * @var    Router
-	 * @since  1.0
+	 * @var  Router
 	 */
 	private $router;
 
@@ -47,8 +42,6 @@ class WebApplication extends AbstractWebApplication
 	 * Method to run the application routines.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
 	protected function doExecute()
 	{
@@ -109,8 +102,6 @@ class WebApplication extends AbstractWebApplication
 	 * @param   Analytics  $analytics  Analytics object to set.
 	 *
 	 * @return  $this
-	 *
-	 * @since   1.0
 	 */
 	public function setAnalytics(Analytics $analytics) : WebApplication
 	{
@@ -125,8 +116,6 @@ class WebApplication extends AbstractWebApplication
 	 * @param   \Throwable  $exception  The Throwable object to process.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
 	private function setErrorHeader(\Throwable $exception)
 	{
@@ -161,8 +150,6 @@ class WebApplication extends AbstractWebApplication
 	 * @param   Router  $router  Router object to set.
 	 *
 	 * @return  $this
-	 *
-	 * @since   1.0
 	 */
 	public function setRouter(Router $router) : WebApplication
 	{

@@ -15,8 +15,6 @@ use Joomla\Controller\AbstractController;
  *
  * @method         \Joomla\StatsServer\WebApplication  getApplication()  Get the application object.
  * @property-read  \Joomla\StatsServer\WebApplication  $app              Application object
- *
- * @since          1.0
  */
 class SubmitControllerGet extends AbstractController
 {
@@ -24,8 +22,6 @@ class SubmitControllerGet extends AbstractController
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{

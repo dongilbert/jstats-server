@@ -18,16 +18,13 @@ use Joomla\StatsServer\CommandInterface;
  *
  * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
  * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
- *
- * @since          1.0
  */
 class InstallCommand extends AbstractController implements CommandInterface
 {
 	/**
 	 * Database driver.
 	 *
-	 * @var    DatabaseDriver
-	 * @since  1.0
+	 * @var  DatabaseDriver
 	 */
 	private $db = null;
 
@@ -35,8 +32,6 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 * Constructor.
 	 *
 	 * @param   DatabaseDriver  $db  Database driver.
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
@@ -47,8 +42,6 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
@@ -127,8 +120,6 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 * @param   array  $tables  Tables to remove.
 	 *
 	 * @return  $this
-	 *
-	 * @since   1.0
 	 */
 	private function cleanDatabase(array $tables) : InstallCommand
 	{
@@ -157,7 +148,6 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 *
 	 * @return  $this
 	 *
-	 * @since   1.0
 	 * @throws  \UnexpectedValueException
 	 */
 	private function processSql() : InstallCommand
@@ -202,8 +192,6 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 * Get the command's description
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
 	public function getDescription() : string
 	{
@@ -214,8 +202,6 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 * Get the command's title
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
 	public function getTitle() : string
 	{

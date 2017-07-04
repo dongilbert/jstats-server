@@ -16,8 +16,6 @@ use Joomla\StatsServer\GitHub\GitHub;
 
 /**
  * GitHub service provider
- *
- * @since  1.0
  */
 class GitHubServiceProvider implements ServiceProviderInterface
 {
@@ -27,8 +25,6 @@ class GitHubServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
 	public function register(Container $container)
 	{
@@ -43,8 +39,6 @@ class GitHubServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  GitHub
-	 *
-	 * @since   1.0
 	 */
 	public function getGithubService(Container $container) : GitHub
 	{

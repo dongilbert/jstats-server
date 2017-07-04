@@ -17,16 +17,13 @@ use Joomla\Registry\Registry;
 
 /**
  * CLI application for the stats server
- *
- * @since  1.0
  */
 class CliApplication extends AbstractCliApplication
 {
 	/**
 	 * The application's console object
 	 *
-	 * @var    Console
-	 * @since  1.0
+	 * @var  Console
 	 */
 	private $console;
 
@@ -51,7 +48,6 @@ class CliApplication extends AbstractCliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
 	 * @throws  \InvalidArgumentException
 	 */
 	protected function doExecute()
@@ -74,8 +70,6 @@ class CliApplication extends AbstractCliApplication
 	 * Get the application's console object
 	 *
 	 * @return  Console
-	 *
-	 * @since   1.0
 	 */
 	public function getConsole() : Console
 	{
@@ -90,8 +84,6 @@ class CliApplication extends AbstractCliApplication
 	 * @param   int     $width     Total width in chars.
 	 *
 	 * @return  $this
-	 *
-	 * @since   1.0
 	 */
 	public function outputTitle(string $title, string $subTitle = '', int $width = 60) : CliApplication
 	{

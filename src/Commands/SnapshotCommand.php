@@ -17,16 +17,13 @@ use Joomla\StatsServer\Views\Stats\StatsJsonView;
  *
  * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
  * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
- *
- * @since          1.0
  */
 class SnapshotCommand extends AbstractController implements CommandInterface
 {
 	/**
 	 * JSON view for displaying the statistics.
 	 *
-	 * @var    StatsJsonView
-	 * @since  1.0
+	 * @var  StatsJsonView
 	 */
 	private $view;
 
@@ -34,8 +31,6 @@ class SnapshotCommand extends AbstractController implements CommandInterface
 	 * Constructor.
 	 *
 	 * @param   StatsJsonView  $view  JSON view for displaying the statistics.
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(StatsJsonView $view)
 	{
@@ -46,8 +41,6 @@ class SnapshotCommand extends AbstractController implements CommandInterface
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
@@ -72,8 +65,6 @@ class SnapshotCommand extends AbstractController implements CommandInterface
 	 * Get the command's description
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
 	public function getDescription() : string
 	{
@@ -84,8 +75,6 @@ class SnapshotCommand extends AbstractController implements CommandInterface
 	 * Get the command's title
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
 	public function getTitle() : string
 	{

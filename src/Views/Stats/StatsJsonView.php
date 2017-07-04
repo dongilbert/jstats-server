@@ -13,40 +13,34 @@ use Joomla\View\BaseJsonView;
 
 /**
  * JSON response for requesting the stats data.
- *
- * @since  1.0
  */
 class StatsJsonView extends BaseJsonView
 {
 	/**
 	 * Flag if the response should return the raw data.
 	 *
-	 * @var    boolean
-	 * @since  1.0
+	 * @var  boolean
 	 */
 	private $authorizedRaw = false;
 
 	/**
 	 * Array holding the valid data sources.
 	 *
-	 * @var    array
-	 * @since  1.0
+	 * @var  array
 	 */
 	private $dataSources = ['php_version', 'db_type', 'db_version', 'cms_version', 'server_os'];
 
 	/**
 	 * The data source to return.
 	 *
-	 * @var    string
-	 * @since  1.0
+	 * @var  string
 	 */
 	private $source = '';
 
 	/**
 	 * Count of the number of items.
 	 *
-	 * @var    integer
-	 * @since  1.0
+	 * @var  integer
 	 */
 	private $totalItems = 0;
 
@@ -54,8 +48,6 @@ class StatsJsonView extends BaseJsonView
 	 * Instantiate the view.
 	 *
 	 * @param   StatsModel  $model  The model object.
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(StatsModel $model)
 	{
@@ -68,8 +60,6 @@ class StatsJsonView extends BaseJsonView
 	 * @param   bool  $authorizedRaw  Flag if the response should return the raw data.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
 	public function isAuthorizedRaw(bool $authorizedRaw)
 	{
@@ -80,9 +70,6 @@ class StatsJsonView extends BaseJsonView
 	 * Method to render the view.
 	 *
 	 * @return  string  The rendered view.
-	 *
-	 * @since   1.0
-	 * @throws  \InvalidArgumentException
 	 */
 	public function render()
 	{
@@ -162,8 +149,6 @@ class StatsJsonView extends BaseJsonView
 	 * @param   string  $source  Data source to return.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
 	public function setSource(string $source)
 	{
@@ -176,8 +161,6 @@ class StatsJsonView extends BaseJsonView
 	 * @param   array  $data  The raw data array.
 	 *
 	 * @return  array
-	 *
-	 * @since   1.0
 	 */
 	private function buildResponseData(array $data) : array
 	{
@@ -213,8 +196,6 @@ class StatsJsonView extends BaseJsonView
 	 * @param   \Generator  $generator  The source items to process.
 	 *
 	 * @return  string  The rendered view.
-	 *
-	 * @since   1.0
 	 */
 	private function processSingleSource(\Generator $generator) : string
 	{
@@ -273,8 +254,6 @@ class StatsJsonView extends BaseJsonView
 	 * @param   array  $responseData  The response data to sanitize.
 	 *
 	 * @return  array
-	 *
-	 * @since   1.0
 	 */
 	private function sanitizeData(array $responseData) : array
 	{

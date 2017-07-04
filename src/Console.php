@@ -14,8 +14,6 @@ use Joomla\DI\{
 
 /**
  * CLI Console
- *
- * @since  1.0
  */
 class Console implements ContainerAwareInterface
 {
@@ -24,8 +22,7 @@ class Console implements ContainerAwareInterface
 	/**
 	 * Array of available command objects
 	 *
-	 * @var    CommandInterface[]
-	 * @since  1.0
+	 * @var  CommandInterface[]
 	 */
 	private $commands = [];
 
@@ -34,7 +31,6 @@ class Console implements ContainerAwareInterface
 	 *
 	 * @return  CommandInterface[]
 	 *
-	 * @since   1.0
 	 * @throws  \RuntimeException
 	 */
 	public function getCommands() : array
@@ -51,8 +47,6 @@ class Console implements ContainerAwareInterface
 	 * Load the application's commands
 	 *
 	 * @return  CommandInterface[]
-	 *
-	 * @since   1.0
 	 */
 	private function loadCommands() : array
 	{

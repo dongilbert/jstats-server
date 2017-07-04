@@ -18,8 +18,6 @@ use Joomla\StatsServer\Database\Migrations;
 
 /**
  * Database service provider
- *
- * @since  1.0
  */
 class DatabaseServiceProvider implements ServiceProviderInterface
 {
@@ -29,8 +27,6 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
 	public function register(Container $container)
 	{
@@ -47,8 +43,6 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  DatabaseDriver
-	 *
-	 * @since   1.0
 	 */
 	public function getDbService(Container $container) : DatabaseDriver
 	{
@@ -68,8 +62,6 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  Migrations
-	 *
-	 * @since   1.0
 	 */
 	public function getDbMigrationsService(Container $container) : Migrations
 	{

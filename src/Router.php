@@ -16,8 +16,6 @@ use Joomla\Router\RestRouter;
 
 /**
  * Stats application router
- *
- * @since  1.0
  */
 class Router extends RestRouter implements ContainerAwareInterface
 {
@@ -30,7 +28,6 @@ class Router extends RestRouter implements ContainerAwareInterface
 	 *
 	 * @return  ControllerInterface
 	 *
-	 * @since   1.0
 	 * @throws  \RuntimeException
 	 */
 	protected function fetchController($name)

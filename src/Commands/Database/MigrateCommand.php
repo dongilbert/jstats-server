@@ -20,8 +20,6 @@ use Psr\Log\{
  *
  * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
  * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
- *
- * @since          1.0
  */
 class MigrateCommand extends AbstractController implements CommandInterface, LoggerAwareInterface
 {
@@ -30,8 +28,7 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 	/**
 	 * Database migrations helper
 	 *
-	 * @var    Migrations
-	 * @since  1.0
+	 * @var  Migrations
 	 */
 	private $migrations;
 
@@ -39,8 +36,6 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 	 * Constructor.
 	 *
 	 * @param   Migrations  $migrations  Database migrations helper
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(Migrations $migrations)
 	{
@@ -51,8 +46,6 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
@@ -90,8 +83,6 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 	 * Get the command's description
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
 	public function getDescription() : string
 	{
@@ -102,8 +93,6 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 	 * Get the command's title
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
 	public function getTitle() : string
 	{

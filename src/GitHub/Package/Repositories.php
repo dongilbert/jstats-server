@@ -13,16 +13,13 @@ use Joomla\Http\Response;
 
 /**
  * Extended GitHub API Repositories class.
- *
- * @since  1.0
  */
 class Repositories extends BaseRepositories
 {
 	/**
 	 * API Response object
 	 *
-	 * @var    Response
-	 * @since  1.0
+	 * @var  Response
 	 */
 	private $apiResponse;
 
@@ -30,8 +27,6 @@ class Repositories extends BaseRepositories
 	 * Get the last API response if one is set
 	 *
 	 * @return  Response|null
-	 *
-	 * @since   1.0
 	 */
 	public function getApiResponse()
 	{
@@ -49,8 +44,6 @@ class Repositories extends BaseRepositories
 	 * @param   integer  $page   The page number from which to get items.
 	 *
 	 * @return  object
-	 *
-	 * @since   1.0
 	 */
 	public function getTags($owner, $repo, $page = 0)
 	{

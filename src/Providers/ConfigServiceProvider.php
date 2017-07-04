@@ -15,16 +15,13 @@ use Joomla\Registry\Registry;
 
 /**
  * Configuration service provider
- *
- * @since  1.0
  */
 class ConfigServiceProvider implements ServiceProviderInterface
 {
 	/**
 	 * Configuration instance
 	 *
-	 * @var    Registry
-	 * @since  1.0
+	 * @var  Registry
 	 */
 	private $config;
 
@@ -33,7 +30,6 @@ class ConfigServiceProvider implements ServiceProviderInterface
 	 *
 	 * @param   string  $file  Path to the config file.
 	 *
-	 * @since   1.0
 	 * @throws  \RuntimeException
 	 */
 	public function __construct(string $file)
@@ -53,8 +49,6 @@ class ConfigServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
 	public function register(Container $container)
 	{
@@ -67,8 +61,6 @@ class ConfigServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  Registry
-	 *
-	 * @since   1.0
 	 */
 	public function getConfigService(Container $container) : Registry
 	{

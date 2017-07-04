@@ -17,8 +17,6 @@ use Joomla\StatsServer\Models\StatsModel;
  *
  * @method         \Joomla\StatsServer\WebApplication  getApplication()  Get the application object.
  * @property-read  \Joomla\StatsServer\WebApplication  $app              Application object
- *
- * @since          1.0
  */
 class SubmitControllerCreate extends AbstractController
 {
@@ -27,16 +25,14 @@ class SubmitControllerCreate extends AbstractController
 	/**
 	 * Statistics model object.
 	 *
-	 * @var    StatsModel
-	 * @since  1.0
+	 * @var  StatsModel
 	 */
 	private $model;
 
 	/**
 	 * Allowed Database Types.
 	 *
-	 * @var    array
-	 * @since  1.0
+	 * @var  array
 	 */
 	private $databaseTypes = [
 		'mysql',
@@ -52,8 +48,6 @@ class SubmitControllerCreate extends AbstractController
 	 * Constructor.
 	 *
 	 * @param   StatsModel  $model  Statistics model object.
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(StatsModel $model)
 	{
@@ -64,8 +58,6 @@ class SubmitControllerCreate extends AbstractController
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
@@ -150,8 +142,6 @@ class SubmitControllerCreate extends AbstractController
 	 * @param   string  $version  The version number to check.
 	 *
 	 * @return  string|boolean  The version number on success or boolean false on failure.
-	 *
-	 * @since   1.0
 	 */
 	private function checkCMSVersion(string $version)
 	{
@@ -196,8 +186,6 @@ class SubmitControllerCreate extends AbstractController
 	 * @param   string  $database  The database type to check.
 	 *
 	 * @return  string|boolean  The database type on success or boolean false on failure.
-	 *
-	 * @since   1.0
 	 */
 	private function checkDatabaseType(string $database)
 	{
@@ -215,8 +203,6 @@ class SubmitControllerCreate extends AbstractController
 	 * @param   string  $version  The version number to check.
 	 *
 	 * @return  string|boolean  The version number on success or boolean false on failure.
-	 *
-	 * @since   1.0
 	 */
 	private function checkPHPVersion(string $version)
 	{

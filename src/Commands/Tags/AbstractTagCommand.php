@@ -17,32 +17,27 @@ use Joomla\StatsServer\GitHub\GitHub;
  *
  * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
  * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
- *
- * @since          1.0
  */
 abstract class AbstractTagCommand extends AbstractController implements CommandInterface
 {
 	/**
 	 * GitHub API object.
 	 *
-	 * @var    GitHub
-	 * @since  1.0
+	 * @var  GitHub
 	 */
 	protected $github;
 
 	/**
 	 * The GitHub repository to query.
 	 *
-	 * @var    string
-	 * @since  1.0
+	 * @var  string
 	 */
 	protected $repoName;
 
 	/**
 	 * The owner of the GitHub repository to query.
 	 *
-	 * @var    string
-	 * @since  1.0
+	 * @var  string
 	 */
 	protected $repoOwner;
 
@@ -50,8 +45,6 @@ abstract class AbstractTagCommand extends AbstractController implements CommandI
 	 * Constructor.
 	 *
 	 * @param   GitHub  $github  GitHub API object
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(GitHub $github)
 	{
@@ -62,8 +55,6 @@ abstract class AbstractTagCommand extends AbstractController implements CommandI
 	 * Get the tags for a repository
 	 *
 	 * @return  array
-	 *
-	 * @since   1.0
 	 */
 	protected function getTags() : array
 	{

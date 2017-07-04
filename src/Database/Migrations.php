@@ -14,24 +14,20 @@ use League\Flysystem\Filesystem;
 
 /**
  * Class for managing database migrations
- *
- * @since  1.0
  */
 class Migrations
 {
 	/**
 	 * Database connector
 	 *
-	 * @var    DatabaseDriver
-	 * @since  1.0
+	 * @var  DatabaseDriver
 	 */
 	private $database;
 
 	/**
 	 * Filesystem adapter
 	 *
-	 * @var    Filesystem
-	 * @since  1.0
+	 * @var  Filesystem
 	 */
 	private $filesystem;
 
@@ -40,8 +36,6 @@ class Migrations
 	 *
 	 * @param   DatabaseDriver  $database    Database connector
 	 * @param   Filesystem      $filesystem  Filesystem adapter
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(DatabaseDriver $database, Filesystem $filesystem)
 	{
@@ -53,8 +47,6 @@ class Migrations
 	 * Checks the migration status of the current installation
 	 *
 	 * @return  array
-	 *
-	 * @since   1.0
 	 */
 	public function checkStatus() : array
 	{
@@ -117,8 +109,6 @@ class Migrations
 	 * @param   string  $version  Optional migration version to run
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
 	public function migrateDatabase(string $version = '')
 	{
@@ -162,7 +152,6 @@ class Migrations
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
 	 * @throws  FileNotFoundException
 	 */
 	private function doMigration(string $version)

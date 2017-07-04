@@ -16,8 +16,6 @@ use Joomla\StatsServer\CommandInterface;
  *
  * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
  * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
- *
- * @since          1.0
  */
 class UpdateCommand extends AbstractController implements CommandInterface
 {
@@ -25,8 +23,6 @@ class UpdateCommand extends AbstractController implements CommandInterface
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
@@ -51,8 +47,6 @@ class UpdateCommand extends AbstractController implements CommandInterface
 	 * Get the command's description
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
 	public function getDescription() : string
 	{
@@ -63,8 +57,6 @@ class UpdateCommand extends AbstractController implements CommandInterface
 	 * Get the command's title
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
 	public function getTitle() : string
 	{
@@ -78,7 +70,6 @@ class UpdateCommand extends AbstractController implements CommandInterface
 	 *
 	 * @return  string  Return data from the command
 	 *
-	 * @since   1.0
 	 * @throws  \RuntimeException
 	 */
 	private function runCommand(string $command) : string

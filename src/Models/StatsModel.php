@@ -16,8 +16,6 @@ use Joomla\Model\{
 
 /**
  * Statistics database model
- *
- * @since  1.0
  */
 class StatsModel implements DatabaseModelInterface
 {
@@ -26,8 +24,7 @@ class StatsModel implements DatabaseModelInterface
 	/**
 	 * The query batch size
 	 *
-	 * @var    integer
-	 * @since  1.0
+	 * @var  integer
 	 */
 	private $batchSize = 25000;
 
@@ -35,8 +32,6 @@ class StatsModel implements DatabaseModelInterface
 	 * Instantiate the model.
 	 *
 	 * @param   DatabaseDriver  $db  The database driver.
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
@@ -50,7 +45,6 @@ class StatsModel implements DatabaseModelInterface
 	 *
 	 * @return  \Generator  A Generator containing the response data
 	 *
-	 * @since   1.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function getItems(string $column = '') : \Generator
@@ -121,8 +115,6 @@ class StatsModel implements DatabaseModelInterface
 	 * @param   \stdClass  $data  Data object to save.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
 	public function save(\stdClass $data)
 	{

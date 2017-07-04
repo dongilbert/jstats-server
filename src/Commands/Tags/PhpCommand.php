@@ -13,8 +13,6 @@ use Joomla\StatsServer\GitHub\GitHub;
 
 /**
  * Command for processing tags for the PHP project from GitHub
- *
- * @since  1.0
  */
 class PhpCommand extends AbstractTagCommand
 {
@@ -24,8 +22,6 @@ class PhpCommand extends AbstractTagCommand
 	 * Constructor.
 	 *
 	 * @param   GitHub  $github  GitHub API object
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(GitHub $github)
 	{
@@ -39,8 +35,6 @@ class PhpCommand extends AbstractTagCommand
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
@@ -125,8 +119,6 @@ class PhpCommand extends AbstractTagCommand
 	 * Get the command's description
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
 	public function getDescription() : string
 	{
@@ -137,8 +129,6 @@ class PhpCommand extends AbstractTagCommand
 	 * Get the command's title
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
 	public function getTitle() : string
 	{

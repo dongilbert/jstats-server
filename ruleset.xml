@@ -22,6 +22,7 @@
     <exclude-pattern>*/Gruntfile.js</exclude-pattern>
 
     <rule ref="Joomla">
+        <exclude name="Joomla.Commenting.ClassComment.MissingSinceTag"/>
         <exclude name="Joomla.NamingConventions.ValidVariableName.MemberNotCamelCaps"/>
         <exclude name="Joomla.NamingConventions.ValidVariableName.NotCamelCaps"/>
         <exclude name="Joomla.NamingConventions.ValidFunctionName.ScopeNotCamelCaps"/>
@@ -40,10 +41,6 @@
     </rule>
 
     <rule ref="Joomla.Commenting.FunctionComment.MissingReturn">
-        <exclude-pattern>*/tests/*</exclude-pattern>
-    </rule>
-
-    <rule ref="Joomla.Commenting.ClassComment.MissingSinceTag">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
 </ruleset>

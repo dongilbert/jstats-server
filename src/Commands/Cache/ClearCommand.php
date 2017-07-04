@@ -17,16 +17,13 @@ use Psr\Cache\CacheItemPoolInterface;
  *
  * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
  * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
- *
- * @since          1.0
  */
 class ClearCommand extends AbstractController implements CommandInterface
 {
 	/**
 	 * The cache item pool.
 	 *
-	 * @var    CacheItemPoolInterface
-	 * @since  1.0
+	 * @var  CacheItemPoolInterface
 	 */
 	private $cache;
 
@@ -34,8 +31,6 @@ class ClearCommand extends AbstractController implements CommandInterface
 	 * Constructor.
 	 *
 	 * @param   CacheItemPoolInterface  $cache  The cache item pool
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(CacheItemPoolInterface $cache)
 	{
@@ -46,8 +41,6 @@ class ClearCommand extends AbstractController implements CommandInterface
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
@@ -64,8 +57,6 @@ class ClearCommand extends AbstractController implements CommandInterface
 	 * Get the command's description
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
 	public function getDescription() : string
 	{
@@ -76,8 +67,6 @@ class ClearCommand extends AbstractController implements CommandInterface
 	 * Get the command's title
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
 	public function getTitle() : string
 	{

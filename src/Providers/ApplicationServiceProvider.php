@@ -33,8 +33,6 @@ use TheIconic\Tracking\GoogleAnalytics\Analytics;
 
 /**
  * Application service provider
- *
- * @since  1.0
  */
 class ApplicationServiceProvider implements ServiceProviderInterface
 {
@@ -44,8 +42,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
 	public function register(Container $container)
 	{
@@ -110,8 +106,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  Analytics
-	 *
-	 * @since   1.0
 	 */
 	public function getAnalyticsService(Container $container)
 	{
@@ -124,8 +118,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  AppCommands\Cache\ClearCommand
-	 *
-	 * @since   1.0
 	 */
 	public function getCacheClearCommandService(Container $container) : AppCommands\Cache\ClearCommand
 	{
@@ -143,8 +135,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  CliApplication
-	 *
-	 * @since   1.0
 	 */
 	public function getCliApplicationService(Container $container) : CliApplication
 	{
@@ -168,8 +158,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  JoomlaApplication\Cli\CliInput
-	 *
-	 * @since   1.0
 	 */
 	public function getCliInputService(Container $container) : JoomlaApplication\Cli\CliInput
 	{
@@ -182,8 +170,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  JoomlaApplication\Cli\CliOutput
-	 *
-	 * @since   1.0
 	 */
 	public function getCliOutputService(Container $container) : JoomlaApplication\Cli\Output\Stdout
 	{
@@ -196,8 +182,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  JoomlaApplication\Cli\Output\Processor\ColorProcessor
-	 *
-	 * @since   1.0
 	 */
 	public function getColorProcessorService(Container $container) : JoomlaApplication\Cli\Output\Processor\ColorProcessor
 	{
@@ -223,8 +207,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  Console
-	 *
-	 * @since   1.0
 	 */
 	public function getConsoleService(Container $container) : Console
 	{
@@ -240,8 +222,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  AppCommands\Database\MigrateCommand
-	 *
-	 * @since   1.0
 	 */
 	public function getDatabaseMigrateCommandService(Container $container) : AppCommands\Database\MigrateCommand
 	{
@@ -260,8 +240,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  AppCommands\Database\StatusCommand
-	 *
-	 * @since   1.0
 	 */
 	public function getDatabaseStatusCommandService(Container $container) : AppCommands\Database\StatusCommand
 	{
@@ -279,8 +257,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  DisplayControllerGet
-	 *
-	 * @since   1.0
 	 */
 	public function getDisplayControllerGetService(Container $container) : DisplayControllerGet
 	{
@@ -301,8 +277,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  AppCommands\HelpCommand
-	 *
-	 * @since   1.0
 	 */
 	public function getHelpCommandService(Container $container) : AppCommands\HelpCommand
 	{
@@ -320,8 +294,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  Cli
-	 *
-	 * @since   1.0
 	 */
 	public function getInputCliService(Container $container) : Cli
 	{
@@ -334,8 +306,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  Input
-	 *
-	 * @since   1.0
 	 */
 	public function getInputService(Container $container) : Input
 	{
@@ -348,8 +318,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  AppCommands\InstallCommand
-	 *
-	 * @since   1.0
 	 */
 	public function getInstallCommandService(Container $container) : AppCommands\InstallCommand
 	{
@@ -367,8 +335,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  Router
-	 *
-	 * @since   1.0
 	 */
 	public function getRouterService(Container $container) : Router
 	{
@@ -389,8 +355,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  AppCommands\SnapshotCommand
-	 *
-	 * @since   1.0
 	 */
 	public function getSnapshotCommandService(Container $container) : AppCommands\SnapshotCommand
 	{
@@ -408,8 +372,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  StatsJsonView
-	 *
-	 * @since   1.0
 	 */
 	public function getStatsJsonViewService(Container $container) : StatsJsonView
 	{
@@ -424,8 +386,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  StatsModel
-	 *
-	 * @since   1.0
 	 */
 	public function getStatsModelService(Container $container) : StatsModel
 	{
@@ -440,8 +400,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  SubmitControllerCreate
-	 *
-	 * @since   1.0
 	 */
 	public function getSubmitControllerCreateService(Container $container) : SubmitControllerCreate
 	{
@@ -461,8 +419,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  SubmitControllerGet
-	 *
-	 * @since   1.0
 	 */
 	public function getSubmitControllerGetService(Container $container) : SubmitControllerGet
 	{
@@ -480,8 +436,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  AppCommands\Tags\JoomlaCommand
-	 *
-	 * @since   1.0
 	 */
 	public function getTagsJoomlaCommandService(Container $container) : AppCommands\Tags\JoomlaCommand
 	{
@@ -499,8 +453,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  AppCommands\Tags\PhpCommand
-	 *
-	 * @since   1.0
 	 */
 	public function getTagsPhpCommandService(Container $container) : AppCommands\Tags\PhpCommand
 	{
@@ -518,8 +470,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  AppCommands\UpdateCommand
-	 *
-	 * @since   1.0
 	 */
 	public function getUpdateCommandService(Container $container) : AppCommands\UpdateCommand
 	{
@@ -537,8 +487,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  WebApplication
-	 *
-	 * @since   1.0
 	 */
 	public function getWebApplicationService(Container $container) : WebApplication
 	{

@@ -18,24 +18,20 @@ use Psr\Cache\CacheItemPoolInterface;
  *
  * @method         \Joomla\StatsServer\WebApplication  getApplication()  Get the application object.
  * @property-read  \Joomla\StatsServer\WebApplication  $app              Application object
- *
- * @since          1.0
  */
 class DisplayControllerGet extends AbstractController
 {
 	/**
 	 * The cache item pool.
 	 *
-	 * @var    CacheItemPoolInterface
-	 * @since  1.0
+	 * @var  CacheItemPoolInterface
 	 */
 	private $cache;
 
 	/**
 	 * JSON view for displaying the statistics.
 	 *
-	 * @var    StatsJsonView
-	 * @since  1.0
+	 * @var  StatsJsonView
 	 */
 	private $view;
 
@@ -44,8 +40,6 @@ class DisplayControllerGet extends AbstractController
 	 *
 	 * @param   StatsJsonView           $view   JSON view for displaying the statistics.
 	 * @param   CacheItemPoolInterface  $cache  The cache item pool.
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(StatsJsonView $view, CacheItemPoolInterface $cache)
 	{
@@ -57,8 +51,6 @@ class DisplayControllerGet extends AbstractController
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
@@ -116,8 +108,6 @@ class DisplayControllerGet extends AbstractController
 	 * @param   mixed   $data  The data to be stored to cache.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
 	private function cacheData(string $key, $data)
 	{

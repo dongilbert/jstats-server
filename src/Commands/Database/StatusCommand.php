@@ -17,16 +17,13 @@ use Joomla\StatsServer\Database\Migrations;
  *
  * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
  * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
- *
- * @since          1.0
  */
 class StatusCommand extends AbstractController implements CommandInterface
 {
 	/**
 	 * Database migrations helper
 	 *
-	 * @var    Migrations
-	 * @since  1.0
+	 * @var  Migrations
 	 */
 	private $migrations;
 
@@ -34,8 +31,6 @@ class StatusCommand extends AbstractController implements CommandInterface
 	 * Constructor.
 	 *
 	 * @param   Migrations  $migrations  Database migrations helper
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(Migrations $migrations)
 	{
@@ -46,8 +41,6 @@ class StatusCommand extends AbstractController implements CommandInterface
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
@@ -78,8 +71,6 @@ class StatusCommand extends AbstractController implements CommandInterface
 	 * Get the command's description
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
 	public function getDescription() : string
 	{
@@ -90,8 +81,6 @@ class StatusCommand extends AbstractController implements CommandInterface
 	 * Get the command's title
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
 	public function getTitle() : string
 	{

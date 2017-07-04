@@ -19,8 +19,6 @@ use Monolog\Processor\{
 
 /**
  * Monolog service provider
- *
- * @since  1.0
  */
 class MonologServiceProvider implements ServiceProviderInterface
 {
@@ -30,8 +28,6 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
 	public function register(Container $container)
 	{
@@ -63,8 +59,6 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  PsrLogMessageProcessor
-	 *
-	 * @since   1.0
 	 */
 	public function getMonologProcessorPsr3Service(Container $container) : PsrLogMessageProcessor
 	{
@@ -77,8 +71,6 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  WebProcessor
-	 *
-	 * @since   1.0
 	 */
 	public function getMonologProcessorWebService(Container $container) : WebProcessor
 	{
@@ -91,8 +83,6 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  StreamHandler
-	 *
-	 * @since   1.0
 	 */
 	public function getMonologHandlerApplicationService(Container $container) : StreamHandler
 	{
@@ -110,8 +100,6 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  StreamHandler
-	 *
-	 * @since   1.0
 	 */
 	public function getMonologHandlerDatabaseService(Container $container) : StreamHandler
 	{
@@ -130,8 +118,6 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  Logger
-	 *
-	 * @since   1.0
 	 */
 	public function getMonologLoggerApplicationService(Container $container) : Logger
 	{
@@ -152,8 +138,6 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  Logger
-	 *
-	 * @since   1.0
 	 */
 	public function getMonologLoggerCliService(Container $container) : Logger
 	{
@@ -171,8 +155,6 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  Logger
-	 *
-	 * @since   1.0
 	 */
 	public function getMonologLoggerDatabaseService(Container $container) : Logger
 	{
