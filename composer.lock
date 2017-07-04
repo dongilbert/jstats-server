@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "44a0f7d6e40f4648bfe1f19feec92519",
+    "content-hash": "d1bd2cd22a090f3e62e69144c04cd56f",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1774,6 +1774,53 @@
             "time": "2015-06-14T21:17:01+00:00"
         },
         {
+            "name": "joomla/coding-standards",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla/coding-standards.git",
+                "reference": "8c08db51a45b2e13377fdf601c5748ec37e0f293"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/8c08db51a45b2e13377fdf601c5748ec37e0f293",
+                "reference": "8c08db51a45b2e13377fdf601c5748ec37e0f293",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.10",
+                "squizlabs/php_codesniffer": "^2.8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.7"
+            },
+            "type": "phpcodesniffer-standard",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2+"
+            ],
+            "authors": [
+                {
+                    "name": "Joomla Coding Standards Contributors",
+                    "homepage": "https://github.com/joomla/coding-standards/graphs/contributors"
+                }
+            ],
+            "description": "Joomla Coding Standards",
+            "homepage": "https://github.com/joomla/coding-standards",
+            "keywords": [
+                "coding standards",
+                "joomla",
+                "php codesniffer",
+                "phpcs"
+            ],
+            "time": "2017-06-30T14:22:06+00:00"
+        },
+        {
             "name": "joomla/event",
             "version": "1.2.0",
             "source": {
@@ -3219,6 +3266,84 @@
             "time": "2016-10-03T07:35:21+00:00"
         },
         {
+            "name": "squizlabs/php_codesniffer",
+            "version": "2.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
+                "reference": "dcbed1074f8244661eecddfc2a675430d8d33f62"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/dcbed1074f8244661eecddfc2a675430d8d33f62",
+                "reference": "dcbed1074f8244661eecddfc2a675430d8d33f62",
+                "shasum": ""
+            },
+            "require": {
+                "ext-simplexml": "*",
+                "ext-tokenizer": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.1.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "bin": [
+                "scripts/phpcs",
+                "scripts/phpcbf"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "CodeSniffer.php",
+                    "CodeSniffer/CLI.php",
+                    "CodeSniffer/Exception.php",
+                    "CodeSniffer/File.php",
+                    "CodeSniffer/Fixer.php",
+                    "CodeSniffer/Report.php",
+                    "CodeSniffer/Reporting.php",
+                    "CodeSniffer/Sniff.php",
+                    "CodeSniffer/Tokens.php",
+                    "CodeSniffer/Reports/",
+                    "CodeSniffer/Tokenizers/",
+                    "CodeSniffer/DocGenerators/",
+                    "CodeSniffer/Standards/AbstractPatternSniff.php",
+                    "CodeSniffer/Standards/AbstractScopeSniff.php",
+                    "CodeSniffer/Standards/AbstractVariableSniff.php",
+                    "CodeSniffer/Standards/IncorrectPatternException.php",
+                    "CodeSniffer/Standards/Generic/Sniffs/",
+                    "CodeSniffer/Standards/MySource/Sniffs/",
+                    "CodeSniffer/Standards/PEAR/Sniffs/",
+                    "CodeSniffer/Standards/PSR1/Sniffs/",
+                    "CodeSniffer/Standards/PSR2/Sniffs/",
+                    "CodeSniffer/Standards/Squiz/Sniffs/",
+                    "CodeSniffer/Standards/Zend/Sniffs/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Greg Sherwood",
+                    "role": "lead"
+                }
+            ],
+            "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
+            "homepage": "http://www.squizlabs.com/php-codesniffer",
+            "keywords": [
+                "phpcs",
+                "standards"
+            ],
+            "time": "2017-05-22T02:43:20+00:00"
+        },
+        {
             "name": "theseer/tokenizer",
             "version": "1.1.0",
             "source": {
@@ -3313,7 +3438,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "joomla/cache": 20,
-        "joomla/view": 20
+        "joomla/view": 20,
+        "joomla/coding-standards": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

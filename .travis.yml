@@ -6,12 +6,14 @@ language: php
 env:
   global:
     - USE_SCRUTINIZER="no"
+    - RUN_PHPCS="no"
 
 matrix:
   include:
     - php: 7.0
       env: PHPUNIT_FLAGS="--coverage-clover=coverage.clover" USE_SCRUTINIZER="yes"
     - php: 7.1
+      env: RUN_PHPCS="yes"
     - php: nightly
   allow_failures:
     - php: nightly
@@ -24,3 +26,4 @@ script:
   - vendor/bin/phpunit --configuration phpunit.travisci.xml $PHPUNIT_FLAGS
   - if [ "$USE_SCRUTINIZER" == "yes" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi;
   - if [ "$USE_SCRUTINIZER" == "yes" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;
+  - if [ "$RUN_PHPCS" == "yes" ]; then vendor/bin/phpcs --config-set installed_paths vendor/joomla/coding-standards && vendor/bin/phpcs -p --report=full --extensions=php --standard=ruleset.xml bin/ src/ tests/ www/; fi;
