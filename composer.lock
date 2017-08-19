@@ -350,16 +350,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/cache.git",
-                "reference": "e9e84ca60983deb510461ac1c61c19bd2943cd8d"
+                "reference": "ac22cf4144d12ff3585ca52b267128a7e2cfe744"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/cache/zipball/e9e84ca60983deb510461ac1c61c19bd2943cd8d",
-                "reference": "e9e84ca60983deb510461ac1c61c19bd2943cd8d",
+                "url": "https://api.github.com/repos/joomla-framework/cache/zipball/ac22cf4144d12ff3585ca52b267128a7e2cfe744",
+                "reference": "ac22cf4144d12ff3585ca52b267128a7e2cfe744",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9|~7.0",
+                "php": "~7.0",
                 "psr/cache": "~1.0",
                 "psr/simple-cache": "~1.0"
             },
@@ -369,11 +369,10 @@
             },
             "require-dev": {
                 "joomla/test": "~1.0",
-                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
+                "phpunit/phpunit": "~6.3",
                 "squizlabs/php_codesniffer": "1.*"
             },
             "suggest": {
-                "ext-apc": "To use APC caching",
                 "ext-apcu": "To use APCu caching",
                 "ext-memcached": "To use Memcached caching",
                 "ext-redis": "To use Redis caching",
@@ -402,7 +401,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2017-05-29 09:44:25"
+            "time": "2017-08-16T00:16:36+00:00"
         },
         {
             "name": "joomla/compat",
@@ -1094,21 +1093,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/view.git",
-                "reference": "ec1aae736490734efec93087cfca6cc85d0544a3"
+                "reference": "d02d7f7007c0fb858b3e825d976b55bb333e1f5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/view/zipball/ec1aae736490734efec93087cfca6cc85d0544a3",
-                "reference": "ec1aae736490734efec93087cfca6cc85d0544a3",
+                "url": "https://api.github.com/repos/joomla-framework/view/zipball/d02d7f7007c0fb858b3e825d976b55bb333e1f5c",
+                "reference": "d02d7f7007c0fb858b3e825d976b55bb333e1f5c",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9|~7.0"
+                "php": "~7.0"
             },
             "require-dev": {
                 "joomla/renderer": "~2.0",
                 "joomla/test": "~1.0",
-                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
+                "phpunit/phpunit": "~6.3",
                 "squizlabs/php_codesniffer": "1.*"
             },
             "suggest": {
@@ -1136,7 +1135,7 @@
                 "joomla",
                 "view"
             ],
-            "time": "2017-08-05 20:03:32"
+            "time": "2017-08-16T02:03:52+00:00"
         },
         {
             "name": "league/flysystem",
@@ -1622,16 +1621,16 @@
         },
         {
             "name": "symfony/polyfill-php55",
-            "version": "v1.4.0",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php55.git",
-                "reference": "94566239a7720cde0820f15f0cc348ddb51ba51d"
+                "reference": "29b1381d66f16e0581aab0b9f678ccf073288f68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php55/zipball/94566239a7720cde0820f15f0cc348ddb51ba51d",
-                "reference": "94566239a7720cde0820f15f0cc348ddb51ba51d",
+                "url": "https://api.github.com/repos/symfony/polyfill-php55/zipball/29b1381d66f16e0581aab0b9f678ccf073288f68",
+                "reference": "29b1381d66f16e0581aab0b9f678ccf073288f68",
                 "shasum": ""
             },
             "require": {
@@ -1641,7 +1640,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4-dev"
+                    "dev-master": "1.5-dev"
                 }
             },
             "autoload": {
@@ -1674,7 +1673,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-06-09T08:25:21+00:00"
+            "time": "2017-06-14T15:44:48+00:00"
         },
         {
             "name": "theiconic/php-ga-measurement-protocol",
@@ -1779,12 +1778,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla/coding-standards.git",
-                "reference": "3eeab4d1d1a4d87130f975cde8b2a7b5a6a36340"
+                "reference": "6967330a855fe83d24270f01d819f4d32180a94e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/3eeab4d1d1a4d87130f975cde8b2a7b5a6a36340",
-                "reference": "3eeab4d1d1a4d87130f975cde8b2a7b5a6a36340",
+                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/6967330a855fe83d24270f01d819f4d32180a94e",
+                "reference": "6967330a855fe83d24270f01d819f4d32180a94e",
                 "shasum": ""
             },
             "require": {
@@ -1818,7 +1817,7 @@
                 "php codesniffer",
                 "phpcs"
             ],
-            "time": "2017-07-18 23:28:15"
+            "time": "2017-08-16T11:55:03+00:00"
         },
         {
             "name": "joomla/event",
@@ -1918,26 +1917,29 @@
         },
         {
             "name": "joomla/test",
-            "version": "1.1.6",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/test.git",
-                "reference": "9bceb0387fe76156554d1de765200abefcbf9166"
+                "reference": "51e1e0727ec144435f94d52dc6b747ef6f94c26b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/test/zipball/9bceb0387fe76156554d1de765200abefcbf9166",
-                "reference": "9bceb0387fe76156554d1de765200abefcbf9166",
+                "url": "https://api.github.com/repos/joomla-framework/test/zipball/51e1e0727ec144435f94d52dc6b747ef6f94c26b",
+                "reference": "51e1e0727ec144435f94d52dc6b747ef6f94c26b",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.10"
+                "php": "^5.3.10|~7.0",
+                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
             },
             "require-dev": {
-                "joomla/database": "~1.0"
+                "joomla/database": "~1.0",
+                "phpunit/dbunit": "~1.3|~2.0"
             },
             "suggest": {
-                "joomla/database": "To use the database test case, install joomla/database"
+                "joomla/database": "To use the database test case, install joomla/database",
+                "phpunit/dbunit": "To use the database test case, install phpunit/dbunit"
             },
             "type": "joomla-package",
             "autoload": {
@@ -1958,7 +1960,7 @@
                 "reflection",
                 "unit test"
             ],
-            "time": "2017-01-21T22:54:27+00:00"
+            "time": "2017-04-13T08:44:31+00:00"
         },
         {
             "name": "myclabs/deep-copy",
