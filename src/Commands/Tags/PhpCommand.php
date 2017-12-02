@@ -40,8 +40,13 @@ class PhpCommand extends AbstractTagCommand
 	{
 		$this->getApplication()->outputTitle('Fetching PHP Releases');
 
-		$versions    = [];
-		$highVersion = '0.0.0';
+		$versions          = [];
+		$supportedBranches = [
+			'5.6' => '',
+			'7.0' => '',
+			'7.1' => '',
+			'7.2' => '',
+		];
 
 		foreach ($this->getTags() as $tag)
 		{
@@ -80,27 +85,30 @@ class PhpCommand extends AbstractTagCommand
 			{
 				$versions[] = $version;
 
-				// If this version is higher than our high version, replace it
-				if (version_compare($version, $highVersion, '>'))
+				// If this version is higher than our branch's high version, replace it
+				$branch = substr($version, 0, 3);
+
+				if (isset($supportedBranches[$branch]) && version_compare($version, $supportedBranches[$branch], '>'))
 				{
-					$highVersion = $version;
+					$supportedBranches[$branch] = $version;
 				}
 			}
 		}
 
-		// If the high version is not the default then let's add some (arbitrary) allowed versions based on the repo's dev structure
-		if ($highVersion !== '0.0.0')
+		// For each supported branch, also add the next patch release
+		foreach ($supportedBranches as $branch => $version)
 		{
-			$explodedVersion = explode('.', $highVersion);
+			$explodedVersion = explode('.', $version);
 
-			// Allow the next patch release after this one
 			$nextPatch = $explodedVersion[2] + 1;
 			$versions[] = $explodedVersion[0] . '.' . $explodedVersion[1] . '.' . $nextPatch;
-
-			// And allow the next minor release after this one
-			$nextMinor = $explodedVersion[1] + 1;
-			$versions[] = $explodedVersion[0] . '.' . $nextMinor . '.0';
 		}
+
+		// Use $branch from the previous loop to allow the next minor version (PHP's master branch)
+		$explodedVersion = explode('.', $branch);
+
+		$nextMinor = $explodedVersion[1] + 1;
+		$versions[] = $explodedVersion[0] . '.' . $nextMinor . '.0';
 
 		// Store the version data now
 		$path = APPROOT . '/versions/php.json';
