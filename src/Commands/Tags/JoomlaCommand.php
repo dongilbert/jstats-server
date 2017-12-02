@@ -73,7 +73,8 @@ class JoomlaCommand extends AbstractTagCommand
 				$versions[] = $version;
 
 				// If this version is higher than our high version, replace it
-				if (version_compare($version, $highVersion, '>'))
+				// TODO - When 4.0 is stable adjust this logic
+				if (version_compare($version, '4.0', '<') && version_compare($version, $highVersion, '>'))
 				{
 					$highVersion = $version;
 				}
@@ -92,11 +93,6 @@ class JoomlaCommand extends AbstractTagCommand
 			// And allow the next minor release after this one
 			$nextMinor = $explodedVersion[1] + 1;
 			$versions[] = $explodedVersion[0] . '.' . $nextMinor . '.0';
-
-			// And allow the next major release after this one
-			// TODO - Remove this once there is a 4.0 tag
-			$nextMajor = $explodedVersion[0] + 1;
-			$versions[] = $nextMajor . '.0.0';
 		}
 
 		// Store the version data now
