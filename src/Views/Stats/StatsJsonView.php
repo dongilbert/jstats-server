@@ -263,6 +263,7 @@ class StatsJsonView extends BaseJsonView
 			{
 				case 'php_version':
 				case 'db_version':
+				case 'cms_version':
 					// We're going to group by minor version branch here and convert to a percentage
 					$counts = [];
 
@@ -321,7 +322,6 @@ class StatsJsonView extends BaseJsonView
 					break;
 
 				case 'db_type':
-				case 'cms_version':
 				default:
 					// For now, group by the object name and figure out the percentages
 					$sanitizedData = [];

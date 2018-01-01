@@ -91,7 +91,7 @@ class StatsJsonViewTest extends TestCase
 				'php_version' => [$phpVersion => 100],
 				'db_type'     => ['mysql' => round((1 / 3) * 100, 2), 'postgresql' => round((1 / 3) * 100, 2), 'sqlsrv' => round((1 / 3) * 100, 2)],
 				'db_version'  => ['5.6' => round((1 / 3) * 100, 2), '9.4' => round((1 / 3) * 100, 2), '10.50' => round((1 / 3) * 100, 2)],
-				'cms_version' => ['3.5.0' => 100],
+				'cms_version' => ['3.5' => 100],
 				'server_os'   => ['Darwin' => round((2 / 3) * 100, 2), 'unknown' => round((1 / 3) * 100, 2)],
 				'total'       => 3
 			]
