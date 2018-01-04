@@ -347,12 +347,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/cache.git",
-                "reference": "8fad30d31513965574adaa1c9546525d972e086e"
+                "reference": "9bd3f4b421ade283e3356a299bb4bd7ee3c3251d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/cache/zipball/8fad30d31513965574adaa1c9546525d972e086e",
-                "reference": "8fad30d31513965574adaa1c9546525d972e086e",
+                "url": "https://api.github.com/repos/joomla-framework/cache/zipball/9bd3f4b421ade283e3356a299bb4bd7ee3c3251d",
+                "reference": "9bd3f4b421ade283e3356a299bb4bd7ee3c3251d",
                 "shasum": ""
             },
             "require": {
@@ -398,7 +398,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2017-12-06T15:30:02+00:00"
+            "time": "2017-12-21T00:34:25+00:00"
         },
         {
             "name": "joomla/compat",
@@ -1774,12 +1774,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla/coding-standards.git",
-                "reference": "4a10190d0b4dbe3d3002548d36aff5fe19df6988"
+                "reference": "7aee4b92c7fac5f1099483d57b0d291618755d85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/4a10190d0b4dbe3d3002548d36aff5fe19df6988",
-                "reference": "4a10190d0b4dbe3d3002548d36aff5fe19df6988",
+                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/7aee4b92c7fac5f1099483d57b0d291618755d85",
+                "reference": "7aee4b92c7fac5f1099483d57b0d291618755d85",
                 "shasum": ""
             },
             "require": {
@@ -1813,7 +1813,7 @@
                 "php codesniffer",
                 "phpcs"
             ],
-            "time": "2017-10-18T12:31:04+00:00"
+            "time": "2017-12-26T15:40:51+00:00"
         },
         {
             "name": "joomla/event",
@@ -2571,16 +2571,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "6.5.4",
+            "version": "6.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "1b2f933d5775f9237369deaa2d2bfbf9d652be4c"
+                "reference": "83d27937a310f2984fd575686138597147bdc7df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1b2f933d5775f9237369deaa2d2bfbf9d652be4c",
-                "reference": "1b2f933d5775f9237369deaa2d2bfbf9d652be4c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/83d27937a310f2984fd575686138597147bdc7df",
+                "reference": "83d27937a310f2984fd575686138597147bdc7df",
                 "shasum": ""
             },
             "require": {
@@ -2651,7 +2651,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-12-10T08:06:19+00:00"
+            "time": "2017-12-17T06:31:19+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -2759,16 +2759,16 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "1174d9018191e93cb9d719edec01257fc05f8158"
+                "reference": "b11c729f95109b56a0fe9650c6a63a0fcd8c439f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/1174d9018191e93cb9d719edec01257fc05f8158",
-                "reference": "1174d9018191e93cb9d719edec01257fc05f8158",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/b11c729f95109b56a0fe9650c6a63a0fcd8c439f",
+                "reference": "b11c729f95109b56a0fe9650c6a63a0fcd8c439f",
                 "shasum": ""
             },
             "require": {
@@ -2819,7 +2819,7 @@
                 "compare",
                 "equality"
             ],
-            "time": "2017-11-03T07:16:52+00:00"
+            "time": "2017-12-22T14:50:35+00:00"
         },
         {
             "name": "sebastian/diff",
