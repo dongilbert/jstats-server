@@ -1535,16 +1535,16 @@
         },
         {
             "name": "ramsey/uuid",
-            "version": "3.7.1",
+            "version": "3.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/uuid.git",
-                "reference": "45cffe822057a09e05f7bd09ec5fb88eeecd2334"
+                "reference": "bba83ad77bb9deb6d3c352a7361b818e415b221d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/45cffe822057a09e05f7bd09ec5fb88eeecd2334",
-                "reference": "45cffe822057a09e05f7bd09ec5fb88eeecd2334",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/bba83ad77bb9deb6d3c352a7361b818e415b221d",
+                "reference": "bba83ad77bb9deb6d3c352a7361b818e415b221d",
                 "shasum": ""
             },
             "require": {
@@ -1556,7 +1556,7 @@
             },
             "require-dev": {
                 "apigen/apigen": "^4.1",
-                "codeception/aspect-mock": "^1.0 | ^2.0",
+                "codeception/aspect-mock": "^1.0 | ~2.0.0",
                 "doctrine/annotations": "~1.2.0",
                 "goaop/framework": "1.0.0-alpha.2 | ^1.0 | ^2.1",
                 "ircmaxell/random-lib": "^1.1",
@@ -1564,7 +1564,7 @@
                 "mockery/mockery": "^0.9.4",
                 "moontoast/math": "^1.1",
                 "php-mock/php-mock-phpunit": "^0.3|^1.1",
-                "phpunit/phpunit": "^4.7|>=5.0 <5.4",
+                "phpunit/phpunit": "^4.7|^5.0",
                 "satooshi/php-coveralls": "^0.6.1",
                 "squizlabs/php_codesniffer": "^2.3"
             },
@@ -1613,7 +1613,7 @@
                 "identifier",
                 "uuid"
             ],
-            "time": "2017-09-22T20:46:04+00:00"
+            "time": "2018-01-13T22:22:03+00:00"
         },
         {
             "name": "symfony/polyfill-php55",
@@ -1774,12 +1774,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla/coding-standards.git",
-                "reference": "7aee4b92c7fac5f1099483d57b0d291618755d85"
+                "reference": "b09a00e46f83e8b2d21efaa95acfbd67fd84f9bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/7aee4b92c7fac5f1099483d57b0d291618755d85",
-                "reference": "7aee4b92c7fac5f1099483d57b0d291618755d85",
+                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/b09a00e46f83e8b2d21efaa95acfbd67fd84f9bd",
+                "reference": "b09a00e46f83e8b2d21efaa95acfbd67fd84f9bd",
                 "shasum": ""
             },
             "require": {
@@ -1813,7 +1813,7 @@
                 "php codesniffer",
                 "phpcs"
             ],
-            "time": "2017-12-26T15:40:51+00:00"
+            "time": "2018-01-08T02:09:43+00:00"
         },
         {
             "name": "joomla/event",
@@ -2655,16 +2655,16 @@
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "5.0.5",
+            "version": "5.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "283b9f4f670e3a6fd6c4ff95c51a952eb5c75933"
+                "reference": "33fd41a76e746b8fa96d00b49a23dadfa8334cdf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/283b9f4f670e3a6fd6c4ff95c51a952eb5c75933",
-                "reference": "283b9f4f670e3a6fd6c4ff95c51a952eb5c75933",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/33fd41a76e746b8fa96d00b49a23dadfa8334cdf",
+                "reference": "33fd41a76e746b8fa96d00b49a23dadfa8334cdf",
                 "shasum": ""
             },
             "require": {
@@ -2710,7 +2710,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2017-12-10T08:01:53+00:00"
+            "time": "2018-01-06T05:45:45+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -2759,16 +2759,16 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "2.1.1",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "b11c729f95109b56a0fe9650c6a63a0fcd8c439f"
+                "reference": "11c07feade1d65453e06df3b3b90171d6d982087"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/b11c729f95109b56a0fe9650c6a63a0fcd8c439f",
-                "reference": "b11c729f95109b56a0fe9650c6a63a0fcd8c439f",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/11c07feade1d65453e06df3b3b90171d6d982087",
+                "reference": "11c07feade1d65453e06df3b3b90171d6d982087",
                 "shasum": ""
             },
             "require": {
@@ -2819,7 +2819,7 @@
                 "compare",
                 "equality"
             ],
-            "time": "2017-12-22T14:50:35+00:00"
+            "time": "2018-01-12T06:34:42+00:00"
         },
         {
             "name": "sebastian/diff",
