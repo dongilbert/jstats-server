@@ -12,6 +12,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\DI\{
 	Container, ServiceProviderInterface
 };
+use Joomla\StatsServer\Database\Mysql\MysqlDriver;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use Joomla\StatsServer\Database\Migrations;
@@ -49,7 +50,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 		/** @var \Joomla\Registry\Registry $config */
 		$config = $container->get('config');
 
-		$db = DatabaseDriver::getInstance((array) $config->get('database'));
+		$db = new MysqlDriver(array_merge((array) $config->get('database'), ['select' => true]));
 		$db->setDebug($config->get('database.debug'));
 		$db->setLogger($container->get('monolog.logger.database'));
 

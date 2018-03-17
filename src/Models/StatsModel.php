@@ -51,13 +51,6 @@ class StatsModel implements DatabaseModelInterface
 	{
 		$db = $this->getDb();
 
-		// To keep from running out of memory, we need to know how many records are in the database to be able to loop correctly
-		$totalRecords = $db->setQuery(
-			$db->getQuery(true)
-				->select('COUNT(unique_id)')
-				->from('#__jstats')
-		)->loadResult();
-
 		// Validate the requested column is actually in the table
 		if ($column !== '')
 		{
@@ -81,32 +74,9 @@ class StatsModel implements DatabaseModelInterface
 		$query->from('#__jstats')
 			->group('unique_id');
 
-		$limitable = $query instanceof LimitableInterface;
+		$db->setQuery($query);
 
-		// We can't have this as a single array, we run out of memory... This is gonna get interesting...
-		for ($offset = 0; $offset < $totalRecords; $offset + $this->batchSize)
-		{
-			if ($limitable)
-			{
-				$query->setLimit($this->batchSize, $offset);
-
-				$db->setQuery($query);
-			}
-			else
-			{
-				$db->setQuery($query, $offset, $this->batchSize);
-			}
-
-			yield $db->loadAssocList();
-
-			$offset += $this->batchSize;
-		}
-
-		// Disconnect the DB to free some memory
-		$db->disconnect();
-
-		// And unset some variables
-		unset($db, $query, $offset, $totalRecords);
+		return $db->yieldAssocList();
 	}
 
 	/**

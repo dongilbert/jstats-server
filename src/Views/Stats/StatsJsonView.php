@@ -90,41 +90,36 @@ class StatsJsonView extends BaseJsonView
 		$server_os   = [];
 
 		// If we have the entire database, we have to loop within each group to put it all together
-		foreach ($items as $group)
+		foreach ($items as $item)
 		{
-			$this->totalItems += count($group);
+			$this->totalItems++;
 
-			foreach ($group as $item)
+			foreach ($this->dataSources as $source)
 			{
-				foreach ($this->dataSources as $source)
+				if (isset($item[$source]) && !is_null($item[$source]))
 				{
-					if (isset($item[$source]) && !is_null($item[$source]))
+					// Special case, if the server is empty then change the key to "unknown"
+					if ($source === 'server_os' && empty($item[$source]))
 					{
-						// Special case, if the server is empty then change the key to "unknown"
-						if ($source === 'server_os' && empty($item[$source]))
+						if (!isset(${$source}['unknown']))
 						{
-							if (!isset(${$source}['unknown']))
-							{
-								${$source}['unknown'] = 0;
-							}
-
-							${$source}['unknown']++;
+							${$source}['unknown'] = 0;
 						}
-						else
+
+						${$source}['unknown']++;
+					}
+					else
+					{
+						if (!isset(${$source}[$item[$source]]))
 						{
-							if (!isset(${$source}[$item[$source]]))
-							{
-								${$source}[$item[$source]] = 0;
-							}
-
-							${$source}[$item[$source]]++;
+							${$source}[$item[$source]] = 0;
 						}
+
+						${$source}[$item[$source]]++;
 					}
 				}
 			}
 		}
-
-		unset($items);
 
 		$data = [
 			'php_version' => $php_version,
@@ -193,45 +188,42 @@ class StatsJsonView extends BaseJsonView
 	/**
 	 * Process the response for a single data source.
 	 *
-	 * @param   \Generator  $generator  The source items to process.
+	 * @param   \Generator  $items  The source items to process.
 	 *
 	 * @return  string  The rendered view.
 	 */
-	private function processSingleSource(\Generator $generator) : string
+	private function processSingleSource(\Generator $items) : string
 	{
 		$data = [
 			${$this->source} = [],
 		];
 
-		foreach ($generator as $group)
+		foreach ($items as $item)
 		{
-			$this->totalItems += count($group);
+			$this->totalItems++;
 
-			foreach ($group as $item)
+			foreach ($this->dataSources as $source)
 			{
-				foreach ($this->dataSources as $source)
+				if (isset($item[$source]) && !is_null($item[$source]))
 				{
-					if (isset($item[$source]) && !is_null($item[$source]))
+					// Special case, if the server is empty then change the key to "unknown"
+					if ($source === 'server_os' && empty($item[$source]))
 					{
-						// Special case, if the server is empty then change the key to "unknown"
-						if ($source === 'server_os' && empty($item[$source]))
+						if (!isset($data[$source]['unknown']))
 						{
-							if (!isset($data[$source]['unknown']))
-							{
-								$data[$source]['unknown'] = 0;
-							}
-
-							$data[$source]['unknown']++;
+							$data[$source]['unknown'] = 0;
 						}
-						else
+
+						$data[$source]['unknown']++;
+					}
+					else
+					{
+						if (!isset($data[$source][$item[$source]]))
 						{
-							if (!isset($data[$source][$item[$source]]))
-							{
-								$data[$source][$item[$source]] = 0;
-							}
-
-							$data[$source][$item[$source]]++;
+							$data[$source][$item[$source]] = 0;
 						}
+
+						$data[$source][$item[$source]]++;
 					}
 				}
 			}
