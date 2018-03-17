@@ -22,13 +22,6 @@ class StatsModel implements DatabaseModelInterface
 	use DatabaseModelTrait;
 
 	/**
-	 * The query batch size
-	 *
-	 * @var  integer
-	 */
-	private $batchSize = 25000;
-
-	/**
 	 * Instantiate the model.
 	 *
 	 * @param   DatabaseDriver  $db  The database driver.
