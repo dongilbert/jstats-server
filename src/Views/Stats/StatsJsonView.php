@@ -93,15 +93,15 @@ class StatsJsonView extends BaseJsonView
 		foreach ($items as $group)
 		{
 			$this->totalItems = 0;
+
 			foreach ($group as $item)
 			{
-				if (isset($item[$source]) && !is_null($item[$source]))
+				foreach ($this->dataSources as $source)
 				{
-					// Special case, if the server is empty then change the key to "unknown"
-					if ($source === 'server_os' && empty($item[$source]))
+					if (isset($item[$source]) && !is_null($item[$source]))
 					{
 						// Special case, if the server is empty then change the key to "unknown"
-						if ($source === 'server_os' && empty(trim($item[$source])))
+						if ($source === 'server_os' && empty($item[$source]))
 						{
 							$item[$source] = 'unknown';
 						}
