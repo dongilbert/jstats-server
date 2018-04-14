@@ -40,7 +40,7 @@ class StatsModel implements DatabaseModelInterface
 	 *
 	 * @throws  \InvalidArgumentException
 	 */
-	public function getItems(string $column = '') : \Generator
+	public function getItems(string $column = '') : array
 	{
 		$db         = $this->getDb();
 		$query      = $db->getQuery(true);
