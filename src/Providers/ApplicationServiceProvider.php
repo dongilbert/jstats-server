@@ -21,7 +21,7 @@ use Joomla\StatsServer\{
 };
 use Joomla\StatsServer\Commands as AppCommands;
 use Joomla\StatsServer\Controllers\{
-	DisplayControllerGet, SubmitControllerCreate, SubmitControllerGet
+	DisplayControllerCreate, DisplayControllerGet, SubmitControllerCreate, SubmitControllerGet
 };
 use Joomla\StatsServer\Database\Migrations;
 use Joomla\StatsServer\GitHub\GitHub;
@@ -89,6 +89,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		 */
 
 		// Controllers
+		$container->share(DisplayControllerCreate::class, [$this, 'getDisplayControllerCreateService'], true);
 		$container->share(DisplayControllerGet::class, [$this, 'getDisplayControllerGetService'], true);
 		$container->share(SubmitControllerCreate::class, [$this, 'getSubmitControllerCreateService'], true);
 		$container->share(SubmitControllerGet::class, [$this, 'getSubmitControllerGetService'], true);
@@ -249,6 +250,23 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		$command->setInput($container->get(Input::class));
 
 		return $command;
+	}
+
+	/**
+	 * Get the DisplayControllerCreate class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  DisplayControllerCreate
+	 */
+	public function getDisplayControllerCreateService(Container $container) : DisplayControllerCreate
+	{
+		$controller = new DisplayControllerCreate;
+
+		$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$controller->setInput($container->get(Input::class));
+
+		return $controller;
 	}
 
 	/**
