@@ -1,6 +1,12 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats;
+namespace Joomla\StatsServer;
 
 use Joomla\Application\AbstractWebApplication;
 use Ramsey\Uuid\Uuid;
@@ -8,32 +14,27 @@ use TheIconic\Tracking\GoogleAnalytics\Analytics;
 
 /**
  * Web application for the stats server
- *
- * @since  1.0
  */
 class WebApplication extends AbstractWebApplication
 {
 	/**
 	 * Application analytics object.
 	 *
-	 * @var    Analytics
-	 * @since  1.0
+	 * @var  Analytics
 	 */
 	private $analytics;
 
 	/**
 	 * Response mime type.
 	 *
-	 * @var    string
-	 * @since  1.0
+	 * @var  string
 	 */
 	public $mimeType = 'application/json';
 
 	/**
 	 * Application router.
 	 *
-	 * @var    Router
-	 * @since  1.0
+	 * @var  Router
 	 */
 	private $router;
 
@@ -41,10 +42,8 @@ class WebApplication extends AbstractWebApplication
 	 * Method to run the application routines.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
-	public function doExecute()
+	protected function doExecute()
 	{
 		// On a GET request to the live domain, submit analytics data
 		if ($this->input->getMethod() === 'GET'
@@ -78,11 +77,11 @@ class WebApplication extends AbstractWebApplication
 		{
 			$this->router->getController($this->get('uri.route'))->execute();
 		}
-		catch (\Exception $e)
+		catch (\Throwable $e)
 		{
 			// Log the error for reference
 			$this->getLogger()->error(
-				sprintf('Uncaught Exception of type %s caught.', get_class($e)),
+				sprintf('Uncaught Throwable of type %s caught.', get_class($e)),
 				['exception' => $e]
 			);
 
@@ -103,10 +102,8 @@ class WebApplication extends AbstractWebApplication
 	 * @param   Analytics  $analytics  Analytics object to set.
 	 *
 	 * @return  $this
-	 *
-	 * @since   1.0
 	 */
-	public function setAnalytics(Analytics $analytics)
+	public function setAnalytics(Analytics $analytics) : WebApplication
 	{
 		$this->analytics = $analytics;
 
@@ -116,13 +113,11 @@ class WebApplication extends AbstractWebApplication
 	/**
 	 * Set the HTTP Response Header for error conditions.
 	 *
-	 * @param   \Exception  $exception  The Exception object to process.
+	 * @param   \Throwable  $exception  The Throwable object to process.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
-	private function setErrorHeader(\Exception $exception)
+	private function setErrorHeader(\Throwable $exception)
 	{
 		switch ($exception->getCode())
 		{
@@ -155,10 +150,8 @@ class WebApplication extends AbstractWebApplication
 	 * @param   Router  $router  Router object to set.
 	 *
 	 * @return  $this
-	 *
-	 * @since   1.0
 	 */
-	public function setRouter(Router $router)
+	public function setRouter(Router $router) : WebApplication
 	{
 		$this->router = $router;
 

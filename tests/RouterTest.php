@@ -1,17 +1,25 @@
 <?php
-namespace Stats\Tests;
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-use Stats\Router;
+namespace Joomla\StatsServer\Tests;
+
+use Joomla\StatsServer\Router;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Test class for \Stats\Router
+ * Test class for \Joomla\StatsServer\Router
  */
-class RouterTest extends \PHPUnit_Framework_TestCase
+class RouterTest extends TestCase
 {
 	/**
 	 * @testdox The router is instantiated correctly
 	 *
-	 * @covers  Stats\Router::__construct
+	 * @covers  Joomla\StatsServer\Router::__construct
 	 */
 	public function testTheRouterIsInstantiatedCorrectly()
 	{
@@ -27,7 +35,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @testdox The router fetches the controller correctly
 	 *
-	 * @covers  Stats\Router::fetchController
+	 * @covers  Joomla\StatsServer\Router::fetchController
 	 */
 	public function testTheRouterFetchesTheControllerCorrectly()
 	{
@@ -42,7 +50,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 			->method('getMethod')
 			->willReturn('GET');
 
-		$controllerName = 'Stats\Controllers\DisplayControllerGet';
+		$controllerName = 'Joomla\StatsServer\Controllers\DisplayControllerGet';
 
 		$mockController = $this->getMockBuilder($controllerName)
 			->disableOriginalConstructor()
@@ -55,7 +63,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 			->willReturn($mockController);
 
 		$router = (new Router($mockInput))
-			->setControllerPrefix('Stats\\Controllers\\')
+			->setControllerPrefix('Joomla\StatsServer\\Controllers\\')
 			->setDefaultController('DisplayController')
 			->addMap('/submit', 'SubmitController')
 			->addMap('/:source', 'DisplayController')

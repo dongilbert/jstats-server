@@ -1,17 +1,19 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats;
+namespace Joomla\StatsServer;
 
-use Joomla\Application\Cli\ColorStyle;
-use Joomla\Application\Cli\Output\Processor\ColorProcessor;
-use Joomla\Controller\AbstractController;
-use Joomla\DI\ContainerAwareInterface;
-use Joomla\DI\ContainerAwareTrait;
+use Joomla\DI\{
+	ContainerAwareInterface, ContainerAwareTrait
+};
 
 /**
  * CLI Console
- *
- * @since  1.0
  */
 class Console implements ContainerAwareInterface
 {
@@ -20,8 +22,7 @@ class Console implements ContainerAwareInterface
 	/**
 	 * Array of available command objects
 	 *
-	 * @var    CommandInterface[]
-	 * @since  1.0
+	 * @var  CommandInterface[]
 	 */
 	private $commands = [];
 
@@ -30,10 +31,9 @@ class Console implements ContainerAwareInterface
 	 *
 	 * @return  CommandInterface[]
 	 *
-	 * @since   1.0
 	 * @throws  \RuntimeException
 	 */
-	public function getCommands()
+	public function getCommands() : array
 	{
 		if (empty($this->commands))
 		{
@@ -47,10 +47,8 @@ class Console implements ContainerAwareInterface
 	 * Load the application's commands
 	 *
 	 * @return  CommandInterface[]
-	 *
-	 * @since   1.0
 	 */
-	private function loadCommands()
+	private function loadCommands() : array
 	{
 		$commands = [];
 

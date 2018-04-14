@@ -1,26 +1,30 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Commands;
+namespace Joomla\StatsServer\Commands;
 
 use Joomla\Controller\AbstractController;
 use Joomla\Database\DatabaseDriver;
-use Stats\CommandInterface;
+use Joomla\Database\Mysql\MysqlDriver;
+use Joomla\StatsServer\CommandInterface;
 
 /**
  * Install command
  *
- * @method         \Stats\CliApplication  getApplication()  Get the application object.
- * @property-read  \Stats\CliApplication  $app              Application object
- *
- * @since          1.0
+ * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
+ * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
  */
 class InstallCommand extends AbstractController implements CommandInterface
 {
 	/**
 	 * Database driver.
 	 *
-	 * @var    DatabaseDriver
-	 * @since  1.0
+	 * @var  DatabaseDriver
 	 */
 	private $db = null;
 
@@ -28,8 +32,6 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 * Constructor.
 	 *
 	 * @param   DatabaseDriver  $db  Database driver.
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
@@ -40,12 +42,18 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
 		$this->getApplication()->outputTitle('Installer');
+
+		// Check for PDO MySQL support
+		if (!MysqlDriver::isSupported())
+		{
+			$this->getApplication()->out('<error>PDO with MySQL support is not available on this server!</error>');
+
+			return false;
+		}
 
 		try
 		{
@@ -54,7 +62,7 @@ class InstallCommand extends AbstractController implements CommandInterface
 
 			if (!$this->getApplication()->input->getBool('reinstall', false))
 			{
-				$this->out()
+				$this->getApplication()->out()
 					->out('<fg=black;bg=yellow>WARNING: A database has been found !!</fg=black;bg=yellow>')
 					->out()
 					->out('Do you want to reinstall ?')
@@ -68,7 +76,7 @@ class InstallCommand extends AbstractController implements CommandInterface
 
 				if ((int) $in !== 1)
 				{
-					$this->out('<info>Aborting installation.</info>');
+					$this->getApplication()->out('<info>Aborting installation.</info>');
 
 					return true;
 				}
@@ -81,7 +89,7 @@ class InstallCommand extends AbstractController implements CommandInterface
 			// Check if the message is "Could not connect to database."  Odds are, this means the DB isn't there or the server is down.
 			if (strpos($e->getMessage(), 'Could not connect to database.') !== false)
 			{
-				$this->out('No database found.')
+				$this->getApplication()->out('No database found.')
 					->out('Creating the database...', false);
 
 				$this->db->setQuery('CREATE DATABASE ' . $this->db->quoteName($this->getApplication()->get('database.name')))
@@ -89,7 +97,7 @@ class InstallCommand extends AbstractController implements CommandInterface
 
 				$this->db->select($this->getApplication()->get('database.name'));
 
-				$this->out('<info>Database created.</info>');
+				$this->getApplication()->out('<info>Database created.</info>');
 			}
 			else
 			{
@@ -99,6 +107,7 @@ class InstallCommand extends AbstractController implements CommandInterface
 
 		// Perform the installation
 		$this->processSql()
+			->getApplication()
 			->out()
 			->out('<fg=green;options=bold>Installation has been completed successfully.</fg=green;options=bold>');
 
@@ -111,12 +120,10 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 * @param   array  $tables  Tables to remove.
 	 *
 	 * @return  $this
-	 *
-	 * @since   1.0
 	 */
-	private function cleanDatabase(array $tables)
+	private function cleanDatabase(array $tables) : InstallCommand
 	{
-		$this->out('Removing existing tables...', false);
+		$this->getApplication()->out('Removing existing tables...', false);
 
 		// Foreign key constraint fails fix
 		$this->db->setQuery('SET FOREIGN_KEY_CHECKS=0')
@@ -125,13 +132,13 @@ class InstallCommand extends AbstractController implements CommandInterface
 		foreach ($tables as $table)
 		{
 			$this->db->dropTable($table, true);
-			$this->out('.', false);
+			$this->getApplication()->out('.', false);
 		}
 
 		$this->db->setQuery('SET FOREIGN_KEY_CHECKS=1')
 			->execute();
 
-		$this->out('<info>Tables removed.</info>');
+		$this->getApplication()->out('<info>Tables removed.</info>');
 
 		return $this;
 	}
@@ -141,24 +148,15 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 *
 	 * @return  $this
 	 *
-	 * @since   1.0
 	 * @throws  \UnexpectedValueException
 	 */
-	private function processSql()
+	private function processSql() : InstallCommand
 	{
-		// Install.
-		$dbType = $this->getApplication()->get('database.driver');
-
-		if ('mysqli' == $dbType)
-		{
-			$dbType = 'mysql';
-		}
-
-		$fName = APPROOT . '/etc/' . $dbType . '.sql';
+		$fName = APPROOT . '/etc/mysql.sql';
 
 		if (!file_exists($fName))
 		{
-			throw new \UnexpectedValueException(sprintf('Install SQL file for %s not found.', $dbType));
+			throw new \UnexpectedValueException('Install SQL file for MySQL not found.');
 		}
 
 		$sql = file_get_contents($fName);
@@ -182,10 +180,10 @@ class InstallCommand extends AbstractController implements CommandInterface
 			$this->db->setQuery($q)
 				->execute();
 
-			$this->out('.', false);
+			$this->getApplication()->out('.', false);
 		}
 
-		$this->out('<info>Database tables created successfully.</info>');
+		$this->getApplication()->out('<info>Database tables created successfully.</info>');
 
 		return $this;
 	}
@@ -194,10 +192,8 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 * Get the command's description
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return 'Installs the application.';
 	}
@@ -206,10 +202,8 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 * Get the command's title
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return 'Install Application';
 	}

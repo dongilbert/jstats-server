@@ -1,23 +1,27 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Providers;
+namespace Joomla\StatsServer\Providers;
 
-use Joomla\DI\Container;
-use Joomla\DI\ServiceProviderInterface;
+use Joomla\DI\{
+	Container, ServiceProviderInterface
+};
 use Joomla\Registry\Registry;
 
 /**
  * Configuration service provider
- *
- * @since  1.0
  */
 class ConfigServiceProvider implements ServiceProviderInterface
 {
 	/**
 	 * Configuration instance
 	 *
-	 * @var    Registry
-	 * @since  1.0
+	 * @var  Registry
 	 */
 	private $config;
 
@@ -26,10 +30,9 @@ class ConfigServiceProvider implements ServiceProviderInterface
 	 *
 	 * @param   string  $file  Path to the config file.
 	 *
-	 * @since   1.0
 	 * @throws  \RuntimeException
 	 */
-	public function __construct($file)
+	public function __construct(string $file)
 	{
 		// Verify the configuration exists and is readable.
 		if (!is_readable($file))
@@ -46,18 +49,21 @@ class ConfigServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
 	public function register(Container $container)
 	{
-		$container->share(
-			'config',
-			function ()
-			{
-				return $this->config;
-			},
-			true
-		);
+		$container->share('config', [$this, 'getConfigService'], true);
+	}
+
+	/**
+	 * Get the `config` service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  Registry
+	 */
+	public function getConfigService(Container $container) : Registry
+	{
+		return $this->config;
 	}
 }

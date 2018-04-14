@@ -1,19 +1,25 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
 require dirname(__DIR__) . '/boot.php';
 
-use Joomla\Application\AbstractApplication;
-use Joomla\Application\AbstractWebApplication;
+use Joomla\Application\{
+	AbstractApplication, AbstractWebApplication
+};
 use Joomla\DI\Container;
-use Monolog\Logger;
+use Joomla\StatsServer\WebApplication;
+use Joomla\StatsServer\Providers\{
+	ApplicationServiceProvider, CacheServiceProvider, ConfigServiceProvider, DatabaseServiceProvider, GitHubServiceProvider, MonologServiceProvider
+};
+use Monolog\{
+	ErrorHandler, Logger
+};
 use Psr\Log\LoggerInterface;
-use Stats\WebApplication;
-use Stats\Providers\ApplicationServiceProvider;
-use Stats\Providers\CacheServiceProvider;
-use Stats\Providers\ConfigServiceProvider;
-use Stats\Providers\DatabaseServiceProvider;
-use Stats\Providers\GitHubServiceProvider;
-use Stats\Providers\MonologServiceProvider;
 
 $container = (new Container)
 	->registerServiceProvider(new ApplicationServiceProvider)
@@ -30,6 +36,9 @@ $container->alias(AbstractApplication::class, AbstractWebApplication::class);
 $container->alias(Logger::class, 'monolog.logger.application')
 	->alias(LoggerInterface::class, 'monolog.logger.application');
 
+// Register deprecation logging via Monolog
+ErrorHandler::register($container->get(Logger::class), [E_DEPRECATED, E_USER_DEPRECATED], false, false);
+
 // Set error reporting based on config
 $errorReporting = (int) $container->get('config')->get('errorReporting', 0);
 error_reporting($errorReporting);
@@ -40,7 +49,7 @@ try
 {
 	$container->get(WebApplication::class)->execute();
 }
-catch (\Exception $e)
+catch (\Throwable $e)
 {
 	if (!headers_sent())
 	{

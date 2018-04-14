@@ -1,19 +1,26 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Tests\Controllers;
+namespace Joomla\StatsServer\Tests\Controllers;
 
-use Stats\Controllers\SubmitControllerGet;
-use Stats\WebApplication;
+use Joomla\StatsServer\Controllers\SubmitControllerGet;
+use Joomla\StatsServer\WebApplication;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Test class for \Stats\Controllers\SubmitControllerGet
+ * Test class for \Joomla\StatsServer\Controllers\SubmitControllerGet
  */
-class SubmitControllerGetTest extends \PHPUnit_Framework_TestCase
+class SubmitControllerGetTest extends TestCase
 {
 	/**
 	 * @testdox The controller is executed correctly
 	 *
-	 * @covers  Stats\Controllers\SubmitControllerGet::execute
+	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerGet::execute
 	 */
 	public function testTheSubmitRouteOnlyAllowsPostRequests()
 	{

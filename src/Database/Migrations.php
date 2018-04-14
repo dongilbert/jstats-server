@@ -1,6 +1,12 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Database;
+namespace Joomla\StatsServer\Database;
 
 use Joomla\Database\DatabaseDriver;
 use League\Flysystem\FileNotFoundException;
@@ -8,24 +14,20 @@ use League\Flysystem\Filesystem;
 
 /**
  * Class for managing database migrations
- *
- * @since  1.0
  */
 class Migrations
 {
 	/**
 	 * Database connector
 	 *
-	 * @var    DatabaseDriver
-	 * @since  1.0
+	 * @var  DatabaseDriver
 	 */
 	private $database;
 
 	/**
 	 * Filesystem adapter
 	 *
-	 * @var    Filesystem
-	 * @since  1.0
+	 * @var  Filesystem
 	 */
 	private $filesystem;
 
@@ -34,8 +36,6 @@ class Migrations
 	 *
 	 * @param   DatabaseDriver  $database    Database connector
 	 * @param   Filesystem      $filesystem  Filesystem adapter
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(DatabaseDriver $database, Filesystem $filesystem)
 	{
@@ -47,10 +47,8 @@ class Migrations
 	 * Checks the migration status of the current installation
 	 *
 	 * @return  array
-	 *
-	 * @since   1.0
 	 */
-	public function checkStatus()
+	public function checkStatus() : array
 	{
 		$response = ['latest' => false];
 
@@ -111,10 +109,8 @@ class Migrations
 	 * @param   string  $version  Optional migration version to run
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
-	public function migrateDatabase($version = null)
+	public function migrateDatabase(string $version = '')
 	{
 		// Determine the migrations to apply
 		$appliedMigrations = $this->database->setQuery(
@@ -124,7 +120,7 @@ class Migrations
 		)->loadColumn();
 
 		// If a version is specified, check if that migration is already applied and if not, run that one only
-		if ($version !== null)
+		if ($version !== '')
 		{
 			// If it's already applied, there's nothing to do here
 			if (in_array($version, $appliedMigrations))
@@ -156,10 +152,9 @@ class Migrations
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
 	 * @throws  FileNotFoundException
 	 */
-	private function doMigration($version)
+	private function doMigration(string $version)
 	{
 		$sqlFile = 'migrations/' . $version . '.sql';
 

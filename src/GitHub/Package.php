@@ -1,13 +1,17 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\GitHub;
+namespace Joomla\StatsServer\GitHub;
 
 use Joomla\Github\Package as BasePackage;
 
 /**
  * Extended GitHub API package class.
- *
- * @since  1.0
  */
 abstract class Package extends BasePackage
 {
@@ -18,7 +22,6 @@ abstract class Package extends BasePackage
 	 *
 	 * @return  Package  GitHub API package object.
 	 *
-	 * @since   1.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function __get($name)

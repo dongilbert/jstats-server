@@ -1,40 +1,38 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Providers;
+namespace Joomla\StatsServer\Providers;
 
-use Doctrine\Common\Cache\Cache;
 use Joomla\Application as JoomlaApplication;
 use Joomla\Database\DatabaseDriver;
-use Joomla\DI\Container;
-use Joomla\DI\ServiceProviderInterface;
-use Joomla\Input\Cli;
-use Joomla\Input\Input;
+use Joomla\DI\{
+	Container, ServiceProviderInterface
+};
+use Joomla\Input\{
+	Cli, Input
+};
+use Joomla\StatsServer\{
+	CliApplication, Console, Router, WebApplication
+};
+use Joomla\StatsServer\Commands as AppCommands;
+use Joomla\StatsServer\Controllers\{
+	DisplayControllerGet, SubmitControllerCreate, SubmitControllerGet
+};
+use Joomla\StatsServer\Database\Migrations;
+use Joomla\StatsServer\GitHub\GitHub;
+use Joomla\StatsServer\Models\StatsModel;
+use Joomla\StatsServer\Views\Stats\StatsJsonView;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
-use Stats\CliApplication;
-use Stats\Commands\Cache\ClearCommand;
-use Stats\Commands\Database\MigrateCommand;
-use Stats\Commands\Database\StatusCommand;
-use Stats\Commands\Tags\JoomlaCommand;
-use Stats\Commands\HelpCommand;
-use Stats\Commands\InstallCommand;
-use Stats\Commands\SnapshotCommand;
-use Stats\Commands\UpdateCommand;
-use Stats\Console;
-use Stats\Controllers\DisplayControllerGet;
-use Stats\Controllers\SubmitControllerCreate;
-use Stats\Controllers\SubmitControllerGet;
-use Stats\Database\Migrations;
-use Stats\GitHub\GitHub;
-use Stats\Models\StatsModel;
-use Stats\Router;
-use Stats\Views\Stats\StatsJsonView;
-use Stats\WebApplication;
 use TheIconic\Tracking\GoogleAnalytics\Analytics;
 
 /**
  * Application service provider
- *
- * @since  1.0
  */
 class ApplicationServiceProvider implements ServiceProviderInterface
 {
@@ -44,312 +42,461 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
 	public function register(Container $container)
 	{
+		/*
+		 * Application Classes
+		 */
+
 		$container->alias(CliApplication::class, JoomlaApplication\AbstractCliApplication::class)
-			->share(
-				JoomlaApplication\AbstractCliApplication::class,
-				function (Container $container)
-				{
-					$application = new CliApplication(
-						$container->get(Cli::class),
-						$container->get('config'),
-						$container->get(JoomlaApplication\Cli\CliOutput::class),
-						$container->get(Console::class)
-					);
-
-					// Inject extra services
-					$application->setContainer($container);
-					$application->setLogger($container->get('monolog.logger.cli'));
-
-					return $application;
-				},
-				true
-			);
+			->share(JoomlaApplication\AbstractCliApplication::class, [$this, 'getCliApplicationService'], true);
 
 		$container->alias(WebApplication::class, JoomlaApplication\AbstractWebApplication::class)
-			->share(
-				JoomlaApplication\AbstractWebApplication::class,
-				function (Container $container)
-				{
-					$application = new WebApplication($container->get(Input::class), $container->get('config'));
+			->share(JoomlaApplication\AbstractWebApplication::class, [$this, 'getWebApplicationService'], true);
 
-					// Inject extra services
-					$application->setAnalytics($container->get(Analytics::class));
-					$application->setLogger($container->get('monolog.logger.application'));
-					$application->setRouter($container->get(Router::class));
+		/*
+		 * Application Class Dependencies
+		 */
 
-					return $application;
-				},
-				true
-			);
-
-		$container->share(
-			Input::class,
-			function ()
-			{
-				return new Input($_REQUEST);
-			},
-			true
-		);
-
-		$container->share(
-			Cli::class,
-			function ()
-			{
-				return new Cli;
-			},
-			true
-		);
-
-		$container->share(
-			Console::class,
-			function (Container $container)
-			{
-				$console = new Console;
-				$console->setContainer($container);
-
-				return $console;
-			}
-		);
-
-		$container->share(
-			JoomlaApplication\Cli\Output\Processor\ColorProcessor::class,
-			function (Container $container)
-			{
-				$processor = new JoomlaApplication\Cli\Output\Processor\ColorProcessor;
-
-				/** @var Input $input */
-				$input = $container->get(Cli::class);
-
-				if ($input->get('nocolors'))
-				{
-					$processor->noColors = true;
-				}
-
-				// Setup app colors (also required in "nocolors" mode - to strip them).
-				$processor->addStyle('title', new JoomlaApplication\Cli\ColorStyle('yellow', '', ['bold']));
-
-				return $processor;
-			}
-		);
+		$container->share(Analytics::class, [$this, 'getAnalyticsService'], true);
+		$container->share(Cli::class, [$this, 'getInputCliService'], true);
+		$container->share(Console::class, [$this, 'getConsoleService'], true);
+		$container->share(Input::class, [$this, 'getInputService'], true);
+		$container->share(JoomlaApplication\Cli\Output\Processor\ColorProcessor::class, [$this, 'getColorProcessorService'], true);
+		$container->share(JoomlaApplication\Cli\CliInput::class, [$this, 'getCliInputService'], true);
+		$container->share(Router::class, [$this, 'getRouterService'], true);
 
 		$container->alias(JoomlaApplication\Cli\CliOutput::class, JoomlaApplication\Cli\Output\Stdout::class)
-			->share(
-				JoomlaApplication\Cli\Output\Stdout::class,
-				function (Container $container)
-				{
-					return new JoomlaApplication\Cli\Output\Stdout($container->get(JoomlaApplication\Cli\Output\Processor\ColorProcessor::class));
-				}
-			);
+			->share(JoomlaApplication\Cli\Output\Stdout::class, [$this, 'getCliOutputService'], true);
 
-		$container->share(
-			Analytics::class,
-			function ()
-			{
-				return new Analytics(true);
-			}
+		/*
+		 * Console Commands
+		 */
+
+		$container->share(AppCommands\Cache\ClearCommand::class, [$this, 'getCacheClearCommandService'], true);
+		$container->share(AppCommands\HelpCommand::class, [$this, 'getHelpCommandService'], true);
+		$container->share(AppCommands\InstallCommand::class, [$this, 'getInstallCommandService'], true);
+		$container->share(AppCommands\Database\MigrateCommand::class, [$this, 'getDatabaseMigrateCommandService'], true);
+		$container->share(AppCommands\Database\StatusCommand::class, [$this, 'getDatabaseStatusCommandService'], true);
+		$container->share(AppCommands\SnapshotCommand::class, [$this, 'getSnapshotCommandService'], true);
+		$container->share(AppCommands\Tags\JoomlaCommand::class, [$this, 'getTagsJoomlaCommandService'], true);
+		$container->share(AppCommands\Tags\PhpCommand::class, [$this, 'getTagsPhpCommandService'], true);
+		$container->share(AppCommands\UpdateCommand::class, [$this, 'getUpdateCommandService'], true);
+
+		/*
+		 * MVC Layer
+		 */
+
+		// Controllers
+		$container->share(DisplayControllerGet::class, [$this, 'getDisplayControllerGetService'], true);
+		$container->share(SubmitControllerCreate::class, [$this, 'getSubmitControllerCreateService'], true);
+		$container->share(SubmitControllerGet::class, [$this, 'getSubmitControllerGetService'], true);
+
+		// Models
+		$container->share(StatsModel::class, [$this, 'getStatsModelService'], true);
+
+		// Views
+		$container->share(StatsJsonView::class, [$this, 'getStatsJsonViewService'], true);
+	}
+
+	/**
+	 * Get the Analytics class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  Analytics
+	 */
+	public function getAnalyticsService(Container $container)
+	{
+		return new Analytics(true);
+	}
+
+	/**
+	 * Get the Cache\ClearCommand class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  AppCommands\Cache\ClearCommand
+	 */
+	public function getCacheClearCommandService(Container $container) : AppCommands\Cache\ClearCommand
+	{
+		$command = new AppCommands\Cache\ClearCommand($container->get(CacheItemPoolInterface::class));
+
+		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setInput($container->get(Input::class));
+
+		return $command;
+	}
+
+	/**
+	 * Get the CLI application service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  CliApplication
+	 */
+	public function getCliApplicationService(Container $container) : CliApplication
+	{
+		$application = new CliApplication(
+			$container->get(Cli::class),
+			$container->get('config'),
+			$container->get(JoomlaApplication\Cli\CliOutput::class),
+			$container->get(JoomlaApplication\Cli\CliInput::class),
+			$container->get(Console::class)
 		);
 
-		$container->share(
-			Router::class,
-			function (Container $container)
-			{
-				$router = (new Router($container->get(Input::class)))
-					->setContainer($container)
-					->setControllerPrefix('Stats\\Controllers\\')
-					->setDefaultController('DisplayController')
-					->addMap('/submit', 'SubmitController')
-					->addMap('/:source', 'DisplayController');
+		// Inject extra services
+		$application->setLogger($container->get('monolog.logger.cli'));
 
-				return $router;
-			},
-			true
+		return $application;
+	}
+
+	/**
+	 * Get the CliInput class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  JoomlaApplication\Cli\CliInput
+	 */
+	public function getCliInputService(Container $container) : JoomlaApplication\Cli\CliInput
+	{
+		return new JoomlaApplication\Cli\CliInput;
+	}
+
+	/**
+	 * Get the CliOutput class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  JoomlaApplication\Cli\CliOutput
+	 */
+	public function getCliOutputService(Container $container) : JoomlaApplication\Cli\Output\Stdout
+	{
+		return new JoomlaApplication\Cli\Output\Stdout($container->get(JoomlaApplication\Cli\Output\Processor\ColorProcessor::class));
+	}
+
+	/**
+	 * Get the ColorProcessor class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  JoomlaApplication\Cli\Output\Processor\ColorProcessor
+	 */
+	public function getColorProcessorService(Container $container) : JoomlaApplication\Cli\Output\Processor\ColorProcessor
+	{
+		$processor = new JoomlaApplication\Cli\Output\Processor\ColorProcessor;
+
+		/** @var Input $input */
+		$input = $container->get(Cli::class);
+
+		if ($input->getBool('nocolors', false))
+		{
+			$processor->noColors = true;
+		}
+
+		// Setup app colors (also required in "nocolors" mode - to strip them).
+		$processor->addStyle('title', new JoomlaApplication\Cli\ColorStyle('yellow', '', ['bold']));
+
+		return $processor;
+	}
+
+	/**
+	 * Get the console service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  Console
+	 */
+	public function getConsoleService(Container $container) : Console
+	{
+		$console = new Console;
+		$console->setContainer($container);
+
+		return $console;
+	}
+
+	/**
+	 * Get the Database\MigrateCommand class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  AppCommands\Database\MigrateCommand
+	 */
+	public function getDatabaseMigrateCommandService(Container $container) : AppCommands\Database\MigrateCommand
+	{
+		$command = new AppCommands\Database\MigrateCommand($container->get(Migrations::class));
+
+		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setInput($container->get(Input::class));
+		$command->setLogger($container->get(LoggerInterface::class));
+
+		return $command;
+	}
+
+	/**
+	 * Get the Database\StatusCommand class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  AppCommands\Database\StatusCommand
+	 */
+	public function getDatabaseStatusCommandService(Container $container) : AppCommands\Database\StatusCommand
+	{
+		$command = new AppCommands\Database\StatusCommand($container->get(Migrations::class));
+
+		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setInput($container->get(Input::class));
+
+		return $command;
+	}
+
+	/**
+	 * Get the DisplayControllerGet class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  DisplayControllerGet
+	 */
+	public function getDisplayControllerGetService(Container $container) : DisplayControllerGet
+	{
+		$controller = new DisplayControllerGet(
+			$container->get(StatsJsonView::class),
+			$container->get(CacheItemPoolInterface::class)
 		);
 
-		$container->share(
-			HelpCommand::class,
-			function (Container $container)
-			{
-				$command = new HelpCommand;
+		$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$controller->setInput($container->get(Input::class));
 
-				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
-				$command->setInput($container->get(Input::class));
+		return $controller;
+	}
 
-				return $command;
-			},
-			true
+	/**
+	 * Get the HelpCommand class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  AppCommands\HelpCommand
+	 */
+	public function getHelpCommandService(Container $container) : AppCommands\HelpCommand
+	{
+		$command = new AppCommands\HelpCommand;
+
+		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setInput($container->get(Input::class));
+
+		return $command;
+	}
+
+	/**
+	 * Get the Input\Cli class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  Cli
+	 */
+	public function getInputCliService(Container $container) : Cli
+	{
+		return new Cli;
+	}
+
+	/**
+	 * Get the Input class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  Input
+	 */
+	public function getInputService(Container $container) : Input
+	{
+		return new Input($_REQUEST);
+	}
+
+	/**
+	 * Get the InstallCommand class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  AppCommands\InstallCommand
+	 */
+	public function getInstallCommandService(Container $container) : AppCommands\InstallCommand
+	{
+		$command = new AppCommands\InstallCommand($container->get(DatabaseDriver::class));
+
+		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setInput($container->get(Input::class));
+
+		return $command;
+	}
+
+	/**
+	 * Get the router service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  Router
+	 */
+	public function getRouterService(Container $container) : Router
+	{
+		$router = (new Router($container->get(Input::class)))
+			->setControllerPrefix('Joomla\\StatsServer\\Controllers\\')
+			->setDefaultController('DisplayController')
+			->addMap('/submit', 'SubmitController')
+			->addMap('/:source', 'DisplayController');
+
+		$router->setContainer($container);
+
+		return $router;
+	}
+
+	/**
+	 * Get the SnapshotCommand class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  AppCommands\SnapshotCommand
+	 */
+	public function getSnapshotCommandService(Container $container) : AppCommands\SnapshotCommand
+	{
+		$command = new AppCommands\SnapshotCommand($container->get(StatsJsonView::class));
+
+		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setInput($container->get(Input::class));
+
+		return $command;
+	}
+
+	/**
+	 * Get the StatsJsonView class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  StatsJsonView
+	 */
+	public function getStatsJsonViewService(Container $container) : StatsJsonView
+	{
+		return new StatsJsonView(
+			$container->get(StatsModel::class)
+		);
+	}
+
+	/**
+	 * Get the StatsModel class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  StatsModel
+	 */
+	public function getStatsModelService(Container $container) : StatsModel
+	{
+		return new StatsModel(
+			$container->get(DatabaseDriver::class)
+		);
+	}
+
+	/**
+	 * Get the SubmitControllerCreate class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  SubmitControllerCreate
+	 */
+	public function getSubmitControllerCreateService(Container $container) : SubmitControllerCreate
+	{
+		$controller = new SubmitControllerCreate(
+			$container->get(StatsModel::class)
 		);
 
-		$container->share(
-			InstallCommand::class,
-			function (Container $container)
-			{
-				$command = new InstallCommand($container->get(DatabaseDriver::class));
+		$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$controller->setInput($container->get(Input::class));
 
-				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
-				$command->setInput($container->get(Input::class));
+		return $controller;
+	}
 
-				return $command;
-			},
-			true
-		);
+	/**
+	 * Get the SubmitControllerGet class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  SubmitControllerGet
+	 */
+	public function getSubmitControllerGetService(Container $container) : SubmitControllerGet
+	{
+		$controller = new SubmitControllerGet;
 
-		$container->share(
-			SnapshotCommand::class,
-			function (Container $container)
-			{
-				$command = new SnapshotCommand($container->get(StatsJsonView::class));
+		$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$controller->setInput($container->get(Input::class));
 
-				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
-				$command->setInput($container->get(Input::class));
+		return $controller;
+	}
 
-				return $command;
-			},
-			true
-		);
+	/**
+	 * Get the Tags\JoomlaCommand class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  AppCommands\Tags\JoomlaCommand
+	 */
+	public function getTagsJoomlaCommandService(Container $container) : AppCommands\Tags\JoomlaCommand
+	{
+		$command = new AppCommands\Tags\JoomlaCommand($container->get(GitHub::class));
 
-		$container->share(
-			UpdateCommand::class,
-			function (Container $container)
-			{
-				$command = new UpdateCommand;
+		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setInput($container->get(Input::class));
 
-				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
-				$command->setInput($container->get(Input::class));
+		return $command;
+	}
 
-				return $command;
-			},
-			true
-		);
+	/**
+	 * Get the Tags\PhpCommand class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  AppCommands\Tags\PhpCommand
+	 */
+	public function getTagsPhpCommandService(Container $container) : AppCommands\Tags\PhpCommand
+	{
+		$command = new AppCommands\Tags\PhpCommand($container->get(GitHub::class));
 
-		$container->share(
-			ClearCommand::class,
-			function (Container $container)
-			{
-				$command = new ClearCommand($container->get(Cache::class));
+		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setInput($container->get(Input::class));
 
-				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
-				$command->setInput($container->get(Input::class));
+		return $command;
+	}
 
-				return $command;
-			},
-			true
-		);
+	/**
+	 * Get the UpdateCommand class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  AppCommands\UpdateCommand
+	 */
+	public function getUpdateCommandService(Container $container) : AppCommands\UpdateCommand
+	{
+		$command = new AppCommands\UpdateCommand;
 
-		$container->share(
-			MigrateCommand::class,
-			function (Container $container)
-			{
-				$command = new MigrateCommand($container->get(Migrations::class));
+		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setInput($container->get(Input::class));
 
-				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
-				$command->setInput($container->get(Input::class));
-				$command->setLogger($container->get(LoggerInterface::class));
+		return $command;
+	}
 
-				return $command;
-			},
-			true
-		);
+	/**
+	 * Get the web application service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  WebApplication
+	 */
+	public function getWebApplicationService(Container $container) : WebApplication
+	{
+		$application = new WebApplication($container->get(Input::class), $container->get('config'));
 
-		$container->share(
-			StatusCommand::class,
-			function (Container $container)
-			{
-				$command = new StatusCommand($container->get(Migrations::class));
+		// Inject extra services
+		$application->setAnalytics($container->get(Analytics::class));
+		$application->setLogger($container->get('monolog.logger.application'));
+		$application->setRouter($container->get(Router::class));
 
-				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
-				$command->setInput($container->get(Input::class));
-
-				return $command;
-			},
-			true
-		);
-
-		$container->share(
-			JoomlaCommand::class,
-			function (Container $container)
-			{
-				$command = new JoomlaCommand($container->get(GitHub::class));
-
-				$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
-				$command->setInput($container->get(Input::class));
-
-				return $command;
-			},
-			true
-		);
-
-		$container->share(
-			DisplayControllerGet::class,
-			function (Container $container)
-			{
-				$controller = new DisplayControllerGet(
-					$container->get(StatsJsonView::class),
-					$container->get(Cache::class)
-				);
-
-				$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
-				$controller->setInput($container->get(Input::class));
-
-				return $controller;
-			},
-			true
-		);
-
-		$container->share(
-			SubmitControllerCreate::class,
-			function (Container $container)
-			{
-				$controller = new SubmitControllerCreate(
-					$container->get(StatsModel::class)
-				);
-
-				$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
-				$controller->setInput($container->get(Input::class));
-
-				return $controller;
-			},
-			true
-		);
-
-		$container->share(
-			SubmitControllerGet::class,
-			function (Container $container)
-			{
-				$controller = new SubmitControllerGet;
-
-				$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
-				$controller->setInput($container->get(Input::class));
-
-				return $controller;
-			},
-			true
-		);
-
-		$container->share(
-			StatsModel::class,
-			function (Container $container)
-			{
-				return new StatsModel(
-					$container->get(DatabaseDriver::class)
-				);
-			},
-			true
-		);
-
-		$container->share(
-			StatsJsonView::class,
-			function (Container $container)
-			{
-				return new StatsJsonView(
-					$container->get(StatsModel::class)
-				);
-			},
-			true
-		);
+		return $application;
 	}
 }

@@ -1,17 +1,36 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Models;
+namespace Joomla\StatsServer\Models;
 
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Query\LimitableInterface;
-use Joomla\Model\AbstractDatabaseModel;
+use Joomla\Model\{
+	DatabaseModelInterface, DatabaseModelTrait
+};
 
 /**
  * Statistics database model
- *
- * @since  1.0
  */
-class StatsModel extends AbstractDatabaseModel
+class StatsModel implements DatabaseModelInterface
 {
+	use DatabaseModelTrait;
+
+	/**
+	 * Instantiate the model.
+	 *
+	 * @param   DatabaseDriver  $db  The database driver.
+	 */
+	public function __construct(DatabaseDriver $db)
+	{
+		$this->setDb($db);
+	}
+
 	/**
 	 * Loads the statistics data from the database.
 	 *
@@ -19,17 +38,16 @@ class StatsModel extends AbstractDatabaseModel
 	 *
 	 * @return  array  An array containing the response data
 	 *
-	 * @since   1.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function getItems($column = null)
+	public function getItems(string $column = '') : \Generator
 	{
 		$db         = $this->getDb();
 		$query      = $db->getQuery(true);
 		$columnList = $db->getTableColumns('#__jstats');
 
 		// Validate the requested column is actually in the table
-		if ($column !== null)
+		if ($column !== '')
 		{
 			// The column should exist in the table and be part of the API
 			if (!in_array($column, array_keys($columnList)) && !in_array($column, ['unique_id', 'modified']))
@@ -70,10 +88,8 @@ class StatsModel extends AbstractDatabaseModel
 	 * @param   \stdClass  $data  Data object to save.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
-	public function save($data)
+	public function save(\stdClass $data)
 	{
 		$db = $this->getDb();
 
@@ -85,7 +101,8 @@ class StatsModel extends AbstractDatabaseModel
 			$db->getQuery(true)
 				->select('unique_id')
 				->from('#__jstats')
-				->where('unique_id = ' . $db->quote($data->unique_id))
+				->where('unique_id = :unique_id')
+				->bind('unique_id', $data->unique_id, \PDO::PARAM_STR)
 		)->loadResult();
 
 		if ($recordExists)

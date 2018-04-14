@@ -1,12 +1,20 @@
 <?php
-namespace Stats\Tests;
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-use Stats\WebApplication;
+namespace Joomla\StatsServer\Tests;
+
+use Joomla\StatsServer\WebApplication;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Test class for \Stats\WebApplication
+ * Test class for \Joomla\StatsServer\WebApplication
  */
-class WebApplicationTest extends \PHPUnit_Framework_TestCase
+class WebApplicationTest extends TestCase
 {
 	/**
 	 * Backup of the SERVER superglobal
@@ -42,14 +50,14 @@ class WebApplicationTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @testdox The application executes correctly
 	 *
-	 * @covers  Stats\WebApplication::doExecute
+	 * @covers  Joomla\StatsServer\WebApplication::doExecute
 	 */
 	public function testTheApplicationExecutesCorrectly()
 	{
 		// Mock a GET request
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 
-		$mockController = $this->getMockBuilder('Stats\Controllers\DisplayControllerGet')
+		$mockController = $this->getMockBuilder('Joomla\StatsServer\Controllers\DisplayControllerGet')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -57,7 +65,7 @@ class WebApplicationTest extends \PHPUnit_Framework_TestCase
 			->method('execute')
 			->willReturn(true);
 
-		$mockRouter = $this->getMockBuilder('Stats\Router')
+		$mockRouter = $this->getMockBuilder('Joomla\StatsServer\Router')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -90,8 +98,8 @@ class WebApplicationTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @param   integer  $code  The Exception code
 	 *
-	 * @covers  Stats\WebApplication::doExecute
-	 * @covers  Stats\WebApplication::setErrorHeader
+	 * @covers  Joomla\StatsServer\WebApplication::doExecute
+	 * @covers  Joomla\StatsServer\WebApplication::setErrorHeader
 	 *
 	 * @dataProvider dataApplicationExceptions
 	 */
@@ -100,7 +108,7 @@ class WebApplicationTest extends \PHPUnit_Framework_TestCase
 		// Mock a GET request
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 
-		$mockController = $this->getMockBuilder('Stats\Controllers\DisplayControllerGet')
+		$mockController = $this->getMockBuilder('Joomla\StatsServer\Controllers\DisplayControllerGet')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -108,7 +116,7 @@ class WebApplicationTest extends \PHPUnit_Framework_TestCase
 			->method('execute')
 			->willThrowException(new \Exception('Test failure', $code));
 
-		$mockRouter = $this->getMockBuilder('Stats\Router')
+		$mockRouter = $this->getMockBuilder('Joomla\StatsServer\Router')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -133,11 +141,11 @@ class WebApplicationTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @testdox The router is set to the application
 	 *
-	 * @covers  Stats\WebApplication::setRouter
+	 * @covers  Joomla\StatsServer\WebApplication::setRouter
 	 */
 	public function testTheRouterIsSetToTheApplication()
 	{
-		$mockRouter = $this->getMockBuilder('Stats\Router')
+		$mockRouter = $this->getMockBuilder('Joomla\StatsServer\Router')
 			->disableOriginalConstructor()
 			->getMock();
 

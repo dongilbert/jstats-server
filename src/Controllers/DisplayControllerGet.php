@@ -1,46 +1,47 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Controllers;
+namespace Joomla\StatsServer\Controllers;
 
-use Doctrine\Common\Cache\Cache;
 use Joomla\Controller\AbstractController;
-use Stats\Views\Stats\StatsJsonView;
+use Joomla\Cache\Item\Item;
+use Joomla\StatsServer\Views\Stats\StatsJsonView;
+use Psr\Cache\CacheItemPoolInterface;
 
 /**
  * Controller for displaying submitted statistics data.
  *
- * @method         \Stats\WebApplication  getApplication()  Get the application object.
- * @property-read  \Stats\WebApplication  $app              Application object
- *
- * @since          1.0
+ * @method         \Joomla\StatsServer\WebApplication  getApplication()  Get the application object.
+ * @property-read  \Joomla\StatsServer\WebApplication  $app              Application object
  */
 class DisplayControllerGet extends AbstractController
 {
 	/**
-	 * The cache handler.
+	 * The cache item pool.
 	 *
-	 * @var    Cache
-	 * @since  1.0
+	 * @var  CacheItemPoolInterface
 	 */
 	private $cache;
 
 	/**
 	 * JSON view for displaying the statistics.
 	 *
-	 * @var    StatsJsonView
-	 * @since  1.0
+	 * @var  StatsJsonView
 	 */
 	private $view;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   StatsJsonView  $view   JSON view for displaying the statistics.
-	 * @param   Cache          $cache  The cache handler.
-	 *
-	 * @since   1.0
+	 * @param   StatsJsonView           $view   JSON view for displaying the statistics.
+	 * @param   CacheItemPoolInterface  $cache  The cache item pool.
 	 */
-	public function __construct(StatsJsonView $view, Cache $cache)
+	public function __construct(StatsJsonView $view, CacheItemPoolInterface $cache)
 	{
 		$this->cache = $cache;
 		$this->view  = $view;
@@ -50,8 +51,6 @@ class DisplayControllerGet extends AbstractController
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
@@ -59,7 +58,7 @@ class DisplayControllerGet extends AbstractController
 		$authorizedRaw = $this->getInput()->server->getString('HTTP_JOOMLA_RAW', 'fail') === $this->getApplication()->get('stats.rawdata', false);
 
 		// Check if a single data source is requested
-		$source = $this->getInput()->getString('source');
+		$source = $this->getInput()->getString('source', '');
 
 		$this->view->isAuthorizedRaw($authorizedRaw);
 		$this->view->setSource($source);
@@ -69,15 +68,27 @@ class DisplayControllerGet extends AbstractController
 		{
 			$key = md5(get_class($this->view) . __METHOD__ . $source);
 
-			if ($this->cache->contains($key))
+			if ($this->cache->hasItem($key))
 			{
-				$body = $this->cache->fetch($key);
+				$item = $this->cache->getItem($key);
+
+				// Make sure we got a hit on the item, otherwise we'll have to re-cache
+				if ($item->isHit())
+				{
+					$body = $item->get();
+				}
+				else
+				{
+					$body = $this->view->render();
+
+					$this->cacheData($key, $body);
+				}
 			}
 			else
 			{
 				$body = $this->view->render();
 
-				$this->cache->save($key, $body, $this->getApplication()->get('cache.lifetime', 900));
+				$this->cacheData($key, $body);
 			}
 		}
 		else
@@ -88,5 +99,21 @@ class DisplayControllerGet extends AbstractController
 		$this->getApplication()->setBody($body);
 
 		return true;
+	}
+
+	/**
+	 * Store the given data to the cache pool.
+	 *
+	 * @param   string  $key   The key for the cache item.
+	 * @param   mixed   $data  The data to be stored to cache.
+	 *
+	 * @return  void
+	 */
+	private function cacheData(string $key, $data)
+	{
+		$item = (new Item($key, $this->getApplication()->get('cache.lifetime', 900)))
+			->set($data);
+
+		$this->cache->save($item);
 	}
 }

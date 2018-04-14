@@ -1,60 +1,67 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Views\Stats;
+namespace Joomla\StatsServer\Views\Stats;
 
+use Joomla\StatsServer\Models\StatsModel;
 use Joomla\View\BaseJsonView;
 
 /**
  * JSON response for requesting the stats data.
- *
- * @property-read  \Stats\Models\StatsModel  $model  The model object.
- *
- * @since          1.0
  */
 class StatsJsonView extends BaseJsonView
 {
 	/**
 	 * Flag if the response should return the raw data.
 	 *
-	 * @var    boolean
-	 * @since  1.0
+	 * @var  boolean
 	 */
 	private $authorizedRaw = false;
 
 	/**
 	 * Array holding the valid data sources.
 	 *
-	 * @var    array
-	 * @since  1.0
+	 * @var  array
 	 */
 	private $dataSources = ['php_version', 'db_type', 'db_version', 'cms_version', 'server_os'];
 
 	/**
 	 * The data source to return.
 	 *
-	 * @var    string
-	 * @since  1.0
+	 * @var  string
 	 */
-	private $source;
+	private $source = '';
 
 	/**
 	 * Count of the number of items.
 	 *
-	 * @var    integer
-	 * @since  1.0
+	 * @var  integer
 	 */
 	private $totalItems = 0;
 
 	/**
+	 * Instantiate the view.
+	 *
+	 * @param   StatsModel  $model  The model object.
+	 */
+	public function __construct(StatsModel $model)
+	{
+		$this->model = $model;
+	}
+
+	/**
 	 * Set whether the raw data should be returned.
 	 *
-	 * @param   boolean  $authorizedRaw  Flag if the response should return the raw data.
+	 * @param   bool  $authorizedRaw  Flag if the response should return the raw data.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
-	public function isAuthorizedRaw($authorizedRaw)
+	public function isAuthorizedRaw(bool $authorizedRaw)
 	{
 		$this->authorizedRaw = $authorizedRaw;
 	}
@@ -63,9 +70,6 @@ class StatsJsonView extends BaseJsonView
 	 * Method to render the view.
 	 *
 	 * @return  string  The rendered view.
-	 *
-	 * @since   1.0
-	 * @throws  \InvalidArgumentException
 	 */
 	public function render()
 	{
@@ -91,9 +95,10 @@ class StatsJsonView extends BaseJsonView
 			$this->totalItems = 0;
 			foreach ($group as $item)
 			{
-				foreach ($this->dataSources as $source)
+				if (isset($item[$source]) && !is_null($item[$source]))
 				{
-					if (isset($item[$source]) && !is_null($item[$source]))
+					// Special case, if the server is empty then change the key to "unknown"
+					if ($source === 'server_os' && empty($item[$source]))
 					{
 						// Special case, if the server is empty then change the key to "unknown"
 						if ($source === 'server_os' && empty(trim($item[$source])))
@@ -108,8 +113,6 @@ class StatsJsonView extends BaseJsonView
 				}
 			}
 		}
-
-		unset($items);
 
 		$data = [
 			'php_version' => $php_version,
@@ -134,10 +137,8 @@ class StatsJsonView extends BaseJsonView
 	 * @param   string  $source  Data source to return.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
-	public function setSource($source)
+	public function setSource(string $source)
 	{
 		$this->source = $source;
 	}
@@ -148,10 +149,8 @@ class StatsJsonView extends BaseJsonView
 	 * @param   array  $data  The raw data array.
 	 *
 	 * @return  array
-	 *
-	 * @since   1.0
 	 */
-	private function buildResponseData(array $data)
+	private function buildResponseData(array $data) : array
 	{
 		$responseData = [];
 
@@ -185,10 +184,8 @@ class StatsJsonView extends BaseJsonView
 	 * @param   array  $items  The source items to process.
 	 *
 	 * @return  string  The rendered view.
-	 *
-	 * @since   1.0
 	 */
-	private function processSingleSource(array $items)
+	private function processSingleSource(array $items) : string
 	{
 		$data = [
 			${$this->source} = [],
@@ -225,10 +222,8 @@ class StatsJsonView extends BaseJsonView
 	 * @param   array  $responseData  The response data to sanitize.
 	 *
 	 * @return  array
-	 *
-	 * @since   1.0
 	 */
-	private function sanitizeData(array $responseData)
+	private function sanitizeData(array $responseData) : array
 	{
 		foreach ($responseData as $key => $dataGroup)
 		{
@@ -236,6 +231,7 @@ class StatsJsonView extends BaseJsonView
 			{
 				case 'php_version':
 				case 'db_version':
+				case 'cms_version':
 					// We're going to group by minor version branch here and convert to a percentage
 					$counts = [];
 
@@ -294,7 +290,6 @@ class StatsJsonView extends BaseJsonView
 					break;
 
 				case 'db_type':
-				case 'cms_version':
 				default:
 					// For now, group by the object name and figure out the percentages
 					$sanitizedData = [];

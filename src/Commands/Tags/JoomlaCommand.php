@@ -1,14 +1,18 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Commands\Tags;
+namespace Joomla\StatsServer\Commands\Tags;
 
-use Stats\Decorators\ValidateVersion;
-use Stats\GitHub\GitHub;
+use Joomla\StatsServer\Decorators\ValidateVersion;
+use Joomla\StatsServer\GitHub\GitHub;
 
 /**
  * Command for processing tags for the Joomla! CMS from GitHub
- *
- * @since  1.0
  */
 class JoomlaCommand extends AbstractTagCommand
 {
@@ -18,8 +22,6 @@ class JoomlaCommand extends AbstractTagCommand
 	 * Constructor.
 	 *
 	 * @param   GitHub  $github  GitHub API object
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(GitHub $github)
 	{
@@ -33,8 +35,6 @@ class JoomlaCommand extends AbstractTagCommand
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
@@ -73,7 +73,8 @@ class JoomlaCommand extends AbstractTagCommand
 				$versions[] = $version;
 
 				// If this version is higher than our high version, replace it
-				if (version_compare($version, $highVersion, '>'))
+				// TODO - When 4.0 is stable adjust this logic
+				if (version_compare($version, '4.0', '<') && version_compare($version, $highVersion, '>'))
 				{
 					$highVersion = $version;
 				}
@@ -111,10 +112,8 @@ class JoomlaCommand extends AbstractTagCommand
 	 * Get the command's description
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return 'Parses the release tags for the Joomla! CMS GitHub repository.';
 	}
@@ -123,10 +122,8 @@ class JoomlaCommand extends AbstractTagCommand
 	 * Get the command's title
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return 'Fetch Joomla! Releases';
 	}

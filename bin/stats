@@ -1,22 +1,29 @@
 #!/usr/bin/env php
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
 require dirname(__DIR__) . '/boot.php';
 
-use Joomla\Application\AbstractApplication;
-use Joomla\Application\AbstractCliApplication;
+use Joomla\Application\{
+	AbstractApplication, AbstractCliApplication
+};
 use Joomla\DI\Container;
-use Joomla\Input\Cli;
-use Joomla\Input\Input;
-use Monolog\Logger;
+use Joomla\Input\{
+    Cli, Input
+};
+use Joomla\StatsServer\CliApplication;
+use Joomla\StatsServer\Providers\{
+	ApplicationServiceProvider, CacheServiceProvider, ConfigServiceProvider, DatabaseServiceProvider, GitHubServiceProvider, MonologServiceProvider
+};
+use Monolog\{
+	ErrorHandler, Logger
+};
 use Psr\Log\LoggerInterface;
-use Stats\CliApplication;
-use Stats\Providers\ApplicationServiceProvider;
-use Stats\Providers\CacheServiceProvider;
-use Stats\Providers\ConfigServiceProvider;
-use Stats\Providers\DatabaseServiceProvider;
-use Stats\Providers\GitHubServiceProvider;
-use Stats\Providers\MonologServiceProvider;
 
 $container = (new Container)
 	->registerServiceProvider(new ApplicationServiceProvider)
@@ -36,6 +43,9 @@ $container->alias(Logger::class, 'monolog.logger.cli')
 // Alias the Joomla\Input\Input service to the CLI input class (overloads the original definition)
 $container->alias(Input::class, Cli::class);
 
+// Register deprecation logging via Monolog
+ErrorHandler::register($container->get(Logger::class), [E_DEPRECATED, E_USER_DEPRECATED], false, false);
+
 // Force error reporting to maximum
 error_reporting(-1);
 ini_set('display_errors', true);
@@ -45,7 +55,7 @@ try
 {
 	$container->get(CliApplication::class)->execute();
 }
-catch (\Exception $e)
+catch (\Throwable $e)
 {
 	fwrite(STDOUT, "\nERROR: " . $e->getMessage() . "\n");
 	fwrite(STDOUT, "\n" . $e->getTraceAsString() . "\n");

@@ -1,20 +1,25 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Commands\Database;
+namespace Joomla\StatsServer\Commands\Database;
 
 use Joomla\Controller\AbstractController;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
-use Stats\CommandInterface;
-use Stats\Database\Migrations;
+use Joomla\StatsServer\CommandInterface;
+use Joomla\StatsServer\Database\Migrations;
+use Psr\Log\{
+	LoggerAwareInterface, LoggerAwareTrait
+};
 
 /**
  * CLI command for migrating the database
  *
- * @method         \Stats\CliApplication  getApplication()  Get the application object.
- * @property-read  \Stats\CliApplication  $app              Application object
- *
- * @since          1.0
+ * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
+ * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
  */
 class MigrateCommand extends AbstractController implements CommandInterface, LoggerAwareInterface
 {
@@ -23,8 +28,7 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 	/**
 	 * Database migrations helper
 	 *
-	 * @var    Migrations
-	 * @since  1.0
+	 * @var  Migrations
 	 */
 	private $migrations;
 
@@ -32,8 +36,6 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 	 * Constructor.
 	 *
 	 * @param   Migrations  $migrations  Database migrations helper
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(Migrations $migrations)
 	{
@@ -44,15 +46,13 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
 		$this->getApplication()->outputTitle('Database Migrations: Migrate');
 
 		// If a version is given, we are only executing that migration
-		$version = $this->getApplication()->input->getString('version', $this->getApplication()->input->getString('v'));
+		$version = $this->getApplication()->input->getString('version', $this->getApplication()->input->getString('v', ''));
 
 		try
 		{
@@ -83,10 +83,8 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 	 * Get the command's description
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return 'Migrate the database schema to a newer version.';
 	}
@@ -95,10 +93,8 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 	 * Get the command's title
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return 'Database Migrations';
 	}

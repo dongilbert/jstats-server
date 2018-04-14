@@ -1,26 +1,29 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Commands\Database;
+namespace Joomla\StatsServer\Commands\Database;
 
 use Joomla\Controller\AbstractController;
-use Stats\CommandInterface;
-use Stats\Database\Migrations;
+use Joomla\StatsServer\CommandInterface;
+use Joomla\StatsServer\Database\Migrations;
 
 /**
  * CLI command for checking the database migration status
  *
- * @method         \Stats\CliApplication  getApplication()  Get the application object.
- * @property-read  \Stats\CliApplication  $app              Application object
- *
- * @since          1.0
+ * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
+ * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
  */
 class StatusCommand extends AbstractController implements CommandInterface
 {
 	/**
 	 * Database migrations helper
 	 *
-	 * @var    Migrations
-	 * @since  1.0
+	 * @var  Migrations
 	 */
 	private $migrations;
 
@@ -28,8 +31,6 @@ class StatusCommand extends AbstractController implements CommandInterface
 	 * Constructor.
 	 *
 	 * @param   Migrations  $migrations  Database migrations helper
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(Migrations $migrations)
 	{
@@ -40,8 +41,6 @@ class StatusCommand extends AbstractController implements CommandInterface
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
@@ -72,10 +71,8 @@ class StatusCommand extends AbstractController implements CommandInterface
 	 * Get the command's description
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return 'Check the database migration status.';
 	}
@@ -84,10 +81,8 @@ class StatusCommand extends AbstractController implements CommandInterface
 	 * Get the command's title
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return 'Database Migrations Status';
 	}

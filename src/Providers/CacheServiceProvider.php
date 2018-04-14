@@ -1,16 +1,23 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Providers;
+namespace Joomla\StatsServer\Providers;
 
-use Doctrine\Common\Cache;
-use Doctrine\Common\Cache\Cache as CacheInterface;
-use Joomla\DI\Container;
-use Joomla\DI\ServiceProviderInterface;
+use Joomla\Cache\{
+	AbstractCacheItemPool, Adapter as CacheAdapter, CacheItemPoolInterface
+};
+use Joomla\DI\{
+	Container, ServiceProviderInterface
+};
+use Psr\Cache\CacheItemPoolInterface as PsrCacheItemPoolInterface;
 
 /**
  * Cache service provider
- *
- * @since  1.0
  */
 class CacheServiceProvider implements ServiceProviderInterface
 {
@@ -20,79 +27,67 @@ class CacheServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
 	public function register(Container $container)
 	{
-		$container->alias('cache', CacheInterface::class)
-			->share(
-				CacheInterface::class,
-				function (Container $container)
+		$container->alias('cache', PsrCacheItemPoolInterface::class)
+			->alias(CacheItemPoolInterface::class, PsrCacheItemPoolInterface::class)
+			->alias(AbstractCacheItemPool::class, PsrCacheItemPoolInterface::class)
+			->share(PsrCacheItemPoolInterface::class, [$this, 'getCacheService'], true);
+	}
+
+	/**
+	 * Get the `cache` service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  PsrCacheItemPoolInterface
+	 *
+	 * @throws  \InvalidArgumentException
+	 */
+	public function getCacheService(Container $container) : PsrCacheItemPoolInterface
+	{
+		/** @var \Joomla\Registry\Registry $config */
+		$config = $container->get('config');
+
+		// If caching isn't enabled then just return a void cache
+		if (!$config->get('cache.enabled', false))
+		{
+			return new CacheAdapter\None;
+		}
+
+		$adapter = $config->get('cache.adapter', 'file');
+
+		switch ($adapter)
+		{
+			case 'filesystem':
+				$path = $config->get('cache.filesystem.path', 'cache');
+
+				// If no path is given, fall back to the system's temporary directory
+				if (empty($path))
 				{
-					/** @var \Joomla\Registry\Registry $config */
-					$config = $container->get('config');
+					$path = sys_get_temp_dir();
+				}
 
-					// If caching isn't enabled then just return a void cache
-					if (!$config->get('cache.enabled', false))
-					{
-						return new Cache\VoidCache;
-					}
+				// If the path is relative, make it absolute... Sorry Windows users, this breaks support for your environment
+				if (substr($path, 0, 1) !== '/')
+				{
+					$path = APPROOT . '/' . $path;
+				}
 
-					$adapter = $config->get('cache.adapter', 'filesystem');
+				$options = [
+					'file.path' => $path,
+				];
 
-					switch ($adapter)
-					{
-						case 'array':
-							$handler = new Cache\ArrayCache;
+				return new CacheAdapter\File($options);
 
-							break;
+			case 'none':
+				return new CacheAdapter\None;
 
-						case 'filesystem':
-							$path = $config->get('cache.filesystem.path', 'cache');
+			case 'runtime':
+				return new CacheAdapter\Runtime;
+		}
 
-							// If no path is given, fall back to the system's temporary directory
-							if (empty($path))
-							{
-								$path = sys_get_temp_dir();
-							}
-
-							// If the path is relative, make it absolute
-							if (substr($path, 0, 1) !== '/')
-							{
-								$path = APPROOT . '/' . $path;
-							}
-
-							$handler = new Cache\FilesystemCache($path);
-
-							break;
-
-						case 'phpfile':
-							$path = $config->get('cache.phpfile.path', 'cache');
-
-							// If no path is given, fall back to the system's temporary directory
-							if (empty($path))
-							{
-								$path = sys_get_temp_dir();
-							}
-
-							// If the path is relative, make it absolute
-							if (substr($path, 0, 1) !== '/')
-							{
-								$path = APPROOT . '/' . $path;
-							}
-
-							$handler = new Cache\PhpFileCache($path);
-
-							break;
-
-						default:
-							throw new \InvalidArgumentException(sprintf('The "%s" cache adapter is not supported.', $adapter));
-					}
-
-					return $handler;
-				},
-				true
-			);
+		throw new \InvalidArgumentException(sprintf('The "%s" cache adapter is not supported.', $adapter));
 	}
 }

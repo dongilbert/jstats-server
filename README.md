@@ -1,15 +1,16 @@
 # Joomla Environment Stats
 
 In order to better understand our install base and end user environments, a plugin has been created to send those stats back to a Joomla
-controlled central server. No worries though, __no__ identifying data is captured at any point, and we only keep latest data last sent to us.
+controlled central server. No worries though, __no__ identifying data is captured at any point, and we only keep the data last sent to us.
 
 ## Build Status
-Travis-CI: [![Build Status](https://travis-ci.org/joomla-extensions/jstats-server.png)](https://travis-ci.org/joomla-extensions/jstats-server)
-Scrutinizer-CI: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/joomla-extensions/jstats-server/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/joomla-extensions/jstats-server/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/joomla-extensions/jstats-server/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/joomla-extensions/jstats-server/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/joomla-extensions/jstats-server/badges/build.png?b=master)](https://scrutinizer-ci.com/g/joomla-extensions/jstats-server/build-status/master)
+Travis-CI: [![Build Status](https://travis-ci.org/joomla/statistics-server.png)](https://travis-ci.org/joomla/statistics-server)
+Scrutinizer-CI: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/joomla/statistics-server/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/joomla/statistics-server/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/joomla/statistics-server/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/joomla/statistics-server/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/joomla/statistics-server/badges/build.png?b=master)](https://scrutinizer-ci.com/g/joomla/statistics-server/build-status/master)
 
 ## Requirements
 
-* PHP 5.6+
+* PHP 7.0+
+* PDO with MySQL support
 * MySQL
 * Composer
 * Apache with mod_rewrite enabled and configured to allow the .htaccess file to be read
@@ -26,11 +27,11 @@ Scrutinizer-CI: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/joomla
 
 The `DisplayControllerGet` optionally supports several additional configuration values which affect the application's behavior, to include:
 
-* Caching - The `doctrine/cache` package is used to provide a caching API to store data. The supported configuration values are under the `cache` key in the configuration and include:
+* Caching - The `joomla/cache` package is used to provide a PSR-6 compliant caching API to store data. The supported configuration values are under the `cache` key in the configuration and include:
     * `enabled` - Is the cache enabled?
     * `lifetime` - The lifetime (in seconds) of the cache data
     * `adapter` - The cache adapter to use; the currently supported values can be found in the [CacheServiceProvider](src/Providers/CacheServiceProvider.php) 
-* Raw Data Access - The API supports requesting the raw, unfiltered API data by sending a `Joomla-Raw` with the API request. The value of this must match the `stats.rawdata` configuration key.
+* Raw Data Access - The API supports requesting the raw, unfiltered API data by sending a `Joomla-Raw` header with the API request. The value of this must match the `stats.rawdata` configuration key.
 
 Additionally, the application behavior is affected by the following configuration settings:
 

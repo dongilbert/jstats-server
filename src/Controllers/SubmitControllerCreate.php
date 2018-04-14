@@ -1,18 +1,22 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Controllers;
+namespace Joomla\StatsServer\Controllers;
 
 use Joomla\Controller\AbstractController;
-use Stats\Decorators\ValidateVersion;
-use Stats\Models\StatsModel;
+use Joomla\StatsServer\Decorators\ValidateVersion;
+use Joomla\StatsServer\Models\StatsModel;
 
 /**
  * Controller for processing submitted statistics data.
  *
- * @method         \Stats\WebApplication  getApplication()  Get the application object.
- * @property-read  \Stats\WebApplication  $app              Application object
- *
- * @since          1.0
+ * @method         \Joomla\StatsServer\WebApplication  getApplication()  Get the application object.
+ * @property-read  \Joomla\StatsServer\WebApplication  $app              Application object
  */
 class SubmitControllerCreate extends AbstractController
 {
@@ -21,20 +25,19 @@ class SubmitControllerCreate extends AbstractController
 	/**
 	 * Statistics model object.
 	 *
-	 * @var    StatsModel
-	 * @since  1.0
+	 * @var  StatsModel
 	 */
 	private $model;
 
 	/**
 	 * Allowed Database Types.
 	 *
-	 * @var    array
-	 * @since  1.0
+	 * @var  array
 	 */
 	private $databaseTypes = [
 		'mysql',
 		'mysqli',
+		'pgsql',
 		'pdomysql',
 		'postgresql',
 		'sqlazure',
@@ -45,8 +48,6 @@ class SubmitControllerCreate extends AbstractController
 	 * Constructor.
 	 *
 	 * @param   StatsModel  $model  Statistics model object.
-	 *
-	 * @since   1.0
 	 */
 	public function __construct(StatsModel $model)
 	{
@@ -57,19 +58,17 @@ class SubmitControllerCreate extends AbstractController
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
 		$input = $this->getInput();
 
 		$data = [
-			'php_version' => $input->getRaw('php_version'),
-			'db_version'  => $input->getRaw('db_version'),
-			'cms_version' => $input->getRaw('cms_version'),
+			'php_version' => $input->getRaw('php_version', ''),
+			'db_version'  => $input->getRaw('db_version', ''),
+			'cms_version' => $input->getRaw('cms_version', ''),
 			'unique_id'   => $input->getString('unique_id'),
-			'db_type'     => $input->getString('db_type'),
+			'db_type'     => $input->getString('db_type', ''),
 			'server_os'   => $input->getString('server_os'),
 		];
 
@@ -97,7 +96,7 @@ class SubmitControllerCreate extends AbstractController
 
 			$this->getApplication()->setHeader('HTTP/1.1 500 Internal Server Error', 500, true);
 			$this->getApplication()->setBody(json_encode($response));
-	
+
 			return true;
 		}
 
@@ -108,11 +107,21 @@ class SubmitControllerCreate extends AbstractController
 				'error'   => true,
 				'message' => 'Invalid data submission.',
 			];
-	
+
 			$this->getApplication()->setHeader('HTTP/1.1 500 Internal Server Error', 500, true);
 			$this->getApplication()->setBody(json_encode($response));
-	
+
 			return true;
+		}
+
+		// Account for configuration differences with 4.0
+		if (version_compare($data['cms_version'], '4.0', 'ge'))
+		{
+			// For 4.0 and later, we map `mysql` to the `pdomysql` option to correctly track the database type
+			if ($data['db_type'] === 'mysql')
+			{
+				$data['db_type'] = 'pdomysql';
+			}
 		}
 
 		$this->model->save((object) $data);
@@ -133,10 +142,8 @@ class SubmitControllerCreate extends AbstractController
 	 * @param   string  $version  The version number to check.
 	 *
 	 * @return  string|boolean  The version number on success or boolean false on failure.
-	 *
-	 * @since   1.0
 	 */
-	private function checkCMSVersion($version)
+	private function checkCMSVersion(string $version)
 	{
 		$version = $this->validateVersionNumber($version);
 
@@ -159,7 +166,7 @@ class SubmitControllerCreate extends AbstractController
 
 		if (!file_exists($path))
 		{
-			throw new \RuntimeException('Missing Joomla release listing', 500);
+			throw new \RuntimeException('Missing Joomla! release listing', 500);
 		}
 
 		$validVersions = json_decode(file_get_contents($path), true);
@@ -179,10 +186,8 @@ class SubmitControllerCreate extends AbstractController
 	 * @param   string  $database  The database type to check.
 	 *
 	 * @return  string|boolean  The database type on success or boolean false on failure.
-	 *
-	 * @since   1.0
 	 */
-	private function checkDatabaseType($database)
+	private function checkDatabaseType(string $database)
 	{
 		if (!in_array($database, $this->databaseTypes))
 		{
@@ -198,10 +203,8 @@ class SubmitControllerCreate extends AbstractController
 	 * @param   string  $version  The version number to check.
 	 *
 	 * @return  string|boolean  The version number on success or boolean false on failure.
-	 *
-	 * @since   1.0
 	 */
-	private function checkPHPVersion($version)
+	private function checkPHPVersion(string $version)
 	{
 		$version = $this->validateVersionNumber($version);
 
@@ -211,10 +214,26 @@ class SubmitControllerCreate extends AbstractController
 			return false;
 		}
 
-		$majorVersion = substr($version, 0, 1);
+		// We only track versions based on major.minor.patch so everything else is invalid
+		$explodedVersion = explode('.', $version);
 
-		// The version string should meet the minimum supported PHP version for 3.0.0 and be a released PHP version
-		if (version_compare($version, '5.3.1', '<') || version_compare($version, '8.0.0', '>=') || $majorVersion == 6)
+		if (count($explodedVersion) > 3)
+		{
+			return false;
+		}
+
+		// Import the valid release listing
+		$path = APPROOT . '/versions/php.json';
+
+		if (!file_exists($path))
+		{
+			throw new \RuntimeException('Missing PHP release listing', 500);
+		}
+
+		$validVersions = json_decode(file_get_contents($path), true);
+
+		// Check that the version is in our valid release list
+		if (!in_array($version, $validVersions))
 		{
 			return false;
 		}

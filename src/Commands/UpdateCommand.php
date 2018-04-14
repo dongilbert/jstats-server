@@ -1,18 +1,21 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Commands;
+namespace Joomla\StatsServer\Commands;
 
 use Joomla\Controller\AbstractController;
-use Joomla\Database\DatabaseDriver;
-use Stats\CommandInterface;
+use Joomla\StatsServer\CommandInterface;
 
 /**
  * Update command
  *
- * @method         \Stats\CliApplication  getApplication()  Get the application object.
- * @property-read  \Stats\CliApplication  $app              Application object
- *
- * @since          1.0
+ * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
+ * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
  */
 class UpdateCommand extends AbstractController implements CommandInterface
 {
@@ -20,8 +23,6 @@ class UpdateCommand extends AbstractController implements CommandInterface
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
@@ -46,10 +47,8 @@ class UpdateCommand extends AbstractController implements CommandInterface
 	 * Get the command's description
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return 'Update the server to the current git HEAD.';
 	}
@@ -58,10 +57,8 @@ class UpdateCommand extends AbstractController implements CommandInterface
 	 * Get the command's title
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return 'Update Server';
 	}
@@ -73,10 +70,9 @@ class UpdateCommand extends AbstractController implements CommandInterface
 	 *
 	 * @return  string  Return data from the command
 	 *
-	 * @since   1.0
 	 * @throws  \RuntimeException
 	 */
-	private function runCommand($command)
+	private function runCommand(string $command) : string
 	{
 		$lastLine = system($command, $status);
 

@@ -1,6 +1,12 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\GitHub;
+namespace Joomla\StatsServer\GitHub;
 
 use Joomla\Github\Github as JGitHub;
 
@@ -8,8 +14,6 @@ use Joomla\Github\Github as JGitHub;
  * Extended GitHub API object.
  *
  * @property-read  Package\Repositories   $repositories   GitHub API object for the repositories package.
- *
- * @since  1.0
  */
 class GitHub extends JGitHub
 {
@@ -20,7 +24,6 @@ class GitHub extends JGitHub
 	 *
 	 * @return  \Joomla\Github\AbstractGithubObject  GitHub API object (gists, issues, pulls, etc).
 	 *
-	 * @since   1.0
 	 * @throws  \InvalidArgumentException If $name is not a valid sub class.
 	 */
 	public function __get($name)

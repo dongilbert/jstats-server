@@ -1,16 +1,21 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Providers;
+namespace Joomla\StatsServer\Providers;
 
-use Joomla\DI\Container;
-use Joomla\DI\ServiceProviderInterface;
+use Joomla\DI\{
+	Container, ServiceProviderInterface
+};
 use Joomla\Github\Github as BaseGithub;
-use Stats\GitHub\GitHub;
+use Joomla\StatsServer\GitHub\GitHub;
 
 /**
  * GitHub service provider
- *
- * @since  1.0
  */
 class GitHubServiceProvider implements ServiceProviderInterface
 {
@@ -20,23 +25,26 @@ class GitHubServiceProvider implements ServiceProviderInterface
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  void
-	 *
-	 * @since   1.0
 	 */
 	public function register(Container $container)
 	{
 		$container->alias('github', BaseGithub::class)
 			->alias(GitHub::class, BaseGithub::class)
-			->share(
-				BaseGithub::class,
-				function (Container $container)
-				{
-					/** @var \Joomla\Registry\Registry $config */
-					$config = $container->get('config');
+			->share(BaseGithub::class, [$this, 'getGithubService'], true);
+	}
 
-					return new GitHub($config->extract('github'));
-				},
-				true
-			);
+	/**
+	 * Get the `github` service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  GitHub
+	 */
+	public function getGithubService(Container $container) : GitHub
+	{
+		/** @var \Joomla\Registry\Registry $config */
+		$config = $container->get('config');
+
+		return new GitHub($config->extract('github'));
 	}
 }

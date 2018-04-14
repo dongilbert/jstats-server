@@ -1,38 +1,38 @@
 <?php
+/**
+ * Joomla! Statistics Server
+ *
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
+ */
 
-namespace Stats\Commands\Cache;
+namespace Joomla\StatsServer\Commands\Cache;
 
-use Doctrine\Common\Cache\Cache;
-use Doctrine\Common\Cache\FlushableCache;
 use Joomla\Controller\AbstractController;
-use Stats\CommandInterface;
+use Joomla\StatsServer\CommandInterface;
+use Psr\Cache\CacheItemPoolInterface;
 
 /**
  * CLI command for clearing the application cache
  *
- * @method         \Stats\CliApplication  getApplication()  Get the application object.
- * @property-read  \Stats\CliApplication  $app              Application object
- *
- * @since          1.0
+ * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
+ * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
  */
 class ClearCommand extends AbstractController implements CommandInterface
 {
 	/**
-	 * The cache handler.
+	 * The cache item pool.
 	 *
-	 * @var    Cache
-	 * @since  1.0
+	 * @var  CacheItemPoolInterface
 	 */
 	private $cache;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   Cache  $cache  The cache handler
-	 *
-	 * @since   1.0
+	 * @param   CacheItemPoolInterface  $cache  The cache item pool
 	 */
-	public function __construct(Cache $cache)
+	public function __construct(CacheItemPoolInterface $cache)
 	{
 		$this->cache = $cache;
 	}
@@ -41,29 +41,14 @@ class ClearCommand extends AbstractController implements CommandInterface
 	 * Execute the controller.
 	 *
 	 * @return  boolean
-	 *
-	 * @since   1.0
 	 */
 	public function execute()
 	{
 		$this->getApplication()->outputTitle('Cache: Clear');
 
-		if ($this->cache instanceof FlushableCache)
-		{
-			$this->cache->flushAll();
+		$this->cache->clear();
 
-			$this->getApplication()->out('<info>The application cache has been cleared.</info>');
-		}
-		else
-		{
-			$this->getApplication()->out(
-				sprintf(
-					'<comment>This command only supports clearing the cache with %1$s instances that implement the %2$s interface.</comment>',
-					Cache::class,
-					FlushableCache::class
-				)
-			);
-		}
+		$this->getApplication()->out('<info>The application cache has been cleared.</info>');
 
 		return true;
 	}
@@ -72,10 +57,8 @@ class ClearCommand extends AbstractController implements CommandInterface
 	 * Get the command's description
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
-	public function getDescription()
+	public function getDescription() : string
 	{
 		return 'Clear the application cache.';
 	}
@@ -84,10 +67,8 @@ class ClearCommand extends AbstractController implements CommandInterface
 	 * Get the command's title
 	 *
 	 * @return  string
-	 *
-	 * @since   1.0
 	 */
-	public function getTitle()
+	public function getTitle() : string
 	{
 		return 'Clear Cache';
 	}
