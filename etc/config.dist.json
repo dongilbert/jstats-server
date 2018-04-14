@@ -14,11 +14,6 @@
 	"log": {
 		"level": "error"
 	},
-	"cache": {
-		"enabled": false,
-		"lifetime": 900,
-		"adapter": "filesystem"
-	},
 	"github": {
 		"gh": {
 			"token": false

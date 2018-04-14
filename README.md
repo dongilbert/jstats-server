@@ -25,12 +25,8 @@ Scrutinizer-CI: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/joomla
 
 ## Additional Configuration
 
-The `DisplayControllerGet` optionally supports several additional configuration values which affect the application's behavior, to include:
+The `DisplayControllerGet` optionally supports additional configuration values which affect the application's behavior, to include:
 
-* Caching - The `joomla/cache` package is used to provide a PSR-6 compliant caching API to store data. The supported configuration values are under the `cache` key in the configuration and include:
-    * `enabled` - Is the cache enabled?
-    * `lifetime` - The lifetime (in seconds) of the cache data
-    * `adapter` - The cache adapter to use; the currently supported values can be found in the [CacheServiceProvider](src/Providers/CacheServiceProvider.php) 
 * Raw Data Access - The API supports requesting the raw, unfiltered API data by sending a `Joomla-Raw` header with the API request. The value of this must match the `stats.rawdata` configuration key.
 
 Additionally, the application behavior is affected by the following configuration settings:

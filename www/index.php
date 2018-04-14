@@ -23,7 +23,6 @@ use Psr\Log\LoggerInterface;
 
 $container = (new Container)
 	->registerServiceProvider(new ApplicationServiceProvider)
-	->registerServiceProvider(new CacheServiceProvider)
 	->registerServiceProvider(new ConfigServiceProvider(APPROOT . '/etc/config.json'))
 	->registerServiceProvider(new DatabaseServiceProvider)
 	->registerServiceProvider(new GitHubServiceProvider)

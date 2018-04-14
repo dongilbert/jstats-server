@@ -27,7 +27,6 @@ use Joomla\StatsServer\Database\Migrations;
 use Joomla\StatsServer\GitHub\GitHub;
 use Joomla\StatsServer\Models\StatsModel;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
-use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use TheIconic\Tracking\GoogleAnalytics\Analytics;
 
@@ -74,7 +73,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		 * Console Commands
 		 */
 
-		$container->share(AppCommands\Cache\ClearCommand::class, [$this, 'getCacheClearCommandService'], true);
 		$container->share(AppCommands\HelpCommand::class, [$this, 'getHelpCommandService'], true);
 		$container->share(AppCommands\InstallCommand::class, [$this, 'getInstallCommandService'], true);
 		$container->share(AppCommands\Database\MigrateCommand::class, [$this, 'getDatabaseMigrateCommandService'], true);
@@ -111,23 +109,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	public function getAnalyticsService(Container $container)
 	{
 		return new Analytics(true);
-	}
-
-	/**
-	 * Get the Cache\ClearCommand class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  AppCommands\Cache\ClearCommand
-	 */
-	public function getCacheClearCommandService(Container $container) : AppCommands\Cache\ClearCommand
-	{
-		$command = new AppCommands\Cache\ClearCommand($container->get(CacheItemPoolInterface::class));
-
-		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
-		$command->setInput($container->get(Input::class));
-
-		return $command;
 	}
 
 	/**
@@ -279,8 +260,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	public function getDisplayControllerGetService(Container $container) : DisplayControllerGet
 	{
 		$controller = new DisplayControllerGet(
-			$container->get(StatsJsonView::class),
-			$container->get(CacheItemPoolInterface::class)
+			$container->get(StatsJsonView::class)
 		);
 
 		$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));

@@ -19,9 +19,6 @@ use Joomla\Input\{
 };
 use Joomla\Registry\Registry;
 use Joomla\Test\TestHelper;
-use PHPUnit\Framework\TestCase;
-use Psr\Cache\CacheItemPoolInterface;
-use Psr\Log\LoggerInterface;
 use Joomla\StatsServer\{
 	CliApplication, Console, Router, WebApplication
 };
@@ -34,6 +31,8 @@ use Joomla\StatsServer\GitHub\GitHub;
 use Joomla\StatsServer\Models\StatsModel;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use Joomla\StatsServer\Providers\ApplicationServiceProvider;
+use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use TheIconic\Tracking\GoogleAnalytics\Analytics;
 
 /**
@@ -93,32 +92,6 @@ class ApplicationServiceProviderTest extends TestCase
 	public function testTheAnalyticsClassServiceIsCreated()
 	{
 		$this->assertInstanceOf(Analytics::class, (new ApplicationServiceProvider)->getAnalyticsService($this->createMock(Container::class)));
-	}
-
-	/**
-	 * @testdox The Cache\ClearCommand class service is created
-	 *
-	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getCacheClearCommandService
-	 */
-	public function testTheCacheClearCommandClassServiceIsCreated()
-	{
-		$mockContainer = $this->createMock(Container::class);
-		$mockContainer->expects($this->at(0))
-			->method('get')
-			->with(CacheItemPoolInterface::class)
-			->willReturn($this->createMock(CacheItemPoolInterface::class));
-
-		$mockContainer->expects($this->at(1))
-			->method('get')
-			->with(AbstractApplication::class)
-			->willReturn($this->createMock(AbstractApplication::class));
-
-		$mockContainer->expects($this->at(2))
-			->method('get')
-			->with(Input::class)
-			->willReturn($this->createMock(Input::class));
-
-		$this->assertInstanceOf(AppCommands\Cache\ClearCommand::class, (new ApplicationServiceProvider)->getCacheClearCommandService($mockContainer));
 	}
 
 	/**
@@ -301,15 +274,10 @@ class ApplicationServiceProviderTest extends TestCase
 
 		$mockContainer->expects($this->at(1))
 			->method('get')
-			->with(CacheItemPoolInterface::class)
-			->willReturn($this->createMock(CacheItemPoolInterface::class));
-
-		$mockContainer->expects($this->at(2))
-			->method('get')
 			->with(AbstractApplication::class)
 			->willReturn($this->createMock(AbstractApplication::class));
 
-		$mockContainer->expects($this->at(3))
+		$mockContainer->expects($this->at(2))
 			->method('get')
 			->with(Input::class)
 			->willReturn($this->createMock(Input::class));
