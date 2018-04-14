@@ -90,32 +90,25 @@ class StatsJsonView extends BaseJsonView
 		$server_os   = [];
 
 		// If we have the entire database, we have to loop within each group to put it all together
-		foreach ($items as $item)
+		foreach ($items as $group)
 		{
-			$this->totalItems++;
+			$this->totalItems = 0;
 
-			foreach ($this->dataSources as $source)
+			foreach ($group as $item)
 			{
-				if (isset($item[$source]) && !is_null($item[$source]))
+				foreach ($this->dataSources as $source)
 				{
-					// Special case, if the server is empty then change the key to "unknown"
-					if ($source === 'server_os' && empty($item[$source]))
+					if (isset($item[$source]) && !is_null($item[$source]))
 					{
-						if (!isset(${$source}['unknown']))
+						// Special case, if the server is empty then change the key to "unknown"
+						if ($source === 'server_os' && empty($item[$source]))
 						{
-							${$source}['unknown'] = 0;
+							$item[$source] = 'unknown';
 						}
 
-						${$source}['unknown']++;
-					}
-					else
-					{
-						if (!isset(${$source}[$item[$source]]))
-						{
-							${$source}[$item[$source]] = 0;
-						}
+						${$source}[$item[$source]] = $item['count'];
 
-						${$source}[$item[$source]]++;
+						$this->totalItems += $item['count'];
 					}
 				}
 			}
@@ -188,45 +181,28 @@ class StatsJsonView extends BaseJsonView
 	/**
 	 * Process the response for a single data source.
 	 *
-	 * @param   \Generator  $items  The source items to process.
+	 * @param   array  $items  The source items to process.
 	 *
 	 * @return  string  The rendered view.
 	 */
-	private function processSingleSource(\Generator $items) : string
+	private function processSingleSource(array $items) : string
 	{
 		$data = [
 			${$this->source} = [],
 		];
 
+		$this->totalItems = 0;
+
 		foreach ($items as $item)
 		{
-			$this->totalItems++;
-
-			foreach ($this->dataSources as $source)
+			// Special case, if the server is empty then change the key to "unknown"
+			if ($this->source === 'server_os' && empty(trim($item[$this->source])))
 			{
-				if (isset($item[$source]) && !is_null($item[$source]))
-				{
-					// Special case, if the server is empty then change the key to "unknown"
-					if ($source === 'server_os' && empty($item[$source]))
-					{
-						if (!isset($data[$source]['unknown']))
-						{
-							$data[$source]['unknown'] = 0;
-						}
-
-						$data[$source]['unknown']++;
-					}
-					else
-					{
-						if (!isset($data[$source][$item[$source]]))
-						{
-							$data[$source][$item[$source]] = 0;
-						}
-
-						$data[$source][$item[$source]]++;
-					}
-				}
+				$item[$this->source] = 'unknown';
 			}
+
+			$data[$this->source][$item[$this->source]] = $item['count'];
+			$this->totalItems += $item['count'];
 		}
 
 		unset($generator);

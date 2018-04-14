@@ -36,40 +36,50 @@ class StatsModel implements DatabaseModelInterface
 	 *
 	 * @param   string  $column  A single column to filter on
 	 *
-	 * @return  \Generator  A Generator containing the response data
+	 * @return  array  An array containing the response data
 	 *
 	 * @throws  \InvalidArgumentException
 	 */
-	public function getItems(string $column = '') : \Generator
+	public function getItems(string $column = '') : array
 	{
-		$db = $this->getDb();
+		$db         = $this->getDb();
+		$query      = $db->getQuery(true);
+		$columnList = $db->getTableColumns('#__jstats');
 
 		// Validate the requested column is actually in the table
 		if ($column !== '')
 		{
-			$columnList = $db->getTableColumns('#__jstats');
-
 			// The column should exist in the table and be part of the API
 			if (!in_array($column, array_keys($columnList)) && !in_array($column, ['unique_id', 'modified']))
 			{
 				throw new \InvalidArgumentException('An invalid data source was requested.', 404);
 			}
 
-			$query = $db->getQuery(true)
-				->select($column);
+			return $db->setQuery(
+				$query
+					->select('*')
+					->from($db->quoteName('#__jstats_counter_' . $column))
+			)->loadAssocList();
 		}
-		else
+
+		$return = [];
+
+		foreach (array_keys($columnList) as $column)
 		{
-			$query = $db->getQuery(true)
-				->select(['php_version', 'db_type', 'db_version', 'cms_version', 'server_os']);
+			// The column should exist in the table and be part of the API
+			if (in_array($column, ['unique_id', 'modified']))
+			{
+				continue;
+			}
+
+			$return[$column] = $db->setQuery(
+				$query->clear()
+					->select('*')
+					->from($db->quoteName('#__jstats_counter_' . $column))
+			)->loadAssocList();
 		}
 
-		$query->from('#__jstats')
-			->group('unique_id');
-
-		$db->setQuery($query);
-
-		return $db->yieldAssocList();
+		return $return;
 	}
 
 	/**

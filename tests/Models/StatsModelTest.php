@@ -26,41 +26,64 @@ class StatsModelTest extends TestCase
 	 */
 	public function testTheModelReturnsAllItemsFromTheDatabase()
 	{
-		$this->markTestSkipped('Skipping until test is refactored for generators');
-
-		$return = [['unique_id' => '1a'], ['unique_id' => '2b']];
+		$countTableReturn = [['unique_id' => '1a'], ['unique_id' => '2b']];
 
 		$mockDatabase = $this->getMockBuilder(DatabaseDriver::class)
 			->disableOriginalConstructor()
-			->setMethods(['getQuery', 'loadAssocList', 'loadResult'])
+			->setMethods(['getQuery', 'getTableColumns', 'loadAssocList'])
 			->getMockForAbstractClass();
 
 		$mockQuery = $this->getMockBuilder(DatabaseQuery::class)
 			->disableOriginalConstructor()
 			->getMockForAbstractClass();
 
-		$mockDatabase->expects($this->exactly(2))
+		$mockDatabase->expects($this->once())
 			->method('getQuery')
 			->willReturn($mockQuery);
 
-		$mockDatabase->expects($this->once())
+		$mockDatabase->expects($this->exactly(5))
 			->method('loadAssocList')
-			->willReturn($return);
+			->willReturn($countTableReturn);
 
 		$mockDatabase->expects($this->once())
-			->method('loadResult')
-			->willReturn(2);
+			->method('getTableColumns')
+			->willReturn(
+				[
+					'unique_id'   => 'varchar',
+					'php_version' => 'varchar',
+					'db_type'     => 'varchar',
+					'db_version'  => 'varchar',
+					'cms_version' => 'varchar',
+					'server_os'   => 'varchar',
+					'modified'    => 'datetime',
+				]
+			);
 
-		$items = (new StatsModel($mockDatabase))->getItems();
-
-		$this->assertInstanceOf('Generator', $items);
-
-		foreach ($items as $value)
-		{
-			$data = $value;
-		}
-
-		$this->assertSame($data, $return);
+		$this->assertSame(
+			(new StatsModel($mockDatabase))->getItems(),
+			[
+				'php_version' => [
+					['unique_id' => '1a'],
+					['unique_id' => '2b'],
+				],
+				'db_type'     => [
+					['unique_id' => '1a'],
+					['unique_id' => '2b'],
+				],
+				'db_version'  => [
+					['unique_id' => '1a'],
+					['unique_id' => '2b'],
+				],
+				'cms_version' => [
+					['unique_id' => '1a'],
+					['unique_id' => '2b'],
+				],
+				'server_os'   => [
+					['unique_id' => '1a'],
+					['unique_id' => '2b'],
+				],
+			]
+		);
 	}
 
 	/**
@@ -70,20 +93,18 @@ class StatsModelTest extends TestCase
 	 */
 	public function testTheModelReturnsASingleSourceItemsFromTheDatabase()
 	{
-		$this->markTestSkipped('Skipping until test is refactored for generators');
-
-		$return = [['php_version' => PHP_VERSION], ['php_version' => PHP_VERSION]];
+		$return = ['php_version' => PHP_VERSION, 'count' => 2];
 
 		$mockDatabase = $this->getMockBuilder(DatabaseDriver::class)
 			->disableOriginalConstructor()
-			->setMethods(['getQuery', 'getTableColumns', 'loadAssocList', 'loadResult'])
+			->setMethods(['getQuery', 'getTableColumns', 'loadAssocList'])
 			->getMockForAbstractClass();
 
 		$mockQuery = $this->getMockBuilder(DatabaseQuery::class)
 			->disableOriginalConstructor()
 			->getMockForAbstractClass();
 
-		$mockDatabase->expects($this->exactly(2))
+		$mockDatabase->expects($this->once())
 			->method('getQuery')
 			->willReturn($mockQuery);
 
@@ -105,20 +126,7 @@ class StatsModelTest extends TestCase
 			->method('loadAssocList')
 			->willReturn($return);
 
-		$mockDatabase->expects($this->once())
-			->method('loadResult')
-			->willReturn(2);
-
-		$items = (new StatsModel($mockDatabase))->getItems('php_version');
-
-		$this->assertInstanceOf('Generator', $items);
-
-		foreach ($items as $value)
-		{
-			$data = $value;
-		}
-
-		$this->assertSame($data, $return);
+		$this->assertSame((new StatsModel($mockDatabase))->getItems('php_version'), $return);
 	}
 
 	/**
@@ -129,11 +137,9 @@ class StatsModelTest extends TestCase
 	 */
 	public function testTheModelThrowsAnExceptionWhenAnInvalidSourceIsSpecified()
 	{
-		$this->markTestSkipped('Skipping until test is refactored for generators');
-
 		$mockDatabase = $this->getMockBuilder(DatabaseDriver::class)
 			->disableOriginalConstructor()
-			->setMethods(['getQuery', 'getTableColumns', 'loadResult'])
+			->setMethods(['getQuery', 'getTableColumns', 'loadAssocList'])
 			->getMockForAbstractClass();
 
 		$mockQuery = $this->getMockBuilder(DatabaseQuery::class)
@@ -158,18 +164,10 @@ class StatsModelTest extends TestCase
 				]
 			);
 
-		$mockDatabase->expects($this->once())
-			->method('loadResult')
-			->willReturn(2);
+		$mockDatabase->expects($this->never())
+			->method('loadAssocList');
 
-		$items = (new StatsModel($mockDatabase))->getItems('bad_column');
-
-		$this->assertInstanceOf('Generator', $items);
-
-		foreach ($items as $value)
-		{
-			$data = $value;
-		}
+		(new StatsModel($mockDatabase))->getItems('bad_column');
 	}
 
 	/**
