@@ -137,8 +137,6 @@ class StatsModelTest extends TestCase
 	 */
 	public function testTheModelThrowsAnExceptionWhenAnInvalidSourceIsSpecified()
 	{
-		$this->markTestSkipped('Skipping until test is refactored for generators');
-
 		$mockDatabase = $this->getMockBuilder(DatabaseDriver::class)
 			->disableOriginalConstructor()
 			->setMethods(['getQuery', 'getTableColumns', 'loadAssocList'])
