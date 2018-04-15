@@ -31,6 +31,13 @@ class StatsJsonView extends BaseJsonView
 	private $dataSources = ['php_version', 'db_type', 'db_version', 'cms_version', 'server_os'];
 
 	/**
+	 * Flag if the response should return the recently updated data.
+	 *
+	 * @var  boolean
+	 */
+	private $recent = false;
+
+	/**
 	 * The data source to return.
 	 *
 	 * @var  string
@@ -67,13 +74,32 @@ class StatsJsonView extends BaseJsonView
 	}
 
 	/**
+	 * Set whether the recently updated data should be returned.
+	 *
+	 * @param   bool  $recent  Flag if the response should return the recently updated data.
+	 *
+	 * @return  void
+	 */
+	public function isRecent(bool $recent)
+	{
+		$this->recent = $recent;
+	}
+
+	/**
 	 * Method to render the view.
 	 *
 	 * @return  string  The rendered view.
 	 */
 	public function render()
 	{
-		$items = $this->model->getItems($this->source);
+		if ($this->recent)
+		{
+			$items = $this->model->getRecentlyUpdatedItems();
+		}
+		else
+		{
+			$items = $this->model->getItems($this->source);
+		}
 
 		// Null out the model now to free some memory
 		$this->model = null;

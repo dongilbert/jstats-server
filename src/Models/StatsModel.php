@@ -83,6 +83,42 @@ class StatsModel implements DatabaseModelInterface
 	}
 
 	/**
+	 * Loads the recently updated statistics data from the database.
+	 *
+	 * Recently updated is an arbitrary 90 days, submit a pull request for a different behavior.
+	 *
+	 * @return  array  An array containing the response data
+	 */
+	public function getRecentlyUpdatedItems() : array
+	{
+		$db         = $this->getDb();
+		$columnList = $db->getTableColumns('#__jstats');
+
+		$return = [];
+
+		foreach (array_keys($columnList) as $column)
+		{
+			// The column should exist in the table and be part of the API
+			if (in_array($column, ['unique_id', 'modified']))
+			{
+				continue;
+			}
+
+			$query = $db->getQuery(true);
+
+			$return[$column] = $db->setQuery(
+				$query->select($column)
+					->select('COUNT(' . $column . ') AS count')
+					->from($db->quoteName('#__jstats'))
+					->where('modified BETWEEN DATE_SUB(NOW(), INTERVAL 90 DAY) AND NOW()')
+					->group($column)
+			)->loadAssocList();
+		}
+
+		return $return;
+	}
+
+	/**
 	 * Saves the given data.
 	 *
 	 * @param   \stdClass  $data  Data object to save.

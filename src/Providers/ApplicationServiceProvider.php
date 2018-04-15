@@ -77,6 +77,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		$container->share(AppCommands\InstallCommand::class, [$this, 'getInstallCommandService'], true);
 		$container->share(AppCommands\Database\MigrateCommand::class, [$this, 'getDatabaseMigrateCommandService'], true);
 		$container->share(AppCommands\Database\StatusCommand::class, [$this, 'getDatabaseStatusCommandService'], true);
+		$container->share(AppCommands\Snapshot\RecentCommand::class, [$this, 'getSnapshotRecentCommandService'], true);
 		$container->share(AppCommands\SnapshotCommand::class, [$this, 'getSnapshotCommandService'], true);
 		$container->share(AppCommands\Tags\JoomlaCommand::class, [$this, 'getTagsJoomlaCommandService'], true);
 		$container->share(AppCommands\Tags\PhpCommand::class, [$this, 'getTagsPhpCommandService'], true);
@@ -357,6 +358,23 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	public function getSnapshotCommandService(Container $container) : AppCommands\SnapshotCommand
 	{
 		$command = new AppCommands\SnapshotCommand($container->get(StatsJsonView::class));
+
+		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setInput($container->get(Input::class));
+
+		return $command;
+	}
+
+	/**
+	 * Get the RecentCommand class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  AppCommands\Snapshot\RecentCommand
+	 */
+	public function getSnapshotRecentCommandService(Container $container) : AppCommands\Snapshot\RecentCommand
+	{
+		$command = new AppCommands\Snapshot\RecentCommand($container->get(StatsJsonView::class));
 
 		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
 		$command->setInput($container->get(Input::class));
