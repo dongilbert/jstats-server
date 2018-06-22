@@ -36,7 +36,7 @@ class UpdateCommand extends AbstractController implements CommandInterface
 		$this->getApplication()->out('<info>Updating Composer resources</info>');
 
 		// Run Composer install
-		$this->runCommand('cd ' . APPROOT . ' && composer install --no-dev -o 2>&1');
+		$this->runCommand('cd ' . APPROOT . ' && composer install --no-dev -o -a 2>&1');
 
 		$this->getApplication()->out('<info>Update complete</info>');
 
