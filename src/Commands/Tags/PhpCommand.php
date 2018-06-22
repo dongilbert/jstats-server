@@ -107,8 +107,13 @@ class PhpCommand extends AbstractTagCommand
 		// Use $branch from the previous loop to allow the next minor version (PHP's master branch)
 		$explodedVersion = explode('.', $branch);
 
-		$nextMinor = $explodedVersion[1] + 1;
-		$versions[] = $explodedVersion[0] . '.' . $nextMinor . '.0';
+		$nextMinor   = $explodedVersion[1] + 1;
+		$nextRelease = $explodedVersion[0] . '.' . $nextMinor . '.0';
+
+		if (!in_array($nextRelease, $versions, true))
+		{
+			$versions[] = $nextRelease;
+		}
 
 		// Store the version data now
 		$path = APPROOT . '/versions/php.json';
