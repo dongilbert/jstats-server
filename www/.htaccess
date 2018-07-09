@@ -1,3 +1,11 @@
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [QSA,L]
+
+##################### Security Header #####################
+<IfModule mod_headers.c>
+	# Allow CORS
+	Header always set Access-Control-Allow-Origin "*"
+	Header always set Access-Control-Allow-Headers "*"
+</IfModule>
+##################### Security Header #####################
