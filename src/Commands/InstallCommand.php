@@ -166,7 +166,7 @@ class InstallCommand extends AbstractController implements CommandInterface
 			throw new \UnexpectedValueException('SQL file corrupted.');
 		}
 
-		$this->out(sprintf('Creating tables from file %s', realpath($fName)), false);
+		$this->getApplication()->out(sprintf('Creating tables from file %s', realpath($fName)), false);
 
 		foreach ($this->db->splitSql($sql) as $query)
 		{
