@@ -70,7 +70,7 @@ class InstallCommand extends AbstractController implements CommandInterface
 					->out('1) Yes')
 					->out('2) No')
 					->out()
-					->out('<question>' . g11n3t('Select:') . '</question>', false);
+					->out('<question>Select:</question>', false);
 
 				$in = trim($this->getApplication()->in());
 
