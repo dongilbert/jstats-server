@@ -1,29 +1,43 @@
-# Forces new Travis-CI Infrastructure
+language: php
 sudo: false
 
-language: php
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
 
 env:
-  global:
-    - USE_SCRUTINIZER="no"
-    - RUN_PHPCS="no"
+  - COMPOSER_FLAGS="--prefer-stable"
 
-matrix:
-  include:
-    - php: 7.0
-      env: PHPUNIT_FLAGS="--coverage-clover=coverage.clover" USE_SCRUTINIZER="yes"
-    - php: 7.1
-      env: RUN_PHPCS="yes"
-    - php: nightly
+jobs:
   allow_failures:
     - php: nightly
+  include:
+    # App Tests
+    - stage: Test without coverage
+      php: 7.2
+      script:
+        - vendor/bin/phpunit --configuration phpunit.travisci.xml
+    - stage: Test without coverage
+      php: 7.3
+      script:
+        - vendor/bin/phpunit --configuration phpunit.travisci.xml
+    - stage: Test without coverage
+      php: nightly
+      script:
+        - vendor/bin/phpunit --configuration phpunit.travisci.xml
+    - stage: Test with coverage
+      php: 7.2
+      script:
+        - vendor/bin/phpunit --configuration phpunit.travisci.xml --coverage-clover=coverage.clover
+        - wget https://scrutinizer-ci.com/ocular.phar
+        - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+    # PHPCS
+    - stage: Coding standard
+      php: 7.2
+      script:
+        - vendor/bin/phpcs --config-set installed_paths vendor/joomla/coding-standards && vendor/bin/phpcs -p --report=full --extensions=php --standard=ruleset.xml
 
 before_script:
   # Make sure all dev dependencies are installed
   - composer install
-
-script:
-  - vendor/bin/phpunit --configuration phpunit.travisci.xml $PHPUNIT_FLAGS
-  - if [ "$USE_SCRUTINIZER" == "yes" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi;
-  - if [ "$USE_SCRUTINIZER" == "yes" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;
-  - if [ "$RUN_PHPCS" == "yes" ]; then vendor/bin/phpcs --config-set installed_paths vendor/joomla/coding-standards && vendor/bin/phpcs -p --report=full --extensions=php --standard=ruleset.xml bin/ src/ tests/ www/; fi;
