@@ -21,6 +21,11 @@
     <!-- Exclude non-PHP files -->
     <exclude-pattern>*/Gruntfile.js</exclude-pattern>
 
+    <file>./bin</file>
+    <file>./src</file>
+    <file>./tests</file>
+    <file>./www</file>
+
     <rule ref="Joomla">
         <exclude name="Joomla.Commenting.ClassComment.MissingSinceTag"/>
         <exclude name="Joomla.NamingConventions.ValidVariableName.MemberNotCamelCaps"/>
