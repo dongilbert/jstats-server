@@ -110,7 +110,7 @@ class Migrations
 	 *
 	 * @return  void
 	 */
-	public function migrateDatabase(string $version = '')
+	public function migrateDatabase(string $version = '') : void
 	{
 		// Determine the migrations to apply
 		$appliedMigrations = $this->database->setQuery(
@@ -128,7 +128,9 @@ class Migrations
 				return;
 			}
 
-			return $this->doMigration($version);
+			$this->doMigration($version);
+
+			return;
 		}
 
 		// We need to check the known migrations and filter out the applied ones to know what to do
@@ -154,7 +156,7 @@ class Migrations
 	 *
 	 * @throws  FileNotFoundException
 	 */
-	private function doMigration(string $version)
+	private function doMigration(string $version) : void
 	{
 		$sqlFile = 'migrations/' . $version . '.sql';
 

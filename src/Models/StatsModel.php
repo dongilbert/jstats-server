@@ -125,7 +125,7 @@ class StatsModel implements DatabaseModelInterface
 	 *
 	 * @return  void
 	 */
-	public function save(\stdClass $data)
+	public function save(\stdClass $data) : void
 	{
 		$db = $this->getDb();
 

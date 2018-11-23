@@ -68,7 +68,7 @@ class StatsJsonView extends BaseJsonView
 	 *
 	 * @return  void
 	 */
-	public function isAuthorizedRaw(bool $authorizedRaw)
+	public function isAuthorizedRaw(bool $authorizedRaw) : void
 	{
 		$this->authorizedRaw = $authorizedRaw;
 	}
@@ -80,7 +80,7 @@ class StatsJsonView extends BaseJsonView
 	 *
 	 * @return  void
 	 */
-	public function isRecent(bool $recent)
+	public function isRecent(bool $recent) : void
 	{
 		$this->recent = $recent;
 	}
@@ -164,7 +164,7 @@ class StatsJsonView extends BaseJsonView
 	 *
 	 * @return  void
 	 */
-	public function setSource(string $source)
+	public function setSource(string $source) : void
 	{
 		$this->source = $source;
 	}

@@ -117,7 +117,7 @@ class WebApplication extends AbstractWebApplication
 	 *
 	 * @return  void
 	 */
-	private function setErrorHeader(\Throwable $exception)
+	private function setErrorHeader(\Throwable $exception) : void
 	{
 		switch ($exception->getCode())
 		{
