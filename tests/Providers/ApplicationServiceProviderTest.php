@@ -26,7 +26,6 @@ use Joomla\StatsServer\GitHub\GitHub;
 use Joomla\StatsServer\Models\StatsModel;
 use Joomla\StatsServer\Providers\ApplicationServiceProvider;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
-use Joomla\Test\TestHelper;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use TheIconic\Tracking\GoogleAnalytics\Analytics;
@@ -408,7 +407,9 @@ class ApplicationServiceProviderTest extends TestCase
 			->enableProxyingToOriginalMethods()
 			->getMock();
 
-		TestHelper::setValue($mockInput, 'inputs', ['server' => $mockServerInput]);
+		$property = (new \ReflectionClass($mockInput))->getProperty('inputs');
+		$property->setAccessible(true);
+		$property->setValue($mockInput, ['server' => $mockServerInput]);
 
 		$mockContainer = $this->createMock(Container::class);
 

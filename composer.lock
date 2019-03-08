@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "52cbd850e648d3fdaae63ed0779dd7e9",
+    "content-hash": "40b358989772f153d089fa77bf28a118",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2136,50 +2136,6 @@
                 "phpcs"
             ],
             "time": "2019-02-01T00:21:48+00:00"
-        },
-        {
-            "name": "joomla/test",
-            "version": "1.1.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla-framework/test.git",
-                "reference": "9bceb0387fe76156554d1de765200abefcbf9166"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/test/zipball/9bceb0387fe76156554d1de765200abefcbf9166",
-                "reference": "9bceb0387fe76156554d1de765200abefcbf9166",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.10"
-            },
-            "require-dev": {
-                "joomla/database": "~1.0"
-            },
-            "suggest": {
-                "joomla/database": "To use the database test case, install joomla/database"
-            },
-            "type": "joomla-package",
-            "autoload": {
-                "psr-4": {
-                    "Joomla\\Test\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "description": "Joomla Test Helper Package",
-            "homepage": "https://github.com/joomla-framework/test",
-            "keywords": [
-                "framework",
-                "joomla",
-                "phpunit",
-                "reflection",
-                "unit test"
-            ],
-            "time": "2017-01-21T22:54:27+00:00"
         },
         {
             "name": "myclabs/deep-copy",
