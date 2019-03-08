@@ -14,9 +14,6 @@ use Joomla\StatsServer\Models\StatsModel;
 
 /**
  * Controller for processing submitted statistics data.
- *
- * @method         \Joomla\StatsServer\WebApplication  getApplication()  Get the application object.
- * @property-read  \Joomla\StatsServer\WebApplication  $app              Application object
  */
 class SubmitControllerCreate extends AbstractController
 {

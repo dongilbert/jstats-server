@@ -13,9 +13,8 @@ use Joomla\Application\{
 };
 use Joomla\Database\Service\DatabaseProvider;
 use Joomla\DI\Container;
-use Joomla\StatsServer\WebApplication;
 use Joomla\StatsServer\Providers\{
-	ApplicationServiceProvider, CacheServiceProvider, ConfigServiceProvider, DatabaseServiceProvider, GitHubServiceProvider, MonologServiceProvider
+	ApplicationServiceProvider, ConfigServiceProvider, DatabaseServiceProvider, EventServiceProvider, GitHubServiceProvider, MonologServiceProvider
 };
 use Monolog\{
 	ErrorHandler, Logger
@@ -27,6 +26,7 @@ $container = (new Container)
 	->registerServiceProvider(new ConfigServiceProvider(APPROOT . '/etc/config.json'))
 	->registerServiceProvider(new DatabaseProvider)
 	->registerServiceProvider(new DatabaseServiceProvider)
+	->registerServiceProvider(new EventServiceProvider)
 	->registerServiceProvider(new GitHubServiceProvider)
 	->registerServiceProvider(new MonologServiceProvider);
 
@@ -48,7 +48,7 @@ ini_set('display_errors', (bool) $errorReporting);
 // Execute the application
 try
 {
-	$container->get(WebApplication::class)->execute();
+	$container->get(AbstractApplication::class)->execute();
 }
 catch (\Throwable $e)
 {

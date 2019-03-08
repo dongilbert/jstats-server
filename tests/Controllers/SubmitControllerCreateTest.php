@@ -8,10 +8,10 @@
 
 namespace Joomla\StatsServer\Tests\Controllers;
 
+use Joomla\Application\AbstractWebApplication;
 use Joomla\Input\Input;
 use Joomla\StatsServer\Controllers\SubmitControllerCreate;
 use Joomla\StatsServer\Models\StatsModel;
-use Joomla\StatsServer\WebApplication;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -54,7 +54,7 @@ class SubmitControllerCreateTest extends TestCase
 		$mockModel->expects($this->once())
 			->method('save');
 
-		$mockApp = $this->getMockBuilder(WebApplication::class)
+		$mockApp = $this->getMockBuilder(AbstractWebApplication::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -96,7 +96,7 @@ class SubmitControllerCreateTest extends TestCase
 		$mockModel->expects($this->once())
 			->method('save');
 
-		$mockApp = $this->getMockBuilder(WebApplication::class)
+		$mockApp = $this->getMockBuilder(AbstractWebApplication::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -144,7 +144,7 @@ class SubmitControllerCreateTest extends TestCase
 		$mockLogger->expects($this->once())
 			->method('info');
 
-		$mockApp = $this->getMockBuilder(WebApplication::class)
+		$mockApp = $this->getMockBuilder(AbstractWebApplication::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -196,7 +196,7 @@ class SubmitControllerCreateTest extends TestCase
 		$mockLogger->expects($this->once())
 			->method('info');
 
-		$mockApp = $this->getMockBuilder(WebApplication::class)
+		$mockApp = $this->getMockBuilder(AbstractWebApplication::class)
 			->disableOriginalConstructor()
 			->getMock();
 

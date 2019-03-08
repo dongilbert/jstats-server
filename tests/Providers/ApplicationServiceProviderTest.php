@@ -9,22 +9,18 @@
 namespace Joomla\StatsServer\Tests\Providers;
 
 use Joomla\Application\AbstractApplication;
-use Joomla\Application\Cli\{
-	CliInput, CliOutput, Output\Processor\ColorProcessor
-};
+use Joomla\Application\Controller\ControllerResolverInterface;
+use Joomla\Application\WebApplication;
 use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
-use Joomla\Input\{
-	Cli, Input
-};
+use Joomla\Event\DispatcherInterface;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Router\Router;
-use Joomla\StatsServer\{
-	CliApplication, Console, WebApplication
-};
+use Joomla\StatsServer\Console;
 use Joomla\StatsServer\Commands as AppCommands;
 use Joomla\StatsServer\Controllers\{
-	DisplayControllerGet, SubmitControllerCreate, SubmitControllerGet
+	DisplayControllerGet, SubmitControllerGet
 };
 use Joomla\StatsServer\Database\Migrations;
 use Joomla\StatsServer\GitHub\GitHub;
@@ -93,98 +89,6 @@ class ApplicationServiceProviderTest extends TestCase
 	public function testTheAnalyticsClassServiceIsCreated()
 	{
 		$this->assertInstanceOf(Analytics::class, (new ApplicationServiceProvider)->getAnalyticsService($this->createMock(Container::class)));
-	}
-
-	/**
-	 * @testdox The CLI application service is created
-	 *
-	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getCliApplicationService
-	 */
-	public function testTheCliApplicationServiceIsCreated()
-	{
-		$mockContainer = $this->createMock(Container::class);
-		$mockContainer->expects($this->at(0))
-			->method('get')
-			->with(Cli::class)
-			->willReturn($this->createMock(Cli::class));
-
-		$mockContainer->expects($this->at(1))
-			->method('get')
-			->with('config')
-			->willReturn($this->createMock(Registry::class));
-
-		$mockContainer->expects($this->at(2))
-			->method('get')
-			->with(CliOutput::class)
-			->willReturn($this->createMock(CliOutput::class));
-
-		$mockContainer->expects($this->at(3))
-			->method('get')
-			->with(CliInput::class)
-			->willReturn($this->createMock(CliInput::class));
-
-		$mockContainer->expects($this->at(4))
-			->method('get')
-			->with(Console::class)
-			->willReturn($this->createMock(Console::class));
-
-		$mockContainer->expects($this->at(5))
-			->method('get')
-			->with('monolog.logger.cli')
-			->willReturn($this->createMock(LoggerInterface::class));
-
-		$this->assertInstanceOf(CliApplication::class, (new ApplicationServiceProvider)->getCliApplicationService($mockContainer));
-	}
-
-	/**
-	 * @testdox The CliInput class service is created
-	 *
-	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getCliInputService
-	 */
-	public function testTheCliInputClassServiceIsCreated()
-	{
-		$this->assertInstanceOf(CliInput::class, (new ApplicationServiceProvider)->getCliInputService($this->createMock(Container::class)));
-	}
-
-	/**
-	 * @testdox The CliOutput class service is created
-	 *
-	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getCliOutputService
-	 */
-	public function testTheCliOutputClassServiceIsCreated()
-	{
-		$mockContainer = $this->createMock(Container::class);
-		$mockContainer->expects($this->any())
-			->method('get')
-			->with(ColorProcessor::class)
-			->willReturn($this->createMock(ColorProcessor::class));
-
-		$this->assertInstanceOf(CliOutput::class, (new ApplicationServiceProvider)->getCliOutputService($mockContainer));
-	}
-
-	/**
-	 * @testdox The ColorProcessor class service is created
-	 *
-	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getColorProcessorService
-	 */
-	public function testTheColorProcessorClassServiceIsCreated()
-	{
-		$mockInput = $this->getMockBuilder(Cli::class)
-			->setMethods(['get', 'getBool'])
-			->enableProxyingToOriginalMethods()
-			->getMock();
-
-		$mockInput->expects($this->once())
-			->method('getBool')
-			->willReturn(false);
-
-		$mockContainer = $this->createMock(Container::class);
-		$mockContainer->expects($this->any())
-			->method('get')
-			->with(Cli::class)
-			->willReturn($mockInput);
-
-		$this->assertInstanceOf(ColorProcessor::class, (new ApplicationServiceProvider)->getColorProcessorService($mockContainer));
 	}
 
 	/**
@@ -315,16 +219,6 @@ class ApplicationServiceProviderTest extends TestCase
 	public function testTheInputClassServiceIsCreated()
 	{
 		$this->assertInstanceOf(Input::class, (new ApplicationServiceProvider)->getInputService($this->createMock(Container::class)));
-	}
-
-	/**
-	 * @testdox The Input\Cli class service is created
-	 *
-	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getInputCliService
-	 */
-	public function testTheInputCliClassServiceIsCreated()
-	{
-		$this->assertInstanceOf(Cli::class, (new ApplicationServiceProvider)->getInputCliService($this->createMock(Container::class)));
 	}
 
 	/**
@@ -521,28 +415,33 @@ class ApplicationServiceProviderTest extends TestCase
 
 		$mockContainer->expects($this->at(0))
 			->method('get')
+			->with(ControllerResolverInterface::class)
+			->willReturn($this->createMock(ControllerResolverInterface::class));
+
+		$mockContainer->expects($this->at(1))
+			->method('get')
+			->with(Router::class)
+			->willReturn($this->createMock(Router::class));
+
+		$mockContainer->expects($this->at(2))
+			->method('get')
 			->with(Input::class)
 			->willReturn($mockInput);
 
-		$mockContainer->expects($this->at(1))
+		$mockContainer->expects($this->at(3))
 			->method('get')
 			->with('config')
 			->willReturn($this->createMock(Registry::class));
 
-		$mockContainer->expects($this->at(2))
-			->method('get')
-			->with(Analytics::class)
-			->willReturn($this->createMock(Analytics::class));
-
-		$mockContainer->expects($this->at(3))
-			->method('get')
-			->with('monolog.logger.application')
-			->willReturn($this->createMock(LoggerInterface::class));
-
 		$mockContainer->expects($this->at(4))
 			->method('get')
-			->with(Router::class)
-			->willReturn($this->createMock(Router::class));
+			->with(DispatcherInterface::class)
+			->willReturn($this->createMock(DispatcherInterface::class));
+
+		$mockContainer->expects($this->at(5))
+			->method('get')
+			->with(LoggerInterface::class)
+			->willReturn($this->createMock(LoggerInterface::class));
 
 		$this->assertInstanceOf(WebApplication::class, (new ApplicationServiceProvider)->getWebApplicationService($mockContainer));
 	}

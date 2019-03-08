@@ -13,12 +13,13 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\DI\{
 	Container, ServiceProviderInterface
 };
+use Joomla\Event\DispatcherInterface;
 use Joomla\Input\{
 	Cli, Input
 };
 use Joomla\Router\Router;
 use Joomla\StatsServer\{
-	CliApplication, Console, WebApplication
+	CliApplication, Console
 };
 use Joomla\StatsServer\Commands as AppCommands;
 use Joomla\StatsServer\Controllers\{
@@ -30,6 +31,7 @@ use Joomla\StatsServer\Models\StatsModel;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use Psr\Log\LoggerInterface;
 use TheIconic\Tracking\GoogleAnalytics\Analytics;
+use Zend\Diactoros\Response\JsonResponse;
 
 /**
  * Application service provider
@@ -52,7 +54,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		$container->alias(CliApplication::class, JoomlaApplication\AbstractCliApplication::class)
 			->share(JoomlaApplication\AbstractCliApplication::class, [$this, 'getCliApplicationService'], true);
 
-		$container->alias(WebApplication::class, JoomlaApplication\AbstractWebApplication::class)
+		$container->alias(JoomlaApplication\WebApplication::class, JoomlaApplication\AbstractWebApplication::class)
 			->share(JoomlaApplication\AbstractWebApplication::class, [$this, 'getWebApplicationService'], true);
 
 		/*
@@ -63,12 +65,12 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		$container->share(Cli::class, [$this, 'getInputCliService'], true);
 		$container->share(Console::class, [$this, 'getConsoleService'], true);
 		$container->share(Input::class, [$this, 'getInputService'], true);
-		$container->share(JoomlaApplication\Cli\Output\Processor\ColorProcessor::class, [$this, 'getColorProcessorService'], true);
-		$container->share(JoomlaApplication\Cli\CliInput::class, [$this, 'getCliInputService'], true);
 		$container->share(Router::class, [$this, 'getRouterService'], true);
 
-		$container->alias(JoomlaApplication\Cli\CliOutput::class, JoomlaApplication\Cli\Output\Stdout::class)
-			->share(JoomlaApplication\Cli\Output\Stdout::class, [$this, 'getCliOutputService'], true);
+		$container->alias(JoomlaApplication\Controller\ContainerControllerResolver::class, JoomlaApplication\Controller\ControllerResolverInterface::class)
+			->share(JoomlaApplication\Controller\ControllerResolverInterface::class, [$this, 'getControllerResolverService'], true);
+
+		$container->share(JoomlaApplication\Web\WebClient::class, [$this, 'getWebClientService'], true);
 
 		/*
 		 * Console Commands
@@ -135,55 +137,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	}
 
 	/**
-	 * Get the CliInput class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  JoomlaApplication\Cli\CliInput
-	 */
-	public function getCliInputService(Container $container) : JoomlaApplication\Cli\CliInput
-	{
-		return new JoomlaApplication\Cli\CliInput;
-	}
-
-	/**
-	 * Get the CliOutput class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  JoomlaApplication\Cli\CliOutput
-	 */
-	public function getCliOutputService(Container $container) : JoomlaApplication\Cli\Output\Stdout
-	{
-		return new JoomlaApplication\Cli\Output\Stdout($container->get(JoomlaApplication\Cli\Output\Processor\ColorProcessor::class));
-	}
-
-	/**
-	 * Get the ColorProcessor class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  JoomlaApplication\Cli\Output\Processor\ColorProcessor
-	 */
-	public function getColorProcessorService(Container $container) : JoomlaApplication\Cli\Output\Processor\ColorProcessor
-	{
-		$processor = new JoomlaApplication\Cli\Output\Processor\ColorProcessor;
-
-		/** @var Input $input */
-		$input = $container->get(Cli::class);
-
-		if ($input->getBool('nocolors', false))
-		{
-			$processor->noColors = true;
-		}
-
-		// Setup app colors (also required in "nocolors" mode - to strip them).
-		$processor->addStyle('title', new JoomlaApplication\Cli\ColorStyle('yellow', '', ['bold']));
-
-		return $processor;
-	}
-
-	/**
 	 * Get the console service
 	 *
 	 * @param   Container  $container  The DI container.
@@ -196,6 +149,18 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		$console->setContainer($container);
 
 		return $console;
+	}
+
+	/**
+	 * Get the controller resolver service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  JoomlaApplication\Controller\ControllerResolverInterface
+	 */
+	public function getControllerResolverService(Container $container) : JoomlaApplication\Controller\ControllerResolverInterface
+	{
+		return new JoomlaApplication\Controller\ContainerControllerResolver($container);
 	}
 
 	/**
@@ -479,18 +444,41 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @param   Container  $container  The DI container.
 	 *
-	 * @return  WebApplication
+	 * @return  JoomlaApplication\WebApplication
 	 */
-	public function getWebApplicationService(Container $container) : WebApplication
+	public function getWebApplicationService(Container $container) : JoomlaApplication\WebApplication
 	{
-		$application = new WebApplication($container->get(Input::class), $container->get('config'));
+		$application = new JoomlaApplication\WebApplication(
+			$container->get(JoomlaApplication\Controller\ControllerResolverInterface::class),
+			$container->get(Router::class),
+			$container->get(Input::class),
+			$container->get('config'),
+			$container->get(JoomlaApplication\Web\WebClient::class),
+			new JsonResponse([])
+		);
 
 		// Inject extra services
-		$application->setAnalytics($container->get(Analytics::class));
-		$application->setContainer($container);
-		$application->setLogger($container->get('monolog.logger.application'));
-		$application->setRouter($container->get(Router::class));
+		$application->setDispatcher($container->get(DispatcherInterface::class));
+		$application->setLogger($container->get(LoggerInterface::class));
 
 		return $application;
+	}
+
+	/**
+	 * Get the web client service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  JoomlaApplication\Web\WebClient
+	 */
+	public function getWebClientService(Container $container) : JoomlaApplication\Web\WebClient
+	{
+		/** @var Input $input */
+		$input          = $container->get(Input::class);
+		$userAgent      = $input->server->getString('HTTP_USER_AGENT', '');
+		$acceptEncoding = $input->server->getString('HTTP_ACCEPT_ENCODING', '');
+		$acceptLanguage = $input->server->getString('HTTP_ACCEPT_LANGUAGE', '');
+
+		return new JoomlaApplication\Web\WebClient($userAgent, $acceptEncoding, $acceptLanguage);
 	}
 }

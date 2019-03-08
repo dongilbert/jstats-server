@@ -8,10 +8,10 @@
 
 namespace Joomla\StatsServer\Tests\Controllers;
 
+use Joomla\Application\AbstractWebApplication;
 use Joomla\Input\Input;
 use Joomla\StatsServer\Controllers\DisplayControllerGet;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
-use Joomla\StatsServer\WebApplication;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -50,7 +50,7 @@ class DisplayControllerGetTest extends TestCase
 			->method('render')
 			->willReturn(json_encode(['error' => false]));
 
-		$mockApp = $this->getMockBuilder(WebApplication::class)
+		$mockApp = $this->getMockBuilder(AbstractWebApplication::class)
 			->disableOriginalConstructor()
 			->getMock();
 
