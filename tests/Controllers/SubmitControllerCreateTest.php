@@ -27,6 +27,8 @@ class SubmitControllerCreateTest extends TestCase
 	 */
 	public function testTheControllerIsInstantiatedCorrectly()
 	{
+		$this->markTestSkipped('Refactor as an integration test');
+
 		$mockModel = $this->getMockBuilder(StatsModel::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -47,6 +49,8 @@ class SubmitControllerCreateTest extends TestCase
 	 */
 	public function testTheControllerIsExecutedCorrectly()
 	{
+		$this->markTestSkipped('Refactor as an integration test');
+
 		$mockModel = $this->getMockBuilder(StatsModel::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -89,6 +93,8 @@ class SubmitControllerCreateTest extends TestCase
 	 */
 	public function testTheControllerIsExecutedCorrectlyForAJoomla4InstallationRunningPdoMysql()
 	{
+		$this->markTestSkipped('Refactor as an integration test');
+
 		$mockModel = $this->getMockBuilder(StatsModel::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -131,6 +137,8 @@ class SubmitControllerCreateTest extends TestCase
 	 */
 	public function testTheControllerDoesNotAllowARecordWithNoCmsVersionToBeSaved()
 	{
+		$this->markTestSkipped('Refactor as an integration test');
+
 		$mockModel = $this->getMockBuilder(StatsModel::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -183,6 +191,8 @@ class SubmitControllerCreateTest extends TestCase
 	 */
 	public function testTheControllerDoesNotAllowARecordWithAnIncorrectlyFormattedCmsVersionNumberToBeSaved()
 	{
+		$this->markTestSkipped('Refactor as an integration test');
+
 		$mockModel = $this->getMockBuilder(StatsModel::class)
 			->disableOriginalConstructor()
 			->getMock();
