@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "870c2132235537db44daf337406623c0",
+    "content-hash": "ce8af758fb65c092122439f389d91e50",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -547,32 +547,32 @@
         },
         {
             "name": "joomla/github",
-            "version": "1.7.0",
+            "version": "dev-2.0-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/github-api.git",
-                "reference": "61580350250930083c42a24dc6a7873b28e606c1"
+                "reference": "f557725c0e00ee967e2bb4c65f492c7817e2ec4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/github-api/zipball/61580350250930083c42a24dc6a7873b28e606c1",
-                "reference": "61580350250930083c42a24dc6a7873b28e606c1",
+                "url": "https://api.github.com/repos/joomla-framework/github-api/zipball/f557725c0e00ee967e2bb4c65f492c7817e2ec4d",
+                "reference": "f557725c0e00ee967e2bb4c65f492c7817e2ec4d",
                 "shasum": ""
             },
             "require": {
                 "joomla/http": "~1.3|~2.0",
                 "joomla/registry": "^1.4.5|~2.0",
                 "joomla/uri": "~1.0|~2.0",
-                "php": "^5.3.10|~7.0"
+                "php": "~7.0"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
+                "phpunit/phpunit": "~6.3"
             },
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-2.0-dev": "2.0-dev"
                 }
             },
             "autoload": {
@@ -591,7 +591,7 @@
                 "github",
                 "joomla"
             ],
-            "time": "2018-06-30T20:05:34+00:00"
+            "time": "2019-02-09T21:10:25+00:00"
         },
         {
             "name": "joomla/http",
@@ -3266,6 +3266,7 @@
     "stability-flags": {
         "joomla/controller": 20,
         "joomla/di": 20,
+        "joomla/github": 20,
         "joomla/view": 20,
         "joomla/coding-standards": 20
     },
