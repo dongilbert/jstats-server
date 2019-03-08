@@ -24,7 +24,7 @@ class DisplayControllerGetTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Controllers\DisplayControllerGet::__construct
 	 */
-	public function testTheControllerIsInstantiatedCorrectly()
+	public function testTheControllerIsInstantiatedCorrectly(): void
 	{
 		$mockView = $this->getMockBuilder(StatsJsonView::class)
 			->disableOriginalConstructor()
@@ -40,7 +40,7 @@ class DisplayControllerGetTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Controllers\DisplayControllerGet::execute
 	 */
-	public function testTheControllerIsExecutedCorrectly()
+	public function testTheControllerIsExecutedCorrectly(): void
 	{
 		$mockView = $this->getMockBuilder(StatsJsonView::class)
 			->disableOriginalConstructor()

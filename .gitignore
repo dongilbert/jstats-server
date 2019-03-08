@@ -3,3 +3,4 @@
 /phpunit.xml
 /build/coverage
 /etc/config.json
+/.php_cs.cache

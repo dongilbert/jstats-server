@@ -56,7 +56,7 @@ class JoomlaCommand extends AbstractTagCommand
 			// Joomla only uses major.minor.patch so everything else is invalid
 			$explodedVersion = explode('.', $version);
 
-			if (count($explodedVersion) != 3)
+			if (\count($explodedVersion) != 3)
 			{
 				continue;
 			}
@@ -68,7 +68,7 @@ class JoomlaCommand extends AbstractTagCommand
 			}
 
 			// We have a valid version number, great news... add it to our array if it isn't already present
-			if (!in_array($version, $versions))
+			if (!\in_array($version, $versions))
 			{
 				$versions[] = $version;
 
@@ -87,11 +87,11 @@ class JoomlaCommand extends AbstractTagCommand
 			$explodedVersion = explode('.', $highVersion);
 
 			// Allow the next patch release after this one
-			$nextPatch = $explodedVersion[2] + 1;
+			$nextPatch  = $explodedVersion[2] + 1;
 			$versions[] = $explodedVersion[0] . '.' . $explodedVersion[1] . '.' . $nextPatch;
 
 			// And allow the next minor release after this one
-			$nextMinor = $explodedVersion[1] + 1;
+			$nextMinor  = $explodedVersion[1] + 1;
 			$versions[] = $explodedVersion[0] . '.' . $nextMinor . '.0';
 		}
 
@@ -113,7 +113,7 @@ class JoomlaCommand extends AbstractTagCommand
 	 *
 	 * @return  string
 	 */
-	public function getDescription() : string
+	public function getDescription(): string
 	{
 		return 'Parses the release tags for the Joomla! CMS GitHub repository.';
 	}
@@ -123,7 +123,7 @@ class JoomlaCommand extends AbstractTagCommand
 	 *
 	 * @return  string
 	 */
-	public function getTitle() : string
+	public function getTitle(): string
 	{
 		return 'Fetch Joomla! Releases';
 	}

@@ -68,7 +68,7 @@ class PhpCommand extends AbstractTagCommand
 			// We only track versions based on major.minor.patch so everything else is invalid
 			$explodedVersion = explode('.', $version);
 
-			if (count($explodedVersion) != 3)
+			if (\count($explodedVersion) != 3)
 			{
 				continue;
 			}
@@ -80,7 +80,7 @@ class PhpCommand extends AbstractTagCommand
 			}
 
 			// We have a valid version number, great news... add it to our array if it isn't already present
-			if (!in_array($version, $versions))
+			if (!\in_array($version, $versions))
 			{
 				$versions[] = $version;
 
@@ -99,7 +99,7 @@ class PhpCommand extends AbstractTagCommand
 		{
 			$explodedVersion = explode('.', $version);
 
-			$nextPatch = $explodedVersion[2] + 1;
+			$nextPatch  = $explodedVersion[2] + 1;
 			$versions[] = $explodedVersion[0] . '.' . $explodedVersion[1] . '.' . $nextPatch;
 		}
 
@@ -109,7 +109,7 @@ class PhpCommand extends AbstractTagCommand
 		$nextMinor   = $explodedVersion[1] + 1;
 		$nextRelease = $explodedVersion[0] . '.' . $nextMinor . '.0';
 
-		if (!in_array($nextRelease, $versions, true))
+		if (!\in_array($nextRelease, $versions, true))
 		{
 			$versions[] = $nextRelease;
 		}
@@ -132,7 +132,7 @@ class PhpCommand extends AbstractTagCommand
 	 *
 	 * @return  string
 	 */
-	public function getDescription() : string
+	public function getDescription(): string
 	{
 		return 'Parses the release tags for the PHP GitHub repository.';
 	}
@@ -142,7 +142,7 @@ class PhpCommand extends AbstractTagCommand
 	 *
 	 * @return  string
 	 */
-	public function getTitle() : string
+	public function getTitle(): string
 	{
 		return 'Fetch PHP Releases';
 	}

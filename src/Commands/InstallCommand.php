@@ -26,7 +26,7 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 *
 	 * @var  DatabaseDriver
 	 */
-	private $db = null;
+	private $db;
 
 	/**
 	 * Constructor.
@@ -121,7 +121,7 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 *
 	 * @return  $this
 	 */
-	private function cleanDatabase(array $tables) : InstallCommand
+	private function cleanDatabase(array $tables): self
 	{
 		$this->getApplication()->out('Removing existing tables...', false);
 
@@ -150,7 +150,7 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 *
 	 * @throws  \UnexpectedValueException
 	 */
-	private function processSql() : InstallCommand
+	private function processSql(): self
 	{
 		$fName = APPROOT . '/etc/mysql.sql';
 
@@ -172,7 +172,7 @@ class InstallCommand extends AbstractController implements CommandInterface
 		{
 			$q = trim($this->db->replacePrefix($query));
 
-			if ('' == trim($q))
+			if (trim($q) == '')
 			{
 				continue;
 			}
@@ -193,7 +193,7 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 *
 	 * @return  string
 	 */
-	public function getDescription() : string
+	public function getDescription(): string
 	{
 		return 'Installs the application.';
 	}
@@ -203,7 +203,7 @@ class InstallCommand extends AbstractController implements CommandInterface
 	 *
 	 * @return  string
 	 */
-	public function getTitle() : string
+	public function getTitle(): string
 	{
 		return 'Install Application';
 	}

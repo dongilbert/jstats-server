@@ -10,9 +10,8 @@ namespace Joomla\StatsServer\Models;
 
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
-use Joomla\Model\{
-	DatabaseModelInterface, DatabaseModelTrait
-};
+use Joomla\Model\DatabaseModelInterface;
+use Joomla\Model\DatabaseModelTrait;
 
 /**
  * Statistics database model
@@ -40,7 +39,7 @@ class StatsModel implements DatabaseModelInterface
 	 *
 	 * @throws  \InvalidArgumentException
 	 */
-	public function getItems(string $column = '') : array
+	public function getItems(string $column = ''): array
 	{
 		$db         = $this->getDb();
 		$query      = $db->getQuery(true);
@@ -50,7 +49,7 @@ class StatsModel implements DatabaseModelInterface
 		if ($column !== '')
 		{
 			// The column should exist in the table and be part of the API
-			if (!in_array($column, array_keys($columnList)) && !in_array($column, ['unique_id', 'modified']))
+			if (!\in_array($column, array_keys($columnList)) && !\in_array($column, ['unique_id', 'modified']))
 			{
 				throw new \InvalidArgumentException('An invalid data source was requested.', 404);
 			}
@@ -67,7 +66,7 @@ class StatsModel implements DatabaseModelInterface
 		foreach (array_keys($columnList) as $column)
 		{
 			// The column should exist in the table and be part of the API
-			if (in_array($column, ['unique_id', 'modified']))
+			if (\in_array($column, ['unique_id', 'modified']))
 			{
 				continue;
 			}
@@ -89,7 +88,7 @@ class StatsModel implements DatabaseModelInterface
 	 *
 	 * @return  array  An array containing the response data
 	 */
-	public function getRecentlyUpdatedItems() : array
+	public function getRecentlyUpdatedItems(): array
 	{
 		$db         = $this->getDb();
 		$columnList = $db->getTableColumns('#__jstats');
@@ -99,7 +98,7 @@ class StatsModel implements DatabaseModelInterface
 		foreach (array_keys($columnList) as $column)
 		{
 			// The column should exist in the table and be part of the API
-			if (in_array($column, ['unique_id', 'modified']))
+			if (\in_array($column, ['unique_id', 'modified']))
 			{
 				continue;
 			}
@@ -125,7 +124,7 @@ class StatsModel implements DatabaseModelInterface
 	 *
 	 * @return  void
 	 */
-	public function save(\stdClass $data) : void
+	public function save(\stdClass $data): void
 	{
 		$db = $this->getDb();
 

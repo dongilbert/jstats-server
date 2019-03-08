@@ -11,9 +11,8 @@ namespace Joomla\StatsServer\Commands\Database;
 use Joomla\Controller\AbstractController;
 use Joomla\StatsServer\CommandInterface;
 use Joomla\StatsServer\Database\Migrations;
-use Psr\Log\{
-	LoggerAwareInterface, LoggerAwareTrait
-};
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * CLI command for migrating the database
@@ -84,7 +83,7 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 	 *
 	 * @return  string
 	 */
-	public function getDescription() : string
+	public function getDescription(): string
 	{
 		return 'Migrate the database schema to a newer version.';
 	}
@@ -94,7 +93,7 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 	 *
 	 * @return  string
 	 */
-	public function getTitle() : string
+	public function getTitle(): string
 	{
 		return 'Database Migrations';
 	}

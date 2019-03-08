@@ -169,7 +169,7 @@ class SubmitControllerCreate extends AbstractController
 		// Joomla only uses major.minor.patch so everything else is invalid
 		$explodedVersion = explode('.', $version);
 
-		if (count($explodedVersion) > 3)
+		if (\count($explodedVersion) > 3)
 		{
 			return false;
 		}
@@ -185,7 +185,7 @@ class SubmitControllerCreate extends AbstractController
 		$validVersions = json_decode(file_get_contents($path), true);
 
 		// Check that the version is in our valid release list
-		if (!in_array($version, $validVersions))
+		if (!\in_array($version, $validVersions))
 		{
 			return false;
 		}
@@ -202,7 +202,7 @@ class SubmitControllerCreate extends AbstractController
 	 */
 	private function checkDatabaseType(string $database)
 	{
-		if (!in_array($database, $this->databaseTypes))
+		if (!\in_array($database, $this->databaseTypes))
 		{
 			return false;
 		}
@@ -230,7 +230,7 @@ class SubmitControllerCreate extends AbstractController
 		// We only track versions based on major.minor.patch so everything else is invalid
 		$explodedVersion = explode('.', $version);
 
-		if (count($explodedVersion) > 3)
+		if (\count($explodedVersion) > 3)
 		{
 			return false;
 		}
@@ -246,7 +246,7 @@ class SubmitControllerCreate extends AbstractController
 		$validVersions = json_decode(file_get_contents($path), true);
 
 		// Check that the version is in our valid release list
-		if (!in_array($version, $validVersions))
+		if (!\in_array($version, $validVersions))
 		{
 			return false;
 		}

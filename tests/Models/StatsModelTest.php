@@ -8,9 +8,8 @@
 
 namespace Joomla\StatsServer\Tests\Models;
 
-use Joomla\Database\{
-	DatabaseDriver, DatabaseQuery
-};
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseQuery;
 use Joomla\StatsServer\Models\StatsModel;
 use PHPUnit\Framework\TestCase;
 
@@ -24,7 +23,7 @@ class StatsModelTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Models\StatsModel::getItems
 	 */
-	public function testTheModelReturnsAllItemsFromTheDatabase()
+	public function testTheModelReturnsAllItemsFromTheDatabase(): void
 	{
 		$this->markTestSkipped('Refactor as an integration test');
 
@@ -88,7 +87,7 @@ class StatsModelTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Models\StatsModel::getItems
 	 */
-	public function testTheModelReturnsASingleSourceItemsFromTheDatabase()
+	public function testTheModelReturnsASingleSourceItemsFromTheDatabase(): void
 	{
 		$this->markTestSkipped('Refactor as an integration test');
 
@@ -134,7 +133,7 @@ class StatsModelTest extends TestCase
 	 * @covers  Joomla\StatsServer\Models\StatsModel::getItems
 	 * @expectedException \InvalidArgumentException
 	 */
-	public function testTheModelThrowsAnExceptionWhenAnInvalidSourceIsSpecified()
+	public function testTheModelThrowsAnExceptionWhenAnInvalidSourceIsSpecified(): void
 	{
 		$this->markTestSkipped('Refactor as an integration test');
 
@@ -176,7 +175,7 @@ class StatsModelTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Models\StatsModel::save
 	 */
-	public function testTheModelInsertsANewRecord()
+	public function testTheModelInsertsANewRecord(): void
 	{
 		$this->markTestSkipped('Refactor as an integration test');
 
@@ -211,7 +210,7 @@ class StatsModelTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Models\StatsModel::save
 	 */
-	public function testTheModelUpdatesAnExistingRecord()
+	public function testTheModelUpdatesAnExistingRecord(): void
 	{
 		$this->markTestSkipped('Refactor as an integration test');
 

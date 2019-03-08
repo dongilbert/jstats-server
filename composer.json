@@ -28,6 +28,7 @@
         "theiconic/php-ga-measurement-protocol": "^2.7.1"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.14.2",
         "joomla/coding-standards": "dev-master",
         "joomla/test": "^1.1.6",
         "phpunit/phpunit": "^7.5.6"
@@ -44,7 +45,9 @@
     },
     "replace": {
         "paragonie/random_compat": "*",
-        "symfony/polyfill-php55": "*"
+        "symfony/polyfill-php55": "*",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php72": "*"
     },
     "config": {
         "platform": {

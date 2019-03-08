@@ -10,12 +10,11 @@ namespace Joomla\StatsServer\Providers;
 
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Monitor\LoggingMonitor;
-use Joomla\DI\{
-	Container, ServiceProviderInterface
-};
+use Joomla\DI\Container;
+use Joomla\DI\ServiceProviderInterface;
+use Joomla\StatsServer\Database\Migrations;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
-use Joomla\StatsServer\Database\Migrations;
 
 /**
  * Database service provider
@@ -29,7 +28,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 */
-	public function register(Container $container)
+	public function register(Container $container): void
 	{
 		$container->extend(DatabaseDriver::class, [$this, 'extendDatabaseDriverService']);
 
@@ -48,7 +47,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  DatabaseDriver
 	 */
-	public function extendDatabaseDriverService(DatabaseDriver $db, Container $container) : DatabaseDriver
+	public function extendDatabaseDriverService(DatabaseDriver $db, Container $container): DatabaseDriver
 	{
 		$db->setMonitor($container->get(LoggingMonitor::class));
 
@@ -62,7 +61,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  Migrations
 	 */
-	public function getDbMigrationsService(Container $container) : Migrations
+	public function getDbMigrationsService(Container $container): Migrations
 	{
 		return new Migrations(
 			$container->get(DatabaseDriver::class),
@@ -77,7 +76,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  LoggingMonitor
 	 */
-	public function getDbMonitorLoggingService(Container $container) : LoggingMonitor
+	public function getDbMonitorLoggingService(Container $container): LoggingMonitor
 	{
 		$monitor = new LoggingMonitor;
 		$monitor->setLogger($container->get('monolog.logger.database'));

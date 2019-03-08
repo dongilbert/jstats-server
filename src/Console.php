@@ -8,9 +8,8 @@
 
 namespace Joomla\StatsServer;
 
-use Joomla\DI\{
-	ContainerAwareInterface, ContainerAwareTrait
-};
+use Joomla\DI\ContainerAwareInterface;
+use Joomla\DI\ContainerAwareTrait;
 
 /**
  * CLI Console
@@ -33,7 +32,7 @@ class Console implements ContainerAwareInterface
 	 *
 	 * @throws  \RuntimeException
 	 */
-	public function getCommands() : array
+	public function getCommands(): array
 	{
 		if (empty($this->commands))
 		{
@@ -48,7 +47,7 @@ class Console implements ContainerAwareInterface
 	 *
 	 * @return  CommandInterface[]
 	 */
-	private function loadCommands() : array
+	private function loadCommands(): array
 	{
 		$commands = [];
 

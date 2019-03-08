@@ -25,7 +25,7 @@ class SubmitControllerCreateTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::__construct
 	 */
-	public function testTheControllerIsInstantiatedCorrectly()
+	public function testTheControllerIsInstantiatedCorrectly(): void
 	{
 		$this->markTestSkipped('Refactor as an integration test');
 
@@ -47,7 +47,7 @@ class SubmitControllerCreateTest extends TestCase
 	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::checkPHPVersion
 	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::validateVersionNumber
 	 */
-	public function testTheControllerIsExecutedCorrectly()
+	public function testTheControllerIsExecutedCorrectly(): void
 	{
 		$this->markTestSkipped('Refactor as an integration test');
 
@@ -91,7 +91,7 @@ class SubmitControllerCreateTest extends TestCase
 	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::checkPHPVersion
 	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::validateVersionNumber
 	 */
-	public function testTheControllerIsExecutedCorrectlyForAJoomla4InstallationRunningPdoMysql()
+	public function testTheControllerIsExecutedCorrectlyForAJoomla4InstallationRunningPdoMysql(): void
 	{
 		$this->markTestSkipped('Refactor as an integration test');
 
@@ -135,7 +135,7 @@ class SubmitControllerCreateTest extends TestCase
 	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::checkPHPVersion
 	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::validateVersionNumber
 	 */
-	public function testTheControllerDoesNotAllowARecordWithNoCmsVersionToBeSaved()
+	public function testTheControllerDoesNotAllowARecordWithNoCmsVersionToBeSaved(): void
 	{
 		$this->markTestSkipped('Refactor as an integration test');
 
@@ -189,7 +189,7 @@ class SubmitControllerCreateTest extends TestCase
 	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::checkPHPVersion
 	 * @covers  Joomla\StatsServer\Controllers\SubmitControllerCreate::validateVersionNumber
 	 */
-	public function testTheControllerDoesNotAllowARecordWithAnIncorrectlyFormattedCmsVersionNumberToBeSaved()
+	public function testTheControllerDoesNotAllowARecordWithAnIncorrectlyFormattedCmsVersionNumberToBeSaved(): void
 	{
 		$this->markTestSkipped('Refactor as an integration test');
 

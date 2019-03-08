@@ -8,9 +8,8 @@
 
 namespace Joomla\StatsServer\Providers;
 
-use Joomla\DI\{
-	Container, ServiceProviderInterface
-};
+use Joomla\DI\Container;
+use Joomla\DI\ServiceProviderInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -50,7 +49,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 */
-	public function register(Container $container)
+	public function register(Container $container): void
 	{
 		$container->share('config', [$this, 'getConfigService'], true);
 	}
@@ -62,7 +61,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  Registry
 	 */
-	public function getConfigService(Container $container) : Registry
+	public function getConfigService(Container $container): Registry
 	{
 		return $this->config;
 	}

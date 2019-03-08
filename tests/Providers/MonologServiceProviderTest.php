@@ -11,13 +11,11 @@ namespace Joomla\StatsServer\Tests\Providers;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use Joomla\StatsServer\Providers\MonologServiceProvider;
-use Monolog\Handler\{
-	HandlerInterface, StreamHandler
-};
+use Monolog\Handler\HandlerInterface;
+use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use Monolog\Processor\{
-	PsrLogMessageProcessor, WebProcessor
-};
+use Monolog\Processor\PsrLogMessageProcessor;
+use Monolog\Processor\WebProcessor;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -30,7 +28,7 @@ class MonologServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\MonologServiceProvider::register
 	 */
-	public function testTheDatabaseServiceProviderIsRegisteredToTheContainer()
+	public function testTheDatabaseServiceProviderIsRegisteredToTheContainer(): void
 	{
 		$container = new Container;
 		$container->registerServiceProvider(new MonologServiceProvider);
@@ -43,7 +41,7 @@ class MonologServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\MonologServiceProvider::getMonologProcessorPsr3Service
 	 */
-	public function testThePsr3MessageProcessorServiceIsCreated()
+	public function testThePsr3MessageProcessorServiceIsCreated(): void
 	{
 		$this->assertInstanceOf(
 			PsrLogMessageProcessor::class, (new MonologServiceProvider)->getMonologProcessorPsr3Service($this->createMock(Container::class))
@@ -55,7 +53,7 @@ class MonologServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\MonologServiceProvider::getMonologProcessorWebService
 	 */
-	public function testTheWebMessageProcessorServiceIsCreated()
+	public function testTheWebMessageProcessorServiceIsCreated(): void
 	{
 		$this->assertInstanceOf(
 			WebProcessor::class, (new MonologServiceProvider)->getMonologProcessorWebService($this->createMock(Container::class))
@@ -67,7 +65,7 @@ class MonologServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\MonologServiceProvider::getMonologHandlerApplicationService
 	 */
-	public function testTheApplicationMessageHandlerServiceIsCreated()
+	public function testTheApplicationMessageHandlerServiceIsCreated(): void
 	{
 		$mockConfig = $this->createMock(Registry::class);
 		$mockConfig->expects($this->exactly(2))
@@ -91,7 +89,7 @@ class MonologServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\MonologServiceProvider::getMonologHandlerDatabaseService
 	 */
-	public function testTheDatabaseMessageHandlerServiceIsCreated()
+	public function testTheDatabaseMessageHandlerServiceIsCreated(): void
 	{
 		$mockConfig = $this->createMock(Registry::class);
 		$mockConfig->expects($this->exactly(3))
@@ -115,7 +113,7 @@ class MonologServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\MonologServiceProvider::getMonologLoggerApplicationService
 	 */
-	public function testTheApplicationLoggerServiceIsCreated()
+	public function testTheApplicationLoggerServiceIsCreated(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->exactly(2))
@@ -133,7 +131,7 @@ class MonologServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\MonologServiceProvider::getMonologLoggerCliService
 	 */
-	public function testTheCliLoggerServiceIsCreated()
+	public function testTheCliLoggerServiceIsCreated(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->once())
@@ -152,7 +150,7 @@ class MonologServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\MonologServiceProvider::getMonologLoggerDatabaseService
 	 */
-	public function testTheDatabaseLoggerServiceIsCreated()
+	public function testTheDatabaseLoggerServiceIsCreated(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->exactly(3))

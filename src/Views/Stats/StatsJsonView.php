@@ -68,7 +68,7 @@ class StatsJsonView extends BaseJsonView
 	 *
 	 * @return  void
 	 */
-	public function isAuthorizedRaw(bool $authorizedRaw) : void
+	public function isAuthorizedRaw(bool $authorizedRaw): void
 	{
 		$this->authorizedRaw = $authorizedRaw;
 	}
@@ -80,7 +80,7 @@ class StatsJsonView extends BaseJsonView
 	 *
 	 * @return  void
 	 */
-	public function isRecent(bool $recent) : void
+	public function isRecent(bool $recent): void
 	{
 		$this->recent = $recent;
 	}
@@ -124,7 +124,7 @@ class StatsJsonView extends BaseJsonView
 			{
 				foreach ($this->dataSources as $source)
 				{
-					if (isset($item[$source]) && !is_null($item[$source]))
+					if (isset($item[$source]) && $item[$source] !== null)
 					{
 						// Special case, if the server is empty then change the key to "unknown"
 						if ($source === 'server_os' && empty($item[$source]))
@@ -164,7 +164,7 @@ class StatsJsonView extends BaseJsonView
 	 *
 	 * @return  void
 	 */
-	public function setSource(string $source) : void
+	public function setSource(string $source): void
 	{
 		$this->source = $source;
 	}
@@ -176,7 +176,7 @@ class StatsJsonView extends BaseJsonView
 	 *
 	 * @return  array
 	 */
-	private function buildResponseData(array $data) : array
+	private function buildResponseData(array $data): array
 	{
 		$responseData = [];
 
@@ -188,7 +188,7 @@ class StatsJsonView extends BaseJsonView
 				{
 					$responseData[$key][] = [
 						'name'  => $name,
-						'count' => $count
+						'count' => $count,
 					];
 				}
 			}
@@ -211,7 +211,7 @@ class StatsJsonView extends BaseJsonView
 	 *
 	 * @return  string  The rendered view.
 	 */
-	private function processSingleSource(array $items) : string
+	private function processSingleSource(array $items): string
 	{
 		$data = [
 			${$this->source} = [],
@@ -249,7 +249,7 @@ class StatsJsonView extends BaseJsonView
 	 *
 	 * @return  array
 	 */
-	private function sanitizeData(array $responseData) : array
+	private function sanitizeData(array $responseData): array
 	{
 		foreach ($responseData as $key => $dataGroup)
 		{
@@ -264,7 +264,7 @@ class StatsJsonView extends BaseJsonView
 					foreach ($dataGroup as $row)
 					{
 						$exploded = explode('.', $row['name']);
-						$version  = $exploded[0] . '.' . (isset($exploded[1]) ? $exploded[1] : '0');
+						$version  = $exploded[0] . '.' . ($exploded[1] ?? '0');
 
 						// If the container does not exist, add it
 						if (!isset($counts[$version]))

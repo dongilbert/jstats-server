@@ -48,7 +48,7 @@ class Migrations
 	 *
 	 * @return  array
 	 */
-	public function checkStatus() : array
+	public function checkStatus(): array
 	{
 		$response = ['latest' => false];
 
@@ -71,7 +71,7 @@ class Migrations
 		sort($knownMigrations);
 
 		// Validate all migrations are applied; the count and latest versions should match
-		if (count($appliedMigrations) === count($knownMigrations))
+		if (\count($appliedMigrations) === \count($knownMigrations))
 		{
 			$appliedValues = array_values($appliedMigrations);
 			$knownValues   = array_values($knownMigrations);
@@ -89,7 +89,7 @@ class Migrations
 		}
 
 		// The system is not on the latest version, get the relevant data
-		$countMissing   = count($knownMigrations) - count($appliedMigrations);
+		$countMissing   = \count($knownMigrations) - \count($appliedMigrations);
 		$currentVersion = array_pop($appliedMigrations);
 		$latestVersion  = array_pop($knownMigrations);
 
@@ -98,7 +98,7 @@ class Migrations
 			[
 				'missingMigrations' => $countMissing,
 				'currentVersion'    => $currentVersion,
-				'latestVersion'     => $latestVersion
+				'latestVersion'     => $latestVersion,
 			]
 		);
 	}
@@ -110,7 +110,7 @@ class Migrations
 	 *
 	 * @return  void
 	 */
-	public function migrateDatabase(string $version = '') : void
+	public function migrateDatabase(string $version = ''): void
 	{
 		// Determine the migrations to apply
 		$appliedMigrations = $this->database->setQuery(
@@ -123,7 +123,7 @@ class Migrations
 		if ($version !== '')
 		{
 			// If it's already applied, there's nothing to do here
-			if (in_array($version, $appliedMigrations))
+			if (\in_array($version, $appliedMigrations))
 			{
 				return;
 			}
@@ -156,7 +156,7 @@ class Migrations
 	 *
 	 * @throws  FileNotFoundException
 	 */
-	private function doMigration(string $version) : void
+	private function doMigration(string $version): void
 	{
 		$sqlFile = 'migrations/' . $version . '.sql';
 

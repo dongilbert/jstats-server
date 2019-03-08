@@ -9,9 +9,8 @@
 namespace Joomla\StatsServer;
 
 use Joomla\Application\AbstractCliApplication;
-use Joomla\Application\Cli\{
-	CliInput, CliOutput
-};
+use Joomla\Application\Cli\CliInput;
+use Joomla\Application\Cli\CliOutput;
 use Joomla\Input\Cli;
 use Joomla\Registry\Registry;
 
@@ -50,14 +49,14 @@ class CliApplication extends AbstractCliApplication
 	 *
 	 * @throws  \InvalidArgumentException
 	 */
-	protected function doExecute()
+	protected function doExecute(): void
 	{
 		$args = $this->input->args;
 
 		$command  = !empty($args[0]) ? $args[0] : 'help';
 		$commands = $this->getConsole()->getCommands();
 
-		if (!array_key_exists($command, $commands))
+		if (!\array_key_exists($command, $commands))
 		{
 			throw new \InvalidArgumentException(sprintf('The "%s" command is not valid.', $command));
 		}
@@ -71,7 +70,7 @@ class CliApplication extends AbstractCliApplication
 	 *
 	 * @return  Console
 	 */
-	public function getConsole() : Console
+	public function getConsole(): Console
 	{
 		return $this->console;
 	}
@@ -85,14 +84,14 @@ class CliApplication extends AbstractCliApplication
 	 *
 	 * @return  $this
 	 */
-	public function outputTitle(string $title, string $subTitle = '', int $width = 60) : CliApplication
+	public function outputTitle(string $title, string $subTitle = '', int $width = 60): self
 	{
 		$this->out(str_repeat('-', $width));
-		$this->out(str_repeat(' ', $width / 2 - (strlen($title) / 2)) . '<title>' . $title . '</title>');
+		$this->out(str_repeat(' ', $width / 2 - (\strlen($title) / 2)) . '<title>' . $title . '</title>');
 
 		if ($subTitle)
 		{
-			$this->out(str_repeat(' ', $width / 2 - (strlen($subTitle) / 2)) . '<b>' . $subTitle . '</b>');
+			$this->out(str_repeat(' ', $width / 2 - (\strlen($subTitle) / 2)) . '<b>' . $subTitle . '</b>');
 		}
 
 		$this->out(str_repeat('-', $width));

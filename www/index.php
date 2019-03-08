@@ -5,20 +5,20 @@
  * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
  */
+require \dirname(__DIR__) . '/boot.php';
 
-require dirname(__DIR__) . '/boot.php';
-
-use Joomla\Application\{
-	AbstractApplication, AbstractWebApplication
-};
+use Joomla\Application\AbstractApplication;
+use Joomla\Application\AbstractWebApplication;
 use Joomla\Database\Service\DatabaseProvider;
 use Joomla\DI\Container;
-use Joomla\StatsServer\Providers\{
-	ApplicationServiceProvider, ConfigServiceProvider, DatabaseServiceProvider, EventServiceProvider, GitHubServiceProvider, MonologServiceProvider
-};
-use Monolog\{
-	ErrorHandler, Logger
-};
+use Joomla\StatsServer\Providers\ApplicationServiceProvider;
+use Joomla\StatsServer\Providers\ConfigServiceProvider;
+use Joomla\StatsServer\Providers\DatabaseServiceProvider;
+use Joomla\StatsServer\Providers\EventServiceProvider;
+use Joomla\StatsServer\Providers\GitHubServiceProvider;
+use Joomla\StatsServer\Providers\MonologServiceProvider;
+use Monolog\ErrorHandler;
+use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
 $container = (new Container)
@@ -59,8 +59,8 @@ catch (\Throwable $e)
 	}
 
 	$response = [
-		'error' => true,
-		'message' => 'An error occurred while executing the application: ' . $e->getMessage()
+		'error'   => true,
+		'message' => 'An error occurred while executing the application: ' . $e->getMessage(),
 	];
 
 	echo json_encode($response);

@@ -12,11 +12,9 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Monitor\LoggingMonitor;
 use Joomla\Database\Service\DatabaseProvider;
 use Joomla\DI\Container;
-use Joomla\Registry\Registry;
 use Joomla\StatsServer\Database\Migrations;
 use Joomla\StatsServer\Providers\DatabaseServiceProvider;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 
 /**
  * Test class for \Joomla\StatsServer\Providers\DatabaseServiceProvider
@@ -28,7 +26,7 @@ class DatabaseServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\DatabaseServiceProvider::register
 	 */
-	public function testTheDatabaseServiceProviderIsRegisteredToTheContainer()
+	public function testTheDatabaseServiceProviderIsRegisteredToTheContainer(): void
 	{
 		$container = new Container;
 		$container->registerServiceProvider(new DatabaseProvider);
@@ -42,7 +40,7 @@ class DatabaseServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\DatabaseServiceProvider::extendDatabaseDriverService
 	 */
-	public function testTheDatabaseDriverServiceIsExtended()
+	public function testTheDatabaseDriverServiceIsExtended(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->once())
@@ -64,7 +62,7 @@ class DatabaseServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\DatabaseServiceProvider::getDbMigrationsService
 	 */
-	public function testTheDatabaseMigrationsServiceIsCreated()
+	public function testTheDatabaseMigrationsServiceIsCreated(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->once())

@@ -8,23 +8,25 @@
 
 namespace Joomla\StatsServer\Providers;
 
-use Joomla\Application as JoomlaApplication;
+use Joomla\Application\AbstractApplication;
+use Joomla\Application\AbstractCliApplication;
+use Joomla\Application\AbstractWebApplication;
+use Joomla\Application\Controller\ContainerControllerResolver;
+use Joomla\Application\Controller\ControllerResolverInterface;
+use Joomla\Application\Web\WebClient;
+use Joomla\Application\WebApplication;
 use Joomla\Database\DatabaseDriver;
-use Joomla\DI\{
-	Container, ServiceProviderInterface
-};
+use Joomla\DI\Container;
+use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Input\{
-	Cli, Input
-};
+use Joomla\Input\Cli;
+use Joomla\Input\Input;
 use Joomla\Router\Router;
-use Joomla\StatsServer\{
-	CliApplication, Console
-};
+use Joomla\StatsServer\CliApplication;
 use Joomla\StatsServer\Commands as AppCommands;
-use Joomla\StatsServer\Controllers\{
-	DisplayControllerGet, SubmitControllerCreate
-};
+use Joomla\StatsServer\Console;
+use Joomla\StatsServer\Controllers\DisplayControllerGet;
+use Joomla\StatsServer\Controllers\SubmitControllerCreate;
 use Joomla\StatsServer\Database\Migrations;
 use Joomla\StatsServer\GitHub\GitHub;
 use Joomla\StatsServer\Models\StatsModel;
@@ -45,17 +47,17 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 */
-	public function register(Container $container)
+	public function register(Container $container): void
 	{
 		/*
 		 * Application Classes
 		 */
 
-		$container->alias(CliApplication::class, JoomlaApplication\AbstractCliApplication::class)
-			->share(JoomlaApplication\AbstractCliApplication::class, [$this, 'getCliApplicationService'], true);
+		$container->alias(CliApplication::class, AbstractCliApplication::class)
+			->share(AbstractCliApplication::class, [$this, 'getCliApplicationService'], true);
 
-		$container->alias(JoomlaApplication\WebApplication::class, JoomlaApplication\AbstractWebApplication::class)
-			->share(JoomlaApplication\AbstractWebApplication::class, [$this, 'getWebApplicationService'], true);
+		$container->alias(WebApplication::class, AbstractWebApplication::class)
+			->share(AbstractWebApplication::class, [$this, 'getWebApplicationService'], true);
 
 		/*
 		 * Application Class Dependencies
@@ -67,10 +69,10 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		$container->share(Input::class, [$this, 'getInputService'], true);
 		$container->share(Router::class, [$this, 'getRouterService'], true);
 
-		$container->alias(JoomlaApplication\Controller\ContainerControllerResolver::class, JoomlaApplication\Controller\ControllerResolverInterface::class)
-			->share(JoomlaApplication\Controller\ControllerResolverInterface::class, [$this, 'getControllerResolverService'], true);
+		$container->alias(ContainerControllerResolver::class, ControllerResolverInterface::class)
+			->share(ControllerResolverInterface::class, [$this, 'getControllerResolverService'], true);
 
-		$container->share(JoomlaApplication\Web\WebClient::class, [$this, 'getWebClientService'], true);
+		$container->share(WebClient::class, [$this, 'getWebClientService'], true);
 
 		/*
 		 * Console Commands
@@ -120,7 +122,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  CliApplication
 	 */
-	public function getCliApplicationService(Container $container) : CliApplication
+	public function getCliApplicationService(Container $container): CliApplication
 	{
 		$application = new CliApplication(
 			$container->get(Cli::class),
@@ -143,7 +145,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  Console
 	 */
-	public function getConsoleService(Container $container) : Console
+	public function getConsoleService(Container $container): Console
 	{
 		$console = new Console;
 		$console->setContainer($container);
@@ -156,11 +158,11 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @param   Container  $container  The DI container.
 	 *
-	 * @return  JoomlaApplication\Controller\ControllerResolverInterface
+	 * @return  ControllerResolverInterface
 	 */
-	public function getControllerResolverService(Container $container) : JoomlaApplication\Controller\ControllerResolverInterface
+	public function getControllerResolverService(Container $container): ControllerResolverInterface
 	{
-		return new JoomlaApplication\Controller\ContainerControllerResolver($container);
+		return new ContainerControllerResolver($container);
 	}
 
 	/**
@@ -170,11 +172,11 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  AppCommands\Database\MigrateCommand
 	 */
-	public function getDatabaseMigrateCommandService(Container $container) : AppCommands\Database\MigrateCommand
+	public function getDatabaseMigrateCommandService(Container $container): AppCommands\Database\MigrateCommand
 	{
 		$command = new AppCommands\Database\MigrateCommand($container->get(Migrations::class));
 
-		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setApplication($container->get(AbstractApplication::class));
 		$command->setInput($container->get(Input::class));
 		$command->setLogger($container->get(LoggerInterface::class));
 
@@ -188,11 +190,11 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  AppCommands\Database\StatusCommand
 	 */
-	public function getDatabaseStatusCommandService(Container $container) : AppCommands\Database\StatusCommand
+	public function getDatabaseStatusCommandService(Container $container): AppCommands\Database\StatusCommand
 	{
 		$command = new AppCommands\Database\StatusCommand($container->get(Migrations::class));
 
-		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setApplication($container->get(AbstractApplication::class));
 		$command->setInput($container->get(Input::class));
 
 		return $command;
@@ -205,13 +207,13 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  DisplayControllerGet
 	 */
-	public function getDisplayControllerGetService(Container $container) : DisplayControllerGet
+	public function getDisplayControllerGetService(Container $container): DisplayControllerGet
 	{
 		$controller = new DisplayControllerGet(
 			$container->get(StatsJsonView::class)
 		);
 
-		$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$controller->setApplication($container->get(AbstractApplication::class));
 		$controller->setInput($container->get(Input::class));
 
 		return $controller;
@@ -224,11 +226,11 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  AppCommands\HelpCommand
 	 */
-	public function getHelpCommandService(Container $container) : AppCommands\HelpCommand
+	public function getHelpCommandService(Container $container): AppCommands\HelpCommand
 	{
 		$command = new AppCommands\HelpCommand;
 
-		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setApplication($container->get(AbstractApplication::class));
 		$command->setInput($container->get(Input::class));
 
 		return $command;
@@ -241,7 +243,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  Cli
 	 */
-	public function getInputCliService(Container $container) : Cli
+	public function getInputCliService(Container $container): Cli
 	{
 		return new Cli;
 	}
@@ -253,7 +255,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  Input
 	 */
-	public function getInputService(Container $container) : Input
+	public function getInputService(Container $container): Input
 	{
 		return new Input($_REQUEST);
 	}
@@ -265,11 +267,11 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  AppCommands\InstallCommand
 	 */
-	public function getInstallCommandService(Container $container) : AppCommands\InstallCommand
+	public function getInstallCommandService(Container $container): AppCommands\InstallCommand
 	{
 		$command = new AppCommands\InstallCommand($container->get(DatabaseDriver::class));
 
-		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setApplication($container->get(AbstractApplication::class));
 		$command->setInput($container->get(Input::class));
 
 		return $command;
@@ -282,7 +284,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  Router
 	 */
-	public function getRouterService(Container $container) : Router
+	public function getRouterService(Container $container): Router
 	{
 		$router = new Router;
 
@@ -314,11 +316,11 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  AppCommands\SnapshotCommand
 	 */
-	public function getSnapshotCommandService(Container $container) : AppCommands\SnapshotCommand
+	public function getSnapshotCommandService(Container $container): AppCommands\SnapshotCommand
 	{
 		$command = new AppCommands\SnapshotCommand($container->get(StatsJsonView::class));
 
-		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setApplication($container->get(AbstractApplication::class));
 		$command->setInput($container->get(Input::class));
 
 		return $command;
@@ -331,11 +333,11 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  AppCommands\Snapshot\RecentCommand
 	 */
-	public function getSnapshotRecentCommandService(Container $container) : AppCommands\Snapshot\RecentCommand
+	public function getSnapshotRecentCommandService(Container $container): AppCommands\Snapshot\RecentCommand
 	{
 		$command = new AppCommands\Snapshot\RecentCommand($container->get(StatsJsonView::class));
 
-		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setApplication($container->get(AbstractApplication::class));
 		$command->setInput($container->get(Input::class));
 
 		return $command;
@@ -348,7 +350,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  StatsJsonView
 	 */
-	public function getStatsJsonViewService(Container $container) : StatsJsonView
+	public function getStatsJsonViewService(Container $container): StatsJsonView
 	{
 		return new StatsJsonView(
 			$container->get(StatsModel::class)
@@ -362,7 +364,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  StatsModel
 	 */
-	public function getStatsModelService(Container $container) : StatsModel
+	public function getStatsModelService(Container $container): StatsModel
 	{
 		return new StatsModel(
 			$container->get(DatabaseDriver::class)
@@ -376,13 +378,13 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  SubmitControllerCreate
 	 */
-	public function getSubmitControllerCreateService(Container $container) : SubmitControllerCreate
+	public function getSubmitControllerCreateService(Container $container): SubmitControllerCreate
 	{
 		$controller = new SubmitControllerCreate(
 			$container->get(StatsModel::class)
 		);
 
-		$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$controller->setApplication($container->get(AbstractApplication::class));
 		$controller->setInput($container->get(Input::class));
 
 		return $controller;
@@ -395,11 +397,11 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  AppCommands\Tags\JoomlaCommand
 	 */
-	public function getTagsJoomlaCommandService(Container $container) : AppCommands\Tags\JoomlaCommand
+	public function getTagsJoomlaCommandService(Container $container): AppCommands\Tags\JoomlaCommand
 	{
 		$command = new AppCommands\Tags\JoomlaCommand($container->get(GitHub::class));
 
-		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setApplication($container->get(AbstractApplication::class));
 		$command->setInput($container->get(Input::class));
 
 		return $command;
@@ -412,11 +414,11 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  AppCommands\Tags\PhpCommand
 	 */
-	public function getTagsPhpCommandService(Container $container) : AppCommands\Tags\PhpCommand
+	public function getTagsPhpCommandService(Container $container): AppCommands\Tags\PhpCommand
 	{
 		$command = new AppCommands\Tags\PhpCommand($container->get(GitHub::class));
 
-		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setApplication($container->get(AbstractApplication::class));
 		$command->setInput($container->get(Input::class));
 
 		return $command;
@@ -429,11 +431,11 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  AppCommands\UpdateCommand
 	 */
-	public function getUpdateCommandService(Container $container) : AppCommands\UpdateCommand
+	public function getUpdateCommandService(Container $container): AppCommands\UpdateCommand
 	{
 		$command = new AppCommands\UpdateCommand;
 
-		$command->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
+		$command->setApplication($container->get(AbstractApplication::class));
 		$command->setInput($container->get(Input::class));
 
 		return $command;
@@ -444,16 +446,16 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @param   Container  $container  The DI container.
 	 *
-	 * @return  JoomlaApplication\WebApplication
+	 * @return  WebApplication
 	 */
-	public function getWebApplicationService(Container $container) : JoomlaApplication\WebApplication
+	public function getWebApplicationService(Container $container): WebApplication
 	{
-		$application = new JoomlaApplication\WebApplication(
-			$container->get(JoomlaApplication\Controller\ControllerResolverInterface::class),
+		$application = new WebApplication(
+			$container->get(ControllerResolverInterface::class),
 			$container->get(Router::class),
 			$container->get(Input::class),
 			$container->get('config'),
-			$container->get(JoomlaApplication\Web\WebClient::class),
+			$container->get(WebClient::class),
 			new JsonResponse([])
 		);
 
@@ -469,9 +471,9 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @param   Container  $container  The DI container.
 	 *
-	 * @return  JoomlaApplication\Web\WebClient
+	 * @return  WebClient
 	 */
-	public function getWebClientService(Container $container) : JoomlaApplication\Web\WebClient
+	public function getWebClientService(Container $container): WebClient
 	{
 		/** @var Input $input */
 		$input          = $container->get(Input::class);
@@ -479,6 +481,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		$acceptEncoding = $input->server->getString('HTTP_ACCEPT_ENCODING', '');
 		$acceptLanguage = $input->server->getString('HTTP_ACCEPT_LANGUAGE', '');
 
-		return new JoomlaApplication\Web\WebClient($userAgent, $acceptEncoding, $acceptLanguage);
+		return new WebClient($userAgent, $acceptEncoding, $acceptLanguage);
 	}
 }

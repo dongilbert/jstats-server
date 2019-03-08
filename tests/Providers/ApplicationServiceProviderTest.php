@@ -18,16 +18,14 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Router\Router;
-use Joomla\StatsServer\Console;
 use Joomla\StatsServer\Commands as AppCommands;
-use Joomla\StatsServer\Controllers\{
-	DisplayControllerGet, SubmitControllerGet
-};
+use Joomla\StatsServer\Console;
+use Joomla\StatsServer\Controllers\DisplayControllerGet;
 use Joomla\StatsServer\Database\Migrations;
 use Joomla\StatsServer\GitHub\GitHub;
 use Joomla\StatsServer\Models\StatsModel;
-use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use Joomla\StatsServer\Providers\ApplicationServiceProvider;
+use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use Joomla\Test\TestHelper;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -51,7 +49,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @return  void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -62,7 +60,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 * Tears down the fixture, for example, close a network connection.
 	 * This method is called after a test is executed.
 	 */
-	protected function tearDown()
+	protected function tearDown(): void
 	{
 		$_SERVER = $this->backupServer;
 
@@ -74,7 +72,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::register
 	 */
-	public function testTheApplicationServiceProviderIsRegisteredToTheContainer()
+	public function testTheApplicationServiceProviderIsRegisteredToTheContainer(): void
 	{
 		$container = new Container;
 		$container->registerServiceProvider(new ApplicationServiceProvider);
@@ -87,7 +85,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getAnalyticsService
 	 */
-	public function testTheAnalyticsClassServiceIsCreated()
+	public function testTheAnalyticsClassServiceIsCreated(): void
 	{
 		$this->assertInstanceOf(Analytics::class, (new ApplicationServiceProvider)->getAnalyticsService($this->createMock(Container::class)));
 	}
@@ -97,7 +95,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getConsoleService
 	 */
-	public function testTheConsoleServiceIsCreated()
+	public function testTheConsoleServiceIsCreated(): void
 	{
 		$this->assertInstanceOf(Console::class, (new ApplicationServiceProvider)->getConsoleService($this->createMock(Container::class)));
 	}
@@ -107,7 +105,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getDatabaseMigrateCommandService
 	 */
-	public function testTheDatabaseMigrateCommandClassServiceIsCreated()
+	public function testTheDatabaseMigrateCommandClassServiceIsCreated(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->at(0))
@@ -141,7 +139,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getDatabaseStatusCommandService
 	 */
-	public function testTheDatabaseStatusCommandClassServiceIsCreated()
+	public function testTheDatabaseStatusCommandClassServiceIsCreated(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->at(0))
@@ -170,7 +168,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getDisplayControllerGetService
 	 */
-	public function testTheDisplayControllerGetClassServiceIsCreated()
+	public function testTheDisplayControllerGetClassServiceIsCreated(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->at(0))
@@ -196,7 +194,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getHelpCommandService
 	 */
-	public function testTheHelpCommandClassServiceIsCreated()
+	public function testTheHelpCommandClassServiceIsCreated(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->at(0))
@@ -217,7 +215,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getInputService
 	 */
-	public function testTheInputClassServiceIsCreated()
+	public function testTheInputClassServiceIsCreated(): void
 	{
 		$this->assertInstanceOf(Input::class, (new ApplicationServiceProvider)->getInputService($this->createMock(Container::class)));
 	}
@@ -227,7 +225,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getInstallCommandService
 	 */
-	public function testTheInstallCommandClassServiceIsCreated()
+	public function testTheInstallCommandClassServiceIsCreated(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->at(0))
@@ -253,7 +251,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getRouterService
 	 */
-	public function testTheRouterServiceIsCreated()
+	public function testTheRouterServiceIsCreated(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 
@@ -265,7 +263,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getSnapshotCommandService
 	 */
-	public function testTheSnapshotCommandClassServiceIsCreated()
+	public function testTheSnapshotCommandClassServiceIsCreated(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->at(0))
@@ -291,7 +289,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getStatsJsonViewService
 	 */
-	public function testTheStatsJsonViewClassServiceIsCreated()
+	public function testTheStatsJsonViewClassServiceIsCreated(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->at(0))
@@ -307,7 +305,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getStatsModelService
 	 */
-	public function testTheStatsModelClassServiceIsCreated()
+	public function testTheStatsModelClassServiceIsCreated(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->at(0))
@@ -323,7 +321,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getTagsJoomlaCommandService
 	 */
-	public function testTheTagsJoomlaCommandClassServiceIsCreated()
+	public function testTheTagsJoomlaCommandClassServiceIsCreated(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->at(0))
@@ -349,7 +347,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getTagsPhpCommandService
 	 */
-	public function testTheTagsPhpCommandClassServiceIsCreated()
+	public function testTheTagsPhpCommandClassServiceIsCreated(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->at(0))
@@ -375,7 +373,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getUpdateCommandService
 	 */
-	public function testTheUpdateCommandClassServiceIsCreated()
+	public function testTheUpdateCommandClassServiceIsCreated(): void
 	{
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->at(0))
@@ -396,7 +394,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getWebApplicationService
 	 */
-	public function testTheWebApplicationServiceIsCreated()
+	public function testTheWebApplicationServiceIsCreated(): void
 	{
 		$mockInput = $this->getMockBuilder(Input::class)
 			->setMethods(['get', 'getString'])

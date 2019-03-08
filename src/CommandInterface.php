@@ -20,12 +20,12 @@ interface CommandInterface extends ControllerInterface
 	 *
 	 * @return  string
 	 */
-	public function getDescription() : string;
+	public function getDescription(): string;
 
 	/**
 	 * Get the command's title
 	 *
 	 * @return  string
 	 */
-	public function getTitle() : string;
+	public function getTitle(): string;
 }

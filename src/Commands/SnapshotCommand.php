@@ -66,7 +66,7 @@ class SnapshotCommand extends AbstractController implements CommandInterface
 	 *
 	 * @return  string
 	 */
-	public function getDescription() : string
+	public function getDescription(): string
 	{
 		return 'Takes a snapshot of the statistics data.';
 	}
@@ -76,7 +76,7 @@ class SnapshotCommand extends AbstractController implements CommandInterface
 	 *
 	 * @return  string
 	 */
-	public function getTitle() : string
+	public function getTitle(): string
 	{
 		return 'Stats Snapshot';
 	}

@@ -24,7 +24,7 @@ class ConfigServiceProviderTest extends TestCase
 	 * @covers  Joomla\StatsServer\Providers\ConfigServiceProvider::__construct
 	 * @covers  Joomla\StatsServer\Providers\ConfigServiceProvider::register
 	 */
-	public function testTheConfigServiceProviderIsRegisteredToTheContainer()
+	public function testTheConfigServiceProviderIsRegisteredToTheContainer(): void
 	{
 		$container = new Container;
 		$container->registerServiceProvider(new ConfigServiceProvider(APPROOT . '/etc/config.dist.json'));
@@ -38,7 +38,7 @@ class ConfigServiceProviderTest extends TestCase
 	 * @covers  Joomla\StatsServer\Providers\ConfigServiceProvider::__construct
 	 * @expectedException  \RuntimeException
 	 */
-	public function testTheConfigServiceProviderThrowsAnExceptionIfAnInvalidFileIsGiven()
+	public function testTheConfigServiceProviderThrowsAnExceptionIfAnInvalidFileIsGiven(): void
 	{
 		new ConfigServiceProvider('/bad/file/path.json');
 	}
@@ -48,7 +48,7 @@ class ConfigServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\ConfigServiceProvider::getConfigService
 	 */
-	public function testTheConfigServiceIsCreated()
+	public function testTheConfigServiceIsCreated(): void
 	{
 		$this->assertInstanceOf(
 			Registry::class, (new ConfigServiceProvider(APPROOT . '/etc/config.dist.json'))->getConfigService($this->createMock(Container::class))

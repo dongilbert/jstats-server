@@ -24,7 +24,7 @@ class GitHubServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\GitHubServiceProvider::register
 	 */
-	public function testTheGitHubServiceProviderIsRegisteredToTheContainer()
+	public function testTheGitHubServiceProviderIsRegisteredToTheContainer(): void
 	{
 		$container = new Container;
 		$container->registerServiceProvider(new GitHubServiceProvider);
@@ -37,7 +37,7 @@ class GitHubServiceProviderTest extends TestCase
 	 *
 	 * @covers  Joomla\StatsServer\Providers\GitHubServiceProvider::getGithubService
 	 */
-	public function testTheGitHubServiceIsCreated()
+	public function testTheGitHubServiceIsCreated(): void
 	{
 		$mockConfig = $this->createMock(Registry::class);
 		$mockConfig->expects($this->once())
