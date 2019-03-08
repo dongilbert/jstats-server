@@ -26,16 +26,13 @@ class StatsModelTest extends TestCase
 	 */
 	public function testTheModelReturnsAllItemsFromTheDatabase()
 	{
+		$this->markTestSkipped('Refactor as an integration test');
+
 		$countTableReturn = [['unique_id' => '1a'], ['unique_id' => '2b']];
 
-		$mockDatabase = $this->getMockBuilder(DatabaseDriver::class)
-			->disableOriginalConstructor()
-			->setMethods(['getQuery', 'getTableColumns', 'loadAssocList'])
-			->getMockForAbstractClass();
+		$mockDatabase = $this->createMock(DatabaseDriver::class);
 
-		$mockQuery = $this->getMockBuilder(DatabaseQuery::class)
-			->disableOriginalConstructor()
-			->getMockForAbstractClass();
+		$mockQuery = $this->createMock(DatabaseQuery::class);
 
 		$mockDatabase->expects($this->once())
 			->method('getQuery')
@@ -93,6 +90,8 @@ class StatsModelTest extends TestCase
 	 */
 	public function testTheModelReturnsASingleSourceItemsFromTheDatabase()
 	{
+		$this->markTestSkipped('Refactor as an integration test');
+
 		$return = ['php_version' => PHP_VERSION, 'count' => 2];
 
 		$mockDatabase = $this->getMockBuilder(DatabaseDriver::class)
@@ -137,6 +136,8 @@ class StatsModelTest extends TestCase
 	 */
 	public function testTheModelThrowsAnExceptionWhenAnInvalidSourceIsSpecified()
 	{
+		$this->markTestSkipped('Refactor as an integration test');
+
 		$mockDatabase = $this->getMockBuilder(DatabaseDriver::class)
 			->disableOriginalConstructor()
 			->setMethods(['getQuery', 'getTableColumns', 'loadAssocList'])
@@ -177,6 +178,8 @@ class StatsModelTest extends TestCase
 	 */
 	public function testTheModelInsertsANewRecord()
 	{
+		$this->markTestSkipped('Refactor as an integration test');
+
 		$mockDatabase = $this->getMockBuilder(DatabaseDriver::class)
 			->disableOriginalConstructor()
 			->setMethods(['getQuery', 'insertObject', 'loadResult', 'updateObject'])
@@ -210,6 +213,8 @@ class StatsModelTest extends TestCase
 	 */
 	public function testTheModelUpdatesAnExistingRecord()
 	{
+		$this->markTestSkipped('Refactor as an integration test');
+
 		$mockDatabase = $this->getMockBuilder(DatabaseDriver::class)
 			->disableOriginalConstructor()
 			->setMethods(['getQuery', 'insertObject', 'loadResult', 'updateObject'])

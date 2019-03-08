@@ -12,6 +12,7 @@ require dirname(__DIR__) . '/boot.php';
 use Joomla\Application\{
 	AbstractApplication, AbstractCliApplication
 };
+use Joomla\Database\Service\DatabaseProvider;
 use Joomla\DI\Container;
 use Joomla\Input\{
     Cli, Input
@@ -28,6 +29,7 @@ use Psr\Log\LoggerInterface;
 $container = (new Container)
 	->registerServiceProvider(new ApplicationServiceProvider)
 	->registerServiceProvider(new ConfigServiceProvider(APPROOT . '/etc/config.json'))
+	->registerServiceProvider(new DatabaseProvider)
 	->registerServiceProvider(new DatabaseServiceProvider)
 	->registerServiceProvider(new GitHubServiceProvider)
 	->registerServiceProvider(new MonologServiceProvider);

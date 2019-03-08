@@ -11,6 +11,7 @@ require dirname(__DIR__) . '/boot.php';
 use Joomla\Application\{
 	AbstractApplication, AbstractWebApplication
 };
+use Joomla\Database\Service\DatabaseProvider;
 use Joomla\DI\Container;
 use Joomla\StatsServer\WebApplication;
 use Joomla\StatsServer\Providers\{
@@ -24,6 +25,7 @@ use Psr\Log\LoggerInterface;
 $container = (new Container)
 	->registerServiceProvider(new ApplicationServiceProvider)
 	->registerServiceProvider(new ConfigServiceProvider(APPROOT . '/etc/config.json'))
+	->registerServiceProvider(new DatabaseProvider)
 	->registerServiceProvider(new DatabaseServiceProvider)
 	->registerServiceProvider(new GitHubServiceProvider)
 	->registerServiceProvider(new MonologServiceProvider);

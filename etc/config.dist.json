@@ -5,8 +5,7 @@
 		"user"    : "",
 		"password": "",
 		"database": "",
-		"prefix"  : "",
-		"debug"   : false
+		"prefix"  : ""
 	},
 	"stats": {
 		"rawdata": false

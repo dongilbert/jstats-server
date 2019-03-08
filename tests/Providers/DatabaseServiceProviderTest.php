@@ -9,6 +9,8 @@
 namespace Joomla\StatsServer\Tests\Providers;
 
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\Monitor\LoggingMonitor;
+use Joomla\Database\Service\DatabaseProvider;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use Joomla\StatsServer\Database\Migrations;
@@ -29,29 +31,32 @@ class DatabaseServiceProviderTest extends TestCase
 	public function testTheDatabaseServiceProviderIsRegisteredToTheContainer()
 	{
 		$container = new Container;
+		$container->registerServiceProvider(new DatabaseProvider);
 		$container->registerServiceProvider(new DatabaseServiceProvider);
 
-		$this->assertTrue($container->exists(DatabaseDriver::class));
+		$this->assertTrue($container->exists(LoggingMonitor::class));
 	}
 
 	/**
-	 * @testdox The database driver service is created
+	 * @testdox The database driver service is extended
 	 *
-	 * @covers  Joomla\StatsServer\Providers\DatabaseServiceProvider::getDbService
+	 * @covers  Joomla\StatsServer\Providers\DatabaseServiceProvider::extendDatabaseDriverService
 	 */
-	public function testTheDatabaseDriverServiceIsCreated()
+	public function testTheDatabaseDriverServiceIsExtended()
 	{
-		$mockConfig = $this->createMock(Registry::class);
-		$mockConfig->expects($this->exactly(2))
-			->method('get')
-			->willReturnOnConsecutiveCalls(['driver' => 'mysqli'], false);
-
 		$mockContainer = $this->createMock(Container::class);
-		$mockContainer->expects($this->exactly(2))
+		$mockContainer->expects($this->once())
 			->method('get')
-			->willReturnOnConsecutiveCalls($mockConfig, $this->createMock(LoggerInterface::class));
+			->willReturn($this->createMock(LoggingMonitor::class));
 
-		$this->assertInstanceOf(DatabaseDriver::class, (new DatabaseServiceProvider)->getDbService($mockContainer));
+		$mockDatabase = $this->createMock(DatabaseDriver::class);
+		$mockDatabase->expects($this->once())
+			->method('setMonitor');
+
+		$this->assertInstanceOf(
+			DatabaseDriver::class,
+			(new DatabaseServiceProvider)->extendDatabaseDriverService($mockDatabase, $mockContainer)
+		);
 	}
 
 	/**
@@ -64,7 +69,7 @@ class DatabaseServiceProviderTest extends TestCase
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->once())
 			->method('get')
-			->with('db')
+			->with(DatabaseDriver::class)
 			->willReturn($this->createMock(DatabaseDriver::class));
 
 		$this->assertInstanceOf(Migrations::class, (new DatabaseServiceProvider)->getDbMigrationsService($mockContainer));

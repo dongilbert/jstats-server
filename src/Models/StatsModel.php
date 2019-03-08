@@ -9,6 +9,7 @@
 namespace Joomla\StatsServer\Models;
 
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Model\{
 	DatabaseModelInterface, DatabaseModelTrait
 };
@@ -137,7 +138,7 @@ class StatsModel implements DatabaseModelInterface
 				->select('unique_id')
 				->from('#__jstats')
 				->where('unique_id = :unique_id')
-				->bind('unique_id', $data->unique_id, \PDO::PARAM_STR)
+				->bind('unique_id', $data->unique_id, ParameterType::STRING)
 		)->loadResult();
 
 		if ($recordExists)
