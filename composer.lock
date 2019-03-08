@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "df8f20e031242dff8d26fc8d775c88aa",
+    "content-hash": "84095141d2d96de6b2b4263e61185934",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1643,102 +1643,6 @@
                 "phpcs"
             ],
             "time": "2019-02-01T00:21:48+00:00"
-        },
-        {
-            "name": "joomla/event",
-            "version": "1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla-framework/event.git",
-                "reference": "d8cc2a4757c4556f0ab12e58903e9d168077018b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/event/zipball/d8cc2a4757c4556f0ab12e58903e9d168077018b",
-                "reference": "d8cc2a4757c4556f0ab12e58903e9d168077018b",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.10|>=7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.8|~5.0",
-                "squizlabs/php_codesniffer": "1.*"
-            },
-            "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Joomla\\Event\\": "src/",
-                    "Joomla\\Event\\Tests\\": "Tests/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "description": "Joomla Event Package",
-            "homepage": "https://github.com/joomla-framework/event",
-            "keywords": [
-                "event",
-                "framework",
-                "joomla"
-            ],
-            "time": "2016-03-13T19:41:09+00:00"
-        },
-        {
-            "name": "joomla/session",
-            "version": "1.3.4",
-            "target-dir": "Joomla/Session",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla-framework/session.git",
-                "reference": "1f8af5fd0ccda57ab0002d7597f72ccc411d5b0a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/1f8af5fd0ccda57ab0002d7597f72ccc411d5b0a",
-                "reference": "1f8af5fd0ccda57ab0002d7597f72ccc411d5b0a",
-                "shasum": ""
-            },
-            "require": {
-                "joomla/event": "~1.1",
-                "joomla/filter": "~1.0",
-                "paragonie/random_compat": "~1.0|~2.0",
-                "php": "^5.3.10|~7.0"
-            },
-            "require-dev": {
-                "joomla/coding-standards": "~2.0@alpha",
-                "joomla/database": "~1.0",
-                "joomla/test": "~1.0",
-                "phpunit/dbunit": "~1.3",
-                "phpunit/phpunit": "~4.8|~5.0"
-            },
-            "suggest": {
-                "joomla/database": "Install joomla/database if you want to use Database session storage."
-            },
-            "type": "joomla-package",
-            "autoload": {
-                "psr-0": {
-                    "Joomla\\Session": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "description": "Joomla Session Package",
-            "homepage": "https://github.com/joomla-framework/session",
-            "keywords": [
-                "framework",
-                "joomla",
-                "session"
-            ],
-            "time": "2018-07-01T00:10:35+00:00"
         },
         {
             "name": "joomla/test",
