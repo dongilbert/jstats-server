@@ -13,6 +13,9 @@ use Joomla\StatsServer\Views\Stats\StatsJsonView;
 
 /**
  * Controller for displaying submitted statistics data.
+ *
+ * @method         \Joomla\Application\WebApplication  getApplication()  Get the application object.
+ * @property-read  \Joomla\Application\WebApplication  $app              Application object
  */
 class DisplayControllerGet extends AbstractController
 {

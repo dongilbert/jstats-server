@@ -11,9 +11,13 @@ namespace Joomla\StatsServer\Controllers;
 use Joomla\Controller\AbstractController;
 use Joomla\StatsServer\Decorators\ValidateVersion;
 use Joomla\StatsServer\Models\StatsModel;
+use Zend\Diactoros\Response\JsonResponse;
 
 /**
  * Controller for processing submitted statistics data.
+ *
+ * @method         \Joomla\Application\WebApplication  getApplication()  Get the application object.
+ * @property-read  \Joomla\Application\WebApplication  $app              Application object
  */
 class SubmitControllerCreate extends AbstractController
 {
@@ -86,13 +90,17 @@ class SubmitControllerCreate extends AbstractController
 				['postData' => $originalData]
 			);
 
-			$response = [
-				'error'   => true,
-				'message' => 'There was an error storing the data.',
-			];
+			/** @var JsonResponse $response */
+			$response = $this->getApplication()->getResponse();
+			$response = $response->withPayload(
+				[
+					'error'   => true,
+					'message' => 'There was an error storing the data.',
+				]
+			);
+			$response = $response->withHeader('HTTP/1.1 500 Internal Server Error', 500);
 
-			$this->getApplication()->setHeader('HTTP/1.1 500 Internal Server Error', 500, true);
-			$this->getApplication()->setBody(json_encode($response));
+			$this->getApplication()->setResponse($response);
 
 			return true;
 		}
@@ -100,13 +108,17 @@ class SubmitControllerCreate extends AbstractController
 		// If the below data does not pass tests, we do not accept the POST
 		if ($data['php_version'] === false || $data['cms_version'] === false || $data['db_type'] === false || $data['db_version'] === false)
 		{
-			$response = [
-				'error'   => true,
-				'message' => 'Invalid data submission.',
-			];
+			/** @var JsonResponse $response */
+			$response = $this->getApplication()->getResponse();
+			$response = $response->withPayload(
+				[
+					'error'   => true,
+					'message' => 'Invalid data submission.',
+				]
+			);
+			$response = $response->withHeader('HTTP/1.1 500 Internal Server Error', 500);
 
-			$this->getApplication()->setHeader('HTTP/1.1 500 Internal Server Error', 500, true);
-			$this->getApplication()->setBody(json_encode($response));
+			$this->getApplication()->setResponse($response);
 
 			return true;
 		}
@@ -123,12 +135,16 @@ class SubmitControllerCreate extends AbstractController
 
 		$this->model->save((object) $data);
 
-		$response = [
-			'error'   => false,
-			'message' => 'Data saved successfully',
-		];
+		/** @var JsonResponse $response */
+		$response = $this->getApplication()->getResponse();
+		$response = $response->withPayload(
+			[
+				'error'   => false,
+				'message' => 'Data saved successfully',
+			]
+		);
 
-		$this->getApplication()->setBody(json_encode($response));
+		$this->getApplication()->setResponse($response);
 
 		return true;
 	}
