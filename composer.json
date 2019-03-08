@@ -30,7 +30,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.14.2",
         "joomla/coding-standards": "dev-master",
-        "phpunit/phpunit": "^7.5.6"
+        "phpunit/phpunit": "^8.0.4"
     },
     "autoload": {
         "psr-4": {
