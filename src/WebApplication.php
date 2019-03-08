@@ -9,14 +9,21 @@
 namespace Joomla\StatsServer;
 
 use Joomla\Application\AbstractWebApplication;
+use Joomla\Controller\ControllerInterface;
+use Joomla\DI\ContainerAwareInterface;
+use Joomla\DI\ContainerAwareTrait;
+use Joomla\DI\Exception\KeyNotFoundException;
+use Joomla\Router\Router;
 use Ramsey\Uuid\Uuid;
 use TheIconic\Tracking\GoogleAnalytics\Analytics;
 
 /**
  * Web application for the stats server
  */
-class WebApplication extends AbstractWebApplication
+class WebApplication extends AbstractWebApplication implements ContainerAwareInterface
 {
+	use ContainerAwareTrait;
+
 	/**
 	 * Application analytics object.
 	 *
@@ -75,7 +82,22 @@ class WebApplication extends AbstractWebApplication
 
 		try
 		{
-			$this->router->getController($this->get('uri.route'))->execute();
+			$route = $this->router->parseRoute($this->get('uri.route'), $this->input->getMethod());
+
+			// Add variables to the input if not already set
+			foreach ($route->getRouteVariables() as $key => $value)
+			{
+				$this->input->def($key, $value);
+			}
+
+			if (!$this->getContainer()->has($route->getController()))
+			{
+				throw new KeyNotFoundException(sprintf('Controller "%s" is not registered in the container.', $route->getController()));
+			}
+
+			/** @var ControllerInterface $controller */
+			$controller = $this->getContainer()->get($route->getController());
+			$controller->execute();
 		}
 		catch (\Throwable $e)
 		{

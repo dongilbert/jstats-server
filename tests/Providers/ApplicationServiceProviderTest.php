@@ -18,9 +18,9 @@ use Joomla\Input\{
 	Cli, Input
 };
 use Joomla\Registry\Registry;
-use Joomla\Test\TestHelper;
+use Joomla\Router\Router;
 use Joomla\StatsServer\{
-	CliApplication, Console, Router, WebApplication
+	CliApplication, Console, WebApplication
 };
 use Joomla\StatsServer\Commands as AppCommands;
 use Joomla\StatsServer\Controllers\{
@@ -31,6 +31,7 @@ use Joomla\StatsServer\GitHub\GitHub;
 use Joomla\StatsServer\Models\StatsModel;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use Joomla\StatsServer\Providers\ApplicationServiceProvider;
+use Joomla\Test\TestHelper;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use TheIconic\Tracking\GoogleAnalytics\Analytics;
@@ -360,10 +361,6 @@ class ApplicationServiceProviderTest extends TestCase
 	public function testTheRouterServiceIsCreated()
 	{
 		$mockContainer = $this->createMock(Container::class);
-		$mockContainer->expects($this->any())
-			->method('get')
-			->with(Input::class)
-			->willReturn($this->createMock(Input::class));
 
 		$this->assertInstanceOf(Router::class, (new ApplicationServiceProvider)->getRouterService($mockContainer));
 	}
@@ -392,32 +389,6 @@ class ApplicationServiceProviderTest extends TestCase
 			->willReturn($this->createMock(Input::class));
 
 		$this->assertInstanceOf(AppCommands\SnapshotCommand::class, (new ApplicationServiceProvider)->getSnapshotCommandService($mockContainer));
-	}
-
-	/**
-	 * @testdox The SubmitControllerCreate class service is created
-	 *
-	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getSubmitControllerCreateService
-	 */
-	public function testTheSubmitControllerCreateClassServiceIsCreated()
-	{
-		$mockContainer = $this->createMock(Container::class);
-		$mockContainer->expects($this->at(0))
-			->method('get')
-			->with(StatsModel::class)
-			->willReturn($this->createMock(StatsModel::class));
-
-		$mockContainer->expects($this->at(1))
-			->method('get')
-			->with(AbstractApplication::class)
-			->willReturn($this->createMock(AbstractApplication::class));
-
-		$mockContainer->expects($this->at(2))
-			->method('get')
-			->with(Input::class)
-			->willReturn($this->createMock(Input::class));
-
-		$this->assertInstanceOf(SubmitControllerCreate::class, (new ApplicationServiceProvider)->getSubmitControllerCreateService($mockContainer));
 	}
 
 	/**
@@ -450,28 +421,6 @@ class ApplicationServiceProviderTest extends TestCase
 			->willReturn($this->createMock(DatabaseDriver::class));
 
 		$this->assertInstanceOf(StatsModel::class, (new ApplicationServiceProvider)->getStatsModelService($mockContainer));
-	}
-
-	/**
-	 * @testdox The SubmitControllerGet class service is created
-	 *
-	 * @covers  Joomla\StatsServer\Providers\ApplicationServiceProvider::getSubmitControllerGetService
-	 */
-	public function testTheSubmitControllerGetClassServiceIsCreated()
-	{
-		$mockContainer = $this->createMock(Container::class);
-
-		$mockContainer->expects($this->at(0))
-			->method('get')
-			->with(AbstractApplication::class)
-			->willReturn($this->createMock(AbstractApplication::class));
-
-		$mockContainer->expects($this->at(1))
-			->method('get')
-			->with(Input::class)
-			->willReturn($this->createMock(Input::class));
-
-		$this->assertInstanceOf(SubmitControllerGet::class, (new ApplicationServiceProvider)->getSubmitControllerGetService($mockContainer));
 	}
 
 	/**

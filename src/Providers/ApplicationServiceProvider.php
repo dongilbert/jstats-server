@@ -16,12 +16,13 @@ use Joomla\DI\{
 use Joomla\Input\{
 	Cli, Input
 };
+use Joomla\Router\Router;
 use Joomla\StatsServer\{
-	CliApplication, Console, Router, WebApplication
+	CliApplication, Console, WebApplication
 };
 use Joomla\StatsServer\Commands as AppCommands;
 use Joomla\StatsServer\Controllers\{
-	DisplayControllerCreate, DisplayControllerGet, SubmitControllerCreate, SubmitControllerGet
+	DisplayControllerGet, SubmitControllerCreate
 };
 use Joomla\StatsServer\Database\Migrations;
 use Joomla\StatsServer\GitHub\GitHub;
@@ -88,10 +89,8 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 		 */
 
 		// Controllers
-		$container->share(DisplayControllerCreate::class, [$this, 'getDisplayControllerCreateService'], true);
 		$container->share(DisplayControllerGet::class, [$this, 'getDisplayControllerGetService'], true);
 		$container->share(SubmitControllerCreate::class, [$this, 'getSubmitControllerCreateService'], true);
-		$container->share(SubmitControllerGet::class, [$this, 'getSubmitControllerGetService'], true);
 
 		// Models
 		$container->share(StatsModel::class, [$this, 'getStatsModelService'], true);
@@ -235,23 +234,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	}
 
 	/**
-	 * Get the DisplayControllerCreate class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  DisplayControllerCreate
-	 */
-	public function getDisplayControllerCreateService(Container $container) : DisplayControllerCreate
-	{
-		$controller = new DisplayControllerCreate;
-
-		$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
-		$controller->setInput($container->get(Input::class));
-
-		return $controller;
-	}
-
-	/**
 	 * Get the DisplayControllerGet class service
 	 *
 	 * @param   Container  $container  The DI container.
@@ -337,13 +319,25 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 */
 	public function getRouterService(Container $container) : Router
 	{
-		$router = (new Router($container->get(Input::class)))
-			->setControllerPrefix('Joomla\\StatsServer\\Controllers\\')
-			->setDefaultController('DisplayController')
-			->addMap('/submit', 'SubmitController')
-			->addMap('/:source', 'DisplayController');
+		$router = new Router;
 
-		$router->setContainer($container);
+		$router->get(
+			'/',
+			DisplayControllerGet::class
+		);
+
+		$router->post(
+			'/submit',
+			SubmitControllerCreate::class
+		);
+
+		$router->get(
+			'/:source',
+			DisplayControllerGet::class,
+			[
+				'source' => '(php_version|db_type|db_version|cms_version|server_os)',
+			]
+		);
 
 		return $router;
 	}
@@ -430,23 +424,6 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	}
 
 	/**
-	 * Get the SubmitControllerGet class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  SubmitControllerGet
-	 */
-	public function getSubmitControllerGetService(Container $container) : SubmitControllerGet
-	{
-		$controller = new SubmitControllerGet;
-
-		$controller->setApplication($container->get(JoomlaApplication\AbstractApplication::class));
-		$controller->setInput($container->get(Input::class));
-
-		return $controller;
-	}
-
-	/**
 	 * Get the Tags\JoomlaCommand class service
 	 *
 	 * @param   Container  $container  The DI container.
@@ -510,6 +487,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 
 		// Inject extra services
 		$application->setAnalytics($container->get(Analytics::class));
+		$application->setContainer($container);
 		$application->setLogger($container->get('monolog.logger.application'));
 		$application->setRouter($container->get(Router::class));
 

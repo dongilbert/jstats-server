@@ -8,6 +8,7 @@
 
 namespace Joomla\StatsServer\Tests;
 
+use Joomla\Router\Router;
 use Joomla\StatsServer\WebApplication;
 use PHPUnit\Framework\TestCase;
 
@@ -54,6 +55,8 @@ class WebApplicationTest extends TestCase
 	 */
 	public function testTheApplicationExecutesCorrectly()
 	{
+		$this->markTestSkipped('Refactor as an integration test');
+
 		// Mock a GET request
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 
@@ -105,6 +108,8 @@ class WebApplicationTest extends TestCase
 	 */
 	public function testTheApplicationHandlesExceptionsCorrectly($code)
 	{
+		$this->markTestSkipped('Refactor as an integration test');
+
 		// Mock a GET request
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 
@@ -145,9 +150,7 @@ class WebApplicationTest extends TestCase
 	 */
 	public function testTheRouterIsSetToTheApplication()
 	{
-		$mockRouter = $this->getMockBuilder('Joomla\StatsServer\Router')
-			->disableOriginalConstructor()
-			->getMock();
+		$mockRouter = $this->createMock(Router::class);
 
 		$app = new WebApplication;
 		$app->setRouter($mockRouter);
