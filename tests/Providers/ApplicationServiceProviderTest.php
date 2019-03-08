@@ -10,6 +10,7 @@ namespace Joomla\StatsServer\Tests\Providers;
 
 use Joomla\Application\AbstractApplication;
 use Joomla\Application\Controller\ControllerResolverInterface;
+use Joomla\Application\Web\WebClient;
 use Joomla\Application\WebApplication;
 use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
@@ -435,10 +436,15 @@ class ApplicationServiceProviderTest extends TestCase
 
 		$mockContainer->expects($this->at(4))
 			->method('get')
+			->with(WebClient::class)
+			->willReturn($this->createMock(WebClient::class));
+
+		$mockContainer->expects($this->at(5))
+			->method('get')
 			->with(DispatcherInterface::class)
 			->willReturn($this->createMock(DispatcherInterface::class));
 
-		$mockContainer->expects($this->at(5))
+		$mockContainer->expects($this->at(6))
 			->method('get')
 			->with(LoggerInterface::class)
 			->willReturn($this->createMock(LoggerInterface::class));
