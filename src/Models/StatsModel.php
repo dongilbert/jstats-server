@@ -9,7 +9,6 @@
 namespace Joomla\StatsServer\Models;
 
 use Joomla\Database\DatabaseDriver;
-use Joomla\Database\Query\LimitableInterface;
 use Joomla\Model\{
 	DatabaseModelInterface, DatabaseModelTrait
 };

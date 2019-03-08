@@ -15,7 +15,7 @@
         "joomla/di": "~2.0@dev",
         "joomla/github": "~2.0@dev",
         "joomla/input": "~1.2",
-        "joomla/model": "~1.3",
+        "joomla/model": "~2.0@dev",
         "joomla/registry": "~1.5",
         "joomla/router": "~1.1",
         "joomla/uri": "~1.1",
