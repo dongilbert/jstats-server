@@ -23,7 +23,6 @@ use Joomla\Input\Cli;
 use Joomla\Input\Input;
 use Joomla\Router\Router;
 use Joomla\StatsServer\CliApplication;
-use Joomla\StatsServer\Commands as AppCommands;
 use Joomla\StatsServer\Console;
 use Joomla\StatsServer\Controllers\DisplayControllerGet;
 use Joomla\StatsServer\Controllers\SubmitControllerCreate;
@@ -71,12 +70,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 			->share(ControllerResolverInterface::class, [$this, 'getControllerResolverService'], true);
 
 		$container->share(WebClient::class, [$this, 'getWebClientService'], true);
-
-		/*
-		 * Console Commands
-		 */
-
-		$container->share(AppCommands\UpdateCommand::class, [$this, 'getUpdateCommandService'], true);
 
 		/*
 		 * MVC Layer
@@ -275,23 +268,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 		$controller->setInput($container->get(Input::class));
 
 		return $controller;
-	}
-
-	/**
-	 * Get the UpdateCommand class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  AppCommands\UpdateCommand
-	 */
-	public function getUpdateCommandService(Container $container): AppCommands\UpdateCommand
-	{
-		$command = new AppCommands\UpdateCommand;
-
-		$command->setApplication($container->get(AbstractApplication::class));
-		$command->setInput($container->get(Input::class));
-
-		return $command;
 	}
 
 	/**

@@ -20,6 +20,7 @@ use Joomla\StatsServer\Commands\SnapshotCommand;
 use Joomla\StatsServer\Commands\SnapshotRecentlyUpdatedCommand;
 use Joomla\StatsServer\Commands\Tags\FetchJoomlaTagsCommand;
 use Joomla\StatsServer\Commands\Tags\FetchPhpTagsCommand;
+use Joomla\StatsServer\Commands\UpdateCommand;
 use Joomla\StatsServer\Database\Migrations;
 use Joomla\StatsServer\GitHub\GitHub;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
@@ -60,6 +61,7 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 		$container->share(FetchPhpTagsCommand::class, [$this, 'getFetchPhpTagsCommandService'], true);
 		$container->share(SnapshotCommand::class, [$this, 'getSnapshotCommandService'], true);
 		$container->share(SnapshotRecentlyUpdatedCommand::class, [$this, 'getSnapshotRecentlyUpdatedCommandService'], true);
+		$container->share(UpdateCommand::class, [$this, 'getUpdateCommandService'], true);
 	}
 
 	/**
@@ -78,6 +80,7 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 			FetchPhpTagsCommand::getDefaultName()            => FetchPhpTagsCommand::class,
 			SnapshotCommand::getDefaultName()                => SnapshotCommand::class,
 			SnapshotRecentlyUpdatedCommand::getDefaultName() => SnapshotRecentlyUpdatedCommand::class,
+			UpdateCommand::getDefaultName()                  => UpdateCommand::class,
 		];
 
 		return new ContainerLoader($container, $mapping);
@@ -175,5 +178,17 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 	public function getSnapshotRecentlyUpdatedCommandService(Container $container): SnapshotRecentlyUpdatedCommand
 	{
 		return new SnapshotRecentlyUpdatedCommand($container->get(StatsJsonView::class), $container->get('filesystem.snapshot'));
+	}
+
+	/**
+	 * Get the UpdateCommand class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  UpdateCommand
+	 */
+	public function getUpdateCommandService(Container $container): UpdateCommand
+	{
+		return new UpdateCommand;
 	}
 }
