@@ -11,6 +11,8 @@ namespace Joomla\StatsServer\Controllers;
 use Joomla\Controller\AbstractController;
 use Joomla\StatsServer\Decorators\ValidateVersion;
 use Joomla\StatsServer\Repositories\StatisticsRepository;
+use League\Flysystem\FileNotFoundException;
+use League\Flysystem\Filesystem;
 use Zend\Diactoros\Response\JsonResponse;
 
 /**
@@ -31,6 +33,13 @@ class SubmitDataController extends AbstractController
 	private $repository;
 
 	/**
+	 * Filesystem adapter for the snapshots space.
+	 *
+	 * @var  Filesystem
+	 */
+	private $filesystem;
+
+	/**
 	 * Allowed Database Types.
 	 *
 	 * @var  array
@@ -49,10 +58,12 @@ class SubmitDataController extends AbstractController
 	 * Constructor.
 	 *
 	 * @param   StatisticsRepository  $repository  Statistics repository.
+	 * @param   Filesystem            $filesystem  Filesystem adapter for the versions space.
 	 */
-	public function __construct(StatisticsRepository $repository)
+	public function __construct(StatisticsRepository $repository, Filesystem $filesystem)
 	{
 		$this->repository = $repository;
+		$this->filesystem = $filesystem;
 	}
 
 	/**
@@ -174,15 +185,14 @@ class SubmitDataController extends AbstractController
 			return false;
 		}
 
-		// Import the valid release listing
-		$path = APPROOT . '/versions/joomla.json';
-
-		if (!file_exists($path))
+		try
 		{
-			throw new \RuntimeException('Missing Joomla! release listing', 500);
+			$validVersions = json_decode($this->filesystem->read('joomla.json'), true);
 		}
-
-		$validVersions = json_decode(file_get_contents($path), true);
+		catch (FileNotFoundException $exception)
+		{
+			throw new \RuntimeException('Missing Joomla! release listing', 500, $exception);
+		}
 
 		// Check that the version is in our valid release list
 		if (!\in_array($version, $validVersions))
@@ -235,15 +245,14 @@ class SubmitDataController extends AbstractController
 			return false;
 		}
 
-		// Import the valid release listing
-		$path = APPROOT . '/versions/php.json';
-
-		if (!file_exists($path))
+		try
 		{
-			throw new \RuntimeException('Missing PHP release listing', 500);
+			$validVersions = json_decode($this->filesystem->read('php.json'), true);
 		}
-
-		$validVersions = json_decode(file_get_contents($path), true);
+		catch (FileNotFoundException $exception)
+		{
+			throw new \RuntimeException('Missing PHP release listing', 500, $exception);
+		}
 
 		// Check that the version is in our valid release list
 		if (!\in_array($version, $validVersions))
