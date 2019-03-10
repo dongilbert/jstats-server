@@ -14,14 +14,13 @@ use Joomla\Application\Controller\ContainerControllerResolver;
 use Joomla\Application\Controller\ControllerResolverInterface;
 use Joomla\Application\Web\WebClient;
 use Joomla\Application\WebApplication;
-use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Input\Input;
 use Joomla\Router\Router;
-use Joomla\StatsServer\Controllers\DisplayControllerGet;
-use Joomla\StatsServer\Controllers\SubmitControllerCreate;
+use Joomla\StatsServer\Controllers\DisplayStatisticsController;
+use Joomla\StatsServer\Controllers\SubmitDataController;
 use Joomla\StatsServer\Repositories\StatisticsRepository;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use Psr\Log\LoggerInterface;
@@ -61,8 +60,8 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 		 */
 
 		// Controllers
-		$container->share(DisplayControllerGet::class, [$this, 'getDisplayControllerGetService'], true);
-		$container->share(SubmitControllerCreate::class, [$this, 'getSubmitControllerCreateService'], true);
+		$container->share(DisplayStatisticsController::class, [$this, 'getDisplayStatisticsControllerService'], true);
+		$container->share(SubmitDataController::class, [$this, 'getSubmitDataControllerService'], true);
 
 		// Views
 		$container->share(StatsJsonView::class, [$this, 'getStatsJsonViewService'], true);
@@ -85,11 +84,11 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @param   Container  $container  The DI container.
 	 *
-	 * @return  DisplayControllerGet
+	 * @return  DisplayStatisticsController
 	 */
-	public function getDisplayControllerGetService(Container $container): DisplayControllerGet
+	public function getDisplayStatisticsControllerService(Container $container): DisplayStatisticsController
 	{
-		$controller = new DisplayControllerGet(
+		$controller = new DisplayStatisticsController(
 			$container->get(StatsJsonView::class)
 		);
 
@@ -97,18 +96,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 		$controller->setInput($container->get(Input::class));
 
 		return $controller;
-	}
-
-	/**
-	 * Get the Input\Cli class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  Cli
-	 */
-	public function getInputCliService(Container $container): Cli
-	{
-		return new Cli;
 	}
 
 	/**
@@ -136,17 +123,17 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 
 		$router->get(
 			'/',
-			DisplayControllerGet::class
+			DisplayStatisticsController::class
 		);
 
 		$router->post(
 			'/submit',
-			SubmitControllerCreate::class
+			SubmitDataController::class
 		);
 
 		$router->get(
 			'/:source',
-			DisplayControllerGet::class,
+			DisplayStatisticsController::class,
 			[
 				'source' => '(' . implode('|', StatisticsRepository::ALLOWED_SOURCES) . ')',
 			]
@@ -174,11 +161,11 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @param   Container  $container  The DI container.
 	 *
-	 * @return  SubmitControllerCreate
+	 * @return  SubmitDataController
 	 */
-	public function getSubmitControllerCreateService(Container $container): SubmitControllerCreate
+	public function getSubmitDataControllerService(Container $container): SubmitDataController
 	{
-		$controller = new SubmitControllerCreate(
+		$controller = new SubmitDataController(
 			$container->get(StatisticsRepository::class)
 		);
 

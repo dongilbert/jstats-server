@@ -19,7 +19,7 @@ use Zend\Diactoros\Response\JsonResponse;
  * @method         \Joomla\Application\WebApplication  getApplication()  Get the application object.
  * @property-read  \Joomla\Application\WebApplication  $app              Application object
  */
-class SubmitControllerCreate extends AbstractController
+class SubmitDataController extends AbstractController
 {
 	use ValidateVersion;
 

@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
 use Joomla\Router\Router;
 use Joomla\StatsServer\Commands as AppCommands;
 use Joomla\StatsServer\Console;
-use Joomla\StatsServer\Controllers\DisplayControllerGet;
+use Joomla\StatsServer\Controllers\DisplayStatisticsController;
 use Joomla\StatsServer\Database\Migrations;
 use Joomla\StatsServer\GitHub\GitHub;
 use Joomla\StatsServer\Providers\WebApplicationServiceProvider;
@@ -185,7 +185,7 @@ class ApplicationServiceProviderTest extends TestCase
 			->with(Input::class)
 			->willReturn($this->createMock(Input::class));
 
-		$this->assertInstanceOf(DisplayControllerGet::class, (new WebApplicationServiceProvider)->getDisplayControllerGetService($mockContainer));
+		$this->assertInstanceOf(DisplayStatisticsController::class, (new WebApplicationServiceProvider)->getDisplayControllerGetService($mockContainer));
 	}
 
 	/**

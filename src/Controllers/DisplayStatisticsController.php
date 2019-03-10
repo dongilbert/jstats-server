@@ -17,7 +17,7 @@ use Joomla\StatsServer\Views\Stats\StatsJsonView;
  * @method         \Joomla\Application\WebApplication  getApplication()  Get the application object.
  * @property-read  \Joomla\Application\WebApplication  $app              Application object
  */
-class DisplayControllerGet extends AbstractController
+class DisplayStatisticsController extends AbstractController
 {
 	/**
 	 * JSON view for displaying the statistics.

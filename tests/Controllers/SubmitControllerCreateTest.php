@@ -10,7 +10,7 @@ namespace Joomla\StatsServer\Tests\Controllers;
 
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Input\Input;
-use Joomla\StatsServer\Controllers\SubmitControllerCreate;
+use Joomla\StatsServer\Controllers\SubmitDataController;
 use Joomla\StatsServer\Repositories\StatisticsRepository;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -33,7 +33,7 @@ class SubmitControllerCreateTest extends TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
-		$controller = new SubmitControllerCreate($mockModel);
+		$controller = new SubmitDataController($mockModel);
 
 		$this->assertAttributeSame($mockModel, 'model', $controller);
 	}
@@ -75,7 +75,7 @@ class SubmitControllerCreateTest extends TestCase
 			->method('getString')
 			->willReturnOnConsecutiveCalls('1a2b3c4d', 'mysql', 'Darwin 14.1.0');
 
-		$controller = (new SubmitControllerCreate($mockModel))
+		$controller = (new SubmitDataController($mockModel))
 			->setApplication($mockApp)
 			->setInput($mockInput);
 
@@ -119,7 +119,7 @@ class SubmitControllerCreateTest extends TestCase
 			->method('getString')
 			->willReturnOnConsecutiveCalls('1a2b3c4d', 'mysql', 'Darwin 14.1.0');
 
-		$controller = (new SubmitControllerCreate($mockModel))
+		$controller = (new SubmitDataController($mockModel))
 			->setApplication($mockApp)
 			->setInput($mockInput);
 
@@ -173,7 +173,7 @@ class SubmitControllerCreateTest extends TestCase
 			->method('getString')
 			->willReturnOnConsecutiveCalls('1a2b3c4d', 'mysql', 'Darwin 14.1.0');
 
-		$controller = (new SubmitControllerCreate($mockModel))
+		$controller = (new SubmitDataController($mockModel))
 			->setApplication($mockApp)
 			->setInput($mockInput);
 
@@ -227,7 +227,7 @@ class SubmitControllerCreateTest extends TestCase
 			->method('getString')
 			->willReturnOnConsecutiveCalls('1a2b3c4d', 'mysql', 'Darwin 14.1.0');
 
-		$controller = (new SubmitControllerCreate($mockModel))
+		$controller = (new SubmitDataController($mockModel))
 			->setApplication($mockApp)
 			->setInput($mockInput);
 
