@@ -13,9 +13,17 @@
 if (!file_exists(APPROOT . '/vendor/autoload.php'))
 {
 	header('HTTP/1.1 500 Internal Server Error', null, 500);
-	echo '<html><head><title>Server Error</title></head><body><h1>Composer Not Installed</h1><p>Composer is not set up properly, please run "composer install".</p></body></html>';
+	header('Content-Type: application/json; charset=utf-8');
 
-	exit(500);
+	echo \json_encode(
+		[
+			'code'    => 500,
+			'message' => 'Composer is not set up properly, please run "composer install".',
+			'error'   => true,
+		]
+	);
+
+	exit;
 }
 
 require APPROOT . '/vendor/autoload.php';
@@ -31,10 +39,16 @@ catch (\Throwable $throwable)
 	if (!headers_sent())
 	{
 		header('HTTP/1.1 500 Internal Server Error', null, 500);
-		header('Content-Type: text/html; charset=utf-8');
+		header('Content-Type: application/json; charset=utf-8');
 	}
 
-	echo '<html><head><title>Application Error</title></head><body><h1>Application Error</h1><p>An error occurred while executing the application: ' . $throwable->getMessage() . '</p></body></html>';
+	echo \json_encode(
+		[
+			'code'    => $throwable->getCode(),
+			'message' => 'An error occurred while executing the application: ' . $throwable->getMessage(),
+			'error'   => true,
+		]
+	);
 
-	exit(1);
+	exit;
 }
