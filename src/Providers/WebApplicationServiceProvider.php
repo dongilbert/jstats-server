@@ -27,7 +27,6 @@ use Joomla\StatsServer\Commands as AppCommands;
 use Joomla\StatsServer\Console;
 use Joomla\StatsServer\Controllers\DisplayControllerGet;
 use Joomla\StatsServer\Controllers\SubmitControllerCreate;
-use Joomla\StatsServer\Database\Migrations;
 use Joomla\StatsServer\GitHub\GitHub;
 use Joomla\StatsServer\Models\StatsModel;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
@@ -78,8 +77,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 		 * Console Commands
 		 */
 
-		$container->share(AppCommands\Snapshot\RecentCommand::class, [$this, 'getSnapshotRecentCommandService'], true);
-		$container->share(AppCommands\SnapshotCommand::class, [$this, 'getSnapshotCommandService'], true);
 		$container->share(AppCommands\Tags\JoomlaCommand::class, [$this, 'getTagsJoomlaCommandService'], true);
 		$container->share(AppCommands\Tags\PhpCommand::class, [$this, 'getTagsPhpCommandService'], true);
 		$container->share(AppCommands\UpdateCommand::class, [$this, 'getUpdateCommandService'], true);
@@ -234,40 +231,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 		);
 
 		return $router;
-	}
-
-	/**
-	 * Get the SnapshotCommand class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  AppCommands\SnapshotCommand
-	 */
-	public function getSnapshotCommandService(Container $container): AppCommands\SnapshotCommand
-	{
-		$command = new AppCommands\SnapshotCommand($container->get(StatsJsonView::class));
-
-		$command->setApplication($container->get(AbstractApplication::class));
-		$command->setInput($container->get(Input::class));
-
-		return $command;
-	}
-
-	/**
-	 * Get the RecentCommand class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  AppCommands\Snapshot\RecentCommand
-	 */
-	public function getSnapshotRecentCommandService(Container $container): AppCommands\Snapshot\RecentCommand
-	{
-		$command = new AppCommands\Snapshot\RecentCommand($container->get(StatsJsonView::class));
-
-		$command->setApplication($container->get(AbstractApplication::class));
-		$command->setInput($container->get(Input::class));
-
-		return $command;
 	}
 
 	/**

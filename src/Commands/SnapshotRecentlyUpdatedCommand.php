@@ -15,16 +15,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * Command to take a record snapshot
+ * Command to take a record snapshot for recently updated records
  */
-class SnapshotCommand extends AbstractCommand
+class SnapshotRecentlyUpdatedCommand extends AbstractCommand
 {
 	/**
 	 * The default command name
 	 *
 	 * @var  string|null
 	 */
-	protected static $defaultName = 'snapshot';
+	protected static $defaultName = 'snapshot:recently-updated';
 
 	/**
 	 * JSON view for displaying the statistics.
@@ -61,8 +61,9 @@ class SnapshotCommand extends AbstractCommand
 
 		// We want the full raw data set for our snapshot
 		$this->view->isAuthorizedRaw(true);
+		$this->view->isRecent(true);
 
-		$file = APPROOT . '/snapshots/' . date('YmdHis');
+		$file = APPROOT . '/snapshots/' . date('YmdHis') . '_recent';
 
 		if (!file_put_contents($file, $this->view->render()))
 		{
@@ -81,6 +82,6 @@ class SnapshotCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Takes a snapshot of the statistics data.');
+		$this->setDescription('Takes a snapshot of the recently updated statistics data.');
 	}
 }

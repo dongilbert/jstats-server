@@ -16,7 +16,10 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\StatsServer\Commands\Database\MigrateCommand;
 use Joomla\StatsServer\Commands\Database\MigrationStatusCommand;
+use Joomla\StatsServer\Commands\SnapshotCommand;
+use Joomla\StatsServer\Commands\SnapshotRecentlyUpdatedCommand;
 use Joomla\StatsServer\Database\Migrations;
+use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -50,6 +53,8 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 
 		$container->share(MigrateCommand::class, [$this, 'getDatabaseMigrateCommandService'], true);
 		$container->share(MigrationStatusCommand::class, [$this, 'getDatabaseMigrationStatusCommandService'], true);
+		$container->share(SnapshotCommand::class, [$this, 'getSnapshotCommandService'], true);
+		$container->share(SnapshotRecentlyUpdatedCommand::class, [$this, 'getSnapshotRecentlyUpdatedCommandService'], true);
 	}
 
 	/**
@@ -62,8 +67,10 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 	public function getCommandLoaderService(Container $container): LoaderInterface
 	{
 		$mapping = [
-			MigrationStatusCommand::getDefaultName() => MigrationStatusCommand::class,
-			MigrateCommand::getDefaultName()         => MigrateCommand::class,
+			MigrationStatusCommand::getDefaultName()         => MigrationStatusCommand::class,
+			MigrateCommand::getDefaultName()                 => MigrateCommand::class,
+			SnapshotCommand::getDefaultName()                => SnapshotCommand::class,
+			SnapshotRecentlyUpdatedCommand::getDefaultName() => SnapshotRecentlyUpdatedCommand::class,
 		];
 
 		return new ContainerLoader($container, $mapping);
@@ -113,5 +120,29 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 	public function getDatabaseMigrationStatusCommandService(Container $container): MigrationStatusCommand
 	{
 		return new MigrationStatusCommand($container->get(Migrations::class));
+	}
+
+	/**
+	 * Get the SnapshotCommand service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  SnapshotCommand
+	 */
+	public function getSnapshotCommandService(Container $container): SnapshotCommand
+	{
+		return new SnapshotCommand($container->get(StatsJsonView::class));
+	}
+
+	/**
+	 * Get the SnapshotRecentlyUpdatedCommand service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  SnapshotRecentlyUpdatedCommand
+	 */
+	public function getSnapshotRecentlyUpdatedCommandService(Container $container): SnapshotRecentlyUpdatedCommand
+	{
+		return new SnapshotRecentlyUpdatedCommand($container->get(StatsJsonView::class));
 	}
 }
