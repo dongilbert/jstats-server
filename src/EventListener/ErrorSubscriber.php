@@ -17,6 +17,7 @@ use Joomla\Router\Exception\MethodNotAllowedException;
 use Joomla\Router\Exception\RouteNotFoundException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Zend\Diactoros\Response\JsonResponse;
 
 /**
@@ -52,6 +53,9 @@ class ErrorSubscriber implements SubscriberInterface, LoggerAwareInterface
 			sprintf('Uncaught Throwable of type %s caught.', \get_class($event->getError())),
 			['exception' => $event->getError()]
 		);
+
+		(new SymfonyStyle($event->getApplication()->getConsoleInput(), $event->getApplication()->getConsoleOutput()))
+			->error(sprintf('Uncaught Throwable of type %s caught: %s', \get_class($event->getError()), $event->getError()->getMessage()));
 	}
 
 	/**

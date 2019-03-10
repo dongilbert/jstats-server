@@ -14,6 +14,9 @@ use Joomla\Console\Loader\LoaderInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\StatsServer\Commands\Database\MigrateCommand;
+use Joomla\StatsServer\Commands\Database\MigrationStatusCommand;
+use Joomla\StatsServer\Database\Migrations;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -40,6 +43,13 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 
 		$container->alias(ContainerLoader::class, LoaderInterface::class)
 			->share(LoaderInterface::class, [$this, 'getCommandLoaderService'], true);
+
+		/*
+		 * Commands
+		 */
+
+		$container->share(MigrateCommand::class, [$this, 'getDatabaseMigrateCommandService'], true);
+		$container->share(MigrationStatusCommand::class, [$this, 'getDatabaseMigrationStatusCommandService'], true);
 	}
 
 	/**
@@ -51,7 +61,10 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 	 */
 	public function getCommandLoaderService(Container $container): LoaderInterface
 	{
-		$mapping = [];
+		$mapping = [
+			MigrationStatusCommand::getDefaultName() => MigrationStatusCommand::class,
+			MigrateCommand::getDefaultName()         => MigrateCommand::class,
+		];
 
 		return new ContainerLoader($container, $mapping);
 	}
@@ -73,5 +86,32 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 		$application->setName('Joomla! Statistics Server');
 
 		return $application;
+	}
+
+	/**
+	 * Get the MigrateCommand service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  MigrateCommand
+	 */
+	public function getDatabaseMigrateCommandService(Container $container): MigrateCommand
+	{
+		$command = new MigrateCommand($container->get(Migrations::class));
+		$command->setLogger($container->get(LoggerInterface::class));
+
+		return $command;
+	}
+
+	/**
+	 * Get the MigrationStatusCommand service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  MigrationStatusCommand
+	 */
+	public function getDatabaseMigrationStatusCommandService(Container $container): MigrationStatusCommand
+	{
+		return new MigrationStatusCommand($container->get(Migrations::class));
 	}
 }

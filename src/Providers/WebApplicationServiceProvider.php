@@ -78,8 +78,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 		 * Console Commands
 		 */
 
-		$container->share(AppCommands\Database\MigrateCommand::class, [$this, 'getDatabaseMigrateCommandService'], true);
-		$container->share(AppCommands\Database\StatusCommand::class, [$this, 'getDatabaseStatusCommandService'], true);
 		$container->share(AppCommands\Snapshot\RecentCommand::class, [$this, 'getSnapshotRecentCommandService'], true);
 		$container->share(AppCommands\SnapshotCommand::class, [$this, 'getSnapshotCommandService'], true);
 		$container->share(AppCommands\Tags\JoomlaCommand::class, [$this, 'getTagsJoomlaCommandService'], true);
@@ -161,41 +159,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 	public function getControllerResolverService(Container $container): ControllerResolverInterface
 	{
 		return new ContainerControllerResolver($container);
-	}
-
-	/**
-	 * Get the Database\MigrateCommand class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  AppCommands\Database\MigrateCommand
-	 */
-	public function getDatabaseMigrateCommandService(Container $container): AppCommands\Database\MigrateCommand
-	{
-		$command = new AppCommands\Database\MigrateCommand($container->get(Migrations::class));
-
-		$command->setApplication($container->get(AbstractApplication::class));
-		$command->setInput($container->get(Input::class));
-		$command->setLogger($container->get(LoggerInterface::class));
-
-		return $command;
-	}
-
-	/**
-	 * Get the Database\StatusCommand class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  AppCommands\Database\StatusCommand
-	 */
-	public function getDatabaseStatusCommandService(Container $container): AppCommands\Database\StatusCommand
-	{
-		$command = new AppCommands\Database\StatusCommand($container->get(Migrations::class));
-
-		$command->setApplication($container->get(AbstractApplication::class));
-		$command->setInput($container->get(Input::class));
-
-		return $command;
 	}
 
 	/**

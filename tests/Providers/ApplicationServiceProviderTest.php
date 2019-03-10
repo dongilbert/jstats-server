@@ -157,7 +157,7 @@ class ApplicationServiceProviderTest extends TestCase
 			->willReturn($this->createMock(Input::class));
 
 		$this->assertInstanceOf(
-			AppCommands\Database\StatusCommand::class,
+			AppCommands\Database\MigrationStatusCommand::class,
 			(new WebApplicationServiceProvider)->getDatabaseStatusCommandService($mockContainer)
 		);
 	}

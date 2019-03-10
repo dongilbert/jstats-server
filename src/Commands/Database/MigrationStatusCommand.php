@@ -10,26 +10,21 @@ namespace Joomla\StatsServer\Commands\Database;
 
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\StatsServer\Database\Migrations;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * CLI command for migrating the database
+ * CLI command for checking the database migration status
  */
-class MigrateCommand extends AbstractCommand implements LoggerAwareInterface
+class MigrationStatusCommand extends AbstractCommand
 {
-	use LoggerAwareTrait;
-
 	/**
 	 * The default command name
 	 *
 	 * @var  string|null
 	 */
-	protected static $defaultName = 'database:migrate';
+	protected static $defaultName = 'database:migrations:status';
 
 	/**
 	 * Database migrations helper
@@ -62,39 +57,33 @@ class MigrateCommand extends AbstractCommand implements LoggerAwareInterface
 	{
 		$symfonyStyle = new SymfonyStyle($input, $output);
 
-		$symfonyStyle->title('Database Migrations: Migrate');
+		$symfonyStyle->title('Database Migrations: Check Status');
 
-		// If a version is given, we are only executing that migration
-		$version = $input->getOption('version');
+		$status = $this->migrations->checkStatus();
 
-		try
+		if ($status['latest'])
 		{
-			$this->migrations->migrateDatabase($version);
-		}
-		catch (\Exception $exception)
-		{
-			$this->logger->critical(
-				'Error migrating database',
-				['exception' => $exception]
-			);
-
-			$symfonyStyle->error(sprintf('Error migrating database: %s', $exception->getMessage()));
-
-			return 1;
-		}
-
-		if ($version)
-		{
-			$message = sprintf('Database migrated to version "%s".', $version);
+			$symfonyStyle->success('Your database is up-to-date');
 		}
 		else
 		{
-			$message = 'Database migrated to latest version.';
+			$symfonyStyle->comment(sprintf('Your database is not up-to-date. You are missing %d migrations.', $status['missingMigrations']));
+
+			$symfonyStyle->table(
+				[
+					'Current Version',
+					'Latest Version',
+				],
+				[
+					[
+						$status['currentVersion'],
+						$status['latestVersion'],
+					],
+				]
+			);
+
+			$symfonyStyle->comment('To update, run the "database:migrate" command.');
 		}
-
-		$this->logger->info($message);
-
-		$symfonyStyle->success($message);
 
 		return 0;
 	}
@@ -106,12 +95,6 @@ class MigrateCommand extends AbstractCommand implements LoggerAwareInterface
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Migrate the database schema to a newer version.');
-		$this->addOption(
-			'version',
-			null,
-			InputOption::VALUE_OPTIONAL,
-			'If specified, only the given migration will be executed if necessary.'
-		);
+		$this->setDescription('Check the database migration status.');
 	}
 }

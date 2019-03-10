@@ -106,11 +106,11 @@ class Migrations
 	/**
 	 * Migrate the database
 	 *
-	 * @param   string  $version  Optional migration version to run
+	 * @param   string|null  $version  Optional migration version to run
 	 *
 	 * @return  void
 	 */
-	public function migrateDatabase(string $version = ''): void
+	public function migrateDatabase(?string $version = null): void
 	{
 		// Determine the migrations to apply
 		$appliedMigrations = $this->database->setQuery(
@@ -120,7 +120,7 @@ class Migrations
 		)->loadColumn();
 
 		// If a version is specified, check if that migration is already applied and if not, run that one only
-		if ($version !== '')
+		if ($version !== null && $version !== '')
 		{
 			// If it's already applied, there's nothing to do here
 			if (\in_array($version, $appliedMigrations))
