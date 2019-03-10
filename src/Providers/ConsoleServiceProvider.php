@@ -131,7 +131,7 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 	 */
 	public function getSnapshotCommandService(Container $container): SnapshotCommand
 	{
-		return new SnapshotCommand($container->get(StatsJsonView::class));
+		return new SnapshotCommand($container->get(StatsJsonView::class), $container->get('filesystem.snapshot'));
 	}
 
 	/**
@@ -143,6 +143,6 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 	 */
 	public function getSnapshotRecentlyUpdatedCommandService(Container $container): SnapshotRecentlyUpdatedCommand
 	{
-		return new SnapshotRecentlyUpdatedCommand($container->get(StatsJsonView::class));
+		return new SnapshotRecentlyUpdatedCommand($container->get(StatsJsonView::class), $container->get('filesystem.snapshot'));
 	}
 }
