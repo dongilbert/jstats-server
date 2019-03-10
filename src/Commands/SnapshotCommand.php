@@ -9,9 +9,12 @@
 namespace Joomla\StatsServer\Commands;
 
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\StatsServer\Models\StatsModel;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use League\Flysystem\Filesystem;
+use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -72,7 +75,29 @@ class SnapshotCommand extends AbstractCommand
 		// We want the full raw data set for our snapshot
 		$this->view->isAuthorizedRaw(true);
 
-		if (!$this->filesystem->write(date('YmdHis'), $this->view->render()))
+		$source = $input->getOption('source');
+
+		$filename = date('YmdHis');
+
+		if ($source)
+		{
+			if (!\in_array($source, StatsModel::ALLOWED_SOURCES))
+			{
+				throw new InvalidOptionException(
+					\sprintf(
+						'Invalid source "%s" given, valid options are: %s',
+						$source,
+						implode(', ', StatsModel::ALLOWED_SOURCES)
+					)
+				);
+			}
+
+			$this->view->setSource($source);
+
+			$filename .= '_' . $source;
+		}
+
+		if (!$this->filesystem->write($filename, $this->view->render()))
 		{
 			$symfonyStyle->error('Failed writing snapshot to the filesystem.');
 
@@ -92,5 +117,11 @@ class SnapshotCommand extends AbstractCommand
 	protected function configure(): void
 	{
 		$this->setDescription('Takes a snapshot of the statistics data.');
+		$this->addOption(
+			'source',
+			null,
+			InputOption::VALUE_OPTIONAL,
+			'If given, filters the snapshot to a single source.'
+		);
 	}
 }

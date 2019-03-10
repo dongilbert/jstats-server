@@ -21,6 +21,13 @@ class StatsModel implements DatabaseModelInterface
 	use DatabaseModelTrait;
 
 	/**
+	 * Array containing the allowed sources
+	 *
+	 * @var  string[]
+	 */
+	public const ALLOWED_SOURCES = ['php_version', 'db_type', 'db_version', 'cms_version', 'server_os'];
+
+	/**
 	 * Instantiate the model.
 	 *
 	 * @param   DatabaseDriver  $db  The database driver.
@@ -41,21 +48,19 @@ class StatsModel implements DatabaseModelInterface
 	 */
 	public function getItems(string $column = ''): array
 	{
-		$db         = $this->getDb();
-		$query      = $db->getQuery(true);
-		$columnList = $db->getTableColumns('#__jstats');
+		$db = $this->getDb();
 
 		// Validate the requested column is actually in the table
 		if ($column !== '')
 		{
 			// The column should exist in the table and be part of the API
-			if (!\in_array($column, array_keys($columnList)) && !\in_array($column, ['unique_id', 'modified']))
+			if (!\in_array($column, self::ALLOWED_SOURCES))
 			{
 				throw new \InvalidArgumentException('An invalid data source was requested.', 404);
 			}
 
 			return $db->setQuery(
-				$query
+				$db->getQuery(true)
 					->select('*')
 					->from($db->quoteName('#__jstats_counter_' . $column))
 			)->loadAssocList();
@@ -63,7 +68,7 @@ class StatsModel implements DatabaseModelInterface
 
 		$return = [];
 
-		foreach (array_keys($columnList) as $column)
+		foreach (array_keys($db->getTableColumns('#__jstats')) as $column)
 		{
 			// The column should exist in the table and be part of the API
 			if (\in_array($column, ['unique_id', 'modified']))
@@ -72,7 +77,7 @@ class StatsModel implements DatabaseModelInterface
 			}
 
 			$return[$column] = $db->setQuery(
-				$query->clear()
+				$db->getQuery(true)
 					->select('*')
 					->from($db->quoteName('#__jstats_counter_' . $column))
 			)->loadAssocList();
@@ -90,23 +95,15 @@ class StatsModel implements DatabaseModelInterface
 	 */
 	public function getRecentlyUpdatedItems(): array
 	{
-		$db         = $this->getDb();
-		$columnList = $db->getTableColumns('#__jstats');
+		$db = $this->getDb();
 
 		$return = [];
 
-		foreach (array_keys($columnList) as $column)
+		foreach (self::ALLOWED_SOURCES as $column)
 		{
-			// The column should exist in the table and be part of the API
-			if (\in_array($column, ['unique_id', 'modified']))
-			{
-				continue;
-			}
-
-			$query = $db->getQuery(true);
-
 			$return[$column] = $db->setQuery(
-				$query->select($column)
+				$db->getQuery(true)
+					->select($column)
 					->select('COUNT(' . $column . ') AS count')
 					->from($db->quoteName('#__jstats'))
 					->where('modified BETWEEN DATE_SUB(NOW(), INTERVAL 90 DAY) AND NOW()')

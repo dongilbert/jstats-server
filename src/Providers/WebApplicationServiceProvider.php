@@ -226,7 +226,7 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 			'/:source',
 			DisplayControllerGet::class,
 			[
-				'source' => '(php_version|db_type|db_version|cms_version|server_os)',
+				'source' => '(' . implode('|', StatsModel::ALLOWED_SOURCES) . ')',
 			]
 		);
 
