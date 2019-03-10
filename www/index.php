@@ -11,24 +11,26 @@ use Joomla\Application\AbstractApplication;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Database\Service\DatabaseProvider;
 use Joomla\DI\Container;
-use Joomla\StatsServer\Providers\ApplicationServiceProvider;
 use Joomla\StatsServer\Providers\ConfigServiceProvider;
+use Joomla\StatsServer\Providers\ConsoleServiceProvider;
 use Joomla\StatsServer\Providers\DatabaseServiceProvider;
 use Joomla\StatsServer\Providers\EventServiceProvider;
 use Joomla\StatsServer\Providers\GitHubServiceProvider;
 use Joomla\StatsServer\Providers\MonologServiceProvider;
+use Joomla\StatsServer\Providers\WebApplicationServiceProvider;
 use Monolog\ErrorHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
 $container = (new Container)
-	->registerServiceProvider(new ApplicationServiceProvider)
 	->registerServiceProvider(new ConfigServiceProvider(APPROOT . '/etc/config.json'))
+	->registerServiceProvider(new ConsoleServiceProvider)
 	->registerServiceProvider(new DatabaseProvider)
 	->registerServiceProvider(new DatabaseServiceProvider)
 	->registerServiceProvider(new EventServiceProvider)
 	->registerServiceProvider(new GitHubServiceProvider)
-	->registerServiceProvider(new MonologServiceProvider);
+	->registerServiceProvider(new MonologServiceProvider)
+	->registerServiceProvider(new WebApplicationServiceProvider);
 
 // Alias the web application to Joomla's base application class as this is the primary application for the environment
 $container->alias(AbstractApplication::class, AbstractWebApplication::class);

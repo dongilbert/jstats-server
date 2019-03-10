@@ -38,7 +38,7 @@ use Zend\Diactoros\Response\JsonResponse;
 /**
  * Application service provider
  */
-class ApplicationServiceProvider implements ServiceProviderInterface
+class WebApplicationServiceProvider implements ServiceProviderInterface
 {
 	/**
 	 * Registers the service provider with a DI container.
@@ -110,7 +110,7 @@ class ApplicationServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  Analytics
 	 */
-	public function getAnalyticsService(Container $container)
+	public function getAnalyticsService(Container $container): Analytics
 	{
 		return new Analytics(true);
 	}

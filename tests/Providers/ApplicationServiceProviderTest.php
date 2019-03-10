@@ -24,7 +24,7 @@ use Joomla\StatsServer\Controllers\DisplayControllerGet;
 use Joomla\StatsServer\Database\Migrations;
 use Joomla\StatsServer\GitHub\GitHub;
 use Joomla\StatsServer\Models\StatsModel;
-use Joomla\StatsServer\Providers\ApplicationServiceProvider;
+use Joomla\StatsServer\Providers\WebApplicationServiceProvider;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -74,7 +74,7 @@ class ApplicationServiceProviderTest extends TestCase
 	public function testTheApplicationServiceProviderIsRegisteredToTheContainer(): void
 	{
 		$container = new Container;
-		$container->registerServiceProvider(new ApplicationServiceProvider);
+		$container->registerServiceProvider(new WebApplicationServiceProvider);
 
 		$this->assertTrue($container->exists(WebApplication::class));
 	}
@@ -86,7 +86,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 */
 	public function testTheAnalyticsClassServiceIsCreated(): void
 	{
-		$this->assertInstanceOf(Analytics::class, (new ApplicationServiceProvider)->getAnalyticsService($this->createMock(Container::class)));
+		$this->assertInstanceOf(Analytics::class, (new WebApplicationServiceProvider)->getAnalyticsService($this->createMock(Container::class)));
 	}
 
 	/**
@@ -96,7 +96,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 */
 	public function testTheConsoleServiceIsCreated(): void
 	{
-		$this->assertInstanceOf(Console::class, (new ApplicationServiceProvider)->getConsoleService($this->createMock(Container::class)));
+		$this->assertInstanceOf(Console::class, (new WebApplicationServiceProvider)->getConsoleService($this->createMock(Container::class)));
 	}
 
 	/**
@@ -129,7 +129,7 @@ class ApplicationServiceProviderTest extends TestCase
 
 		$this->assertInstanceOf(
 			AppCommands\Database\MigrateCommand::class,
-			(new ApplicationServiceProvider)->getDatabaseMigrateCommandService($mockContainer)
+			(new WebApplicationServiceProvider)->getDatabaseMigrateCommandService($mockContainer)
 		);
 	}
 
@@ -158,7 +158,7 @@ class ApplicationServiceProviderTest extends TestCase
 
 		$this->assertInstanceOf(
 			AppCommands\Database\StatusCommand::class,
-			(new ApplicationServiceProvider)->getDatabaseStatusCommandService($mockContainer)
+			(new WebApplicationServiceProvider)->getDatabaseStatusCommandService($mockContainer)
 		);
 	}
 
@@ -185,7 +185,7 @@ class ApplicationServiceProviderTest extends TestCase
 			->with(Input::class)
 			->willReturn($this->createMock(Input::class));
 
-		$this->assertInstanceOf(DisplayControllerGet::class, (new ApplicationServiceProvider)->getDisplayControllerGetService($mockContainer));
+		$this->assertInstanceOf(DisplayControllerGet::class, (new WebApplicationServiceProvider)->getDisplayControllerGetService($mockContainer));
 	}
 
 	/**
@@ -206,7 +206,7 @@ class ApplicationServiceProviderTest extends TestCase
 			->with(Input::class)
 			->willReturn($this->createMock(Input::class));
 
-		$this->assertInstanceOf(AppCommands\HelpCommand::class, (new ApplicationServiceProvider)->getHelpCommandService($mockContainer));
+		$this->assertInstanceOf(AppCommands\HelpCommand::class, (new WebApplicationServiceProvider)->getHelpCommandService($mockContainer));
 	}
 
 	/**
@@ -216,7 +216,7 @@ class ApplicationServiceProviderTest extends TestCase
 	 */
 	public function testTheInputClassServiceIsCreated(): void
 	{
-		$this->assertInstanceOf(Input::class, (new ApplicationServiceProvider)->getInputService($this->createMock(Container::class)));
+		$this->assertInstanceOf(Input::class, (new WebApplicationServiceProvider)->getInputService($this->createMock(Container::class)));
 	}
 
 	/**
@@ -242,7 +242,7 @@ class ApplicationServiceProviderTest extends TestCase
 			->with(Input::class)
 			->willReturn($this->createMock(Input::class));
 
-		$this->assertInstanceOf(AppCommands\InstallCommand::class, (new ApplicationServiceProvider)->getInstallCommandService($mockContainer));
+		$this->assertInstanceOf(AppCommands\InstallCommand::class, (new WebApplicationServiceProvider)->getInstallCommandService($mockContainer));
 	}
 
 	/**
@@ -254,7 +254,7 @@ class ApplicationServiceProviderTest extends TestCase
 	{
 		$mockContainer = $this->createMock(Container::class);
 
-		$this->assertInstanceOf(Router::class, (new ApplicationServiceProvider)->getRouterService($mockContainer));
+		$this->assertInstanceOf(Router::class, (new WebApplicationServiceProvider)->getRouterService($mockContainer));
 	}
 
 	/**
@@ -280,7 +280,7 @@ class ApplicationServiceProviderTest extends TestCase
 			->with(Input::class)
 			->willReturn($this->createMock(Input::class));
 
-		$this->assertInstanceOf(AppCommands\SnapshotCommand::class, (new ApplicationServiceProvider)->getSnapshotCommandService($mockContainer));
+		$this->assertInstanceOf(AppCommands\SnapshotCommand::class, (new WebApplicationServiceProvider)->getSnapshotCommandService($mockContainer));
 	}
 
 	/**
@@ -296,7 +296,7 @@ class ApplicationServiceProviderTest extends TestCase
 			->with(StatsModel::class)
 			->willReturn($this->createMock(StatsModel::class));
 
-		$this->assertInstanceOf(StatsJsonView::class, (new ApplicationServiceProvider)->getStatsJsonViewService($mockContainer));
+		$this->assertInstanceOf(StatsJsonView::class, (new WebApplicationServiceProvider)->getStatsJsonViewService($mockContainer));
 	}
 
 	/**
@@ -312,7 +312,7 @@ class ApplicationServiceProviderTest extends TestCase
 			->with(DatabaseDriver::class)
 			->willReturn($this->createMock(DatabaseDriver::class));
 
-		$this->assertInstanceOf(StatsModel::class, (new ApplicationServiceProvider)->getStatsModelService($mockContainer));
+		$this->assertInstanceOf(StatsModel::class, (new WebApplicationServiceProvider)->getStatsModelService($mockContainer));
 	}
 
 	/**
@@ -338,7 +338,7 @@ class ApplicationServiceProviderTest extends TestCase
 			->with(Input::class)
 			->willReturn($this->createMock(Input::class));
 
-		$this->assertInstanceOf(AppCommands\Tags\JoomlaCommand::class, (new ApplicationServiceProvider)->getTagsJoomlaCommandService($mockContainer));
+		$this->assertInstanceOf(AppCommands\Tags\JoomlaCommand::class, (new WebApplicationServiceProvider)->getTagsJoomlaCommandService($mockContainer));
 	}
 
 	/**
@@ -364,7 +364,7 @@ class ApplicationServiceProviderTest extends TestCase
 			->with(Input::class)
 			->willReturn($this->createMock(Input::class));
 
-		$this->assertInstanceOf(AppCommands\Tags\PhpCommand::class, (new ApplicationServiceProvider)->getTagsPhpCommandService($mockContainer));
+		$this->assertInstanceOf(AppCommands\Tags\PhpCommand::class, (new WebApplicationServiceProvider)->getTagsPhpCommandService($mockContainer));
 	}
 
 	/**
@@ -385,7 +385,7 @@ class ApplicationServiceProviderTest extends TestCase
 			->with(Input::class)
 			->willReturn($this->createMock(Input::class));
 
-		$this->assertInstanceOf(AppCommands\UpdateCommand::class, (new ApplicationServiceProvider)->getUpdateCommandService($mockContainer));
+		$this->assertInstanceOf(AppCommands\UpdateCommand::class, (new WebApplicationServiceProvider)->getUpdateCommandService($mockContainer));
 	}
 
 	/**
@@ -448,6 +448,6 @@ class ApplicationServiceProviderTest extends TestCase
 			->with(LoggerInterface::class)
 			->willReturn($this->createMock(LoggerInterface::class));
 
-		$this->assertInstanceOf(WebApplication::class, (new ApplicationServiceProvider)->getWebApplicationService($mockContainer));
+		$this->assertInstanceOf(WebApplication::class, (new WebApplicationServiceProvider)->getWebApplicationService($mockContainer));
 	}
 }

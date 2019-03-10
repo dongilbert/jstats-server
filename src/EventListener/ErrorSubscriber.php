@@ -10,6 +10,8 @@ namespace Joomla\StatsServer\EventListener;
 
 use Joomla\Application\ApplicationEvents;
 use Joomla\Application\Event\ApplicationErrorEvent;
+use Joomla\Console\ConsoleEvents;
+use Joomla\Console\Event\ApplicationErrorEvent as ConsoleApplicationErrorEvent;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Router\Exception\MethodNotAllowedException;
 use Joomla\Router\Exception\RouteNotFoundException;
@@ -32,8 +34,24 @@ class ErrorSubscriber implements SubscriberInterface, LoggerAwareInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			ApplicationEvents::ERROR => 'handleWebError',
+			ApplicationEvents::ERROR         => 'handleWebError',
+			ConsoleEvents::APPLICATION_ERROR => 'handleConsoleError',
 		];
+	}
+
+	/**
+	 * Handle console application errors.
+	 *
+	 * @param   ConsoleApplicationErrorEvent  $event  Event object
+	 *
+	 * @return  void
+	 */
+	public function handleConsoleError(ConsoleApplicationErrorEvent $event): void
+	{
+		$this->logger->error(
+			sprintf('Uncaught Throwable of type %s caught.', \get_class($event->getError())),
+			['exception' => $event->getError()]
+		);
 	}
 
 	/**
@@ -75,8 +93,8 @@ class ErrorSubscriber implements SubscriberInterface, LoggerAwareInterface
 
 			default:
 				$this->logger->error(
-					sprintf('Uncaught Throwable of type %s caught.', \get_class($throwable)),
-					['exception' => $throwable]
+					sprintf('Uncaught Throwable of type %s caught.', \get_class($event->getError())),
+					['exception' => $event->getError()]
 				);
 
 				$this->prepareResponse($event);

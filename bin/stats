@@ -9,41 +9,38 @@
 
 require dirname(__DIR__) . '/boot.php';
 
-use Joomla\Application\{
-	AbstractApplication, AbstractCliApplication
-};
+use Joomla\Application\AbstractApplication;
+use Joomla\Application\AbstractCliApplication;
+use Joomla\Console\Application;
 use Joomla\Database\Service\DatabaseProvider;
 use Joomla\DI\Container;
-use Joomla\Input\{
-    Cli, Input
-};
-use Joomla\StatsServer\CliApplication;
-use Joomla\StatsServer\Providers\{
-	ApplicationServiceProvider, ConfigServiceProvider, DatabaseServiceProvider, EventServiceProvider, GitHubServiceProvider, MonologServiceProvider
-};
-use Monolog\{
-	ErrorHandler, Logger
-};
+use Joomla\StatsServer\Providers\ConfigServiceProvider;
+use Joomla\StatsServer\Providers\ConsoleServiceProvider;
+use Joomla\StatsServer\Providers\DatabaseServiceProvider;
+use Joomla\StatsServer\Providers\EventServiceProvider;
+use Joomla\StatsServer\Providers\GitHubServiceProvider;
+use Joomla\StatsServer\Providers\MonologServiceProvider;
+use Joomla\StatsServer\Providers\WebApplicationServiceProvider;
+use Monolog\ErrorHandler;
+use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
 $container = (new Container)
-	->registerServiceProvider(new ApplicationServiceProvider)
 	->registerServiceProvider(new ConfigServiceProvider(APPROOT . '/etc/config.json'))
+	->registerServiceProvider(new ConsoleServiceProvider)
 	->registerServiceProvider(new DatabaseProvider)
 	->registerServiceProvider(new DatabaseServiceProvider)
 	->registerServiceProvider(new EventServiceProvider)
 	->registerServiceProvider(new GitHubServiceProvider)
-	->registerServiceProvider(new MonologServiceProvider);
+	->registerServiceProvider(new MonologServiceProvider)
+	->registerServiceProvider(new WebApplicationServiceProvider);
 
 // Alias the CLI application to Joomla's base application class as this is the primary application for the environment
-$container->alias(AbstractApplication::class, AbstractCliApplication::class);
+$container->alias(AbstractApplication::class, Application::class);
 
 // Alias the `monolog.logger.cli` service to the Monolog Logger class and PSR-3 interface as this is the primary logger for the environment
 $container->alias(Logger::class, 'monolog.logger.cli')
 	->alias(LoggerInterface::class, 'monolog.logger.cli');
-
-// Alias the Joomla\Input\Input service to the CLI input class (overloads the original definition)
-$container->alias(Input::class, Cli::class);
 
 // Register deprecation logging via Monolog
 ErrorHandler::register($container->get(Logger::class), [E_DEPRECATED, E_USER_DEPRECATED], false, false);
@@ -55,7 +52,7 @@ ini_set('display_errors', true);
 // Execute the application
 try
 {
-	$container->get(CliApplication::class)->execute();
+	$container->get(AbstractApplication::class)->execute();
 }
 catch (\Throwable $e)
 {
