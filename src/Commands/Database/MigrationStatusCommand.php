@@ -61,13 +61,13 @@ class MigrationStatusCommand extends AbstractCommand
 
 		$status = $this->migrations->checkStatus();
 
-		if ($status['latest'])
+		if ($status->latest)
 		{
-			$symfonyStyle->success('Your database is up-to-date');
+			$symfonyStyle->success('Your database is up-to-date.');
 		}
 		else
 		{
-			$symfonyStyle->comment(sprintf('Your database is not up-to-date. You are missing %d migrations.', $status['missingMigrations']));
+			$symfonyStyle->comment(sprintf('Your database is not up-to-date. You are missing %d migration(s).', $status->missingMigrations));
 
 			$symfonyStyle->table(
 				[
@@ -76,8 +76,8 @@ class MigrationStatusCommand extends AbstractCommand
 				],
 				[
 					[
-						$status['currentVersion'],
-						$status['latestVersion'],
+						$status->currentVersion,
+						$status->latestVersion,
 					],
 				]
 			);

@@ -46,11 +46,11 @@ class Migrations
 	/**
 	 * Checks the migration status of the current installation
 	 *
-	 * @return  array
+	 * @return  MigrationsStatus
 	 */
-	public function checkStatus(): array
+	public function checkStatus(): MigrationsStatus
 	{
-		$response = ['latest' => false];
+		$response = new MigrationsStatus;
 
 		// First get the list of applied migrations
 		$appliedMigrations = $this->database->setQuery(
@@ -82,25 +82,18 @@ class Migrations
 			// Versions match, good to go
 			if ($latestApplied === $latestKnown)
 			{
-				$response['latest'] = true;
+				$response->latest = true;
 
 				return $response;
 			}
 		}
 
 		// The system is not on the latest version, get the relevant data
-		$countMissing   = \count($knownMigrations) - \count($appliedMigrations);
-		$currentVersion = array_pop($appliedMigrations);
-		$latestVersion  = array_pop($knownMigrations);
+		$response->missingMigrations = \count($knownMigrations) - \count($appliedMigrations);
+		$response->currentVersion    = array_pop($appliedMigrations);
+		$response->latestVersion     = array_pop($knownMigrations);
 
-		return array_merge(
-			$response,
-			[
-				'missingMigrations' => $countMissing,
-				'currentVersion'    => $currentVersion,
-				'latestVersion'     => $latestVersion,
-			]
-		);
+		return $response;
 	}
 
 	/**
