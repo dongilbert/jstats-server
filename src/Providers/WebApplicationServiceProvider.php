@@ -22,7 +22,7 @@ use Joomla\Input\Input;
 use Joomla\Router\Router;
 use Joomla\StatsServer\Controllers\DisplayControllerGet;
 use Joomla\StatsServer\Controllers\SubmitControllerCreate;
-use Joomla\StatsServer\Models\StatsModel;
+use Joomla\StatsServer\Repositories\StatisticsRepository;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use Psr\Log\LoggerInterface;
 use Zend\Diactoros\Response\JsonResponse;
@@ -63,9 +63,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 		// Controllers
 		$container->share(DisplayControllerGet::class, [$this, 'getDisplayControllerGetService'], true);
 		$container->share(SubmitControllerCreate::class, [$this, 'getSubmitControllerCreateService'], true);
-
-		// Models
-		$container->share(StatsModel::class, [$this, 'getStatsModelService'], true);
 
 		// Views
 		$container->share(StatsJsonView::class, [$this, 'getStatsJsonViewService'], true);
@@ -151,7 +148,7 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 			'/:source',
 			DisplayControllerGet::class,
 			[
-				'source' => '(' . implode('|', StatsModel::ALLOWED_SOURCES) . ')',
+				'source' => '(' . implode('|', StatisticsRepository::ALLOWED_SOURCES) . ')',
 			]
 		);
 
@@ -168,21 +165,7 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 	public function getStatsJsonViewService(Container $container): StatsJsonView
 	{
 		return new StatsJsonView(
-			$container->get(StatsModel::class)
-		);
-	}
-
-	/**
-	 * Get the StatsModel class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  StatsModel
-	 */
-	public function getStatsModelService(Container $container): StatsModel
-	{
-		return new StatsModel(
-			$container->get(DatabaseDriver::class)
+			$container->get(StatisticsRepository::class)
 		);
 	}
 
@@ -196,7 +179,7 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 	public function getSubmitControllerCreateService(Container $container): SubmitControllerCreate
 	{
 		$controller = new SubmitControllerCreate(
-			$container->get(StatsModel::class)
+			$container->get(StatisticsRepository::class)
 		);
 
 		$controller->setApplication($container->get(AbstractApplication::class));

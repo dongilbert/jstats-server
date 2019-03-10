@@ -6,20 +6,16 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
  */
 
-namespace Joomla\StatsServer\Models;
+namespace Joomla\StatsServer\Repositories;
 
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
-use Joomla\Model\DatabaseModelInterface;
-use Joomla\Model\DatabaseModelTrait;
 
 /**
- * Statistics database model
+ * Statistics repository
  */
-class StatsModel implements DatabaseModelInterface
+class StatisticsRepository
 {
-	use DatabaseModelTrait;
-
 	/**
 	 * Array containing the allowed sources
 	 *
@@ -28,13 +24,21 @@ class StatsModel implements DatabaseModelInterface
 	public const ALLOWED_SOURCES = ['php_version', 'db_type', 'db_version', 'cms_version', 'server_os'];
 
 	/**
-	 * Instantiate the model.
+	 * The database driver.
 	 *
-	 * @param   DatabaseDriver  $db  The database driver.
+	 * @var    DatabaseInterface
+	 * @since  1.3.0
 	 */
-	public function __construct(DatabaseDriver $db)
+	private $db;
+
+	/**
+	 * Instantiate the repository.
+	 *
+	 * @param   DatabaseInterface  $db  The database driver.
+	 */
+	public function __construct(DatabaseInterface $db)
 	{
-		$this->setDb($db);
+		$this->db = $db;
 	}
 
 	/**
@@ -48,8 +52,6 @@ class StatsModel implements DatabaseModelInterface
 	 */
 	public function getItems(string $column = ''): array
 	{
-		$db = $this->getDb();
-
 		// Validate the requested column is actually in the table
 		if ($column !== '')
 		{
@@ -59,16 +61,16 @@ class StatsModel implements DatabaseModelInterface
 				throw new \InvalidArgumentException('An invalid data source was requested.', 404);
 			}
 
-			return $db->setQuery(
-				$db->getQuery(true)
+			return $this->db->setQuery(
+				$this->db->getQuery(true)
 					->select('*')
-					->from($db->quoteName('#__jstats_counter_' . $column))
+					->from($this->db->quoteName('#__jstats_counter_' . $column))
 			)->loadAssocList();
 		}
 
 		$return = [];
 
-		foreach (array_keys($db->getTableColumns('#__jstats')) as $column)
+		foreach (array_keys($this->db->getTableColumns('#__jstats')) as $column)
 		{
 			// The column should exist in the table and be part of the API
 			if (\in_array($column, ['unique_id', 'modified']))
@@ -76,10 +78,10 @@ class StatsModel implements DatabaseModelInterface
 				continue;
 			}
 
-			$return[$column] = $db->setQuery(
-				$db->getQuery(true)
+			$return[$column] = $this->db->setQuery(
+				$this->db->getQuery(true)
 					->select('*')
-					->from($db->quoteName('#__jstats_counter_' . $column))
+					->from($this->db->quoteName('#__jstats_counter_' . $column))
 			)->loadAssocList();
 		}
 
@@ -95,17 +97,15 @@ class StatsModel implements DatabaseModelInterface
 	 */
 	public function getRecentlyUpdatedItems(): array
 	{
-		$db = $this->getDb();
-
 		$return = [];
 
 		foreach (self::ALLOWED_SOURCES as $column)
 		{
-			$return[$column] = $db->setQuery(
-				$db->getQuery(true)
+			$return[$column] = $this->db->setQuery(
+				$this->db->getQuery(true)
 					->select($column)
 					->select('COUNT(' . $column . ') AS count')
-					->from($db->quoteName('#__jstats'))
+					->from($this->db->quoteName('#__jstats'))
 					->where('modified BETWEEN DATE_SUB(NOW(), INTERVAL 90 DAY) AND NOW()')
 					->group($column)
 			)->loadAssocList();
@@ -123,14 +123,12 @@ class StatsModel implements DatabaseModelInterface
 	 */
 	public function save(\stdClass $data): void
 	{
-		$db = $this->getDb();
-
 		// Set the modified date of the record
-		$data->modified = (new \DateTime('now', new \DateTimeZone('UTC')))->format($db->getDateFormat());
+		$data->modified = (new \DateTime('now', new \DateTimeZone('UTC')))->format($this->db->getDateFormat());
 
 		// Check if a row exists for this unique ID and update the existing record if so
-		$recordExists = $db->setQuery(
-			$db->getQuery(true)
+		$recordExists = $this->db->setQuery(
+			$this->db->getQuery(true)
 				->select('unique_id')
 				->from('#__jstats')
 				->where('unique_id = :unique_id')
@@ -139,11 +137,11 @@ class StatsModel implements DatabaseModelInterface
 
 		if ($recordExists)
 		{
-			$db->updateObject('#__jstats', $data, ['unique_id']);
+			$this->db->updateObject('#__jstats', $data, ['unique_id']);
 		}
 		else
 		{
-			$db->insertObject('#__jstats', $data, ['unique_id']);
+			$this->db->insertObject('#__jstats', $data, ['unique_id']);
 		}
 	}
 }

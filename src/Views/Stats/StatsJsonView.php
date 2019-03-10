@@ -8,7 +8,7 @@
 
 namespace Joomla\StatsServer\Views\Stats;
 
-use Joomla\StatsServer\Models\StatsModel;
+use Joomla\StatsServer\Repositories\StatisticsRepository;
 use Joomla\View\BaseJsonView;
 
 /**
@@ -38,6 +38,13 @@ class StatsJsonView extends BaseJsonView
 	private $recent = false;
 
 	/**
+	 * Statistics repository.
+	 *
+	 * @var  StatisticsRepository
+	 */
+	private $repository;
+
+	/**
 	 * The data source to return.
 	 *
 	 * @var  string
@@ -54,11 +61,11 @@ class StatsJsonView extends BaseJsonView
 	/**
 	 * Instantiate the view.
 	 *
-	 * @param   StatsModel  $model  The model object.
+	 * @param   StatisticsRepository  $repository  Statistics repository.
 	 */
-	public function __construct(StatsModel $model)
+	public function __construct(StatisticsRepository $repository)
 	{
-		$this->model = $model;
+		$this->repository = $repository;
 	}
 
 	/**
@@ -94,15 +101,12 @@ class StatsJsonView extends BaseJsonView
 	{
 		if ($this->recent)
 		{
-			$items = $this->model->getRecentlyUpdatedItems();
+			$items = $this->repository->getRecentlyUpdatedItems();
 		}
 		else
 		{
-			$items = $this->model->getItems($this->source);
+			$items = $this->repository->getItems($this->source);
 		}
-
-		// Null out the model now to free some memory
-		$this->model = null;
 
 		if ($this->source)
 		{

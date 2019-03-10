@@ -21,6 +21,7 @@ use Joomla\StatsServer\Providers\EventServiceProvider;
 use Joomla\StatsServer\Providers\FlysystemServiceProvider;
 use Joomla\StatsServer\Providers\GitHubServiceProvider;
 use Joomla\StatsServer\Providers\MonologServiceProvider;
+use Joomla\StatsServer\Providers\RepositoryServiceProvider;
 use Joomla\StatsServer\Providers\WebApplicationServiceProvider;
 use Monolog\ErrorHandler;
 use Monolog\Logger;
@@ -96,6 +97,7 @@ abstract class Kernel implements ContainerAwareInterface
 			->registerServiceProvider(new FlysystemServiceProvider)
 			->registerServiceProvider(new GitHubServiceProvider)
 			->registerServiceProvider(new MonologServiceProvider)
+			->registerServiceProvider(new RepositoryServiceProvider)
 			->registerServiceProvider(new WebApplicationServiceProvider);
 
 		return $container;

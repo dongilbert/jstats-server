@@ -17,7 +17,6 @@
         "joomla/di": "~2.0@dev",
         "joomla/github": "~2.0@dev",
         "joomla/input": "~2.0@dev",
-        "joomla/model": "~2.0@dev",
         "joomla/registry": "~2.0@dev",
         "joomla/router": "~2.0@dev",
         "joomla/string": "~2.0@dev",

@@ -11,7 +11,7 @@ namespace Joomla\StatsServer\Tests\Controllers;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Input\Input;
 use Joomla\StatsServer\Controllers\SubmitControllerCreate;
-use Joomla\StatsServer\Models\StatsModel;
+use Joomla\StatsServer\Repositories\StatisticsRepository;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -29,7 +29,7 @@ class SubmitControllerCreateTest extends TestCase
 	{
 		$this->markTestSkipped('Refactor as an integration test');
 
-		$mockModel = $this->getMockBuilder(StatsModel::class)
+		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -51,7 +51,7 @@ class SubmitControllerCreateTest extends TestCase
 	{
 		$this->markTestSkipped('Refactor as an integration test');
 
-		$mockModel = $this->getMockBuilder(StatsModel::class)
+		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -95,7 +95,7 @@ class SubmitControllerCreateTest extends TestCase
 	{
 		$this->markTestSkipped('Refactor as an integration test');
 
-		$mockModel = $this->getMockBuilder(StatsModel::class)
+		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -139,7 +139,7 @@ class SubmitControllerCreateTest extends TestCase
 	{
 		$this->markTestSkipped('Refactor as an integration test');
 
-		$mockModel = $this->getMockBuilder(StatsModel::class)
+		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -193,7 +193,7 @@ class SubmitControllerCreateTest extends TestCase
 	{
 		$this->markTestSkipped('Refactor as an integration test');
 
-		$mockModel = $this->getMockBuilder(StatsModel::class)
+		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
 			->disableOriginalConstructor()
 			->getMock();
 

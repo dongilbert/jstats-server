@@ -10,7 +10,7 @@ namespace Joomla\StatsServer\Controllers;
 
 use Joomla\Controller\AbstractController;
 use Joomla\StatsServer\Decorators\ValidateVersion;
-use Joomla\StatsServer\Models\StatsModel;
+use Joomla\StatsServer\Repositories\StatisticsRepository;
 use Zend\Diactoros\Response\JsonResponse;
 
 /**
@@ -24,11 +24,11 @@ class SubmitControllerCreate extends AbstractController
 	use ValidateVersion;
 
 	/**
-	 * Statistics model object.
+	 * Statistics repository.
 	 *
-	 * @var  StatsModel
+	 * @var  StatisticsRepository
 	 */
-	private $model;
+	private $repository;
 
 	/**
 	 * Allowed Database Types.
@@ -48,11 +48,11 @@ class SubmitControllerCreate extends AbstractController
 	/**
 	 * Constructor.
 	 *
-	 * @param   StatsModel  $model  Statistics model object.
+	 * @param   StatisticsRepository  $repository  Statistics repository.
 	 */
-	public function __construct(StatsModel $model)
+	public function __construct(StatisticsRepository $repository)
 	{
-		$this->model = $model;
+		$this->repository = $repository;
 	}
 
 	/**
@@ -133,7 +133,7 @@ class SubmitControllerCreate extends AbstractController
 			}
 		}
 
-		$this->model->save((object) $data);
+		$this->repository->save((object) $data);
 
 		/** @var JsonResponse $response */
 		$response = $this->getApplication()->getResponse();

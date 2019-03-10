@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1460251b53a98e3bdeabec3ebdc4810",
+    "content-hash": "c4e3c95202d72df20f60173b028b1b91",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -765,57 +765,6 @@
                 "joomla"
             ],
             "time": "2018-10-03T01:21:19+00:00"
-        },
-        {
-            "name": "joomla/model",
-            "version": "dev-2.0-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla-framework/model.git",
-                "reference": "0c50c75cef5fbaa007f92424bba81f5d7a94eaef"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/model/zipball/0c50c75cef5fbaa007f92424bba81f5d7a94eaef",
-                "reference": "0c50c75cef5fbaa007f92424bba81f5d7a94eaef",
-                "shasum": ""
-            },
-            "require": {
-                "php": "~7.0"
-            },
-            "require-dev": {
-                "joomla/coding-standards": "~2.0@alpha",
-                "joomla/database": "~1.0|~2.0",
-                "joomla/registry": "^1.4.5|~2.0",
-                "phpunit/phpunit": "~6.3"
-            },
-            "suggest": {
-                "joomla/database": "Allows using database models",
-                "joomla/registry": "Allows using stateful models"
-            },
-            "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Joomla\\Model\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "description": "Joomla Model Package",
-            "homepage": "https://github.com/joomla-framework/model",
-            "keywords": [
-                "framework",
-                "joomla",
-                "model"
-            ],
-            "time": "2018-07-14T21:34:16+00:00"
         },
         {
             "name": "joomla/registry",
@@ -4207,7 +4156,6 @@
         "joomla/di": 20,
         "joomla/github": 20,
         "joomla/input": 20,
-        "joomla/model": 20,
         "joomla/registry": 20,
         "joomla/router": 20,
         "joomla/string": 20,

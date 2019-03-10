@@ -9,7 +9,7 @@
 namespace Joomla\StatsServer\Commands;
 
 use Joomla\Console\Command\AbstractCommand;
-use Joomla\StatsServer\Models\StatsModel;
+use Joomla\StatsServer\Repositories\StatisticsRepository;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use League\Flysystem\Filesystem;
 use Symfony\Component\Console\Exception\InvalidOptionException;
@@ -82,13 +82,13 @@ class SnapshotRecentlyUpdatedCommand extends AbstractCommand
 
 		if ($source)
 		{
-			if (!\in_array($source, StatsModel::ALLOWED_SOURCES))
+			if (!\in_array($source, StatisticsRepository::ALLOWED_SOURCES))
 			{
 				throw new InvalidOptionException(
 					\sprintf(
 						'Invalid source "%s" given, valid options are: %s',
 						$source,
-						implode(', ', StatsModel::ALLOWED_SOURCES)
+						implode(', ', StatisticsRepository::ALLOWED_SOURCES)
 					)
 				);
 			}

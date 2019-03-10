@@ -23,8 +23,8 @@ use Joomla\StatsServer\Console;
 use Joomla\StatsServer\Controllers\DisplayControllerGet;
 use Joomla\StatsServer\Database\Migrations;
 use Joomla\StatsServer\GitHub\GitHub;
-use Joomla\StatsServer\Models\StatsModel;
 use Joomla\StatsServer\Providers\WebApplicationServiceProvider;
+use Joomla\StatsServer\Repositories\StatisticsRepository;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -293,8 +293,8 @@ class ApplicationServiceProviderTest extends TestCase
 		$mockContainer = $this->createMock(Container::class);
 		$mockContainer->expects($this->at(0))
 			->method('get')
-			->with(StatsModel::class)
-			->willReturn($this->createMock(StatsModel::class));
+			->with(StatisticsRepository::class)
+			->willReturn($this->createMock(StatisticsRepository::class));
 
 		$this->assertInstanceOf(StatsJsonView::class, (new WebApplicationServiceProvider)->getStatsJsonViewService($mockContainer));
 	}
@@ -312,7 +312,7 @@ class ApplicationServiceProviderTest extends TestCase
 			->with(DatabaseDriver::class)
 			->willReturn($this->createMock(DatabaseDriver::class));
 
-		$this->assertInstanceOf(StatsModel::class, (new WebApplicationServiceProvider)->getStatsModelService($mockContainer));
+		$this->assertInstanceOf(StatisticsRepository::class, (new WebApplicationServiceProvider)->getStatsModelService($mockContainer));
 	}
 
 	/**

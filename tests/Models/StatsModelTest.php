@@ -10,11 +10,11 @@ namespace Joomla\StatsServer\Tests\Models;
 
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseQuery;
-use Joomla\StatsServer\Models\StatsModel;
+use Joomla\StatsServer\Repositories\StatisticsRepository;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Test class for \Joomla\StatsServer\Models\StatsModel
+ * Test class for \Joomla\StatsServer\Repositories\StatsModel
  */
 class StatsModelTest extends TestCase
 {
@@ -56,7 +56,7 @@ class StatsModelTest extends TestCase
 			);
 
 		$this->assertSame(
-			(new StatsModel($mockDatabase))->getItems(),
+			(new StatisticsRepository($mockDatabase))->getItems(),
 			[
 				'php_version' => [
 					['unique_id' => '1a'],
@@ -124,7 +124,7 @@ class StatsModelTest extends TestCase
 			->method('loadAssocList')
 			->willReturn($return);
 
-		$this->assertSame((new StatsModel($mockDatabase))->getItems('php_version'), $return);
+		$this->assertSame((new StatisticsRepository($mockDatabase))->getItems('php_version'), $return);
 	}
 
 	/**
@@ -167,7 +167,7 @@ class StatsModelTest extends TestCase
 		$mockDatabase->expects($this->never())
 			->method('loadAssocList');
 
-		(new StatsModel($mockDatabase))->getItems('bad_column');
+		(new StatisticsRepository($mockDatabase))->getItems('bad_column');
 	}
 
 	/**
@@ -202,7 +202,7 @@ class StatsModelTest extends TestCase
 		$mockDatabase->expects($this->never())
 			->method('updateObject');
 
-		(new StatsModel($mockDatabase))->save((object) ['unique_id' => '1a', 'php_version' => PHP_VERSION]);
+		(new StatisticsRepository($mockDatabase))->save((object) ['unique_id' => '1a', 'php_version' => PHP_VERSION]);
 	}
 
 	/**
@@ -237,6 +237,6 @@ class StatsModelTest extends TestCase
 		$mockDatabase->expects($this->once())
 			->method('updateObject');
 
-		(new StatsModel($mockDatabase))->save((object) ['unique_id' => '1a', 'php_version' => PHP_VERSION]);
+		(new StatisticsRepository($mockDatabase))->save((object) ['unique_id' => '1a', 'php_version' => PHP_VERSION]);
 	}
 }

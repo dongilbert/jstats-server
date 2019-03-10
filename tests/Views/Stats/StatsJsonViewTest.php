@@ -8,7 +8,7 @@
 
 namespace Joomla\StatsServer\Tests\Views\Stats;
 
-use Joomla\StatsServer\Models\StatsModel;
+use Joomla\StatsServer\Repositories\StatisticsRepository;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use PHPUnit\Framework\TestCase;
 
@@ -24,7 +24,7 @@ class StatsJsonViewTest extends TestCase
 	 */
 	public function testTheAuthorizedRawFlagIsSetToTheView(): void
 	{
-		$mockModel = $this->getMockBuilder(StatsModel::class)
+		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -45,7 +45,7 @@ class StatsJsonViewTest extends TestCase
 	 */
 	public function testTheStatisticsDataIsReturned(): void
 	{
-		$mockModel = $this->getMockBuilder(StatsModel::class)
+		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -132,7 +132,7 @@ class StatsJsonViewTest extends TestCase
 	 */
 	public function testTheRawStatisticsDataIsReturned(): void
 	{
-		$mockModel = $this->getMockBuilder(StatsModel::class)
+		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -266,7 +266,7 @@ class StatsJsonViewTest extends TestCase
 	 */
 	public function testTheStatisticsDataForASingleSourceIsReturned(): void
 	{
-		$mockModel = $this->getMockBuilder(StatsModel::class)
+		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -306,7 +306,7 @@ class StatsJsonViewTest extends TestCase
 	 */
 	public function testTheStatisticsDataForTheServerOsSourceIsReturned(): void
 	{
-		$mockModel = $this->getMockBuilder(StatsModel::class)
+		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -345,7 +345,7 @@ class StatsJsonViewTest extends TestCase
 	 */
 	public function testTheDataSourceIsSetToTheView(): void
 	{
-		$mockModel = $this->getMockBuilder(StatsModel::class)
+		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
 			->disableOriginalConstructor()
 			->getMock();
 
