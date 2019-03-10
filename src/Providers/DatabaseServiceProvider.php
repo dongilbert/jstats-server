@@ -13,8 +13,6 @@ use Joomla\Database\Monitor\LoggingMonitor;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\StatsServer\Database\Migrations;
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
 
 /**
  * Database service provider
@@ -65,7 +63,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	{
 		return new Migrations(
 			$container->get(DatabaseDriver::class),
-			new Filesystem(new Local(APPROOT . '/etc'))
+			$container->get('filesystem.etc')
 		);
 	}
 

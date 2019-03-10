@@ -15,6 +15,7 @@ use Joomla\StatsServer\Providers\ConfigServiceProvider;
 use Joomla\StatsServer\Providers\ConsoleServiceProvider;
 use Joomla\StatsServer\Providers\DatabaseServiceProvider;
 use Joomla\StatsServer\Providers\EventServiceProvider;
+use Joomla\StatsServer\Providers\FlysystemServiceProvider;
 use Joomla\StatsServer\Providers\GitHubServiceProvider;
 use Joomla\StatsServer\Providers\MonologServiceProvider;
 use Joomla\StatsServer\Providers\WebApplicationServiceProvider;
@@ -28,6 +29,7 @@ $container = (new Container)
 	->registerServiceProvider(new DatabaseProvider)
 	->registerServiceProvider(new DatabaseServiceProvider)
 	->registerServiceProvider(new EventServiceProvider)
+	->registerServiceProvider(new FlysystemServiceProvider)
 	->registerServiceProvider(new GitHubServiceProvider)
 	->registerServiceProvider(new MonologServiceProvider)
 	->registerServiceProvider(new WebApplicationServiceProvider);
