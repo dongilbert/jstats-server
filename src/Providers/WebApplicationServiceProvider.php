@@ -78,8 +78,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 		 * Console Commands
 		 */
 
-		$container->share(AppCommands\HelpCommand::class, [$this, 'getHelpCommandService'], true);
-		$container->share(AppCommands\InstallCommand::class, [$this, 'getInstallCommandService'], true);
 		$container->share(AppCommands\Database\MigrateCommand::class, [$this, 'getDatabaseMigrateCommandService'], true);
 		$container->share(AppCommands\Database\StatusCommand::class, [$this, 'getDatabaseStatusCommandService'], true);
 		$container->share(AppCommands\Snapshot\RecentCommand::class, [$this, 'getSnapshotRecentCommandService'], true);
@@ -220,23 +218,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 	}
 
 	/**
-	 * Get the HelpCommand class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  AppCommands\HelpCommand
-	 */
-	public function getHelpCommandService(Container $container): AppCommands\HelpCommand
-	{
-		$command = new AppCommands\HelpCommand;
-
-		$command->setApplication($container->get(AbstractApplication::class));
-		$command->setInput($container->get(Input::class));
-
-		return $command;
-	}
-
-	/**
 	 * Get the Input\Cli class service
 	 *
 	 * @param   Container  $container  The DI container.
@@ -258,23 +239,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 	public function getInputService(Container $container): Input
 	{
 		return new Input($_REQUEST);
-	}
-
-	/**
-	 * Get the InstallCommand class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  AppCommands\InstallCommand
-	 */
-	public function getInstallCommandService(Container $container): AppCommands\InstallCommand
-	{
-		$command = new AppCommands\InstallCommand($container->get(DatabaseDriver::class));
-
-		$command->setApplication($container->get(AbstractApplication::class));
-		$command->setInput($container->get(Input::class));
-
-		return $command;
 	}
 
 	/**
