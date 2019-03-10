@@ -19,11 +19,8 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Input\Cli;
 use Joomla\Input\Input;
 use Joomla\Router\Router;
-use Joomla\StatsServer\CliApplication;
-use Joomla\StatsServer\Console;
 use Joomla\StatsServer\Controllers\DisplayControllerGet;
 use Joomla\StatsServer\Controllers\SubmitControllerCreate;
 use Joomla\StatsServer\Models\StatsModel;
@@ -46,13 +43,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container): void
 	{
-		/*
-		 * Application Classes
-		 */
-
-		$container->alias(CliApplication::class, AbstractCliApplication::class)
-			->share(AbstractCliApplication::class, [$this, 'getCliApplicationService'], true);
-
 		$container->alias(WebApplication::class, AbstractWebApplication::class)
 			->share(AbstractWebApplication::class, [$this, 'getWebApplicationService'], true);
 
@@ -61,8 +51,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 		 */
 
 		$container->share(Analytics::class, [$this, 'getAnalyticsService'], true);
-		$container->share(Cli::class, [$this, 'getInputCliService'], true);
-		$container->share(Console::class, [$this, 'getConsoleService'], true);
 		$container->share(Input::class, [$this, 'getInputService'], true);
 		$container->share(Router::class, [$this, 'getRouterService'], true);
 
@@ -96,44 +84,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 	public function getAnalyticsService(Container $container): Analytics
 	{
 		return new Analytics(true);
-	}
-
-	/**
-	 * Get the CLI application service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  CliApplication
-	 */
-	public function getCliApplicationService(Container $container): CliApplication
-	{
-		$application = new CliApplication(
-			$container->get(Cli::class),
-			$container->get('config'),
-			$container->get(JoomlaApplication\Cli\CliOutput::class),
-			$container->get(JoomlaApplication\Cli\CliInput::class),
-			$container->get(Console::class)
-		);
-
-		// Inject extra services
-		$application->setLogger($container->get('monolog.logger.cli'));
-
-		return $application;
-	}
-
-	/**
-	 * Get the console service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  Console
-	 */
-	public function getConsoleService(Container $container): Console
-	{
-		$console = new Console;
-		$console->setContainer($container);
-
-		return $console;
 	}
 
 	/**
