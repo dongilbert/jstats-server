@@ -24,7 +24,7 @@
         "joomla/view": "~2.0@dev",
         "league/flysystem": "^1.0.50",
         "monolog/monolog": "^1.24",
-        "psr/log": "~1.0",
+        "psr/log": "^1.1",
         "ramsey/uuid": "^3.8",
         "symfony/process": "4.2.*",
         "theiconic/php-ga-measurement-protocol": "^2.7.1"
@@ -32,6 +32,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.14.2",
         "joomla/coding-standards": "dev-master",
+        "league/flysystem-memory": "^1.0.1",
         "phpunit/phpunit": "^8.0.4"
     },
     "autoload": {

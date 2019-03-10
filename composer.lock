@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c4e3c95202d72df20f60173b028b1b91",
+    "content-hash": "a150f2f3933445f0b6b50d9491e9ce20",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2388,6 +2388,57 @@
                 "phpcs"
             ],
             "time": "2019-02-01T00:21:48+00:00"
+        },
+        {
+            "name": "league/flysystem-memory",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/flysystem-memory.git",
+                "reference": "1cabecd08a8caec92a96a953c0d93b5ce83b07a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-memory/zipball/1cabecd08a8caec92a96a953c0d93b5ce83b07a2",
+                "reference": "1cabecd08a8caec92a96a953c0d93b5ce83b07a2",
+                "shasum": ""
+            },
+            "require": {
+                "league/flysystem": "~1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Flysystem\\Memory\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Leppanen",
+                    "email": "chris.leppanen@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "An in-memory adapter for Flysystem.",
+            "homepage": "https://github.com/thephpleague/flysystem-memory",
+            "keywords": [
+                "Flysystem",
+                "adapter",
+                "memory"
+            ],
+            "time": "2016-06-04T03:57:11+00:00"
         },
         {
             "name": "myclabs/deep-copy",
