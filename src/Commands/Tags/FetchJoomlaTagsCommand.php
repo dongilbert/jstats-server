@@ -10,40 +10,57 @@ namespace Joomla\StatsServer\Commands\Tags;
 
 use Joomla\StatsServer\Decorators\ValidateVersion;
 use Joomla\StatsServer\GitHub\GitHub;
+use League\Flysystem\Filesystem;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Command for processing tags for the Joomla! CMS from GitHub
  */
-class JoomlaCommand extends AbstractTagCommand
+class FetchJoomlaTagsCommand extends AbstractTagCommand
 {
 	use ValidateVersion;
 
 	/**
+	 * The default command name
+	 *
+	 * @var  string|null
+	 */
+	protected static $defaultName = 'tags:joomla';
+
+	/**
 	 * Constructor.
 	 *
-	 * @param   GitHub  $github  GitHub API object
+	 * @param   GitHub      $github      GitHub API object.
+	 * @param   Filesystem  $filesystem  Filesystem adapter for the versions space.
 	 */
-	public function __construct(GitHub $github)
+	public function __construct(GitHub $github, Filesystem $filesystem)
 	{
-		parent::__construct($github);
+		parent::__construct($github, $filesystem);
 
 		$this->repoName  = 'joomla-cms';
 		$this->repoOwner = 'joomla';
 	}
 
 	/**
-	 * Execute the controller.
+	 * Internal function to execute the command.
 	 *
-	 * @return  boolean
+	 * @param   InputInterface   $input   The input to inject into the command.
+	 * @param   OutputInterface  $output  The output to inject into the command.
+	 *
+	 * @return  integer  The command exit code
 	 */
-	public function execute()
+	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$this->getApplication()->outputTitle('Fetching Joomla Releases');
+		$symfonyStyle = new SymfonyStyle($input, $output);
+
+		$symfonyStyle->title('Fetching Joomla Releases');
 
 		$versions    = [];
 		$highVersion = '0.0.0';
 
-		foreach ($this->getTags() as $tag)
+		foreach ($this->getTags($symfonyStyle) as $tag)
 		{
 			$version = $this->validateVersionNumber($tag->name);
 
@@ -95,36 +112,25 @@ class JoomlaCommand extends AbstractTagCommand
 			$versions[] = $explodedVersion[0] . '.' . $nextMinor . '.0';
 		}
 
-		// Store the version data now
-		$path = APPROOT . '/versions/joomla.json';
-
-		if (file_put_contents($path, json_encode($versions)) === false)
+		if (!$this->filesystem->put('joomla.json', json_encode($versions)))
 		{
-			throw new \RuntimeException("Could not write version data to $path");
+			$symfonyStyle->error('Failed writing version data to the filesystem.');
+
+			return 1;
 		}
 
-		$this->getApplication()->out('<info>Joomla! versions successfully pulled.</info>');
+		$symfonyStyle->success('Joomla! versions updated.');
 
-		return true;
+		return 0;
 	}
 
 	/**
-	 * Get the command's description
+	 * Configures the current command.
 	 *
-	 * @return  string
+	 * @return  void
 	 */
-	public function getDescription(): string
+	protected function configure(): void
 	{
-		return 'Parses the release tags for the Joomla! CMS GitHub repository.';
-	}
-
-	/**
-	 * Get the command's title
-	 *
-	 * @return  string
-	 */
-	public function getTitle(): string
-	{
-		return 'Fetch Joomla! Releases';
+		$this->setDescription('Parses the release tags for the Joomla! CMS GitHub repository.');
 	}
 }

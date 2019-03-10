@@ -29,6 +29,7 @@ class FlysystemServiceProvider implements ServiceProviderInterface
 	{
 		$container->share('filesystem.etc', [$this, 'getEtcFilesystemService'], true);
 		$container->share('filesystem.snapshot', [$this, 'getSnapshotFilesystemService'], true);
+		$container->share('filesystem.versions', [$this, 'getVersionsFilesystemService'], true);
 	}
 
 	/**
@@ -53,5 +54,17 @@ class FlysystemServiceProvider implements ServiceProviderInterface
 	public function getSnapshotFilesystemService(Container $container): Filesystem
 	{
 		return new Filesystem(new Local(APPROOT . '/snapshots'));
+	}
+
+	/**
+	 * Get the `filesystem.versions` service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  Filesystem
+	 */
+	public function getVersionsFilesystemService(Container $container): Filesystem
+	{
+		return new Filesystem(new Local(APPROOT . '/versions'));
 	}
 }

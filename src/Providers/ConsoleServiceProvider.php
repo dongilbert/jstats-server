@@ -18,7 +18,10 @@ use Joomla\StatsServer\Commands\Database\MigrateCommand;
 use Joomla\StatsServer\Commands\Database\MigrationStatusCommand;
 use Joomla\StatsServer\Commands\SnapshotCommand;
 use Joomla\StatsServer\Commands\SnapshotRecentlyUpdatedCommand;
+use Joomla\StatsServer\Commands\Tags\FetchJoomlaTagsCommand;
+use Joomla\StatsServer\Commands\Tags\FetchPhpTagsCommand;
 use Joomla\StatsServer\Database\Migrations;
+use Joomla\StatsServer\GitHub\GitHub;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -53,6 +56,8 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 
 		$container->share(MigrateCommand::class, [$this, 'getDatabaseMigrateCommandService'], true);
 		$container->share(MigrationStatusCommand::class, [$this, 'getDatabaseMigrationStatusCommandService'], true);
+		$container->share(FetchJoomlaTagsCommand::class, [$this, 'getFetchJoomlaTagsCommandService'], true);
+		$container->share(FetchPhpTagsCommand::class, [$this, 'getFetchPhpTagsCommandService'], true);
 		$container->share(SnapshotCommand::class, [$this, 'getSnapshotCommandService'], true);
 		$container->share(SnapshotRecentlyUpdatedCommand::class, [$this, 'getSnapshotRecentlyUpdatedCommandService'], true);
 	}
@@ -69,6 +74,8 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 		$mapping = [
 			MigrationStatusCommand::getDefaultName()         => MigrationStatusCommand::class,
 			MigrateCommand::getDefaultName()                 => MigrateCommand::class,
+			FetchJoomlaTagsCommand::getDefaultName()         => FetchJoomlaTagsCommand::class,
+			FetchPhpTagsCommand::getDefaultName()            => FetchPhpTagsCommand::class,
 			SnapshotCommand::getDefaultName()                => SnapshotCommand::class,
 			SnapshotRecentlyUpdatedCommand::getDefaultName() => SnapshotRecentlyUpdatedCommand::class,
 		];
@@ -120,6 +127,30 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 	public function getDatabaseMigrationStatusCommandService(Container $container): MigrationStatusCommand
 	{
 		return new MigrationStatusCommand($container->get(Migrations::class));
+	}
+
+	/**
+	 * Get the FetchJoomlaTagsCommand service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  FetchJoomlaTagsCommand
+	 */
+	public function getFetchJoomlaTagsCommandService(Container $container): FetchJoomlaTagsCommand
+	{
+		return new FetchJoomlaTagsCommand($container->get(GitHub::class), $container->get('filesystem.versions'));
+	}
+
+	/**
+	 * Get the FetchPhpTagsCommand class service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  FetchPhpTagsCommand
+	 */
+	public function getFetchPhpTagsCommandService(Container $container): FetchPhpTagsCommand
+	{
+		return new FetchPhpTagsCommand($container->get(GitHub::class), $container->get('filesystem.versions'));
 	}
 
 	/**

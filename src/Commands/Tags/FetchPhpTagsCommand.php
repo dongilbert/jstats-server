@@ -10,35 +10,52 @@ namespace Joomla\StatsServer\Commands\Tags;
 
 use Joomla\StatsServer\Decorators\ValidateVersion;
 use Joomla\StatsServer\GitHub\GitHub;
+use League\Flysystem\Filesystem;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Command for processing tags for the PHP project from GitHub
  */
-class PhpCommand extends AbstractTagCommand
+class FetchPhpTagsCommand extends AbstractTagCommand
 {
 	use ValidateVersion;
 
 	/**
+	 * The default command name
+	 *
+	 * @var  string|null
+	 */
+	protected static $defaultName = 'tags:php';
+
+	/**
 	 * Constructor.
 	 *
-	 * @param   GitHub  $github  GitHub API object
+	 * @param   GitHub      $github      GitHub API object.
+	 * @param   Filesystem  $filesystem  Filesystem adapter for the versions space.
 	 */
-	public function __construct(GitHub $github)
+	public function __construct(GitHub $github, Filesystem $filesystem)
 	{
-		parent::__construct($github);
+		parent::__construct($github, $filesystem);
 
 		$this->repoName  = 'php-src';
 		$this->repoOwner = 'php';
 	}
 
 	/**
-	 * Execute the controller.
+	 * Internal function to execute the command.
 	 *
-	 * @return  boolean
+	 * @param   InputInterface   $input   The input to inject into the command.
+	 * @param   OutputInterface  $output  The output to inject into the command.
+	 *
+	 * @return  integer  The command exit code
 	 */
-	public function execute()
+	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$this->getApplication()->outputTitle('Fetching PHP Releases');
+		$symfonyStyle = new SymfonyStyle($input, $output);
+
+		$symfonyStyle->title('Fetching PHP Releases');
 
 		$versions          = [];
 		$supportedBranches = [
@@ -47,7 +64,7 @@ class PhpCommand extends AbstractTagCommand
 			'7.3' => '',
 		];
 
-		foreach ($this->getTags() as $tag)
+		foreach ($this->getTags($symfonyStyle) as $tag)
 		{
 			// Replace 'php-' from the tag to get our version number; skip if the segment doesn't exist
 			if (strpos($tag->name, 'php-') !== 0)
@@ -114,36 +131,25 @@ class PhpCommand extends AbstractTagCommand
 			$versions[] = $nextRelease;
 		}
 
-		// Store the version data now
-		$path = APPROOT . '/versions/php.json';
-
-		if (file_put_contents($path, json_encode($versions)) === false)
+		if (!$this->filesystem->put('php.json', json_encode($versions)))
 		{
-			throw new \RuntimeException("Could not write version data to $path");
+			$symfonyStyle->error('Failed writing version data to the filesystem.');
+
+			return 1;
 		}
 
-		$this->getApplication()->out('<info>PHP versions successfully pulled.</info>');
+		$symfonyStyle->success('PHP versions updated.');
 
-		return true;
+		return 0;
 	}
 
 	/**
-	 * Get the command's description
+	 * Configures the current command.
 	 *
-	 * @return  string
+	 * @return  void
 	 */
-	public function getDescription(): string
+	protected function configure(): void
 	{
-		return 'Parses the release tags for the PHP GitHub repository.';
-	}
-
-	/**
-	 * Get the command's title
-	 *
-	 * @return  string
-	 */
-	public function getTitle(): string
-	{
-		return 'Fetch PHP Releases';
+		$this->setDescription('Parses the release tags for the PHP GitHub repository.');
 	}
 }

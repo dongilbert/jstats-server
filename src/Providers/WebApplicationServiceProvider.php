@@ -27,7 +27,6 @@ use Joomla\StatsServer\Commands as AppCommands;
 use Joomla\StatsServer\Console;
 use Joomla\StatsServer\Controllers\DisplayControllerGet;
 use Joomla\StatsServer\Controllers\SubmitControllerCreate;
-use Joomla\StatsServer\GitHub\GitHub;
 use Joomla\StatsServer\Models\StatsModel;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use Psr\Log\LoggerInterface;
@@ -77,8 +76,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 		 * Console Commands
 		 */
 
-		$container->share(AppCommands\Tags\JoomlaCommand::class, [$this, 'getTagsJoomlaCommandService'], true);
-		$container->share(AppCommands\Tags\PhpCommand::class, [$this, 'getTagsPhpCommandService'], true);
 		$container->share(AppCommands\UpdateCommand::class, [$this, 'getUpdateCommandService'], true);
 
 		/*
@@ -278,40 +275,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 		$controller->setInput($container->get(Input::class));
 
 		return $controller;
-	}
-
-	/**
-	 * Get the Tags\JoomlaCommand class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  AppCommands\Tags\JoomlaCommand
-	 */
-	public function getTagsJoomlaCommandService(Container $container): AppCommands\Tags\JoomlaCommand
-	{
-		$command = new AppCommands\Tags\JoomlaCommand($container->get(GitHub::class));
-
-		$command->setApplication($container->get(AbstractApplication::class));
-		$command->setInput($container->get(Input::class));
-
-		return $command;
-	}
-
-	/**
-	 * Get the Tags\PhpCommand class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  AppCommands\Tags\PhpCommand
-	 */
-	public function getTagsPhpCommandService(Container $container): AppCommands\Tags\PhpCommand
-	{
-		$command = new AppCommands\Tags\PhpCommand($container->get(GitHub::class));
-
-		$command->setApplication($container->get(AbstractApplication::class));
-		$command->setInput($container->get(Input::class));
-
-		return $command;
 	}
 
 	/**
