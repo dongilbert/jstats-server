@@ -11,6 +11,7 @@ use Joomla\Application\AbstractApplication;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Database\Service\DatabaseProvider;
 use Joomla\DI\Container;
+use Joomla\StatsServer\Providers\AnalyticsServiceProvider;
 use Joomla\StatsServer\Providers\ConfigServiceProvider;
 use Joomla\StatsServer\Providers\ConsoleServiceProvider;
 use Joomla\StatsServer\Providers\DatabaseServiceProvider;
@@ -24,6 +25,7 @@ use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
 $container = (new Container)
+	->registerServiceProvider(new AnalyticsServiceProvider)
 	->registerServiceProvider(new ConfigServiceProvider(APPROOT . '/etc/config.json'))
 	->registerServiceProvider(new ConsoleServiceProvider)
 	->registerServiceProvider(new DatabaseProvider)

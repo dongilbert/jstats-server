@@ -9,7 +9,6 @@
 namespace Joomla\StatsServer\Providers;
 
 use Joomla\Application\AbstractApplication;
-use Joomla\Application\AbstractCliApplication;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Controller\ContainerControllerResolver;
 use Joomla\Application\Controller\ControllerResolverInterface;
@@ -26,11 +25,10 @@ use Joomla\StatsServer\Controllers\SubmitControllerCreate;
 use Joomla\StatsServer\Models\StatsModel;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use Psr\Log\LoggerInterface;
-use TheIconic\Tracking\GoogleAnalytics\Analytics;
 use Zend\Diactoros\Response\JsonResponse;
 
 /**
- * Application service provider
+ * Web application service provider
  */
 class WebApplicationServiceProvider implements ServiceProviderInterface
 {
@@ -50,7 +48,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 		 * Application Class Dependencies
 		 */
 
-		$container->share(Analytics::class, [$this, 'getAnalyticsService'], true);
 		$container->share(Input::class, [$this, 'getInputService'], true);
 		$container->share(Router::class, [$this, 'getRouterService'], true);
 
@@ -72,18 +69,6 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 
 		// Views
 		$container->share(StatsJsonView::class, [$this, 'getStatsJsonViewService'], true);
-	}
-
-	/**
-	 * Get the Analytics class service
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  Analytics
-	 */
-	public function getAnalyticsService(Container $container): Analytics
-	{
-		return new Analytics(true);
 	}
 
 	/**
