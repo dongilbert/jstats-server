@@ -5,71 +5,36 @@
  * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
  */
-require \dirname(__DIR__) . '/boot.php';
 
-use Joomla\Application\AbstractApplication;
-use Joomla\Application\AbstractWebApplication;
-use Joomla\Database\Service\DatabaseProvider;
-use Joomla\DI\Container;
-use Joomla\StatsServer\Providers\AnalyticsServiceProvider;
-use Joomla\StatsServer\Providers\ConfigServiceProvider;
-use Joomla\StatsServer\Providers\ConsoleServiceProvider;
-use Joomla\StatsServer\Providers\DatabaseServiceProvider;
-use Joomla\StatsServer\Providers\EventServiceProvider;
-use Joomla\StatsServer\Providers\FlysystemServiceProvider;
-use Joomla\StatsServer\Providers\GitHubServiceProvider;
-use Joomla\StatsServer\Providers\MonologServiceProvider;
-use Joomla\StatsServer\Providers\WebApplicationServiceProvider;
-use Monolog\ErrorHandler;
-use Monolog\Logger;
-use Psr\Log\LoggerInterface;
+// Application constants
+define('APPROOT', dirname(__DIR__));
 
-$container = (new Container)
-	->registerServiceProvider(new AnalyticsServiceProvider)
-	->registerServiceProvider(new ConfigServiceProvider(APPROOT . '/etc/config.json'))
-	->registerServiceProvider(new ConsoleServiceProvider)
-	->registerServiceProvider(new DatabaseProvider)
-	->registerServiceProvider(new DatabaseServiceProvider)
-	->registerServiceProvider(new EventServiceProvider)
-	->registerServiceProvider(new FlysystemServiceProvider)
-	->registerServiceProvider(new GitHubServiceProvider)
-	->registerServiceProvider(new MonologServiceProvider)
-	->registerServiceProvider(new WebApplicationServiceProvider);
+// Ensure we've initialized Composer
+if (!file_exists(APPROOT . '/vendor/autoload.php'))
+{
+	header('HTTP/1.1 500 Internal Server Error', null, 500);
+	echo '<html><head><title>Server Error</title></head><body><h1>Composer Not Installed</h1><p>Composer is not set up properly, please run "composer install".</p></body></html>';
 
-// Alias the web application to Joomla's base application class as this is the primary application for the environment
-$container->alias(AbstractApplication::class, AbstractWebApplication::class);
+	exit(500);
+}
 
-// Alias the `monolog.logger.application` service to the Monolog Logger class and PSR-3 interface as this is the primary logger for the environment
-$container->alias(Logger::class, 'monolog.logger.application')
-	->alias(LoggerInterface::class, 'monolog.logger.application');
+require APPROOT . '/vendor/autoload.php';
 
-// Register deprecation logging via Monolog
-ErrorHandler::register($container->get(Logger::class), [E_DEPRECATED, E_USER_DEPRECATED], false, false);
-
-// Set error reporting based on config
-$errorReporting = (int) $container->get('config')->get('errorReporting', 0);
-error_reporting($errorReporting);
-ini_set('display_errors', (bool) $errorReporting);
-
-// Execute the application
 try
 {
-	$container->get(AbstractApplication::class)->execute();
+	(new \Joomla\StatsServer\Kernel\WebKernel)->run();
 }
-catch (\Throwable $e)
+catch (\Throwable $throwable)
 {
+	error_log($throwable);
+
 	if (!headers_sent())
 	{
 		header('HTTP/1.1 500 Internal Server Error', null, 500);
-		header('Content-Type: application/json; charset=utf-8');
+		header('Content-Type: text/html; charset=utf-8');
 	}
 
-	$response = [
-		'error'   => true,
-		'message' => 'An error occurred while executing the application: ' . $e->getMessage(),
-	];
-
-	echo json_encode($response);
+	echo '<html><head><title>Application Error</title></head><body><h1>Application Error</h1><p>An error occurred while executing the application: ' . $throwable->getMessage() . '</p></body></html>';
 
 	exit(1);
 }
