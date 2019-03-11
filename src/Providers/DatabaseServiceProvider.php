@@ -63,7 +63,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	{
 		return new Migrations(
 			$container->get(DatabaseDriver::class),
-			$container->get('filesystem.etc')
+			$container->get('filesystem.migrations')
 		);
 	}
 

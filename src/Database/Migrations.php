@@ -9,8 +9,11 @@
 namespace Joomla\StatsServer\Database;
 
 use Joomla\Database\DatabaseDriver;
-use League\Flysystem\FileNotFoundException;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\StatsServer\Database\Exception\CannotInitializeMigrationsException;
+use Joomla\StatsServer\Database\Exception\UnknownMigrationException;
 use League\Flysystem\Filesystem;
+use League\Flysystem\UnreadableFileException;
 
 /**
  * Class for managing database migrations
@@ -52,17 +55,32 @@ class Migrations
 	{
 		$response = new MigrationsStatus;
 
-		// First get the list of applied migrations
-		$appliedMigrations = $this->database->setQuery(
-			$this->database->getQuery(true)
-				->select('version')
-				->from('#__migrations')
-		)->loadColumn();
+		try
+		{
+			// First get the list of applied migrations
+			$appliedMigrations = $this->database->setQuery(
+				$this->database->getQuery(true)
+					->select('version')
+					->from('#__migrations')
+			)->loadColumn();
+		}
+		catch (ExecutionFailureException $exception)
+		{
+			// On PDO we're checking "42S02, 1146, Table 'XXX.#__migrations' doesn't exist"
+			if (strpos($exception->getMessage(), "migrations' doesn't exist") === false)
+			{
+				throw $exception;
+			}
+
+			$response->tableExists = false;
+
+			return $response;
+		}
 
 		// Now get the list of all known migrations
 		$knownMigrations = [];
 
-		foreach ($this->filesystem->listContents('migrations') as $migrationFiles)
+		foreach ($this->filesystem->listContents() as $migrationFiles)
 		{
 			$knownMigrations[] = $migrationFiles['filename'];
 		}
@@ -105,12 +123,38 @@ class Migrations
 	 */
 	public function migrateDatabase(?string $version = null): void
 	{
-		// Determine the migrations to apply
-		$appliedMigrations = $this->database->setQuery(
-			$this->database->getQuery(true)
-				->select('version')
-				->from('#__migrations')
-		)->loadColumn();
+		try
+		{
+			// Determine the migrations to apply
+			$appliedMigrations = $this->database->setQuery(
+				$this->database->getQuery(true)
+					->select('version')
+					->from('#__migrations')
+			)->loadColumn();
+		}
+		catch (ExecutionFailureException $exception)
+		{
+			// If the table does not exist, we can still try to run migrations
+			if (strpos($exception->getMessage(), "migrations' doesn't exist") === false)
+			{
+				throw $exception;
+			}
+
+			// If given a version, we can only execute it if it is the first migration, otherwise we've got other problems
+			if ($version !== null && $version !== '')
+			{
+				$firstMigration = $this->filesystem->listContents()[0];
+
+				if ($firstMigration['filename'] !== $version)
+				{
+					throw new CannotInitializeMigrationsException(
+						'The migrations have not yet been initialized and the first migration has not been given as the version to run.'
+					);
+				}
+			}
+
+			$appliedMigrations = [];
+		}
 
 		// If a version is specified, check if that migration is already applied and if not, run that one only
 		if ($version !== null && $version !== '')
@@ -129,7 +173,7 @@ class Migrations
 		// We need to check the known migrations and filter out the applied ones to know what to do
 		$knownMigrations = [];
 
-		foreach ($this->filesystem->listContents('migrations') as $migrationFiles)
+		foreach ($this->filesystem->listContents() as $migrationFiles)
 		{
 			$knownMigrations[] = $migrationFiles['filename'];
 		}
@@ -147,22 +191,23 @@ class Migrations
 	 *
 	 * @return  void
 	 *
-	 * @throws  FileNotFoundException
+	 * @throws  UnknownMigrationException
+	 * @throws  UnreadableFileException
 	 */
 	private function doMigration(string $version): void
 	{
-		$sqlFile = 'migrations/' . $version . '.sql';
+		$sqlFile = $version . '.sql';
 
 		if (!$this->filesystem->has($sqlFile))
 		{
-			throw new FileNotFoundException($sqlFile);
+			throw new UnknownMigrationException($sqlFile);
 		}
 
 		$queries = $this->filesystem->read($sqlFile);
 
 		if ($queries === false)
 		{
-			throw new \RuntimeException(
+			throw new UnreadableFileException(
 				sprintf(
 					'Could not read data from the %s SQL file, please update the database manually.',
 					$sqlFile
@@ -170,7 +215,7 @@ class Migrations
 			);
 		}
 
-		foreach ($this->database->splitSql($queries) as $query)
+		foreach (DatabaseDriver::splitSql($queries) as $query)
 		{
 			$query = trim($query);
 

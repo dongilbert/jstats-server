@@ -40,4 +40,11 @@ class MigrationsStatus
 	 * @var  integer
 	 */
 	public $missingMigrations = 0;
+
+	/**
+	 * Does the migrations table even exist?
+	 *
+	 * @var  boolean
+	 */
+	public $tableExists = true;
 }

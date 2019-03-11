@@ -23,6 +23,39 @@ use Symfony\Component\Console\Output\BufferedOutput;
 class MigrationStatusCommandTest extends TestCase
 {
 	/**
+	 * @testdox The command shows the status when the table does not exist
+	 */
+	public function testTheCommandShowsTheStatusWhenTheTableDoesNotExist()
+	{
+		$status = new MigrationsStatus;
+		$status->tableExists = false;
+
+		/** @var MockObject|Migrations $migrations */
+		$migrations = $this->createMock(Migrations::class);
+		$migrations->expects($this->once())
+			->method('checkStatus')
+			->willReturn($status);
+
+		$input  = new ArrayInput(
+			[
+				'command' => 'database:migrations:status',
+			]
+		);
+		$output = new BufferedOutput;
+
+		$application = new Application($input, $output);
+
+		$command = new MigrationStatusCommand($migrations);
+		$command->setApplication($application);
+
+		$this->assertSame(0, $command->execute($input, $output));
+
+		$screenOutput = $output->fetch();
+
+		$this->assertStringContainsString('The migrations table does not exist, run the "database:migrate" command to set up the database.', $screenOutput);
+	}
+
+	/**
 	 * @testdox The command shows the status when on the latest version
 	 */
 	public function testTheCommandShowsTheStatusWhenOnTheLatestVersion()

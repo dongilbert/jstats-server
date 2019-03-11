@@ -61,7 +61,11 @@ class MigrationStatusCommand extends AbstractCommand
 
 		$status = $this->migrations->checkStatus();
 
-		if ($status->latest)
+		if (!$status->tableExists)
+		{
+			$symfonyStyle->comment('The migrations table does not exist, run the "database:migrate" command to set up the database.');
+		}
+		elseif ($status->latest)
 		{
 			$symfonyStyle->success('Your database is up-to-date.');
 		}

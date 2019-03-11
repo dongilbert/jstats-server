@@ -27,21 +27,21 @@ class FlysystemServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container): void
 	{
-		$container->share('filesystem.etc', [$this, 'getEtcFilesystemService'], true);
+		$container->share('filesystem.migrations', [$this, 'getMigrationsFilesystemService'], true);
 		$container->share('filesystem.snapshot', [$this, 'getSnapshotFilesystemService'], true);
 		$container->share('filesystem.versions', [$this, 'getVersionsFilesystemService'], true);
 	}
 
 	/**
-	 * Get the `filesystem.etc` service
+	 * Get the `filesystem.migrations` service
 	 *
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  Filesystem
 	 */
-	public function getEtcFilesystemService(Container $container): Filesystem
+	public function getMigrationsFilesystemService(Container $container): Filesystem
 	{
-		return new Filesystem(new Local(APPROOT . '/etc'));
+		return new Filesystem(new Local(APPROOT . '/etc/migrations'));
 	}
 
 	/**
