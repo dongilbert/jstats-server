@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c6974db4741e942076b24b42c9c59072",
+    "content-hash": "5965404e8085054bf76049eaf2272cdd",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -391,16 +391,16 @@
         },
         {
             "name": "joomla/database",
-            "version": "1.7.0",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "4d61aef4b76880c381e44e7df16d206130c8d6d6"
+                "reference": "2f96e35be028cf7cb7c36158e0b4de08de7a885f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/4d61aef4b76880c381e44e7df16d206130c8d6d6",
-                "reference": "4d61aef4b76880c381e44e7df16d206130c8d6d6",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/2f96e35be028cf7cb7c36158e0b4de08de7a885f",
+                "reference": "2f96e35be028cf7cb7c36158e0b4de08de7a885f",
                 "shasum": ""
             },
             "require": {
@@ -441,7 +441,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-03-10T15:26:18+00:00"
+            "time": "2018-06-30T23:43:04+00:00"
         },
         {
             "name": "joomla/di",
