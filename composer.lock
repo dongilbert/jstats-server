@@ -391,16 +391,16 @@
         },
         {
             "name": "joomla/database",
-            "version": "1.6.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "2f96e35be028cf7cb7c36158e0b4de08de7a885f"
+                "reference": "4d61aef4b76880c381e44e7df16d206130c8d6d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/2f96e35be028cf7cb7c36158e0b4de08de7a885f",
-                "reference": "2f96e35be028cf7cb7c36158e0b4de08de7a885f",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/4d61aef4b76880c381e44e7df16d206130c8d6d6",
+                "reference": "4d61aef4b76880c381e44e7df16d206130c8d6d6",
                 "shasum": ""
             },
             "require": {
@@ -441,7 +441,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2018-06-30T23:43:04+00:00"
+            "time": "2019-03-10T15:26:18+00:00"
         },
         {
             "name": "joomla/di",
@@ -595,16 +595,16 @@
         },
         {
             "name": "joomla/http",
-            "version": "1.3.2",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "84d1e6976d3a093c94394d2dde156987996ee3ce"
+                "reference": "128c3d410fd7327fb87839cd3e00ed0be2f71f9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/84d1e6976d3a093c94394d2dde156987996ee3ce",
-                "reference": "84d1e6976d3a093c94394d2dde156987996ee3ce",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/128c3d410fd7327fb87839cd3e00ed0be2f71f9d",
+                "reference": "128c3d410fd7327fb87839cd3e00ed0be2f71f9d",
                 "shasum": ""
             },
             "require": {
@@ -643,7 +643,7 @@
                 "http",
                 "joomla"
             ],
-            "time": "2018-04-23T11:54:19+00:00"
+            "time": "2019-03-10T15:31:03+00:00"
         },
         {
             "name": "joomla/input",
@@ -1732,17 +1732,17 @@
         },
         {
             "name": "joomla/session",
-            "version": "1.3.4",
+            "version": "1.4.0",
             "target-dir": "Joomla/Session",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
-                "reference": "1f8af5fd0ccda57ab0002d7597f72ccc411d5b0a"
+                "reference": "ac557447e3193d69967d10e720eab9b582d841d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/1f8af5fd0ccda57ab0002d7597f72ccc411d5b0a",
-                "reference": "1f8af5fd0ccda57ab0002d7597f72ccc411d5b0a",
+                "url": "https://api.github.com/repos/joomla-framework/session/zipball/ac557447e3193d69967d10e720eab9b582d841d7",
+                "reference": "ac557447e3193d69967d10e720eab9b582d841d7",
                 "shasum": ""
             },
             "require": {
@@ -1778,7 +1778,7 @@
                 "joomla",
                 "session"
             ],
-            "time": "2018-07-01T00:10:35+00:00"
+            "time": "2019-03-10T15:20:33+00:00"
         },
         {
             "name": "joomla/test",
