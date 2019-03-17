@@ -61,6 +61,16 @@ abstract class Kernel implements ContainerAwareInterface
 	}
 
 	/**
+	 * Check if the Kernel is booted
+	 *
+	 * @return  void
+	 */
+	public function isBooted(): bool
+	{
+		return $this->booted;
+	}
+
+	/**
 	 * Run the kernel
 	 *
 	 * @return  void
@@ -110,6 +120,14 @@ abstract class Kernel implements ContainerAwareInterface
 	 */
 	private function loadConfiguration(): Registry
 	{
-		return (new Registry)->loadFile(APPROOT . '/etc/config.json');
+		$registry = new Registry;
+		$registry->loadFile(APPROOT . '/etc/config.dist.json');
+
+		if (file_exists(APPROOT . '/etc/config.json'))
+		{
+			$registry->loadFile(APPROOT . '/etc/config.json');
+		}
+
+		return $registry;
 	}
 }
