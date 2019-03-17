@@ -166,7 +166,8 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 	public function getSubmitDataControllerService(Container $container): SubmitDataController
 	{
 		$controller = new SubmitDataController(
-			$container->get(StatisticsRepository::class)
+			$container->get(StatisticsRepository::class),
+			$container->get('filesystem.snapshot')
 		);
 
 		$controller->setApplication($container->get(AbstractApplication::class));
