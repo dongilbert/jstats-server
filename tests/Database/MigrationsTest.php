@@ -8,6 +8,7 @@
 
 namespace Joomla\StatsServer\Tests\Database;
 
+use Joomla\StatsServer\Database\Exception\UnknownMigrationException;
 use Joomla\StatsServer\Database\Migrations;
 use Joomla\StatsServer\Tests\DatabaseTestCase;
 use League\Flysystem\Adapter\Local;
@@ -69,8 +70,6 @@ class MigrationsTest extends DatabaseTestCase
 	 */
 	public function testTheMigrationStatusIsCheckedAfterExecutingAllMigrations()
 	{
-		$this->markTestSkipped('joomla/database does not parse the "CREATE DELIMITER" statement correctly');
-
 		$this->migrations->migrateDatabase();
 
 		$status = $this->migrations->checkStatus();
@@ -78,5 +77,17 @@ class MigrationsTest extends DatabaseTestCase
 		$this->assertTrue($status->tableExists);
 		$this->assertTrue($status->latest);
 		$this->assertSame(0, $status->missingMigrations);
+	}
+
+	/**
+	 * @testdox Migrations fail with an unknown migration
+	 */
+	public function testMigrationsFailWithAnUnknownMigration()
+	{
+		$this->migrations->migrateDatabase();
+
+		$this->expectException(UnknownMigrationException::class);
+
+		$this->migrations->migrateDatabase('will-never-exist');
 	}
 }
