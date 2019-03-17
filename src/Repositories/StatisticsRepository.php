@@ -70,14 +70,8 @@ class StatisticsRepository
 
 		$return = [];
 
-		foreach (array_keys($this->db->getTableColumns('#__jstats')) as $column)
+		foreach (self::ALLOWED_SOURCES as $column)
 		{
-			// The column should exist in the table and be part of the API
-			if (\in_array($column, ['unique_id', 'modified']))
-			{
-				continue;
-			}
-
 			$return[$column] = $this->db->setQuery(
 				$this->db->getQuery(true)
 					->select('*')
