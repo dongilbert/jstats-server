@@ -10,6 +10,7 @@ namespace Joomla\StatsServer\EventListener;
 
 use Joomla\Application\ApplicationEvents;
 use Joomla\Application\Event\ApplicationErrorEvent;
+use Joomla\Application\WebApplication;
 use Joomla\Console\ConsoleEvents;
 use Joomla\Console\Event\ApplicationErrorEvent as ConsoleApplicationErrorEvent;
 use Joomla\Event\SubscriberInterface;
