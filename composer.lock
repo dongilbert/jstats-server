@@ -871,12 +871,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/string.git",
-                "reference": "d63a76e209373c9047de713c71dc549c56b17557"
+                "reference": "9a02ff6db0fa63b5831d4e1317d4c55e46ca9f9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/string/zipball/d63a76e209373c9047de713c71dc549c56b17557",
-                "reference": "d63a76e209373c9047de713c71dc549c56b17557",
+                "url": "https://api.github.com/repos/joomla-framework/string/zipball/9a02ff6db0fa63b5831d4e1317d4c55e46ca9f9a",
+                "reference": "9a02ff6db0fa63b5831d4e1317d4c55e46ca9f9a",
                 "shasum": ""
             },
             "require": {
@@ -931,7 +931,7 @@
                 "joomla",
                 "string"
             ],
-            "time": "2018-10-03T01:21:53+00:00"
+            "time": "2019-03-18T01:15:45+00:00"
         },
         {
             "name": "joomla/uri",
