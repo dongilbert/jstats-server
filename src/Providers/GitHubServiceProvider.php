@@ -29,7 +29,7 @@ class GitHubServiceProvider implements ServiceProviderInterface
 	{
 		$container->alias('github', BaseGithub::class)
 			->alias(GitHub::class, BaseGithub::class)
-			->share(BaseGithub::class, [$this, 'getGithubService'], true);
+			->share(BaseGithub::class, [$this, 'getGithubService']);
 	}
 
 	/**

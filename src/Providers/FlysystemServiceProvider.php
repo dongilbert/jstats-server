@@ -27,9 +27,9 @@ class FlysystemServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container): void
 	{
-		$container->share('filesystem.migrations', [$this, 'getMigrationsFilesystemService'], true);
-		$container->share('filesystem.snapshot', [$this, 'getSnapshotFilesystemService'], true);
-		$container->share('filesystem.versions', [$this, 'getVersionsFilesystemService'], true);
+		$container->share('filesystem.migrations', [$this, 'getMigrationsFilesystemService']);
+		$container->share('filesystem.snapshot', [$this, 'getSnapshotFilesystemService']);
+		$container->share('filesystem.versions', [$this, 'getVersionsFilesystemService']);
 	}
 
 	/**

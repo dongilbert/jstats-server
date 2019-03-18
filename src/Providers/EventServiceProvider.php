@@ -32,12 +32,12 @@ class EventServiceProvider implements ServiceProviderInterface
 	public function register(Container $container): void
 	{
 		$container->alias(Dispatcher::class, DispatcherInterface::class)
-			->share(DispatcherInterface::class, [$this, 'getDispatcherService'], true);
+			->share(DispatcherInterface::class, [$this, 'getDispatcherService']);
 
-		$container->share(AnalyticsSubscriber::class, [$this, 'getAnalyticsSubscriberService'], true)
+		$container->share(AnalyticsSubscriber::class, [$this, 'getAnalyticsSubscriberService'])
 			->tag('event.subscriber', [AnalyticsSubscriber::class]);
 
-		$container->share(ErrorSubscriber::class, [$this, 'getErrorSubscriberService'], true)
+		$container->share(ErrorSubscriber::class, [$this, 'getErrorSubscriberService'])
 			->tag('event.subscriber', [ErrorSubscriber::class]);
 	}
 

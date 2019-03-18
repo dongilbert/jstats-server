@@ -42,26 +42,26 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container): void
 	{
-		$container->share(Application::class, [$this, 'getConsoleApplicationService'], true);
+		$container->share(Application::class, [$this, 'getConsoleApplicationService']);
 
 		/*
 		 * Application Helpers and Dependencies
 		 */
 
 		$container->alias(ContainerLoader::class, LoaderInterface::class)
-			->share(LoaderInterface::class, [$this, 'getCommandLoaderService'], true);
+			->share(LoaderInterface::class, [$this, 'getCommandLoaderService']);
 
 		/*
 		 * Commands
 		 */
 
-		$container->share(MigrateCommand::class, [$this, 'getDatabaseMigrateCommandService'], true);
-		$container->share(MigrationStatusCommand::class, [$this, 'getDatabaseMigrationStatusCommandService'], true);
-		$container->share(FetchJoomlaTagsCommand::class, [$this, 'getFetchJoomlaTagsCommandService'], true);
-		$container->share(FetchPhpTagsCommand::class, [$this, 'getFetchPhpTagsCommandService'], true);
-		$container->share(SnapshotCommand::class, [$this, 'getSnapshotCommandService'], true);
-		$container->share(SnapshotRecentlyUpdatedCommand::class, [$this, 'getSnapshotRecentlyUpdatedCommandService'], true);
-		$container->share(UpdateCommand::class, [$this, 'getUpdateCommandService'], true);
+		$container->share(MigrateCommand::class, [$this, 'getDatabaseMigrateCommandService']);
+		$container->share(MigrationStatusCommand::class, [$this, 'getDatabaseMigrationStatusCommandService']);
+		$container->share(FetchJoomlaTagsCommand::class, [$this, 'getFetchJoomlaTagsCommandService']);
+		$container->share(FetchPhpTagsCommand::class, [$this, 'getFetchPhpTagsCommandService']);
+		$container->share(SnapshotCommand::class, [$this, 'getSnapshotCommandService']);
+		$container->share(SnapshotRecentlyUpdatedCommand::class, [$this, 'getSnapshotRecentlyUpdatedCommandService']);
+		$container->share(UpdateCommand::class, [$this, 'getUpdateCommandService']);
 	}
 
 	/**

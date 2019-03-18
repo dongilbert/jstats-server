@@ -41,30 +41,30 @@ class WebApplicationServiceProvider implements ServiceProviderInterface
 	public function register(Container $container): void
 	{
 		$container->alias(WebApplication::class, AbstractWebApplication::class)
-			->share(AbstractWebApplication::class, [$this, 'getWebApplicationService'], true);
+			->share(AbstractWebApplication::class, [$this, 'getWebApplicationService']);
 
 		/*
 		 * Application Class Dependencies
 		 */
 
-		$container->share(Input::class, [$this, 'getInputService'], true);
-		$container->share(Router::class, [$this, 'getRouterService'], true);
+		$container->share(Input::class, [$this, 'getInputService']);
+		$container->share(Router::class, [$this, 'getRouterService']);
 
 		$container->alias(ContainerControllerResolver::class, ControllerResolverInterface::class)
-			->share(ControllerResolverInterface::class, [$this, 'getControllerResolverService'], true);
+			->share(ControllerResolverInterface::class, [$this, 'getControllerResolverService']);
 
-		$container->share(WebClient::class, [$this, 'getWebClientService'], true);
+		$container->share(WebClient::class, [$this, 'getWebClientService']);
 
 		/*
 		 * MVC Layer
 		 */
 
 		// Controllers
-		$container->share(DisplayStatisticsController::class, [$this, 'getDisplayStatisticsControllerService'], true);
-		$container->share(SubmitDataController::class, [$this, 'getSubmitDataControllerService'], true);
+		$container->share(DisplayStatisticsController::class, [$this, 'getDisplayStatisticsControllerService']);
+		$container->share(SubmitDataController::class, [$this, 'getSubmitDataControllerService']);
 
 		// Views
-		$container->share(StatsJsonView::class, [$this, 'getStatsJsonViewService'], true);
+		$container->share(StatsJsonView::class, [$this, 'getStatsJsonViewService']);
 	}
 
 	/**

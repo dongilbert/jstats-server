@@ -30,25 +30,25 @@ class MonologServiceProvider implements ServiceProviderInterface
 	public function register(Container $container): void
 	{
 		// Register the PSR-3 processor
-		$container->share('monolog.processor.psr3', [$this, 'getMonologProcessorPsr3Service'], true);
+		$container->share('monolog.processor.psr3', [$this, 'getMonologProcessorPsr3Service']);
 
 		// Register the web processor
-		$container->share('monolog.processor.web', [$this, 'getMonologProcessorWebService'], true);
+		$container->share('monolog.processor.web', [$this, 'getMonologProcessorWebService']);
 
 		// Register the web application handler
-		$container->share('monolog.handler.application', [$this, 'getMonologHandlerApplicationService'], true);
+		$container->share('monolog.handler.application', [$this, 'getMonologHandlerApplicationService']);
 
 		// Register the database handler
-		$container->share('monolog.handler.database', [$this, 'getMonologHandlerDatabaseService'], true);
+		$container->share('monolog.handler.database', [$this, 'getMonologHandlerDatabaseService']);
 
 		// Register the web application Logger
-		$container->share('monolog.logger.application', [$this, 'getMonologLoggerApplicationService'], true);
+		$container->share('monolog.logger.application', [$this, 'getMonologLoggerApplicationService']);
 
 		// Register the CLI application Logger
-		$container->share('monolog.logger.cli', [$this, 'getMonologLoggerCliService'], true);
+		$container->share('monolog.logger.cli', [$this, 'getMonologLoggerCliService']);
 
 		// Register the database Logger
-		$container->share('monolog.logger.database', [$this, 'getMonologLoggerDatabaseService'], true);
+		$container->share('monolog.logger.database', [$this, 'getMonologLoggerDatabaseService']);
 	}
 
 	/**

@@ -31,10 +31,10 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 		$container->extend(DatabaseDriver::class, [$this, 'extendDatabaseDriverService']);
 
 		$container->alias('db.monitor.logging', LoggingMonitor::class)
-			->share(LoggingMonitor::class, [$this, 'getDbMonitorLoggingService'], true);
+			->share(LoggingMonitor::class, [$this, 'getDbMonitorLoggingService']);
 
 		$container->alias('db.migrations', Migrations::class)
-			->share(Migrations::class, [$this, 'getDbMigrationsService'], true);
+			->share(Migrations::class, [$this, 'getDbMigrationsService']);
 	}
 
 	/**

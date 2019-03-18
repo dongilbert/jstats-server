@@ -27,7 +27,7 @@ class RepositoryServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container): void
 	{
-		$container->share(StatisticsRepository::class, [$this, 'getStatisticsRepositoryService'], true);
+		$container->share(StatisticsRepository::class, [$this, 'getStatisticsRepositoryService']);
 	}
 
 	/**

@@ -26,7 +26,7 @@ class AnalyticsServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container): void
 	{
-		$container->share(Analytics::class, [$this, 'getAnalyticsService'], true);
+		$container->share(Analytics::class, [$this, 'getAnalyticsService']);
 	}
 
 	/**

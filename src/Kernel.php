@@ -97,7 +97,7 @@ abstract class Kernel implements ContainerAwareInterface
 		$config = $this->loadConfiguration();
 
 		$container = new Container;
-		$container->set('config', $config, true);
+		$container->share('config', $config);
 
 		$container->registerServiceProvider(new AnalyticsServiceProvider)
 			->registerServiceProvider(new ConsoleServiceProvider)
