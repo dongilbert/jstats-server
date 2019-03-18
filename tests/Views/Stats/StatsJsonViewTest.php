@@ -18,38 +18,13 @@ use PHPUnit\Framework\TestCase;
 class StatsJsonViewTest extends TestCase
 {
 	/**
-	 * @testdox The authorized raw flag is set to the view
-	 *
-	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::isAuthorizedRaw
-	 */
-	public function testTheAuthorizedRawFlagIsSetToTheView(): void
-	{
-		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$authorizedRaw = true;
-
-		$view = new StatsJsonView($mockModel);
-		$view->isAuthorizedRaw($authorizedRaw);
-
-		$this->assertAttributeSame($authorizedRaw, 'authorizedRaw', $view);
-	}
-
-	/**
 	 * @testdox The statistics data is returned
-	 *
-	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::buildResponseData
-	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::render
-	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::sanitizeData
 	 */
 	public function testTheStatisticsDataIsReturned(): void
 	{
-		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$mockRepository = $this->createMock(StatisticsRepository::class);
 
-		$mockModel->expects($this->once())
+		$mockRepository->expects($this->once())
 			->method('getItems')
 			->willReturn(
 				[
@@ -119,24 +94,102 @@ class StatsJsonViewTest extends TestCase
 			],
 		];
 
-		$view = new StatsJsonView($mockModel);
+		$view = new StatsJsonView($mockRepository);
+
+		$this->assertSame($returnData, json_decode($view->render(), true));
+	}
+
+	/**
+	 * @testdox The recent statistics data is returned
+	 */
+	public function testTheRecentStatisticsDataIsReturned(): void
+	{
+		$mockRepository = $this->createMock(StatisticsRepository::class);
+
+		$mockRepository->expects($this->once())
+			->method('getRecentlyUpdatedItems')
+			->willReturn(
+				[
+					'cms_version' => [
+						[
+							'cms_version' => '3.5.0',
+							'count'       => 3,
+						],
+					],
+					'php_version' => [
+						[
+							'php_version' => PHP_VERSION,
+							'count'       => 3,
+						],
+					],
+					'db_type' => [
+						[
+							'db_type' => 'mysql',
+							'count'   => 1,
+						],
+						[
+							'db_type' => 'postgresql',
+							'count'   => 1,
+						],
+						[
+							'db_type' => 'sqlsrv',
+							'count'   => 1,
+						],
+					],
+					'db_version' => [
+						[
+							'db_version' => '5.6.25',
+							'count'      => 1,
+						],
+						[
+							'db_version' => '9.4.0',
+							'count'      => 1,
+						],
+						[
+							'db_version' => '10.50.2500',
+							'count'      => 1,
+						],
+					],
+					'server_os' => [
+						[
+							'server_os' => 'Darwin 14.1.0',
+							'count'     => 2,
+						],
+						[
+							'server_os' => '',
+							'count'     => 1,
+						],
+					],
+				]
+			);
+
+		$phpVersion = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+
+		$returnData = [
+			'data' => [
+				'php_version' => [$phpVersion => 100],
+				'db_type'     => ['mysql' => round((1 / 3) * 100, 2), 'postgresql' => round((1 / 3) * 100, 2), 'sqlsrv' => round((1 / 3) * 100, 2)],
+				'db_version'  => ['5.6' => round((1 / 3) * 100, 2), '9.4' => round((1 / 3) * 100, 2), '10.50' => round((1 / 3) * 100, 2)],
+				'cms_version' => ['3.5' => 100],
+				'server_os'   => ['Darwin' => round((2 / 3) * 100, 2), 'unknown' => round((1 / 3) * 100, 2)],
+				'total'       => 3,
+			],
+		];
+
+		$view = new StatsJsonView($mockRepository);
+		$view->isRecent(true);
 
 		$this->assertSame($returnData, json_decode($view->render(), true));
 	}
 
 	/**
 	 * @testdox The raw statistics data is returned
-	 *
-	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::buildResponseData
-	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::render
 	 */
 	public function testTheRawStatisticsDataIsReturned(): void
 	{
-		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$mockRepository = $this->createMock(StatisticsRepository::class);
 
-		$mockModel->expects($this->once())
+		$mockRepository->expects($this->once())
 			->method('getItems')
 			->willReturn(
 				[
@@ -249,7 +302,7 @@ class StatsJsonViewTest extends TestCase
 			],
 		];
 
-		$view = new StatsJsonView($mockModel);
+		$view = new StatsJsonView($mockRepository);
 		$view->isAuthorizedRaw(true);
 
 		$this->assertSame($returnData, json_decode($view->render(), true));
@@ -257,20 +310,12 @@ class StatsJsonViewTest extends TestCase
 
 	/**
 	 * @testdox The statistics data for a single source is returned
-	 *
-	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::buildResponseData
-	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::processSingleSource
-	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::render
-	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::sanitizeData
-	 * @uses    Joomla\StatsServer\Views\Stats\StatsJsonView::setSource
 	 */
 	public function testTheStatisticsDataForASingleSourceIsReturned(): void
 	{
-		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$mockRepository = $this->createMock(StatisticsRepository::class);
 
-		$mockModel->expects($this->once())
+		$mockRepository->expects($this->once())
 			->method('getItems')
 			->willReturn(
 				[
@@ -289,7 +334,7 @@ class StatsJsonViewTest extends TestCase
 			],
 		];
 
-		$view = new StatsJsonView($mockModel);
+		$view = new StatsJsonView($mockRepository);
 		$view->setSource('php_version');
 
 		$this->assertSame($returnData, json_decode($view->render(), true));
@@ -297,20 +342,12 @@ class StatsJsonViewTest extends TestCase
 
 	/**
 	 * @testdox The statistics data for the server OS source is returned
-	 *
-	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::buildResponseData
-	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::processSingleSource
-	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::render
-	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::sanitizeData
-	 * @uses    Joomla\StatsServer\Views\Stats\StatsJsonView::setSource
 	 */
 	public function testTheStatisticsDataForTheServerOsSourceIsReturned(): void
 	{
-		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$mockRepository = $this->createMock(StatisticsRepository::class);
 
-		$mockModel->expects($this->once())
+		$mockRepository->expects($this->once())
 			->method('getItems')
 			->willReturn(
 				[
@@ -332,28 +369,9 @@ class StatsJsonViewTest extends TestCase
 			],
 		];
 
-		$view = new StatsJsonView($mockModel);
+		$view = new StatsJsonView($mockRepository);
 		$view->setSource('server_os');
 
 		$this->assertSame($returnData, json_decode($view->render(), true));
-	}
-
-	/**
-	 * @testdox The data source is set to the view
-	 *
-	 * @covers  Joomla\StatsServer\Views\Stats\StatsJsonView::setSource
-	 */
-	public function testTheDataSourceIsSetToTheView(): void
-	{
-		$mockModel = $this->getMockBuilder(StatisticsRepository::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$source = 'php_version';
-
-		$view = new StatsJsonView($mockModel);
-		$view->setSource('php_version');
-
-		$this->assertAttributeSame($source, 'source', $view);
 	}
 }
