@@ -67,7 +67,7 @@ class StatisticsRepositoryTest extends DatabaseTestCase
 	/**
 	 * @testdox The data for all tables is returned
 	 */
-	public function testTheDataForAllTablesIsReturned()
+	public function testTheDataForAllTablesIsReturned(): void
 	{
 		$data = $this->repository->getItems();
 
@@ -80,7 +80,7 @@ class StatisticsRepositoryTest extends DatabaseTestCase
 	/**
 	 * @testdox The data for a single table is returned
 	 */
-	public function testTheDataForASingleTableIsReturned()
+	public function testTheDataForASingleTableIsReturned(): void
 	{
 		$data = $this->repository->getItems('cms_version');
 
@@ -90,7 +90,7 @@ class StatisticsRepositoryTest extends DatabaseTestCase
 	/**
 	 * @testdox The data is not fetched for an unknown source
 	 */
-	public function testTheDataIsNotFetchedForAnUnknownSource()
+	public function testTheDataIsNotFetchedForAnUnknownSource(): void
 	{
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('An invalid data source was requested.');
@@ -102,7 +102,7 @@ class StatisticsRepositoryTest extends DatabaseTestCase
 	/**
 	 * @testdox The recently updated data for all tables is returned
 	 */
-	public function testTheRecentlyUpdatedDataForAllTablesIsReturned()
+	public function testTheRecentlyUpdatedDataForAllTablesIsReturned(): void
 	{
 		$data = $this->repository->getRecentlyUpdatedItems();
 
@@ -115,7 +115,7 @@ class StatisticsRepositoryTest extends DatabaseTestCase
 	/**
 	 * @testdox A new row is saved to the database
 	 */
-	public function testANewRowIsSavedToTheDatabase()
+	public function testANewRowIsSavedToTheDatabase(): void
 	{
 		$db = static::$connection;
 
@@ -149,7 +149,7 @@ class StatisticsRepositoryTest extends DatabaseTestCase
 	/**
 	 * @testdox An existing row is updated in the database
 	 */
-	public function testAnExistingRowIsUpdatedInTheDatabase()
+	public function testAnExistingRowIsUpdatedInTheDatabase(): void
 	{
 		$db = static::$connection;
 

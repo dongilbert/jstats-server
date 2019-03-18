@@ -27,7 +27,7 @@ class FetchPhpTagsCommandTest extends TestCase
 	/**
 	 * @testdox The command fetches the release tags from the PHP repository with no extra pages
 	 */
-	public function testTheCommandFetchesTheReleaseTagsFromThePhpRepositoryWithNoExtraPages()
+	public function testTheCommandFetchesTheReleaseTagsFromThePhpRepositoryWithNoExtraPages(): void
 	{
 		$response = new Response;
 
@@ -145,7 +145,7 @@ class FetchPhpTagsCommandTest extends TestCase
 	/**
 	 * @testdox The command fetches the release tags from the PHP repository with a paginated response
 	 */
-	public function testTheCommandFetchesTheReleaseTagsFromThePhpRepositoryWithAPaginatedResponse()
+	public function testTheCommandFetchesTheReleaseTagsFromThePhpRepositoryWithAPaginatedResponse(): void
 	{
 		$response = new Response;
 
@@ -158,7 +158,7 @@ class FetchPhpTagsCommandTest extends TestCase
 				switch ($this->execution)
 				{
 					case 1:
-						$response = new Response;
+						$response                  = new Response;
 						$response->headers['Link'] = '<https://api.github.com/repositories/1903522/tags?page=2>; rel="next", <https://api.github.com/repositories/1903522/tags?page=3>; rel="last"';
 
 						return $response;

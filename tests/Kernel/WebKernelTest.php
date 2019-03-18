@@ -22,7 +22,7 @@ class WebKernelTest extends TestCase
 	/**
 	 * @testdox The web Kernel is booted with the correct services registered
 	 */
-	public function testTheWebKernelIsBootedWithTheCorrectServicesRegistered()
+	public function testTheWebKernelIsBootedWithTheCorrectServicesRegistered(): void
 	{
 		$kernel = new class extends WebKernel
 		{

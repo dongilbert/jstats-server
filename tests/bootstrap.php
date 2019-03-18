@@ -7,12 +7,12 @@
  */
 
 // Application constants
-define('APPROOT', dirname(__DIR__));
+\define('APPROOT', \dirname(__DIR__));
 
 // Ensure we've initialized Composer
 if (!file_exists(APPROOT . '/vendor/autoload.php'))
 {
-    fwrite(STDOUT, "\nComposer is not set up properly, please run `composer install`\n");
+	fwrite(STDOUT, "\nComposer is not set up properly, please run `composer install`\n");
 
 	exit(1);
 }

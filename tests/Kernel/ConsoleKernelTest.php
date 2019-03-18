@@ -22,7 +22,7 @@ class ConsoleKernelTest extends TestCase
 	/**
 	 * @testdox The console Kernel is booted with the correct services registered
 	 */
-	public function testTheConsoleKernelIsBootedWithTheCorrectServicesRegistered()
+	public function testTheConsoleKernelIsBootedWithTheCorrectServicesRegistered(): void
 	{
 		$kernel = new class extends ConsoleKernel
 		{

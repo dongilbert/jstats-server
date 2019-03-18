@@ -29,7 +29,7 @@ class ErrorSubscriberTest extends TestCase
 	/**
 	 * @testdox Errors are handled for the console application
 	 */
-	public function testErrorsAreHandledForTheConsoleApplication()
+	public function testErrorsAreHandledForTheConsoleApplication(): void
 	{
 		$error = new \Exception('Testing');
 
@@ -70,7 +70,7 @@ class ErrorSubscriberTest extends TestCase
 	/**
 	 * @testdox Method Not Allowed Errors are handled for the web application
 	 */
-	public function testMethodNotAllowedErrorsAreHandledForTheWebApplication()
+	public function testMethodNotAllowedErrorsAreHandledForTheWebApplication(): void
 	{
 		$error = new MethodNotAllowedException(['POST']);
 
@@ -106,7 +106,7 @@ class ErrorSubscriberTest extends TestCase
 			}
 		};
 
-		$application = $this->createMock(AbstractWebApplication::class);
+		$application        = $this->createMock(AbstractWebApplication::class);
 		$application->input = $mockInput;
 
 		$application->expects($this->once())
@@ -142,7 +142,7 @@ class ErrorSubscriberTest extends TestCase
 	/**
 	 * @testdox Route Not Found Errors are handled for the web application
 	 */
-	public function testRouteNotFoundErrorsAreHandledForTheWebApplication()
+	public function testRouteNotFoundErrorsAreHandledForTheWebApplication(): void
 	{
 		$error = new RouteNotFoundException('Testing', 404);
 
@@ -178,7 +178,7 @@ class ErrorSubscriberTest extends TestCase
 	/**
 	 * @testdox Uncaught Exceptions are handled for the web application
 	 */
-	public function testUncaughtExceptionsAreHandledForTheWebApplication()
+	public function testUncaughtExceptionsAreHandledForTheWebApplication(): void
 	{
 		$error = new \Exception('Testing');
 

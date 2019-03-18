@@ -25,9 +25,9 @@ class MigrationStatusCommandTest extends TestCase
 	/**
 	 * @testdox The command shows the status when the table does not exist
 	 */
-	public function testTheCommandShowsTheStatusWhenTheTableDoesNotExist()
+	public function testTheCommandShowsTheStatusWhenTheTableDoesNotExist(): void
 	{
-		$status = new MigrationsStatus;
+		$status              = new MigrationsStatus;
 		$status->tableExists = false;
 
 		/** @var MockObject|Migrations $migrations */
@@ -58,9 +58,9 @@ class MigrationStatusCommandTest extends TestCase
 	/**
 	 * @testdox The command shows the status when on the latest version
 	 */
-	public function testTheCommandShowsTheStatusWhenOnTheLatestVersion()
+	public function testTheCommandShowsTheStatusWhenOnTheLatestVersion(): void
 	{
-		$status = new MigrationsStatus;
+		$status         = new MigrationsStatus;
 		$status->latest = true;
 
 		/** @var MockObject|Migrations $migrations */
@@ -91,12 +91,12 @@ class MigrationStatusCommandTest extends TestCase
 	/**
 	 * @testdox The command shows the status when not on the latest version
 	 */
-	public function testTheCommandShowsTheStatusWhenNotOnTheLatestVersion()
+	public function testTheCommandShowsTheStatusWhenNotOnTheLatestVersion(): void
 	{
-		$status = new MigrationsStatus;
-		$status->currentVersion = '1';
-		$status->latest = false;
-		$status->latestVersion = '2';
+		$status                    = new MigrationsStatus;
+		$status->currentVersion    = '1';
+		$status->latest            = false;
+		$status->latestVersion     = '2';
 		$status->missingMigrations = 1;
 
 		/** @var MockObject|Migrations $migrations */

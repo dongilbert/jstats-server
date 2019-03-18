@@ -26,7 +26,7 @@ class AnalyticsSubscriberTest extends TestCase
 	/**
 	 * @testdox Analytics are recorded for GET requests to the live site
 	 */
-	public function testAnalyticsAreRecordedForGetRequestsToTheLiveSite()
+	public function testAnalyticsAreRecordedForGetRequestsToTheLiveSite(): void
 	{
 		$mockInput = new class extends Input
 		{
@@ -60,7 +60,7 @@ class AnalyticsSubscriberTest extends TestCase
 			}
 		};
 
-		$application = $this->createMock(AbstractApplication::class);
+		$application        = $this->createMock(AbstractApplication::class);
 		$application->input = $mockInput;
 
 		$application->expects($this->once())
@@ -83,7 +83,6 @@ class AnalyticsSubscriberTest extends TestCase
 
 				return new NullAnalyticsResponse;
 			}
-
 		};
 
 		$event = new ApplicationEvent(ApplicationEvents::BEFORE_EXECUTE, $application);
@@ -100,7 +99,7 @@ class AnalyticsSubscriberTest extends TestCase
 	/**
 	 * @testdox Analytics are not recorded for POST requests to the live site
 	 */
-	public function testAnalyticsAreNotRecordedForPostRequestsToTheLiveSite()
+	public function testAnalyticsAreNotRecordedForPostRequestsToTheLiveSite(): void
 	{
 		$mockInput = new class extends Input
 		{
@@ -134,7 +133,7 @@ class AnalyticsSubscriberTest extends TestCase
 			}
 		};
 
-		$application = $this->createMock(AbstractApplication::class);
+		$application        = $this->createMock(AbstractApplication::class);
 		$application->input = $mockInput;
 
 		$application->expects($this->never())
@@ -155,7 +154,6 @@ class AnalyticsSubscriberTest extends TestCase
 
 				return new NullAnalyticsResponse;
 			}
-
 		};
 
 		$event = new ApplicationEvent(ApplicationEvents::BEFORE_EXECUTE, $application);
@@ -172,7 +170,7 @@ class AnalyticsSubscriberTest extends TestCase
 	/**
 	 * @testdox An error while sending analytics is handled
 	 */
-	public function testAnErrorWhileSendingAnalyticsIsHandled()
+	public function testAnErrorWhileSendingAnalyticsIsHandled(): void
 	{
 		$mockInput = new class extends Input
 		{
@@ -206,7 +204,7 @@ class AnalyticsSubscriberTest extends TestCase
 			}
 		};
 
-		$application = $this->createMock(AbstractApplication::class);
+		$application        = $this->createMock(AbstractApplication::class);
 		$application->input = $mockInput;
 
 		$application->expects($this->once())
@@ -223,11 +221,10 @@ class AnalyticsSubscriberTest extends TestCase
 				return $this->didSend === true;
 			}
 
-			public function sendPageview()
+			public function sendPageview(): void
 			{
 				throw new \Exception('Testing error handling');
 			}
-
 		};
 
 		$event = new ApplicationEvent(ApplicationEvents::BEFORE_EXECUTE, $application);

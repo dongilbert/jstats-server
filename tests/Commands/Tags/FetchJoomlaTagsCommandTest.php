@@ -27,7 +27,7 @@ class FetchJoomlaTagsCommandTest extends TestCase
 	/**
 	 * @testdox The command fetches the release tags from the Joomla! repository with no extra pages
 	 */
-	public function testTheCommandFetchesTheReleaseTagsFromTheJoomlaRepositoryWithNoExtraPages()
+	public function testTheCommandFetchesTheReleaseTagsFromTheJoomlaRepositoryWithNoExtraPages(): void
 	{
 		$response = new Response;
 
@@ -113,7 +113,7 @@ class FetchJoomlaTagsCommandTest extends TestCase
 	/**
 	 * @testdox The command fetches the release tags from the Joomla! repository with a paginated response
 	 */
-	public function testTheCommandFetchesTheReleaseTagsFromTheJoomlaRepositoryWithAPaginatedResponse()
+	public function testTheCommandFetchesTheReleaseTagsFromTheJoomlaRepositoryWithAPaginatedResponse(): void
 	{
 		$response = new Response;
 
@@ -126,7 +126,7 @@ class FetchJoomlaTagsCommandTest extends TestCase
 				switch ($this->execution)
 				{
 					case 1:
-						$response = new Response;
+						$response                  = new Response;
 						$response->headers['Link'] = '<https://api.github.com/repositories/2464908/tags?page=2>; rel="next", <https://api.github.com/repositories/2464908/tags?page=3>; rel="last"';
 
 						return $response;

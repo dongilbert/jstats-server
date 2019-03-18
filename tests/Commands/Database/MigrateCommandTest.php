@@ -26,7 +26,7 @@ class MigrateCommandTest extends TestCase
 	/**
 	 * @testdox The command executes database migrations
 	 */
-	public function testTheCommandExecutesDatabaseMigrations()
+	public function testTheCommandExecutesDatabaseMigrations(): void
 	{
 		/** @var MockObject|Migrations $migrations */
 		$migrations = $this->createMock(Migrations::class);
@@ -58,7 +58,7 @@ class MigrateCommandTest extends TestCase
 	/**
 	 * @testdox The command executes the given database migration
 	 */
-	public function testTheCommandExecutesTheGivenDatabaseMigration()
+	public function testTheCommandExecutesTheGivenDatabaseMigration(): void
 	{
 		/** @var MockObject|Migrations $migrations */
 		$migrations = $this->createMock(Migrations::class);
@@ -92,7 +92,7 @@ class MigrateCommandTest extends TestCase
 	/**
 	 * @testdox The command handles migration errors
 	 */
-	public function testTheCommandHandlesMigrationErrors()
+	public function testTheCommandHandlesMigrationErrors(): void
 	{
 		/** @var MockObject|Migrations $migrations */
 		$migrations = $this->createMock(Migrations::class);

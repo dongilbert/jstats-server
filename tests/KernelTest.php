@@ -23,13 +23,13 @@ class KernelTest extends TestCase
 	/**
 	 * @testdox The Kernel is run
 	 */
-	public function testTheKernelIsRun()
+	public function testTheKernelIsRun(): void
 	{
 		$application = new class extends AbstractApplication
 		{
 			private $executed = false;
 
-			protected function doExecute()
+			protected function doExecute(): void
 			{
 				$this->executed = true;
 			}
@@ -72,7 +72,7 @@ class KernelTest extends TestCase
 	/**
 	 * @testdox The Kernel is not run when an application is not registered
 	 */
-	public function testTheKernelIsNotRunWhenAnApplicationIsNotRegistered()
+	public function testTheKernelIsNotRunWhenAnApplicationIsNotRegistered(): void
 	{
 		$kernel = new class extends Kernel
 		{

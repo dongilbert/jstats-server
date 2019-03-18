@@ -44,7 +44,7 @@ class MigrationsTest extends DatabaseTestCase
 	/**
 	 * @testdox The migration status is checked without the table created
 	 */
-	public function testTheMigrationStatusIsCheckedWithoutTheTableCreated()
+	public function testTheMigrationStatusIsCheckedWithoutTheTableCreated(): void
 	{
 		$status = $this->migrations->checkStatus();
 
@@ -54,7 +54,7 @@ class MigrationsTest extends DatabaseTestCase
 	/**
 	 * @testdox The migration status is checked after executing the first migration
 	 */
-	public function testTheMigrationStatusIsCheckedAfterExecutingTheFirstMigration()
+	public function testTheMigrationStatusIsCheckedAfterExecutingTheFirstMigration(): void
 	{
 		$this->migrations->migrateDatabase('20160618001');
 
@@ -68,7 +68,7 @@ class MigrationsTest extends DatabaseTestCase
 	/**
 	 * @testdox The migration status is checked after executing all migrations
 	 */
-	public function testTheMigrationStatusIsCheckedAfterExecutingAllMigrations()
+	public function testTheMigrationStatusIsCheckedAfterExecutingAllMigrations(): void
 	{
 		$this->migrations->migrateDatabase();
 
@@ -82,7 +82,7 @@ class MigrationsTest extends DatabaseTestCase
 	/**
 	 * @testdox Migrations fail with an unknown migration
 	 */
-	public function testMigrationsFailWithAnUnknownMigration()
+	public function testMigrationsFailWithAnUnknownMigration(): void
 	{
 		$this->migrations->migrateDatabase();
 

@@ -83,7 +83,7 @@ class SnapshotRecentlyUpdatedCommandTest extends TestCase
 	/**
 	 * @testdox The command creates a full snapshot
 	 */
-	public function testTheCommandCreatesAFullSnapshot()
+	public function testTheCommandCreatesAFullSnapshot(): void
 	{
 		/** @var MockObject|StatsJsonView $view */
 		$view = $this->createMock(StatsJsonView::class);
@@ -126,7 +126,7 @@ class SnapshotRecentlyUpdatedCommandTest extends TestCase
 	/**
 	 * @testdox The command creates a full snapshot for a single source
 	 */
-	public function testTheCommandCreatesAFullSnapshotForASingleSource()
+	public function testTheCommandCreatesAFullSnapshotForASingleSource(): void
 	{
 		$source = 'db_type';
 
@@ -176,7 +176,7 @@ class SnapshotRecentlyUpdatedCommandTest extends TestCase
 	/**
 	 * @testdox The command does not create a snapshot for an invalid source
 	 */
-	public function testTheCommandDoesNotCreateASnapshotForAnInvalidSource()
+	public function testTheCommandDoesNotCreateASnapshotForAnInvalidSource(): void
 	{
 		$this->expectException(InvalidOptionException::class);
 
