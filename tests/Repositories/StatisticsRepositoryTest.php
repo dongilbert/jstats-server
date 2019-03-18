@@ -9,7 +9,6 @@
 namespace Joomla\StatsServer\Tests\Repositories;
 
 use Joomla\Database\ParameterType;
-use Joomla\StatsServer\Database\Exception\UnknownMigrationException;
 use Joomla\StatsServer\Repositories\StatisticsRepository;
 use Joomla\StatsServer\Tests\DatabaseManager;
 use Joomla\StatsServer\Tests\DatabaseTestCase;
