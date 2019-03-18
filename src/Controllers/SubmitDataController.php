@@ -94,7 +94,7 @@ class SubmitDataController extends AbstractController
 		$data['db_version']  = $this->validateVersionNumber($data['db_version']);
 
 		// We require at a minimum a unique ID and the CMS version
-		if (empty($data['unique_id']) || empty($data['cms_version']))
+		if (empty($data['unique_id']) || (empty($data['cms_version']) && $data['cms_version'] !== false))
 		{
 			$this->getApplication()->getLogger()->info(
 				'Missing required data from request.',
@@ -109,7 +109,7 @@ class SubmitDataController extends AbstractController
 					'message' => 'There was an error storing the data.',
 				]
 			);
-			$response = $response->withHeader('HTTP/1.1 500 Internal Server Error', 500);
+			$response = $response->withStatus(500);
 
 			$this->getApplication()->setResponse($response);
 
@@ -127,7 +127,7 @@ class SubmitDataController extends AbstractController
 					'message' => 'Invalid data submission.',
 				]
 			);
-			$response = $response->withHeader('HTTP/1.1 500 Internal Server Error', 500);
+			$response = $response->withStatus(500);
 
 			$this->getApplication()->setResponse($response);
 

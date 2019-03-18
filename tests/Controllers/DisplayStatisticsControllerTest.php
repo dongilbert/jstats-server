@@ -68,7 +68,7 @@ class DisplayStatisticsControllerTest extends DatabaseTestCase
 				$container = parent::buildContainer();
 
 				// Overload the database service with the test database
-				$container->set(DatabaseDriver::class, $this->database);
+				$container->share(DatabaseDriver::class, $this->database);
 
 				return $container;
 			}
@@ -164,7 +164,7 @@ class DisplayStatisticsControllerTest extends DatabaseTestCase
 		/** @var WebApplication $application */
 		$application = $this->kernel->getContainer()->get(AbstractApplication::class);
 
-		// Fake the request data and params
+		// Fake the request data
 		$application->input->set('source', 'php_version');
 
 		/** @var DisplayStatisticsController $controller */
