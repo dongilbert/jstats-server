@@ -52,7 +52,7 @@ class MigrationStatusCommandTest extends TestCase
 
 		$screenOutput = $output->fetch();
 
-		$this->assertStringContainsString('The migrations table does not exist, run the "database:migrate" command to set up the database.', $screenOutput);
+		$this->assertStringContainsString('The migrations table does not exist', $screenOutput);
 	}
 
 	/**
