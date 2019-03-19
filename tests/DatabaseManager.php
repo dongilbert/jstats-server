@@ -284,7 +284,7 @@ class DatabaseManager
 			$database = getenv('JSTATS_DB_DATABASE');
 			$prefix   = getenv('JSTATS_DB_PREFIX');
 
-			if (empty($host) || empty($user) || empty($password) || empty($database))
+			if (empty($host) || empty($user) || empty($database))
 			{
 				throw new MissingDatabaseCredentialsException;
 			}
