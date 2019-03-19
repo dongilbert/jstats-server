@@ -7,11 +7,11 @@
 	</testsuites>
 
 	<php>
-		<env name="JSTATS_DB_HOST" value="" />
-		<env name="JSTATS_DB_USER" value="" />
+		<env name="JSTATS_DB_HOST" value="localhost" />
+		<env name="JSTATS_DB_USER" value="root" />
 		<env name="JSTATS_DB_PASSWORD" value="" />
-		<env name="JSTATS_DB_DATABASE" value="" />
-		<env name="JSTATS_DB_PREFIX" value="" />
+		<env name="JSTATS_DB_DATABASE" value="joomla_stats_server" />
+		<env name="JSTATS_DB_PREFIX" value="jstats_" />
 	</php>
 
 	<filter>
