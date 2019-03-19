@@ -17,19 +17,19 @@ jobs:
     - stage: Test without coverage
       php: 7.2
       script:
-        - vendor/bin/phpunit --configuration phpunit.travisci.xml
+        - vendor/bin/phpunit --configuration --verbose phpunit.travisci.xml
     - stage: Test without coverage
       php: 7.3
       script:
-        - vendor/bin/phpunit --configuration phpunit.travisci.xml
+        - vendor/bin/phpunit --configuration --verbose phpunit.travisci.xml
     - stage: Test without coverage
       php: nightly
       script:
-        - vendor/bin/phpunit --configuration phpunit.travisci.xml
+        - vendor/bin/phpunit --configuration --verbose phpunit.travisci.xml
     - stage: Test with coverage
       php: 7.2
       script:
-        - vendor/bin/phpunit --configuration phpunit.travisci.xml --coverage-clover=coverage.clover
+        - vendor/bin/phpunit --configuration --verbose phpunit.travisci.xml --coverage-clover=coverage.clover
         - wget https://scrutinizer-ci.com/ocular.phar
         - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
     # PHPCS
