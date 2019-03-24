@@ -13,7 +13,10 @@ use Joomla\Console\Loader\ContainerLoader;
 use Joomla\Console\Loader\LoaderInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Event\Command\DebugEventDispatcherCommand;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Router\Command\DebugRouterCommand;
+use Joomla\Router\Router;
 use Joomla\StatsServer\Commands\Database\MigrateCommand;
 use Joomla\StatsServer\Commands\Database\MigrationStatusCommand;
 use Joomla\StatsServer\Commands\SnapshotCommand;
@@ -55,6 +58,8 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 		 * Commands
 		 */
 
+		$container->share(DebugEventDispatcherCommand::class, [$this, 'getDebugEventDispatcherCommandService']);
+		$container->share(DebugRouterCommand::class, [$this, 'getDebugRouterCommandService']);
 		$container->share(MigrateCommand::class, [$this, 'getDatabaseMigrateCommandService']);
 		$container->share(MigrationStatusCommand::class, [$this, 'getDatabaseMigrationStatusCommandService']);
 		$container->share(FetchJoomlaTagsCommand::class, [$this, 'getFetchJoomlaTagsCommandService']);
@@ -74,6 +79,8 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 	public function getCommandLoaderService(Container $container): LoaderInterface
 	{
 		$mapping = [
+			DebugEventDispatcherCommand::getDefaultName()    => DebugEventDispatcherCommand::class,
+			DebugRouterCommand::getDefaultName()             => DebugRouterCommand::class,
 			MigrationStatusCommand::getDefaultName()         => MigrationStatusCommand::class,
 			MigrateCommand::getDefaultName()                 => MigrateCommand::class,
 			FetchJoomlaTagsCommand::getDefaultName()         => FetchJoomlaTagsCommand::class,
@@ -130,6 +137,30 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 	public function getDatabaseMigrationStatusCommandService(Container $container): MigrationStatusCommand
 	{
 		return new MigrationStatusCommand($container->get(Migrations::class));
+	}
+
+	/**
+	 * Get the DebugEventDispatcherCommand service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  DebugEventDispatcherCommand
+	 */
+	public function getDebugEventDispatcherCommandService(Container $container): DebugEventDispatcherCommand
+	{
+		return new DebugEventDispatcherCommand($container->get(DispatcherInterface::class));
+	}
+
+	/**
+	 * Get the DebugRouterCommand service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  DebugRouterCommand
+	 */
+	public function getDebugRouterCommandService(Container $container): DebugRouterCommand
+	{
+		return new DebugRouterCommand($container->get(Router::class));
 	}
 
 	/**
