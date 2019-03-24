@@ -32,7 +32,7 @@ class GitHub extends JGitHub
 
 		if (class_exists($class))
 		{
-			if (false == isset($this->$name))
+			if (!isset($this->$name))
 			{
 				$this->$name = new $class($this->options, $this->client);
 			}

@@ -7,63 +7,35 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
  */
 
-require dirname(__DIR__) . '/boot.php';
+// Application constants
+define('APPROOT', dirname(__DIR__));
 
-use Joomla\Application\{
-	AbstractApplication, AbstractCliApplication
-};
-use Joomla\DI\Container;
-use Joomla\Input\{
-    Cli, Input
-};
-use Joomla\StatsServer\CliApplication;
-use Joomla\StatsServer\Providers\{
-	ApplicationServiceProvider, CacheServiceProvider, ConfigServiceProvider, DatabaseServiceProvider, GitHubServiceProvider, MonologServiceProvider
-};
-use Monolog\{
-	ErrorHandler, Logger
-};
-use Psr\Log\LoggerInterface;
-
-$container = (new Container)
-	->registerServiceProvider(new ApplicationServiceProvider)
-	->registerServiceProvider(new ConfigServiceProvider(APPROOT . '/etc/config.json'))
-	->registerServiceProvider(new DatabaseServiceProvider)
-	->registerServiceProvider(new GitHubServiceProvider)
-	->registerServiceProvider(new MonologServiceProvider);
-
-// Alias the CLI application to Joomla's base application class as this is the primary application for the environment
-$container->alias(AbstractApplication::class, AbstractCliApplication::class);
-
-// Alias the `monolog.logger.cli` service to the Monolog Logger class and PSR-3 interface as this is the primary logger for the environment
-$container->alias(Logger::class, 'monolog.logger.cli')
-	->alias(LoggerInterface::class, 'monolog.logger.cli');
-
-// Alias the Joomla\Input\Input service to the CLI input class (overloads the original definition)
-$container->alias(Input::class, Cli::class);
-
-// Register deprecation logging via Monolog
-ErrorHandler::register($container->get(Logger::class), [E_DEPRECATED, E_USER_DEPRECATED], false, false);
-
-// Force error reporting to maximum
-error_reporting(-1);
-ini_set('display_errors', true);
-
-// Execute the application
-try
+// Ensure we've initialized Composer
+if (!file_exists(APPROOT . '/vendor/autoload.php'))
 {
-	$container->get(CliApplication::class)->execute();
-}
-catch (\Throwable $e)
-{
-	fwrite(STDOUT, "\nERROR: " . $e->getMessage() . "\n");
-	fwrite(STDOUT, "\n" . $e->getTraceAsString() . "\n");
-
-	if ($prev = $e->getPrevious())
-	{
-		fwrite(STDOUT, "\n\nPrevious Exception: " . $prev->getMessage() . "\n");
-		fwrite(STDOUT, "\n" . $prev->getTraceAsString() . "\n");
-	}
+    fwrite(STDOUT, "\nComposer is not set up properly, please run `composer install`\n");
 
 	exit(1);
+}
+
+require APPROOT . '/vendor/autoload.php';
+
+try
+{
+	(new \Joomla\StatsServer\Kernel\ConsoleKernel)->run();
+}
+catch (\Throwable $throwable)
+{
+	error_log($throwable);
+
+    fwrite(STDOUT, "\nAn error occurred while running the application: " . $throwable->getMessage() . "\n");
+   	fwrite(STDOUT, "\n" . $throwable->getTraceAsString() . "\n");
+
+   	if ($prev = $throwable->getPrevious())
+   	{
+   		fwrite(STDOUT, "\n\nPrevious Exception: " . $prev->getMessage() . "\n");
+   		fwrite(STDOUT, "\n" . $prev->getTraceAsString() . "\n");
+   	}
+
+   	exit(1);
 }

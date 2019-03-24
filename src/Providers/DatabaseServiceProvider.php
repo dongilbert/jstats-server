@@ -9,11 +9,9 @@
 namespace Joomla\StatsServer\Providers;
 
 use Joomla\Database\DatabaseDriver;
-use Joomla\DI\{
-	Container, ServiceProviderInterface
-};
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
+use Joomla\Database\Monitor\LoggingMonitor;
+use Joomla\DI\Container;
+use Joomla\DI\ServiceProviderInterface;
 use Joomla\StatsServer\Database\Migrations;
 
 /**
@@ -28,30 +26,28 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 */
-	public function register(Container $container)
+	public function register(Container $container): void
 	{
-		$container->alias('db', DatabaseDriver::class)
-			->share(DatabaseDriver::class, [$this, 'getDbService'], true);
+		$container->extend(DatabaseDriver::class, [$this, 'extendDatabaseDriverService']);
+
+		$container->alias('db.monitor.logging', LoggingMonitor::class)
+			->share(LoggingMonitor::class, [$this, 'getDbMonitorLoggingService']);
 
 		$container->alias('db.migrations', Migrations::class)
-			->share(Migrations::class, [$this, 'getDbMigrationsService'], true);
+			->share(Migrations::class, [$this, 'getDbMigrationsService']);
 	}
 
 	/**
-	 * Get the `db` service
+	 * Extends the database driver service
 	 *
-	 * @param   Container  $container  The DI container.
+	 * @param   DatabaseDriver  $db         The database driver to extend.
+	 * @param   Container       $container  The DI container.
 	 *
 	 * @return  DatabaseDriver
 	 */
-	public function getDbService(Container $container) : DatabaseDriver
+	public function extendDatabaseDriverService(DatabaseDriver $db, Container $container): DatabaseDriver
 	{
-		/** @var \Joomla\Registry\Registry $config */
-		$config = $container->get('config');
-
-		$db = DatabaseDriver::getInstance((array) $config->get('database'));
-		$db->setDebug($config->get('database.debug'));
-		$db->setLogger($container->get('monolog.logger.database'));
+		$db->setMonitor($container->get(LoggingMonitor::class));
 
 		return $db;
 	}
@@ -63,11 +59,26 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  Migrations
 	 */
-	public function getDbMigrationsService(Container $container) : Migrations
+	public function getDbMigrationsService(Container $container): Migrations
 	{
 		return new Migrations(
-			$container->get('db'),
-			new Filesystem(new Local(APPROOT . '/etc'))
+			$container->get(DatabaseDriver::class),
+			$container->get('filesystem.migrations')
 		);
+	}
+
+	/**
+	 * Get the `db.monitor.logging` service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  LoggingMonitor
+	 */
+	public function getDbMonitorLoggingService(Container $container): LoggingMonitor
+	{
+		$monitor = new LoggingMonitor;
+		$monitor->setLogger($container->get('monolog.logger.database'));
+
+		return $monitor;
 	}
 }

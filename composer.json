@@ -6,31 +6,34 @@
     "homepage": "http://github.com/joomla/statistics-server",
     "license": "GPL-2.0+",
     "require": {
-        "php": ">=7.2",
+        "php": "^7.2",
         "ext-json": "*",
         "ext-pdo": "*",
-        "joomla/application": "~1.6",
-        "joomla/controller": "~1.1",
-        "joomla/database": "1.6.0",
-        "joomla/di": "~1.3",
-        "joomla/github": "~1.3",
-        "joomla/input": "~1.2",
-        "joomla/model": "~1.3",
-        "joomla/registry": "~1.5",
-        "joomla/router": "~1.1",
-        "joomla/uri": "~1.1",
-        "joomla/view": "2.*@dev",
-        "league/flysystem": "~1.0",
-        "monolog/monolog": "~1.17",
-        "psr/log": "~1.0",
-        "ramsey/uuid": "~3.4",
-        "theiconic/php-ga-measurement-protocol": "^2.0"
+        "joomla/application": "~2.0@dev",
+        "joomla/console": "~2.0@dev",
+        "joomla/controller": "~2.0@dev",
+        "joomla/database": "~2.0@dev",
+        "joomla/event": "~2.0@dev",
+        "joomla/di": "~2.0@dev",
+        "joomla/github": "~2.0@dev",
+        "joomla/input": "~2.0@dev",
+        "joomla/registry": "~2.0@dev",
+        "joomla/router": "~2.0@dev",
+        "joomla/string": "~2.0@dev",
+        "joomla/uri": "~2.0@dev",
+        "joomla/view": "~2.0@dev",
+        "league/flysystem": "^1.0.50",
+        "monolog/monolog": "^1.24",
+        "psr/log": "^1.1",
+        "ramsey/uuid": "^3.8",
+        "symfony/process": "4.2.*",
+        "theiconic/php-ga-measurement-protocol": "^2.7.1"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.14.2",
         "joomla/coding-standards": "dev-master",
-        "joomla/session": "~1.3",
-        "joomla/test": "~1.1",
-        "phpunit/phpunit": "~7.0"
+        "league/flysystem-memory": "^1.0.1",
+        "phpunit/phpunit": "^8.0.4"
     },
     "autoload": {
         "psr-4": {
@@ -44,7 +47,9 @@
     },
     "replace": {
         "paragonie/random_compat": "*",
-        "symfony/polyfill-php55": "*"
+        "symfony/polyfill-php55": "*",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php72": "*"
     },
     "config": {
         "platform": {

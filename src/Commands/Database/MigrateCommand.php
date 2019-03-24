@@ -8,22 +8,28 @@
 
 namespace Joomla\StatsServer\Commands\Database;
 
-use Joomla\Controller\AbstractController;
-use Joomla\StatsServer\CommandInterface;
+use Joomla\Console\Command\AbstractCommand;
 use Joomla\StatsServer\Database\Migrations;
-use Psr\Log\{
-	LoggerAwareInterface, LoggerAwareTrait
-};
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * CLI command for migrating the database
- *
- * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
- * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
  */
-class MigrateCommand extends AbstractController implements CommandInterface, LoggerAwareInterface
+class MigrateCommand extends AbstractCommand implements LoggerAwareInterface
 {
 	use LoggerAwareTrait;
+
+	/**
+	 * The default command name
+	 *
+	 * @var  string|null
+	 */
+	protected static $defaultName = 'database:migrate';
 
 	/**
 	 * Database migrations helper
@@ -40,19 +46,26 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 	public function __construct(Migrations $migrations)
 	{
 		$this->migrations = $migrations;
+
+		parent::__construct();
 	}
 
 	/**
-	 * Execute the controller.
+	 * Internal function to execute the command.
 	 *
-	 * @return  boolean
+	 * @param   InputInterface   $input   The input to inject into the command.
+	 * @param   OutputInterface  $output  The output to inject into the command.
+	 *
+	 * @return  integer  The command exit code
 	 */
-	public function execute()
+	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$this->getApplication()->outputTitle('Database Migrations: Migrate');
+		$symfonyStyle = new SymfonyStyle($input, $output);
+
+		$symfonyStyle->title('Database Migrations: Migrate');
 
 		// If a version is given, we are only executing that migration
-		$version = $this->getApplication()->input->getString('version', $this->getApplication()->input->getString('v', ''));
+		$version = $input->getOption('version');
 
 		try
 		{
@@ -65,37 +78,40 @@ class MigrateCommand extends AbstractController implements CommandInterface, Log
 				['exception' => $exception]
 			);
 
-			$message = sprintf('Error migrating database: %s', $exception->getMessage());
+			$symfonyStyle->error(sprintf('Error migrating database: %s', $exception->getMessage()));
 
-			$this->getApplication()->out("<error>$message</error>");
-
-			return false;
+			return 1;
 		}
 
-		$this->logger->info('Database migrated to latest version.');
+		if ($version)
+		{
+			$message = sprintf('Database migrated to version "%s".', $version);
+		}
+		else
+		{
+			$message = 'Database migrated to latest version.';
+		}
 
-		$this->getApplication()->out('<info>Database migrated to latest version.</info>');
+		$this->logger->info($message);
 
-		return true;
+		$symfonyStyle->success($message);
+
+		return 0;
 	}
 
 	/**
-	 * Get the command's description
+	 * Configures the current command.
 	 *
-	 * @return  string
+	 * @return  void
 	 */
-	public function getDescription() : string
+	protected function configure(): void
 	{
-		return 'Migrate the database schema to a newer version.';
-	}
-
-	/**
-	 * Get the command's title
-	 *
-	 * @return  string
-	 */
-	public function getTitle() : string
-	{
-		return 'Database Migrations';
+		$this->setDescription('Migrate the database schema to a newer version.');
+		$this->addOption(
+			'version',
+			null,
+			InputOption::VALUE_OPTIONAL,
+			'If specified, only the given migration will be executed if necessary.'
+		);
 	}
 }

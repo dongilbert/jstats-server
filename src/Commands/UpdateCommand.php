@@ -8,89 +8,81 @@
 
 namespace Joomla\StatsServer\Commands;
 
-use Joomla\Controller\AbstractController;
-use Joomla\StatsServer\CommandInterface;
+use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 /**
  * Update command
- *
- * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
- * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
  */
-class UpdateCommand extends AbstractController implements CommandInterface
+class UpdateCommand extends AbstractCommand
 {
 	/**
-	 * Execute the controller.
+	 * The default command name
 	 *
-	 * @return  boolean
+	 * @var  string|null
 	 */
-	public function execute()
-	{
-		$this->getApplication()->outputTitle('Update Server');
+	protected static $defaultName = 'update:server';
 
-		$this->getApplication()->out('<info>Updating server to git HEAD</info>');
+	/**
+	 * Internal function to execute the command.
+	 *
+	 * @param   InputInterface   $input   The input to inject into the command.
+	 * @param   OutputInterface  $output  The output to inject into the command.
+	 *
+	 * @return  integer  The command exit code
+	 */
+	protected function doExecute(InputInterface $input, OutputInterface $output): int
+	{
+		$symfonyStyle = new SymfonyStyle($input, $output);
+
+		$symfonyStyle->title('Update Server');
+		$symfonyStyle->comment('Updating server to git HEAD');
 
 		// Pull from remote repo
-		$this->runCommand('cd ' . APPROOT . ' && git pull 2>&1');
-
-		$this->getApplication()->out('<info>Updating Composer resources</info>');
-
-		// Run Composer install
-		$this->runCommand('cd ' . APPROOT . ' && composer install --no-dev -o -a 2>&1');
-
-		$this->getApplication()->out('<info>Update complete</info>');
-
-		return true;
-	}
-
-	/**
-	 * Get the command's description
-	 *
-	 * @return  string
-	 */
-	public function getDescription() : string
-	{
-		return 'Update the server to the current git HEAD.';
-	}
-
-	/**
-	 * Get the command's title
-	 *
-	 * @return  string
-	 */
-	public function getTitle() : string
-	{
-		return 'Update Server';
-	}
-
-	/**
-	 * Execute a command on the server.
-	 *
-	 * @param   string  $command  The command to execute.
-	 *
-	 * @return  string  Return data from the command
-	 *
-	 * @throws  \RuntimeException
-	 */
-	private function runCommand(string $command) : string
-	{
-		$lastLine = system($command, $status);
-
-		if ($status)
+		try
 		{
-			// Command exited with a status != 0
-			if ($lastLine)
-			{
-				$this->getApplication()->out($lastLine);
+			(new Process('git pull', APPROOT))->mustRun();
+		}
+		catch (ProcessFailedException $e)
+		{
+			$this->getApplication()->getLogger()->error('Could not execute `git pull`', ['exception' => $e]);
 
-				throw new \RuntimeException($lastLine);
-			}
+			$symfonyStyle->error('Error running `git pull`: ' . $e->getMessage());
 
-			$this->getApplication()->out('<error>An unknown error occurred</error>');
-
-			throw new \RuntimeException('An unknown error occurred');
+			return 1;
 		}
 
-		return $lastLine;
+		$symfonyStyle->comment('Updating Composer resources');
+
+		// Run Composer install
+		try
+		{
+			(new Process('composer install --no-dev -o -a', APPROOT))->mustRun();
+		}
+		catch (ProcessFailedException $e)
+		{
+			$this->getApplication()->getLogger()->error('Could not update Composer resources', ['exception' => $e]);
+
+			$symfonyStyle->error('Error updating Composer resources: ' . $e->getMessage());
+
+			return 1;
+		}
+
+		$symfonyStyle->success('Update complete');
+
+		return 0;
+	}
+
+	/**
+	 * Configures the current command.
+	 *
+	 * @return  void
+	 */
+	protected function configure(): void
+	{
+		$this->setDescription('Update the server to the current git HEAD');
 	}
 }

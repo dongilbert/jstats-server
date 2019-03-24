@@ -8,14 +8,12 @@
 
 namespace Joomla\StatsServer\Providers;
 
-use Joomla\DI\{
-	Container, ServiceProviderInterface
-};
+use Joomla\DI\Container;
+use Joomla\DI\ServiceProviderInterface;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use Monolog\Processor\{
-	PsrLogMessageProcessor, WebProcessor
-};
+use Monolog\Processor\PsrLogMessageProcessor;
+use Monolog\Processor\WebProcessor;
 
 /**
  * Monolog service provider
@@ -29,28 +27,28 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 */
-	public function register(Container $container)
+	public function register(Container $container): void
 	{
 		// Register the PSR-3 processor
-		$container->share('monolog.processor.psr3', [$this, 'getMonologProcessorPsr3Service'], true);
+		$container->share('monolog.processor.psr3', [$this, 'getMonologProcessorPsr3Service']);
 
 		// Register the web processor
-		$container->share('monolog.processor.web', [$this, 'getMonologProcessorWebService'], true);
+		$container->share('monolog.processor.web', [$this, 'getMonologProcessorWebService']);
 
 		// Register the web application handler
-		$container->share('monolog.handler.application', [$this, 'getMonologHandlerApplicationService'], true);
+		$container->share('monolog.handler.application', [$this, 'getMonologHandlerApplicationService']);
 
 		// Register the database handler
-		$container->share('monolog.handler.database', [$this, 'getMonologHandlerDatabaseService'], true);
+		$container->share('monolog.handler.database', [$this, 'getMonologHandlerDatabaseService']);
 
 		// Register the web application Logger
-		$container->share('monolog.logger.application', [$this, 'getMonologLoggerApplicationService'], true);
+		$container->share('monolog.logger.application', [$this, 'getMonologLoggerApplicationService']);
 
 		// Register the CLI application Logger
-		$container->share('monolog.logger.cli', [$this, 'getMonologLoggerCliService'], true);
+		$container->share('monolog.logger.cli', [$this, 'getMonologLoggerCliService']);
 
 		// Register the database Logger
-		$container->share('monolog.logger.database', [$this, 'getMonologLoggerDatabaseService'], true);
+		$container->share('monolog.logger.database', [$this, 'getMonologLoggerDatabaseService']);
 	}
 
 	/**
@@ -60,7 +58,7 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  PsrLogMessageProcessor
 	 */
-	public function getMonologProcessorPsr3Service(Container $container) : PsrLogMessageProcessor
+	public function getMonologProcessorPsr3Service(Container $container): PsrLogMessageProcessor
 	{
 		return new PsrLogMessageProcessor;
 	}
@@ -72,7 +70,7 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  WebProcessor
 	 */
-	public function getMonologProcessorWebService(Container $container) : WebProcessor
+	public function getMonologProcessorWebService(Container $container): WebProcessor
 	{
 		return new WebProcessor;
 	}
@@ -84,14 +82,14 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  StreamHandler
 	 */
-	public function getMonologHandlerApplicationService(Container $container) : StreamHandler
+	public function getMonologHandlerApplicationService(Container $container): StreamHandler
 	{
 		/** @var \Joomla\Registry\Registry $config */
 		$config = $container->get('config');
 
 		$level = strtoupper($config->get('log.application', $config->get('log.level', 'error')));
 
-		return new StreamHandler(APPROOT . '/logs/stats.log', constant('\\Monolog\\Logger::' . $level));
+		return new StreamHandler(APPROOT . '/logs/stats.log', \constant('\\Monolog\\Logger::' . $level));
 	}
 
 	/**
@@ -101,15 +99,14 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  StreamHandler
 	 */
-	public function getMonologHandlerDatabaseService(Container $container) : StreamHandler
+	public function getMonologHandlerDatabaseService(Container $container): StreamHandler
 	{
 		/** @var \Joomla\Registry\Registry $config */
 		$config = $container->get('config');
 
-		// If database debugging is enabled then force the logger's error level to DEBUG, otherwise use the level defined in the app config
-		$level = $config->get('database.debug', false) ? 'DEBUG' : strtoupper($config->get('log.database', $config->get('log.level', 'error')));
+		$level = strtoupper($config->get('log.database', $config->get('log.level', 'error')));
 
-		return new StreamHandler(APPROOT . '/logs/stats.log', constant('\\Monolog\\Logger::' . $level));
+		return new StreamHandler(APPROOT . '/logs/stats.log', \constant('\\Monolog\\Logger::' . $level));
 	}
 
 	/**
@@ -119,15 +116,15 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  Logger
 	 */
-	public function getMonologLoggerApplicationService(Container $container) : Logger
+	public function getMonologLoggerApplicationService(Container $container): Logger
 	{
 		return new Logger(
 			'Application',
 			[
-				$container->get('monolog.handler.application')
+				$container->get('monolog.handler.application'),
 			],
 			[
-				$container->get('monolog.processor.web')
+				$container->get('monolog.processor.web'),
 			]
 		);
 	}
@@ -139,12 +136,12 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  Logger
 	 */
-	public function getMonologLoggerCliService(Container $container) : Logger
+	public function getMonologLoggerCliService(Container $container): Logger
 	{
 		return new Logger(
 			'Application',
 			[
-				$container->get('monolog.handler.application')
+				$container->get('monolog.handler.application'),
 			]
 		);
 	}
@@ -156,16 +153,16 @@ class MonologServiceProvider implements ServiceProviderInterface
 	 *
 	 * @return  Logger
 	 */
-	public function getMonologLoggerDatabaseService(Container $container) : Logger
+	public function getMonologLoggerDatabaseService(Container $container): Logger
 	{
 		return new Logger(
 			'Application',
 			[
-				$container->get('monolog.handler.database')
+				$container->get('monolog.handler.database'),
 			],
 			[
 				$container->get('monolog.processor.psr3'),
-				$container->get('monolog.processor.web')
+				$container->get('monolog.processor.web'),
 			]
 		);
 	}

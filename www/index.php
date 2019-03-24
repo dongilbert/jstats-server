@@ -6,62 +6,49 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
  */
 
-require dirname(__DIR__) . '/boot.php';
+// Application constants
+\define('APPROOT', \dirname(__DIR__));
 
-use Joomla\Application\{
-	AbstractApplication, AbstractWebApplication
-};
-use Joomla\DI\Container;
-use Joomla\StatsServer\WebApplication;
-use Joomla\StatsServer\Providers\{
-	ApplicationServiceProvider, CacheServiceProvider, ConfigServiceProvider, DatabaseServiceProvider, GitHubServiceProvider, MonologServiceProvider
-};
-use Monolog\{
-	ErrorHandler, Logger
-};
-use Psr\Log\LoggerInterface;
+// Ensure we've initialized Composer
+if (!file_exists(APPROOT . '/vendor/autoload.php'))
+{
+	header('HTTP/1.1 500 Internal Server Error', null, 500);
+	header('Content-Type: application/json; charset=utf-8');
 
-$container = (new Container)
-	->registerServiceProvider(new ApplicationServiceProvider)
-	->registerServiceProvider(new ConfigServiceProvider(APPROOT . '/etc/config.json'))
-	->registerServiceProvider(new DatabaseServiceProvider)
-	->registerServiceProvider(new GitHubServiceProvider)
-	->registerServiceProvider(new MonologServiceProvider);
+	echo \json_encode(
+		[
+			'code'    => 500,
+			'message' => 'Composer is not set up properly, please run "composer install".',
+			'error'   => true,
+		]
+	);
 
-// Alias the web application to Joomla's base application class as this is the primary application for the environment
-$container->alias(AbstractApplication::class, AbstractWebApplication::class);
+	exit;
+}
 
-// Alias the `monolog.logger.application` service to the Monolog Logger class and PSR-3 interface as this is the primary logger for the environment
-$container->alias(Logger::class, 'monolog.logger.application')
-	->alias(LoggerInterface::class, 'monolog.logger.application');
+require APPROOT . '/vendor/autoload.php';
 
-// Register deprecation logging via Monolog
-ErrorHandler::register($container->get(Logger::class), [E_DEPRECATED, E_USER_DEPRECATED], false, false);
-
-// Set error reporting based on config
-$errorReporting = (int) $container->get('config')->get('errorReporting', 0);
-error_reporting($errorReporting);
-ini_set('display_errors', (bool) $errorReporting);
-
-// Execute the application
 try
 {
-	$container->get(WebApplication::class)->execute();
+	(new \Joomla\StatsServer\Kernel\WebKernel)->run();
 }
-catch (\Throwable $e)
+catch (\Throwable $throwable)
 {
+	error_log($throwable);
+
 	if (!headers_sent())
 	{
 		header('HTTP/1.1 500 Internal Server Error', null, 500);
 		header('Content-Type: application/json; charset=utf-8');
 	}
 
-	$response = [
-		'error' => true,
-		'message' => 'An error occurred while executing the application: ' . $e->getMessage()
-	];
+	echo \json_encode(
+		[
+			'code'    => $throwable->getCode(),
+			'message' => 'An error occurred while executing the application: ' . $throwable->getMessage(),
+			'error'   => true,
+		]
+	);
 
-	echo json_encode($response);
-
-	exit(1);
+	exit;
 }

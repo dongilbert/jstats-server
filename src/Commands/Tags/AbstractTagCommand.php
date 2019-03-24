@@ -8,17 +8,15 @@
 
 namespace Joomla\StatsServer\Commands\Tags;
 
-use Joomla\Controller\AbstractController;
-use Joomla\StatsServer\CommandInterface;
+use Joomla\Console\Command\AbstractCommand;
 use Joomla\StatsServer\GitHub\GitHub;
+use League\Flysystem\Filesystem;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Abstract command for processing tags from GitHub
- *
- * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
- * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
  */
-abstract class AbstractTagCommand extends AbstractController implements CommandInterface
+abstract class AbstractTagCommand extends AbstractCommand
 {
 	/**
 	 * GitHub API object.
@@ -26,6 +24,13 @@ abstract class AbstractTagCommand extends AbstractController implements CommandI
 	 * @var  GitHub
 	 */
 	protected $github;
+
+	/**
+	 * Filesystem adapter for the snapshots space.
+	 *
+	 * @var  Filesystem
+	 */
+	protected $filesystem;
 
 	/**
 	 * The GitHub repository to query.
@@ -44,23 +49,29 @@ abstract class AbstractTagCommand extends AbstractController implements CommandI
 	/**
 	 * Constructor.
 	 *
-	 * @param   GitHub  $github  GitHub API object
+	 * @param   GitHub      $github      GitHub API object.
+	 * @param   Filesystem  $filesystem  Filesystem adapter for the versions space.
 	 */
-	public function __construct(GitHub $github)
+	public function __construct(GitHub $github, Filesystem $filesystem)
 	{
-		$this->github = $github;
+		$this->github     = $github;
+		$this->filesystem = $filesystem;
+
+		parent::__construct();
 	}
 
 	/**
 	 * Get the tags for a repository
 	 *
+	 * @param   SymfonyStyle  $symfonyStyle  The I/O helper
+	 *
 	 * @return  array
 	 */
-	protected function getTags() : array
+	protected function getTags(SymfonyStyle $symfonyStyle): array
 	{
 		$tags = [];
 
-		$this->getApplication()->out('<info>Fetching page 1 of tags.</info>');
+		$symfonyStyle->comment('Fetching page 1 of tags.');
 
 		// Get the first page so we can process the headers to figure out how many times we need to do this
 		$tags = array_merge($tags, $this->github->repositories->getTags($this->repoOwner, $this->repoName, 1));
@@ -79,7 +90,7 @@ abstract class AbstractTagCommand extends AbstractController implements CommandI
 
 				for ($page = 2; $page <= $lastPage; $page++)
 				{
-					$this->getApplication()->out("<info>Fetching page $page of $lastPage pages of tags.</info>");
+					$symfonyStyle->comment(sprintf('Fetching page %d of %d pages of tags.', $page, $lastPage));
 
 					$tags = array_merge($tags, $this->github->repositories->getTags($this->repoOwner, $this->repoName, $page));
 				}

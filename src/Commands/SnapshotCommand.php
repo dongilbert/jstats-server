@@ -8,18 +8,28 @@
 
 namespace Joomla\StatsServer\Commands;
 
-use Joomla\Controller\AbstractController;
-use Joomla\StatsServer\CommandInterface;
+use Joomla\Console\Command\AbstractCommand;
+use Joomla\StatsServer\Repositories\StatisticsRepository;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
+use League\Flysystem\Filesystem;
+use Symfony\Component\Console\Exception\InvalidOptionException;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * Snapshot command
- *
- * @method         \Joomla\StatsServer\CliApplication  getApplication()  Get the application object.
- * @property-read  \Joomla\StatsServer\CliApplication  $app              Application object
+ * Command to take a record snapshot
  */
-class SnapshotCommand extends AbstractController implements CommandInterface
+class SnapshotCommand extends AbstractCommand
 {
+	/**
+	 * The default command name
+	 *
+	 * @var  string|null
+	 */
+	protected static $defaultName = 'snapshot';
+
 	/**
 	 * JSON view for displaying the statistics.
 	 *
@@ -28,56 +38,90 @@ class SnapshotCommand extends AbstractController implements CommandInterface
 	private $view;
 
 	/**
+	 * Filesystem adapter for the snapshots space.
+	 *
+	 * @var  Filesystem
+	 */
+	private $filesystem;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param   StatsJsonView  $view  JSON view for displaying the statistics.
+	 * @param   StatsJsonView  $view        JSON view for displaying the statistics.
+	 * @param   Filesystem     $filesystem  Filesystem adapter for the snapshots space.
 	 */
-	public function __construct(StatsJsonView $view)
+	public function __construct(StatsJsonView $view, Filesystem $filesystem)
 	{
-		$this->view  = $view;
+		$this->view       = $view;
+		$this->filesystem = $filesystem;
+
+		parent::__construct();
 	}
 
 	/**
-	 * Execute the controller.
+	 * Internal function to execute the command.
 	 *
-	 * @return  boolean
+	 * @param   InputInterface   $input   The input to inject into the command.
+	 * @param   OutputInterface  $output  The output to inject into the command.
+	 *
+	 * @return  integer  The command exit code
 	 */
-	public function execute()
+	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$this->getApplication()->outputTitle('Creating Statistics Snapshot');
+		$symfonyStyle = new SymfonyStyle($input, $output);
+
+		$symfonyStyle->title('Creating Statistics Snapshot');
 
 		// We want the full raw data set for our snapshot
 		$this->view->isAuthorizedRaw(true);
 
-		$file = APPROOT . '/snapshots/' . date('YmdHis');
+		$source = $input->getOption('source');
 
-		if (!file_put_contents($file, $this->view->render()))
+		$filename = date('YmdHis');
+
+		if ($source)
 		{
-			throw new \RuntimeException('Failed writing snapshot to the filesystem at ' . $file);
+			if (!\in_array($source, StatisticsRepository::ALLOWED_SOURCES))
+			{
+				throw new InvalidOptionException(
+					\sprintf(
+						'Invalid source "%s" given, valid options are: %s',
+						$source,
+						implode(', ', StatisticsRepository::ALLOWED_SOURCES)
+					)
+				);
+			}
+
+			$this->view->setSource($source);
+
+			$filename .= '_' . $source;
 		}
 
-		$this->getApplication()->out('<info>Snapshot successfully recorded.</info>');
+		if (!$this->filesystem->write($filename, $this->view->render()))
+		{
+			$symfonyStyle->error('Failed writing snapshot to the filesystem.');
 
-		return true;
+			return 1;
+		}
+
+		$symfonyStyle->success('Snapshot recorded.');
+
+		return 0;
 	}
 
 	/**
-	 * Get the command's description
+	 * Configures the current command.
 	 *
-	 * @return  string
+	 * @return  void
 	 */
-	public function getDescription() : string
+	protected function configure(): void
 	{
-		return 'Takes a snapshot of the statistics data.';
-	}
-
-	/**
-	 * Get the command's title
-	 *
-	 * @return  string
-	 */
-	public function getTitle() : string
-	{
-		return 'Stats Snapshot';
+		$this->setDescription('Takes a snapshot of the statistics data.');
+		$this->addOption(
+			'source',
+			null,
+			InputOption::VALUE_OPTIONAL,
+			'If given, filters the snapshot to a single source.'
+		);
 	}
 }
