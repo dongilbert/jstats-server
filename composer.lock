@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a150f2f3933445f0b6b50d9491e9ce20",
+    "content-hash": "08679e1bcad180c83b640eb14c44b0f5",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -575,26 +575,26 @@
         },
         {
             "name": "joomla/filter",
-            "version": "1.3.5",
+            "version": "dev-2.0-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "ee1d870b5c188056745e1dd3cece21522e2158b8"
+                "reference": "26cc4ef6c575b2a20ac8c6ecd488d343d8a32bc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/ee1d870b5c188056745e1dd3cece21522e2158b8",
-                "reference": "ee1d870b5c188056745e1dd3cece21522e2158b8",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/26cc4ef6c575b2a20ac8c6ecd488d343d8a32bc5",
+                "reference": "26cc4ef6c575b2a20ac8c6ecd488d343d8a32bc5",
                 "shasum": ""
             },
             "require": {
                 "joomla/string": "~1.3|~2.0",
-                "php": "^5.3.10|~7.0"
+                "php": "~7.0"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "joomla/language": "~1.3",
-                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
+                "joomla/language": "~2.0@dev",
+                "phpunit/phpunit": "~6.3"
             },
             "suggest": {
                 "joomla/language": "Required only if you want to use `OutputFilter::stringURLSafe`."
@@ -602,7 +602,7 @@
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-2.0-dev": "2.0-dev"
                 }
             },
             "autoload": {
@@ -621,7 +621,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2018-05-26T15:48:53+00:00"
+            "time": "2018-10-03T01:21:59+00:00"
         },
         {
             "name": "joomla/github",
@@ -673,36 +673,38 @@
         },
         {
             "name": "joomla/http",
-            "version": "1.3.3",
+            "version": "dev-2.0-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "128c3d410fd7327fb87839cd3e00ed0be2f71f9d"
+                "reference": "a6164e43d74d6ae03e919f4f50ccd533b2a4964f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/128c3d410fd7327fb87839cd3e00ed0be2f71f9d",
-                "reference": "128c3d410fd7327fb87839cd3e00ed0be2f71f9d",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/a6164e43d74d6ae03e919f4f50ccd533b2a4964f",
+                "reference": "a6164e43d74d6ae03e919f4f50ccd533b2a4964f",
                 "shasum": ""
             },
             "require": {
                 "composer/ca-bundle": "~1.0",
                 "joomla/uri": "~1.0|~2.0",
-                "php": "^5.3.10|~7.0"
+                "php": "~7.0",
+                "psr/http-client": "~1.0",
+                "psr/http-message": "~1.0",
+                "zendframework/zend-diactoros": "~1.1|~2.0"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
                 "joomla/test": "~1.0",
-                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
+                "phpunit/phpunit": "~6.3"
             },
             "suggest": {
-                "ext-curl": "To use cURL for HTTP connections",
-                "joomla/registry": "Registry can be used as an alternative to using an array for the package options."
+                "ext-curl": "To use cURL for HTTP connections"
             },
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-2.0-dev": "2.0-dev"
                 }
             },
             "autoload": {
@@ -721,7 +723,7 @@
                 "http",
                 "joomla"
             ],
-            "time": "2019-03-10T15:31:03+00:00"
+            "time": "2018-11-25T01:56:19+00:00"
         },
         {
             "name": "joomla/input",
@@ -987,30 +989,30 @@
         },
         {
             "name": "joomla/utilities",
-            "version": "1.6.0",
+            "version": "dev-2.0-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/utilities.git",
-                "reference": "181fe644149ca0bd4a31f12212d3840147552b30"
+                "reference": "d9341c656ed21969f8f29005aa689c862bb3ab89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/181fe644149ca0bd4a31f12212d3840147552b30",
-                "reference": "181fe644149ca0bd4a31f12212d3840147552b30",
+                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/d9341c656ed21969f8f29005aa689c862bb3ab89",
+                "reference": "d9341c656ed21969f8f29005aa689c862bb3ab89",
                 "shasum": ""
             },
             "require": {
                 "joomla/string": "~1.3|~2.0",
-                "php": "^5.3.10|~7.0"
+                "php": "~7.0"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
+                "phpunit/phpunit": "~6.3"
             },
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-2.0-dev": "2.0-dev"
                 }
             },
             "autoload": {
@@ -1029,7 +1031,7 @@
                 "joomla",
                 "utilities"
             ],
-            "time": "2018-10-16T23:36:52+00:00"
+            "time": "2018-10-17T23:06:34+00:00"
         },
         {
             "name": "joomla/view",
@@ -1291,6 +1293,55 @@
                 "psr"
             ],
             "time": "2017-02-14T16:28:37+00:00"
+        },
+        {
+            "name": "psr/http-client",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-client.git",
+                "reference": "496a823ef742b632934724bf769560c2a5c7c44e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-client/zipball/496a823ef742b632934724bf769560c2a5c7c44e",
+                "reference": "496a823ef742b632934724bf769560c2a5c7c44e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0",
+                "psr/http-message": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Client\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP clients",
+            "homepage": "https://github.com/php-fig/http-client",
+            "keywords": [
+                "http",
+                "http-client",
+                "psr",
+                "psr-18"
+            ],
+            "time": "2018-10-30T23:29:13+00:00"
         },
         {
             "name": "psr/http-factory",
@@ -4213,12 +4264,15 @@
         "joomla/database": 20,
         "joomla/event": 20,
         "joomla/di": 20,
+        "joomla/filter": 20,
         "joomla/github": 20,
+        "joomla/http": 20,
         "joomla/input": 20,
         "joomla/registry": 20,
         "joomla/router": 20,
         "joomla/string": 20,
         "joomla/uri": 20,
+        "joomla/utilities": 20,
         "joomla/view": 20,
         "joomla/coding-standards": 20
     },
