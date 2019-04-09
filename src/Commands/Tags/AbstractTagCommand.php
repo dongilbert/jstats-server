@@ -78,9 +78,9 @@ abstract class AbstractTagCommand extends AbstractCommand
 
 		$response = $this->github->repositories->getApiResponse();
 
-		if (isset($response->headers['Link']))
+		if ($response->hasHeader('Link'))
 		{
-			preg_match('/(\?page=[0-9]+>; rel=\"last\")/', $response->headers['Link'], $matches);
+			preg_match('/(\?page=[0-9]+>; rel=\"last\")/', $response->getHeader('Link')[0], $matches);
 
 			if ($matches && isset($matches[0]))
 			{
