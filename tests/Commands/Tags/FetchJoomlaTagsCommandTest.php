@@ -126,8 +126,8 @@ class FetchJoomlaTagsCommandTest extends TestCase
 				switch ($this->execution)
 				{
 					case 1:
-						$response                  = new Response;
-						$response->headers['Link'] = '<https://api.github.com/repositories/2464908/tags?page=2>; rel="next", <https://api.github.com/repositories/2464908/tags?page=3>; rel="last"';
+						$response = new Response;
+						$response = $response->withHeader('Link', '<https://api.github.com/repositories/2464908/tags?page=2>; rel="next", <https://api.github.com/repositories/2464908/tags?page=3>; rel="last"');
 
 						return $response;
 
