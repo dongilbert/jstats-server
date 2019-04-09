@@ -25,7 +25,7 @@
         "joomla/uri": "~2.0@dev",
         "joomla/utilities": "~2.0@dev",
         "joomla/view": "~2.0@dev",
-        "league/flysystem": "^1.0.50",
+        "league/flysystem": "^1.0.51",
         "monolog/monolog": "^1.24",
         "psr/log": "^1.1",
         "ramsey/uuid": "^3.8",
@@ -36,7 +36,7 @@
         "friendsofphp/php-cs-fixer": "^2.14.2",
         "joomla/coding-standards": "dev-master",
         "league/flysystem-memory": "^1.0.1",
-        "phpunit/phpunit": "^8.0.4"
+        "phpunit/phpunit": "^8.1.2"
     },
     "autoload": {
         "psr-4": {
@@ -56,7 +56,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.2.12"
+            "php": "7.2.17"
         }
     }
 }
