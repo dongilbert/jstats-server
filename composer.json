@@ -29,7 +29,7 @@
         "monolog/monolog": "^1.24",
         "psr/log": "^1.1",
         "ramsey/uuid": "^3.8",
-        "symfony/process": "4.2.*",
+        "symfony/process": "4.3.*",
         "theiconic/php-ga-measurement-protocol": "^2.7.1"
     },
     "require-dev": {
@@ -56,7 +56,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.2.17"
+            "php": "7.2.18"
         }
     }
 }
