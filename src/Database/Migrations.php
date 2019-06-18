@@ -10,6 +10,7 @@ namespace Joomla\StatsServer\Database;
 
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\Exception\PrepareStatementFailureException;
 use Joomla\StatsServer\Database\Exception\CannotInitializeMigrationsException;
 use Joomla\StatsServer\Database\Exception\UnknownMigrationException;
 use League\Flysystem\Filesystem;
@@ -64,7 +65,7 @@ class Migrations
 					->from('#__migrations')
 			)->loadColumn();
 		}
-		catch (ExecutionFailureException $exception)
+		catch (ExecutionFailureException | PrepareStatementFailureException $exception)
 		{
 			// On PDO we're checking "42S02, 1146, Table 'XXX.#__migrations' doesn't exist"
 			if (strpos($exception->getMessage(), "migrations' doesn't exist") === false)
@@ -132,7 +133,7 @@ class Migrations
 					->from('#__migrations')
 			)->loadColumn();
 		}
-		catch (ExecutionFailureException $exception)
+		catch (ExecutionFailureException | PrepareStatementFailureException $exception)
 		{
 			// If the table does not exist, we can still try to run migrations
 			if (strpos($exception->getMessage(), "migrations' doesn't exist") === false)

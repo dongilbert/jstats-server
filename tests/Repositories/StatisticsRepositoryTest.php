@@ -10,7 +10,6 @@ namespace Joomla\StatsServer\Tests\Repositories;
 
 use Joomla\Database\ParameterType;
 use Joomla\StatsServer\Repositories\StatisticsRepository;
-use Joomla\StatsServer\Tests\DatabaseManager;
 use Joomla\StatsServer\Tests\DatabaseTestCase;
 
 /**
@@ -34,7 +33,7 @@ class StatisticsRepositoryTest extends DatabaseTestCase
 	{
 		parent::setUpBeforeClass();
 
-		DatabaseManager::runMigrations();
+		static::$dbManager->runMigrations();
 	}
 
 	/**
@@ -46,7 +45,7 @@ class StatisticsRepositoryTest extends DatabaseTestCase
 	{
 		parent::setUp();
 
-		DatabaseManager::loadExampleData();
+		static::$dbManager->loadExampleData();
 
 		$this->repository = new StatisticsRepository(static::$connection);
 	}
@@ -59,7 +58,7 @@ class StatisticsRepositoryTest extends DatabaseTestCase
 	 */
 	protected function tearDown(): void
 	{
-		DatabaseManager::clearTables();
+		static::$dbManager->clearTables();
 
 		parent::tearDown();
 	}
@@ -136,8 +135,8 @@ class StatisticsRepositoryTest extends DatabaseTestCase
 			$db->getQuery(true)
 				->select('*')
 				->from('#__jstats')
-				->where('unique_id = :uniqueId')
-				->bind('uniqueId', $id, ParameterType::STRING)
+				->where('unique_id = :unique_id')
+				->bind(':unique_id', $id, ParameterType::STRING)
 		)->loadObject();
 
 		$this->assertNotNull($rowFromDatabase, 'The newly inserted row could not be queried.');
@@ -170,8 +169,8 @@ class StatisticsRepositoryTest extends DatabaseTestCase
 			$db->getQuery(true)
 				->select('*')
 				->from('#__jstats')
-				->where('unique_id = :uniqueId')
-				->bind('uniqueId', $id, ParameterType::STRING)
+				->where('unique_id = :unique_id')
+				->bind(':unique_id', $id, ParameterType::STRING)
 		)->loadObject();
 
 		$this->assertNotNull($rowFromDatabase, 'The updated row could not be queried.');

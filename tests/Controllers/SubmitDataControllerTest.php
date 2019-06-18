@@ -15,7 +15,6 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\StatsServer\Controllers\SubmitDataController;
 use Joomla\StatsServer\Kernel\WebKernel;
-use Joomla\StatsServer\Tests\DatabaseManager;
 use Joomla\StatsServer\Tests\DatabaseTestCase;
 use Psr\Log\LoggerInterface;
 use Psr\Log\Test\TestLogger;
@@ -49,7 +48,7 @@ class SubmitDataControllerTest extends DatabaseTestCase
 	{
 		parent::setUpBeforeClass();
 
-		DatabaseManager::runMigrations();
+		static::$dbManager->runMigrations();
 	}
 
 	/**
@@ -100,7 +99,7 @@ class SubmitDataControllerTest extends DatabaseTestCase
 	 */
 	protected function tearDown(): void
 	{
-		DatabaseManager::clearTables();
+		static::$dbManager->clearTables();
 
 		parent::tearDown();
 	}

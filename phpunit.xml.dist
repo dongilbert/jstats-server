@@ -7,11 +7,12 @@
 	</testsuites>
 
 	<php>
-		<env name="JSTATS_DB_HOST" value="" />
-		<env name="JSTATS_DB_USER" value="" />
-		<env name="JSTATS_DB_PASSWORD" value="" />
-		<env name="JSTATS_DB_DATABASE" value="" />
-		<env name="JSTATS_DB_PREFIX" value="" />
+		<env name="JOOMLA_TEST_DB_DRIVER" value="mysql" />
+		<env name="JOOMLA_TEST_DB_HOST" value="" />
+		<env name="JOOMLA_TEST_DB_USER" value="" />
+		<env name="JOOMLA_TEST_DB_PASSWORD" value="" />
+		<env name="JOOMLA_TEST_DB_DATABASE" value="" />
+		<env name="JOOMLA_TEST_DB_PREFIX" value="" />
 	</php>
 
 	<logging>

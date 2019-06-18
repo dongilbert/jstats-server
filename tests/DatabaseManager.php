@@ -9,169 +9,24 @@
 namespace Joomla\StatsServer\Tests;
 
 use Joomla\Database\DatabaseDriver;
-use Joomla\Database\DatabaseFactory;
-use Joomla\Database\DatabaseInterface;
-use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\StatsServer\Database\Migrations;
+use Joomla\Test\DatabaseManager as BaseDatabaseManager;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 
 /**
  * Helper class for building a database connection in the test environment
  */
-class DatabaseManager
+class DatabaseManager extends BaseDatabaseManager
 {
-	/**
-	 * The database connection for the test environment
-	 *
-	 * @var  DatabaseInterface|null
-	 */
-	private static $connection;
-
-	/**
-	 * The database name for connections
-	 *
-	 * @var  string|null
-	 */
-	private static $dbName;
-
-	/**
-	 * The database connection parameters from the environment configuration
-	 *
-	 * @var  array
-	 */
-	private static $params = [];
-
-	/**
-	 * Clears the database tables of all data
-	 *
-	 * @return  void
-	 */
-	public static function clearTables(): void
-	{
-		$db = self::getConnection();
-
-		foreach ($db->getTableList() as $table)
-		{
-			$db->truncateTable($table);
-		}
-	}
-
-	/**
-	 * Creates the database for the test environment
-	 *
-	 * @return  void
-	 *
-	 * @throws  DatabaseConnectionNotInitializedException
-	 * @throws  ExecutionFailureException
-	 */
-	public static function createDatabase(): void
-	{
-		if (self::$connection === null)
-		{
-			throw new DatabaseConnectionNotInitializedException(
-				sprintf(
-					'The database connection has not been initialized, ensure you call %s::getConnection() first.',
-					self::class
-				)
-			);
-		}
-
-		try
-		{
-			self::$connection->createDatabase(
-				(object) [
-					'db_name' => self::getDbName(),
-					'db_user' => self::$params['user'],
-				]
-			);
-		}
-		catch (ExecutionFailureException $exception)
-		{
-			$stringToCheck = sprintf("Can't create database '%s'; database exists", self::getDbName());
-
-			// If database exists, we're good
-			if (strpos($exception->getMessage(), $stringToCheck) !== false)
-			{
-				return;
-			}
-
-			throw $exception;
-		}
-	}
-
-	/**
-	 * Destroys the database for the test environment
-	 *
-	 * @return  void
-	 *
-	 * @throws  DatabaseConnectionNotInitializedException
-	 * @throws  ExecutionFailureException
-	 */
-	public static function dropDatabase(): void
-	{
-		if (self::$connection === null)
-		{
-			throw new DatabaseConnectionNotInitializedException(
-				sprintf(
-					'The database connection has not been initialized, ensure you call %s::getConnection() first.',
-					self::class
-				)
-			);
-		}
-
-		try
-		{
-			self::$connection->setQuery('DROP DATABASE ' . self::$connection->quoteName(self::getDbName()))->execute();
-		}
-		catch (ExecutionFailureException $exception)
-		{
-			$stringToCheck = sprintf("Can't drop database '%s'; database doesn't exist", self::getDbName());
-
-			// If database does not exist, we're good
-			if (strpos($exception->getMessage(), $stringToCheck) !== false)
-			{
-				return;
-			}
-
-			throw $exception;
-		}
-	}
-
-	/**
-	 * Fetches the database driver, creating it if not yet set up
-	 *
-	 * @return  DatabaseInterface
-	 */
-	public static function getConnection(): DatabaseInterface
-	{
-		if (self::$connection === null)
-		{
-			self::initializeParams();
-			self::createConnection();
-		}
-
-		return self::$connection;
-	}
-
-	/**
-	 * Fetch the name of the database to use
-	 *
-	 * @return  string|null
-	 */
-	public static function getDbName(): ?string
-	{
-		return self::$dbName;
-	}
-
 	/**
 	 * Load the example data into the database
 	 *
 	 * @return  void
 	 */
-	public static function loadExampleData(): void
+	public function loadExampleData(): void
 	{
-		$db = self::getConnection();
+		$db = $this->getConnection();
 
 		$modifiedTimestamp = (new \DateTime('now', new \DateTimeZone('UTC')))->format($db->getDateFormat());
 
@@ -248,55 +103,10 @@ class DatabaseManager
 	 *
 	 * @return  void
 	 */
-	public static function runMigrations(): void
+	public function runMigrations(): void
 	{
-		$db = self::getConnection();
+		$db = $this->getConnection();
 
 		(new Migrations($db, new Filesystem(new Local(APPROOT . '/etc/migrations'))))->migrateDatabase();
-	}
-
-	/**
-	 * Create the DatabaseDriver object
-	 *
-	 * @return  void
-	 */
-	private static function createConnection(): void
-	{
-		$params = self::$params;
-
-		self::$connection = (new DatabaseFactory)->getDriver('mysql', self::$params);
-	}
-
-	/**
-	 * Initialize the parameter storage for the database connection
-	 *
-	 * @return  void
-	 *
-	 * @throws  MissingDatabaseCredentialsException
-	 */
-	private static function initializeParams(): void
-	{
-		if (empty(self::$params))
-		{
-			$host     = getenv('JSTATS_DB_HOST');
-			$user     = getenv('JSTATS_DB_USER');
-			$password = getenv('JSTATS_DB_PASSWORD');
-			$database = getenv('JSTATS_DB_DATABASE');
-			$prefix   = getenv('JSTATS_DB_PREFIX');
-
-			if (empty($host) || empty($user) || empty($database))
-			{
-				throw new MissingDatabaseCredentialsException;
-			}
-
-			self::$params = [
-				'host'     => $host,
-				'user'     => $user,
-				'password' => $password,
-				'prefix'   => $prefix,
-			];
-
-			self::$dbName = $database;
-		}
 	}
 }

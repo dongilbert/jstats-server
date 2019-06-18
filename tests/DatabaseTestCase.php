@@ -8,59 +8,31 @@
 
 namespace Joomla\StatsServer\Tests;
 
-use Joomla\Database\DatabaseInterface;
-use Joomla\Database\Exception\ConnectionFailureException;
-use PHPUnit\Framework\TestCase;
+use Joomla\Test\DatabaseManager as BaseDatabaseManager;
+use Joomla\Test\DatabaseTestCase as BaseDatabaseTestCase;
 
 /**
- * Base test case for tests interacting with a database
+ * Extended test case for tests interacting with a database
  */
-abstract class DatabaseTestCase extends TestCase
+abstract class DatabaseTestCase extends BaseDatabaseTestCase
 {
 	/**
-	 * The database connection for the test case
+	 * The database manager
 	 *
-	 * @var  DatabaseInterface|null
+	 * @var  DatabaseManager|null
 	 */
-	protected static $connection;
+	protected static $dbManager;
 
 	/**
-	 * This method is called before the first test of this test class is run.
+	 * Create the database manager for this test class.
 	 *
-	 * @return  void
-	 */
-	public static function setUpBeforeClass(): void
-	{
-		try
-		{
-			$connection = DatabaseManager::getConnection();
-			DatabaseManager::dropDatabase();
-			DatabaseManager::createDatabase();
-			$connection->select(DatabaseManager::getDbName());
-
-			static::$connection = $connection;
-		}
-		catch (MissingDatabaseCredentialsException $exception)
-		{
-			static::markTestSkipped('Database credentials are not set, cannot run database tests.');
-		}
-		catch (ConnectionFailureException $exception)
-		{
-			static::markTestSkipped('Could not connect to the test database, cannot run database tests.');
-		}
-	}
-
-	/**
-	 * This method is called after the last test of this test class is run.
+	 * If necessary, this method can be extended to create your own subclass of the base DatabaseManager object to customise
+	 * the behaviors in your application.
 	 *
-	 * @return  void
+	 * @return  DatabaseManager
 	 */
-	public static function tearDownAfterClass(): void
+	protected static function createDatabaseManager(): BaseDatabaseManager
 	{
-		if (static::$connection !== null)
-		{
-			DatabaseManager::dropDatabase();
-			static::$connection->disconnect();
-		}
+		return new DatabaseManager;
 	}
 }

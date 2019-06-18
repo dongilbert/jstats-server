@@ -35,8 +35,9 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.14.2",
         "joomla/coding-standards": "dev-master",
+        "joomla/test": "~2.0@dev",
         "league/flysystem-memory": "^1.0.1",
-        "phpunit/phpunit": "^8.1.2"
+        "phpunit/phpunit": "^8.2.2"
     },
     "autoload": {
         "psr-4": {

@@ -126,7 +126,7 @@ class StatisticsRepository
 				->select('unique_id')
 				->from('#__jstats')
 				->where('unique_id = :unique_id')
-				->bind('unique_id', $data->unique_id, ParameterType::STRING)
+				->bind(':unique_id', $data->unique_id, ParameterType::STRING)
 		)->loadResult();
 
 		if ($recordExists)

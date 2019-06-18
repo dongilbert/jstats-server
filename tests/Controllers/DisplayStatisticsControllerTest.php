@@ -15,7 +15,6 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\StatsServer\Controllers\DisplayStatisticsController;
 use Joomla\StatsServer\Kernel\WebKernel;
-use Joomla\StatsServer\Tests\DatabaseManager;
 use Joomla\StatsServer\Tests\DatabaseTestCase;
 use Zend\Diactoros\Response\JsonResponse;
 
@@ -40,7 +39,7 @@ class DisplayStatisticsControllerTest extends DatabaseTestCase
 	{
 		parent::setUpBeforeClass();
 
-		DatabaseManager::runMigrations();
+		static::$dbManager->runMigrations();
 	}
 
 	/**
@@ -52,7 +51,7 @@ class DisplayStatisticsControllerTest extends DatabaseTestCase
 	{
 		parent::setUp();
 
-		DatabaseManager::loadExampleData();
+		static::$dbManager->loadExampleData();
 
 		$this->kernel = new class(static::$connection) extends WebKernel
 		{
@@ -88,7 +87,7 @@ class DisplayStatisticsControllerTest extends DatabaseTestCase
 	 */
 	protected function tearDown(): void
 	{
-		DatabaseManager::clearTables();
+		static::$dbManager->clearTables();
 
 		parent::tearDown();
 	}
