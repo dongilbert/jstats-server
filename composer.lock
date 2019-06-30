@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ff2d437647f96fd72424de4b267363fc",
+    "content-hash": "2a10b8067495eb1400f871bdecc3394f",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -180,33 +180,37 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.5.2",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "9f83dded91781a01c63574e387eaa769be769115"
+                "reference": "dc784032a3f6f4e7a4b882e272b771f6fe4c37cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/9f83dded91781a01c63574e387eaa769be769115",
-                "reference": "9f83dded91781a01c63574e387eaa769be769115",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/dc784032a3f6f4e7a4b882e272b771f6fe4c37cf",
+                "reference": "dc784032a3f6f4e7a4b882e272b771f6fe4c37cf",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0",
                 "psr/http-message": "~1.0",
-                "ralouphie/getallheaders": "^2.0.5"
+                "ralouphie/getallheaders": "^2.0.5 || ^3.0.0"
             },
             "provide": {
                 "psr/http-message-implementation": "1.0"
             },
             "require-dev": {
+                "ext-zlib": "*",
                 "phpunit/phpunit": "~4.8.36 || ^5.7.27 || ^6.5.8"
+            },
+            "suggest": {
+                "zendframework/zend-httphandlerrunner": "Emit PSR-7 responses"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.5-dev"
+                    "dev-master": "1.6-dev"
                 }
             },
             "autoload": {
@@ -243,7 +247,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2018-12-04T20:46:45+00:00"
+            "time": "2019-06-30T00:37:05+00:00"
         },
         {
             "name": "joomla/application",
@@ -251,19 +255,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/application.git",
-                "reference": "921b4805b3cdf29d1b82eec37ccd42b25f5732a8"
+                "reference": "dcf1205bd75ff2de3414828ba111b2430ed959bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/application/zipball/921b4805b3cdf29d1b82eec37ccd42b25f5732a8",
-                "reference": "921b4805b3cdf29d1b82eec37ccd42b25f5732a8",
+                "url": "https://api.github.com/repos/joomla-framework/application/zipball/dcf1205bd75ff2de3414828ba111b2430ed959bc",
+                "reference": "dcf1205bd75ff2de3414828ba111b2430ed959bc",
                 "shasum": ""
             },
             "require": {
                 "joomla/event": "~2.0",
                 "joomla/input": "~1.2|~2.0",
                 "joomla/registry": "^1.4.5|~2.0",
-                "php": "~7.0",
+                "php": "~7.2",
                 "psr/http-message": "~1.0",
                 "psr/log": "~1.0",
                 "zendframework/zend-diactoros": "~1.3|~2.0"
@@ -307,7 +311,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-04-10T08:57:09+00:00"
+            "time": "2019-06-17T23:30:53+00:00"
         },
         {
             "name": "joomla/console",
@@ -315,19 +319,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/console.git",
-                "reference": "49584d9d8b0f08a9a665d76a42e1f8051d43f642"
+                "reference": "2d4ceaaa49336f672d09e8d05faf8df6501a2754"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/console/zipball/49584d9d8b0f08a9a665d76a42e1f8051d43f642",
-                "reference": "49584d9d8b0f08a9a665d76a42e1f8051d43f642",
+                "url": "https://api.github.com/repos/joomla-framework/console/zipball/2d4ceaaa49336f672d09e8d05faf8df6501a2754",
+                "reference": "2d4ceaaa49336f672d09e8d05faf8df6501a2754",
                 "shasum": ""
             },
             "require": {
                 "joomla/application": "~2.0",
                 "joomla/event": "~2.0",
                 "joomla/string": "~2.0",
-                "php": "~7.0",
+                "php": "~7.2",
                 "symfony/console": "~3.4|~4.0"
             },
             "require-dev": {
@@ -360,7 +364,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-05-30T23:15:02+00:00"
+            "time": "2019-06-17T23:29:39+00:00"
         },
         {
             "name": "joomla/controller",
@@ -368,22 +372,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/controller.git",
-                "reference": "7b951cd9c029e91ae67824c5625784b7bc78956c"
+                "reference": "a2c6a9d1193265e7cf597c9c0f2779b18357f7c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/controller/zipball/7b951cd9c029e91ae67824c5625784b7bc78956c",
-                "reference": "7b951cd9c029e91ae67824c5625784b7bc78956c",
+                "url": "https://api.github.com/repos/joomla-framework/controller/zipball/a2c6a9d1193265e7cf597c9c0f2779b18357f7c0",
+                "reference": "a2c6a9d1193265e7cf597c9c0f2779b18357f7c0",
                 "shasum": ""
             },
             "require": {
-                "php": "~7.0"
+                "php": "~7.2"
             },
             "require-dev": {
                 "joomla/application": "~1.0|~2.0",
                 "joomla/coding-standards": "~2.0@alpha",
                 "joomla/input": "~1.0|~2.0",
-                "phpunit/phpunit": "~6.3"
+                "phpunit/phpunit": "~8.2"
             },
             "suggest": {
                 "joomla/application": "The joomla/application package is required to use Joomla\\Controller\\AbstractController",
@@ -411,7 +415,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2018-11-13T23:54:57+00:00"
+            "time": "2019-06-19T01:10:30+00:00"
         },
         {
             "name": "joomla/database",
@@ -419,17 +423,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "fafabc6baed45b904dbadff1e8ec22a1816eed48"
+                "reference": "8f38deb247234d9ffe4eb5940d665758e07cbe28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/fafabc6baed45b904dbadff1e8ec22a1816eed48",
-                "reference": "fafabc6baed45b904dbadff1e8ec22a1816eed48",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/8f38deb247234d9ffe4eb5940d665758e07cbe28",
+                "reference": "8f38deb247234d9ffe4eb5940d665758e07cbe28",
                 "shasum": ""
             },
             "require": {
                 "joomla/event": "~2.0",
-                "php": "~7.0",
+                "php": "~7.2",
                 "psr/log": "~1.0"
             },
             "require-dev": {
@@ -476,7 +480,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-06-17T23:48:00+00:00"
+            "time": "2019-06-30T02:23:56+00:00"
         },
         {
             "name": "joomla/di",
@@ -484,16 +488,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/di.git",
-                "reference": "094c1aef2d1d0f920be22153b0bd4bf9c4d76269"
+                "reference": "55db6dc7ad2e8cb778c224608b8d2c8569e18af5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/di/zipball/094c1aef2d1d0f920be22153b0bd4bf9c4d76269",
-                "reference": "094c1aef2d1d0f920be22153b0bd4bf9c4d76269",
+                "url": "https://api.github.com/repos/joomla-framework/di/zipball/55db6dc7ad2e8cb778c224608b8d2c8569e18af5",
+                "reference": "55db6dc7ad2e8cb778c224608b8d2c8569e18af5",
                 "shasum": ""
             },
             "require": {
-                "php": "~7.0",
+                "php": "~7.2",
                 "psr/container": "~1.0"
             },
             "provide": {
@@ -501,7 +505,7 @@
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "phpunit/phpunit": "~6.3"
+                "phpunit/phpunit": "~8.2"
             },
             "type": "joomla-package",
             "extra": {
@@ -528,7 +532,7 @@
                 "ioc",
                 "joomla"
             ],
-            "time": "2019-06-09T04:05:54+00:00"
+            "time": "2019-06-19T01:48:32+00:00"
         },
         {
             "name": "joomla/event",
@@ -536,21 +540,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/event.git",
-                "reference": "8ca21a13fe7c6cb39e4db8343334e383d5d0e9c1"
+                "reference": "d0146f10f982acd8e9629179c3da5c0496ccd2a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/event/zipball/8ca21a13fe7c6cb39e4db8343334e383d5d0e9c1",
-                "reference": "8ca21a13fe7c6cb39e4db8343334e383d5d0e9c1",
+                "url": "https://api.github.com/repos/joomla-framework/event/zipball/d0146f10f982acd8e9629179c3da5c0496ccd2a0",
+                "reference": "d0146f10f982acd8e9629179c3da5c0496ccd2a0",
                 "shasum": ""
             },
             "require": {
-                "php": "~7.0"
+                "php": "~7.2"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
                 "joomla/console": "~2.0",
-                "phpunit/phpunit": "~6.3"
+                "phpunit/phpunit": "~8.2"
             },
             "suggest": {
                 "joomla/console": "If you want to use the DebugEventDispatcherCommand class, please install joomla/console:~2.0"
@@ -577,7 +581,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-06-09T03:08:53+00:00"
+            "time": "2019-06-19T01:52:12+00:00"
         },
         {
             "name": "joomla/filter",
@@ -585,22 +589,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "3f4afdcd21367e03eeae705ea905e974024c2e36"
+                "reference": "77d9dbf21d2374ac10b171f128d28cc252f0b7e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/3f4afdcd21367e03eeae705ea905e974024c2e36",
-                "reference": "3f4afdcd21367e03eeae705ea905e974024c2e36",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/77d9dbf21d2374ac10b171f128d28cc252f0b7e4",
+                "reference": "77d9dbf21d2374ac10b171f128d28cc252f0b7e4",
                 "shasum": ""
             },
             "require": {
                 "joomla/string": "~1.3|~2.0",
-                "php": "~7.0"
+                "php": "~7.2"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "joomla/language": "~2.0@dev",
-                "phpunit/phpunit": "~6.3"
+                "joomla/language": "~2.0",
+                "phpunit/phpunit": "~8.2"
             },
             "suggest": {
                 "joomla/language": "Required only if you want to use `OutputFilter::stringURLSafe`."
@@ -627,7 +631,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-05-28T14:12:31+00:00"
+            "time": "2019-06-29T18:43:42+00:00"
         },
         {
             "name": "joomla/github",
@@ -635,19 +639,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/github-api.git",
-                "reference": "f557725c0e00ee967e2bb4c65f492c7817e2ec4d"
+                "reference": "db7d4fd5b1c7dd91fc5b2c84e94193fc7822ef01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/github-api/zipball/f557725c0e00ee967e2bb4c65f492c7817e2ec4d",
-                "reference": "f557725c0e00ee967e2bb4c65f492c7817e2ec4d",
+                "url": "https://api.github.com/repos/joomla-framework/github-api/zipball/db7d4fd5b1c7dd91fc5b2c84e94193fc7822ef01",
+                "reference": "db7d4fd5b1c7dd91fc5b2c84e94193fc7822ef01",
                 "shasum": ""
             },
             "require": {
                 "joomla/http": "~1.3|~2.0",
                 "joomla/registry": "^1.4.5|~2.0",
                 "joomla/uri": "~1.0|~2.0",
-                "php": "~7.0"
+                "php": "~7.2"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
@@ -675,7 +679,7 @@
                 "github",
                 "joomla"
             ],
-            "time": "2019-02-09T21:10:25+00:00"
+            "time": "2019-06-17T22:36:29+00:00"
         },
         {
             "name": "joomla/http",
@@ -683,18 +687,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "a6164e43d74d6ae03e919f4f50ccd533b2a4964f"
+                "reference": "3367e57dd2bdc2de9eadd51cde31c138ca14319a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/a6164e43d74d6ae03e919f4f50ccd533b2a4964f",
-                "reference": "a6164e43d74d6ae03e919f4f50ccd533b2a4964f",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/3367e57dd2bdc2de9eadd51cde31c138ca14319a",
+                "reference": "3367e57dd2bdc2de9eadd51cde31c138ca14319a",
                 "shasum": ""
             },
             "require": {
                 "composer/ca-bundle": "~1.0",
                 "joomla/uri": "~1.0|~2.0",
-                "php": "~7.0",
+                "php": "~7.2",
                 "psr/http-client": "~1.0",
                 "psr/http-message": "~1.0",
                 "zendframework/zend-diactoros": "~1.1|~2.0"
@@ -729,7 +733,7 @@
                 "http",
                 "joomla"
             ],
-            "time": "2018-11-25T01:56:19+00:00"
+            "time": "2019-06-18T00:00:18+00:00"
         },
         {
             "name": "joomla/input",
@@ -737,22 +741,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/input.git",
-                "reference": "9ea8af32626e3d557697575047825073141f1fbc"
+                "reference": "ff790de2006e5fc4cbe9dd4e1d0c8daf37958cf1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/input/zipball/9ea8af32626e3d557697575047825073141f1fbc",
-                "reference": "9ea8af32626e3d557697575047825073141f1fbc",
+                "url": "https://api.github.com/repos/joomla-framework/input/zipball/ff790de2006e5fc4cbe9dd4e1d0c8daf37958cf1",
+                "reference": "ff790de2006e5fc4cbe9dd4e1d0c8daf37958cf1",
                 "shasum": ""
             },
             "require": {
                 "joomla/filter": "~1.0|~2.0",
-                "php": "~7.0"
+                "php": "~7.2"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "joomla/test": "~1.0",
-                "phpunit/phpunit": "~6.3"
+                "joomla/test": "~2.0",
+                "phpunit/phpunit": "~8.2"
             },
             "type": "joomla-package",
             "extra": {
@@ -776,7 +780,7 @@
                 "input",
                 "joomla"
             ],
-            "time": "2018-10-03T01:21:19+00:00"
+            "time": "2019-06-29T18:52:11+00:00"
         },
         {
             "name": "joomla/registry",
@@ -784,17 +788,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "9bded357d6a76831c54c9b42044c1f3f00a0f5af"
+                "reference": "c7f0c490ad178853c693e4139317c118a95ff61a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/9bded357d6a76831c54c9b42044c1f3f00a0f5af",
-                "reference": "9bded357d6a76831c54c9b42044c1f3f00a0f5af",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/c7f0c490ad178853c693e4139317c118a95ff61a",
+                "reference": "c7f0c490ad178853c693e4139317c118a95ff61a",
                 "shasum": ""
             },
             "require": {
                 "joomla/utilities": "^1.4.1|~2.0",
-                "php": "~7.0"
+                "php": "~7.2"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
@@ -826,7 +830,7 @@
                 "joomla",
                 "registry"
             ],
-            "time": "2019-05-30T23:17:27+00:00"
+            "time": "2019-06-17T22:41:38+00:00"
         },
         {
             "name": "joomla/router",
@@ -834,22 +838,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/router.git",
-                "reference": "8fe6a3263324e3d4605e8cfaf0e738df41021bba"
+                "reference": "38d5c21ec12899c555d46f5f7cba552f853e0be9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/router/zipball/8fe6a3263324e3d4605e8cfaf0e738df41021bba",
-                "reference": "8fe6a3263324e3d4605e8cfaf0e738df41021bba",
+                "url": "https://api.github.com/repos/joomla-framework/router/zipball/38d5c21ec12899c555d46f5f7cba552f853e0be9",
+                "reference": "38d5c21ec12899c555d46f5f7cba552f853e0be9",
                 "shasum": ""
             },
             "require": {
-                "php": "~7.0"
+                "php": "~7.2"
             },
             "require-dev": {
                 "jeremeamia/superclosure": "~1.0",
                 "joomla/coding-standards": "~2.0@alpha",
                 "joomla/console": "~2.0",
-                "phpunit/phpunit": "~6.3"
+                "phpunit/phpunit": "~8.2"
             },
             "suggest": {
                 "jeremeamia/superclosure": "If you use Closure controllers, and want to be able to cache / serialize the router, please install jeremeamia/superclosure:~1.0",
@@ -877,7 +881,7 @@
                 "joomla",
                 "router"
             ],
-            "time": "2019-03-24T00:20:52+00:00"
+            "time": "2019-06-18T02:47:26+00:00"
         },
         {
             "name": "joomla/string",
@@ -885,22 +889,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/string.git",
-                "reference": "964e0d4f9b4253b56f21d23a5f4787a6be37c71d"
+                "reference": "2e09dfffc2a3769efb34c28f19a56fdc8ff00014"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/string/zipball/964e0d4f9b4253b56f21d23a5f4787a6be37c71d",
-                "reference": "964e0d4f9b4253b56f21d23a5f4787a6be37c71d",
+                "url": "https://api.github.com/repos/joomla-framework/string/zipball/2e09dfffc2a3769efb34c28f19a56fdc8ff00014",
+                "reference": "2e09dfffc2a3769efb34c28f19a56fdc8ff00014",
                 "shasum": ""
             },
             "require": {
-                "php": "~7.0"
+                "php": "~7.2"
             },
             "require-dev": {
                 "doctrine/inflector": "~1.2",
                 "joomla/coding-standards": "~2.0@alpha",
                 "joomla/test": "~1.0",
-                "phpunit/phpunit": "~6.3"
+                "phpunit/phpunit": "~8.2"
             },
             "suggest": {
                 "doctrine/inflector": "To use the string inflector",
@@ -945,7 +949,7 @@
                 "joomla",
                 "string"
             ],
-            "time": "2019-03-18T01:24:51+00:00"
+            "time": "2019-06-18T02:38:42+00:00"
         },
         {
             "name": "joomla/uri",
@@ -953,21 +957,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/uri.git",
-                "reference": "b051dacd379b419f63db35931626e8a743ff10e8"
+                "reference": "eed89d4997fcc52c08bba56116fa3ac4aef6a9db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/b051dacd379b419f63db35931626e8a743ff10e8",
-                "reference": "b051dacd379b419f63db35931626e8a743ff10e8",
+                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/eed89d4997fcc52c08bba56116fa3ac4aef6a9db",
+                "reference": "eed89d4997fcc52c08bba56116fa3ac4aef6a9db",
                 "shasum": ""
             },
             "require": {
-                "php": "~7.0"
+                "php": "~7.2"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "joomla/test": "~1.0",
-                "phpunit/phpunit": "~6.3"
+                "phpunit/phpunit": "~8.2"
             },
             "type": "joomla-package",
             "extra": {
@@ -991,7 +994,7 @@
                 "joomla",
                 "uri"
             ],
-            "time": "2018-10-03T00:11:18+00:00"
+            "time": "2019-06-18T02:07:33+00:00"
         },
         {
             "name": "joomla/utilities",
@@ -999,21 +1002,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/utilities.git",
-                "reference": "5b17492c50535bdd1e10f0a0c3f6b2a1ae41bdde"
+                "reference": "491b6f4db261a5f88887c6d90cebcfeecf38d276"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/5b17492c50535bdd1e10f0a0c3f6b2a1ae41bdde",
-                "reference": "5b17492c50535bdd1e10f0a0c3f6b2a1ae41bdde",
+                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/491b6f4db261a5f88887c6d90cebcfeecf38d276",
+                "reference": "491b6f4db261a5f88887c6d90cebcfeecf38d276",
                 "shasum": ""
             },
             "require": {
                 "joomla/string": "~1.3|~2.0",
-                "php": "~7.0"
+                "php": "~7.2"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "phpunit/phpunit": "~6.3"
+                "phpunit/phpunit": "~8.2"
             },
             "type": "joomla-package",
             "extra": {
@@ -1037,7 +1040,7 @@
                 "joomla",
                 "utilities"
             ],
-            "time": "2019-05-26T19:27:53+00:00"
+            "time": "2019-06-18T01:28:24+00:00"
         },
         {
             "name": "joomla/view",
@@ -1045,22 +1048,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/view.git",
-                "reference": "fb6816bba645b91244a51cccfd75fe7283b85526"
+                "reference": "dac3c234c9007d0d23f85a94033e8bf4062e2000"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/view/zipball/fb6816bba645b91244a51cccfd75fe7283b85526",
-                "reference": "fb6816bba645b91244a51cccfd75fe7283b85526",
+                "url": "https://api.github.com/repos/joomla-framework/view/zipball/dac3c234c9007d0d23f85a94033e8bf4062e2000",
+                "reference": "dac3c234c9007d0d23f85a94033e8bf4062e2000",
                 "shasum": ""
             },
             "require": {
-                "php": "~7.0"
+                "php": "~7.2"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
                 "joomla/renderer": "~2.0",
-                "joomla/test": "~1.0",
-                "phpunit/phpunit": "~6.3"
+                "phpunit/phpunit": "~8.2"
             },
             "suggest": {
                 "joomla/renderer": "Required to use Joomla\\View\\BaseHtmlView"
@@ -1087,20 +1089,20 @@
                 "joomla",
                 "view"
             ],
-            "time": "2018-10-03T01:21:46+00:00"
+            "time": "2019-06-18T00:44:23+00:00"
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.52",
+            "version": "1.0.53",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "c5a5097156387970e6f0ccfcdf03f752856f3391"
+                "reference": "08e12b7628f035600634a5e76d95b5eb66cea674"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/c5a5097156387970e6f0ccfcdf03f752856f3391",
-                "reference": "c5a5097156387970e6f0ccfcdf03f752856f3391",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/08e12b7628f035600634a5e76d95b5eb66cea674",
+                "reference": "08e12b7628f035600634a5e76d95b5eb66cea674",
                 "shasum": ""
             },
             "require": {
@@ -1171,7 +1173,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2019-05-20T20:21:14+00:00"
+            "time": "2019-06-18T20:09:29+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1500,24 +1502,24 @@
         },
         {
             "name": "ralouphie/getallheaders",
-            "version": "2.0.5",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ralouphie/getallheaders.git",
-                "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa"
+                "reference": "120b605dfeb996808c31b6477290a714d356e822"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
-                "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
+                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/120b605dfeb996808c31b6477290a714d356e822",
+                "reference": "120b605dfeb996808c31b6477290a714d356e822",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3"
+                "php": ">=5.6"
             },
             "require-dev": {
-                "phpunit/phpunit": "~3.7.0",
-                "satooshi/php-coveralls": ">=1.0"
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^5 || ^6.5"
             },
             "type": "library",
             "autoload": {
@@ -1536,7 +1538,7 @@
                 }
             ],
             "description": "A polyfill for getallheaders.",
-            "time": "2016-02-11T07:05:27+00:00"
+            "time": "2019-03-08T08:55:37+00:00"
         },
         {
             "name": "ramsey/uuid",
@@ -1622,16 +1624,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v4.3.1",
+            "version": "v4.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "d50bbeeb0e17e6dd4124ea391eff235e932cbf64"
+                "reference": "b592b26a24265a35172d8a2094d8b10f22b7cc39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/d50bbeeb0e17e6dd4124ea391eff235e932cbf64",
-                "reference": "d50bbeeb0e17e6dd4124ea391eff235e932cbf64",
+                "url": "https://api.github.com/repos/symfony/console/zipball/b592b26a24265a35172d8a2094d8b10f22b7cc39",
+                "reference": "b592b26a24265a35172d8a2094d8b10f22b7cc39",
                 "shasum": ""
             },
             "require": {
@@ -1693,7 +1695,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2019-06-05T13:25:51+00:00"
+            "time": "2019-06-13T11:03:18+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -1872,7 +1874,7 @@
         },
         {
             "name": "symfony/process",
-            "version": "v4.3.1",
+            "version": "v4.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -1921,23 +1923,23 @@
         },
         {
             "name": "symfony/service-contracts",
-            "version": "v1.1.2",
+            "version": "v1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/service-contracts.git",
-                "reference": "191afdcb5804db960d26d8566b7e9a2843cab3a0"
+                "reference": "f391a00de78ec7ec8cf5cdcdae59ec7b883edb8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/191afdcb5804db960d26d8566b7e9a2843cab3a0",
-                "reference": "191afdcb5804db960d26d8566b7e9a2843cab3a0",
+                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/f391a00de78ec7ec8cf5cdcdae59ec7b883edb8d",
+                "reference": "f391a00de78ec7ec8cf5cdcdae59ec7b883edb8d",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1.3"
+                "php": "^7.1.3",
+                "psr/container": "^1.0"
             },
             "suggest": {
-                "psr/container": "",
                 "symfony/service-implementation": ""
             },
             "type": "library",
@@ -1975,7 +1977,7 @@
                 "interoperability",
                 "standards"
             ],
-            "time": "2019-05-28T07:50:59+00:00"
+            "time": "2019-06-13T11:15:36+00:00"
         },
         {
             "name": "theiconic/php-ga-measurement-protocol",
@@ -2517,12 +2519,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/test.git",
-                "reference": "03384f9859f5b10e5f596e62cbf7fd8c875f4545"
+                "reference": "13d18beb63d1da9762ef5f20d1d3ff0dcfadcd7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/test/zipball/03384f9859f5b10e5f596e62cbf7fd8c875f4545",
-                "reference": "03384f9859f5b10e5f596e62cbf7fd8c875f4545",
+                "url": "https://api.github.com/repos/joomla-framework/test/zipball/13d18beb63d1da9762ef5f20d1d3ff0dcfadcd7c",
+                "reference": "13d18beb63d1da9762ef5f20d1d3ff0dcfadcd7c",
                 "shasum": ""
             },
             "require": {
@@ -2560,7 +2562,7 @@
                 "reflection",
                 "unit test"
             ],
-            "time": "2019-06-18T04:19:54+00:00"
+            "time": "2019-06-29T17:01:27+00:00"
         },
         {
             "name": "league/flysystem-memory",
@@ -3283,16 +3285,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.2.2",
+            "version": "8.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "24b6cfcec34c1167ee1d90b7cb22bee324af319f"
+                "reference": "f67ca36860ebca7224d4573f107f79bd8ed0ba03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/24b6cfcec34c1167ee1d90b7cb22bee324af319f",
-                "reference": "24b6cfcec34c1167ee1d90b7cb22bee324af319f",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f67ca36860ebca7224d4573f107f79bd8ed0ba03",
+                "reference": "f67ca36860ebca7224d4573f107f79bd8ed0ba03",
                 "shasum": ""
             },
             "require": {
@@ -3362,7 +3364,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-06-15T07:25:54+00:00"
+            "time": "2019-06-19T12:03:56+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -3892,16 +3894,16 @@
         },
         {
             "name": "sebastian/type",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/type.git",
-                "reference": "b2a7f9aac51ce18cd7ac8b31e37c8ce5646fc741"
+                "reference": "251ca774d58181fe1d3eda68843264eaae7e07ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/b2a7f9aac51ce18cd7ac8b31e37c8ce5646fc741",
-                "reference": "b2a7f9aac51ce18cd7ac8b31e37c8ce5646fc741",
+                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/251ca774d58181fe1d3eda68843264eaae7e07ef",
+                "reference": "251ca774d58181fe1d3eda68843264eaae7e07ef",
                 "shasum": ""
             },
             "require": {
@@ -3934,7 +3936,7 @@
             ],
             "description": "Collection of value objects that represent the types of the PHP type system",
             "homepage": "https://github.com/sebastianbergmann/type",
-            "time": "2019-06-08T04:53:27+00:00"
+            "time": "2019-06-19T06:39:12+00:00"
         },
         {
             "name": "sebastian/version",
@@ -4059,16 +4061,16 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v4.3.1",
+            "version": "v4.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "4e6c670af81c4fb0b6c08b035530a9915d0b691f"
+                "reference": "d257021c1ab28d48d24a16de79dfab445ce93398"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/4e6c670af81c4fb0b6c08b035530a9915d0b691f",
-                "reference": "4e6c670af81c4fb0b6c08b035530a9915d0b691f",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/d257021c1ab28d48d24a16de79dfab445ce93398",
+                "reference": "d257021c1ab28d48d24a16de79dfab445ce93398",
                 "shasum": ""
             },
             "require": {
@@ -4125,20 +4127,20 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2019-05-30T16:10:05+00:00"
+            "time": "2019-06-13T11:03:18+00:00"
         },
         {
             "name": "symfony/event-dispatcher-contracts",
-            "version": "v1.1.1",
+            "version": "v1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher-contracts.git",
-                "reference": "8fa2cf2177083dd59cf8e44ea4b6541764fbda69"
+                "reference": "c61766f4440ca687de1084a5c00b08e167a2575c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher-contracts/zipball/8fa2cf2177083dd59cf8e44ea4b6541764fbda69",
-                "reference": "8fa2cf2177083dd59cf8e44ea4b6541764fbda69",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher-contracts/zipball/c61766f4440ca687de1084a5c00b08e167a2575c",
+                "reference": "c61766f4440ca687de1084a5c00b08e167a2575c",
                 "shasum": ""
             },
             "require": {
@@ -4183,20 +4185,20 @@
                 "interoperability",
                 "standards"
             ],
-            "time": "2019-05-22T12:23:29+00:00"
+            "time": "2019-06-20T06:46:26+00:00"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v4.3.1",
+            "version": "v4.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "bf2af40d738dec5e433faea7b00daa4431d0a4cf"
+                "reference": "b9896d034463ad6fd2bf17e2bf9418caecd6313d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/bf2af40d738dec5e433faea7b00daa4431d0a4cf",
-                "reference": "bf2af40d738dec5e433faea7b00daa4431d0a4cf",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/b9896d034463ad6fd2bf17e2bf9418caecd6313d",
+                "reference": "b9896d034463ad6fd2bf17e2bf9418caecd6313d",
                 "shasum": ""
             },
             "require": {
@@ -4233,20 +4235,20 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2019-06-03T20:27:40+00:00"
+            "time": "2019-06-23T08:51:25+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v4.3.1",
+            "version": "v4.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "b3d4f4c0e4eadfdd8b296af9ca637cfbf51d8176"
+                "reference": "33c21f7d5d3dc8a140c282854a7e13aeb5d0f91a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/b3d4f4c0e4eadfdd8b296af9ca637cfbf51d8176",
-                "reference": "b3d4f4c0e4eadfdd8b296af9ca637cfbf51d8176",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/33c21f7d5d3dc8a140c282854a7e13aeb5d0f91a",
+                "reference": "33c21f7d5d3dc8a140c282854a7e13aeb5d0f91a",
                 "shasum": ""
             },
             "require": {
@@ -4282,20 +4284,20 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2019-05-26T20:47:49+00:00"
+            "time": "2019-06-13T11:03:18+00:00"
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v4.3.1",
+            "version": "v4.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "914e0edcb7cd0c9f494bc023b1d47534f4542332"
+                "reference": "40762ead607c8f792ee4516881369ffa553fee6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/914e0edcb7cd0c9f494bc023b1d47534f4542332",
-                "reference": "914e0edcb7cd0c9f494bc023b1d47534f4542332",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/40762ead607c8f792ee4516881369ffa553fee6f",
+                "reference": "40762ead607c8f792ee4516881369ffa553fee6f",
                 "shasum": ""
             },
             "require": {
@@ -4336,11 +4338,11 @@
                 "configuration",
                 "options"
             ],
-            "time": "2019-05-10T05:38:46+00:00"
+            "time": "2019-06-13T11:01:17+00:00"
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v4.3.1",
+            "version": "v4.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
@@ -4511,6 +4513,6 @@
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "7.2.18"
+        "php": "7.2.19"
     }
 }
