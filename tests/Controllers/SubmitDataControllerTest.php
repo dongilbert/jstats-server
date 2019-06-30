@@ -142,6 +142,59 @@ class SubmitDataControllerTest extends DatabaseTestCase
 	}
 
 	/**
+	 * @testdox Statistics are sanitized
+	 */
+	public function testStatisticsAreSanitized(): void
+	{
+		$this->kernel->boot();
+
+		/** @var WebApplication $application */
+		$application = $this->kernel->getContainer()->get(AbstractApplication::class);
+
+		// Fake the request data
+		$application->input->set('php_version', '5.5.9-1ubuntu4.11');
+		$application->input->set('db_version', '5.7.14-google-log');
+		$application->input->set('cms_version', '3.9.0');
+		$application->input->set('unique_id', 'a1b2c3d4');
+		$application->input->set('db_type', 'mysqli');
+		$application->input->set('server_os', 'Darwin 14.1.0');
+
+		/** @var SubmitDataController $controller */
+		$controller = $this->kernel->getContainer()->get(SubmitDataController::class);
+
+		$this->assertTrue($controller->execute());
+
+		/** @var JsonResponse $response */
+		$response = $application->getResponse();
+
+		$this->assertSame(200, $response->getStatusCode());
+
+		$this->assertSame(
+			[
+				'error'   => false,
+				'message' => 'Data saved successfully',
+			],
+			$response->getPayload()
+		);
+
+		// Get record from database and validate it was saved with sanitized versions
+		$record = static::$connection->setQuery(
+			static::$connection->getQuery(true)
+				->select('*')
+				->from('#__jstats')
+				->where('unique_id = ' . static::$connection->quote('a1b2c3d4'))
+		)->loadObject();
+
+		if (!isset($record->unique_id))
+		{
+			$this->fail('Record was not queried from the database correctly.');
+		}
+
+		$this->assertSame('5.7.14', $record->db_version);
+		$this->assertSame('5.5.9', $record->php_version);
+	}
+
+	/**
 	 * @testdox Statistics data is mapped for changes in 4.0
 	 */
 	public function testStatisticsDataIsMappedForChangesInV4(): void
