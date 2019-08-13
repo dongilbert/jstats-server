@@ -23,6 +23,10 @@ jobs:
       script:
         - vendor/bin/phpunit --configuration phpunit.travisci.xml
     - stage: Test without coverage
+      php: 7.4snapshot
+      script:
+        - vendor/bin/phpunit --configuration phpunit.travisci.xml
+    - stage: Test without coverage
       php: nightly
       script:
         - vendor/bin/phpunit --configuration phpunit.travisci.xml
