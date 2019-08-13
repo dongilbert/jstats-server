@@ -9,6 +9,9 @@ cache:
 env:
   - COMPOSER_FLAGS="--prefer-stable"
 
+services:
+  - mysql
+
 jobs:
   allow_failures:
     - php: 7.4snapshot
