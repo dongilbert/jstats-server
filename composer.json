@@ -37,7 +37,7 @@
         "joomla/coding-standards": "dev-master",
         "joomla/test": "^2.0@dev",
         "league/flysystem-memory": "^1.0.2",
-        "phpunit/phpunit": "^8.2.3"
+        "phpunit/phpunit": "^8.3.4"
     },
     "autoload": {
         "psr-4": {
@@ -57,7 +57,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.2.19"
+            "php": "7.2.21"
         }
     }
 }
