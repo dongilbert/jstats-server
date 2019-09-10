@@ -4,7 +4,7 @@
     "description": "Joomla Stats Collection Server",
     "keywords": ["joomla"],
     "homepage": "http://github.com/joomla/statistics-server",
-    "license": "GPL-2.0+",
+    "license": "GPL-2.0-or-later",
     "require": {
         "php": "^7.2",
         "ext-json": "*",
