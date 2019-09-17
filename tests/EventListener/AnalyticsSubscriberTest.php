@@ -8,7 +8,7 @@
 
 namespace Joomla\StatsServer\Tests\EventListener;
 
-use Joomla\Application\AbstractApplication;
+use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\ApplicationEvents;
 use Joomla\Application\Event\ApplicationEvent;
 use Joomla\Input\Input;
@@ -60,8 +60,11 @@ class AnalyticsSubscriberTest extends TestCase
 			}
 		};
 
-		$application        = $this->createMock(AbstractApplication::class);
-		$application->input = $mockInput;
+		$application = $this->createMock(AbstractWebApplication::class);
+
+		$application->expects($this->atLeastOnce())
+			->method('getInput')
+			->willReturn($mockInput);
 
 		$application->expects($this->once())
 			->method('get')
@@ -133,8 +136,11 @@ class AnalyticsSubscriberTest extends TestCase
 			}
 		};
 
-		$application        = $this->createMock(AbstractApplication::class);
-		$application->input = $mockInput;
+		$application = $this->createMock(AbstractWebApplication::class);
+
+		$application->expects($this->atLeastOnce())
+			->method('getInput')
+			->willReturn($mockInput);
 
 		$application->expects($this->never())
 			->method('get');
@@ -204,8 +210,11 @@ class AnalyticsSubscriberTest extends TestCase
 			}
 		};
 
-		$application        = $this->createMock(AbstractApplication::class);
-		$application->input = $mockInput;
+		$application = $this->createMock(AbstractWebApplication::class);
+
+		$application->expects($this->atLeastOnce())
+			->method('getInput')
+			->willReturn($mockInput);
 
 		$application->expects($this->once())
 			->method('get')

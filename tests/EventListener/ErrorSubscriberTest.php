@@ -106,8 +106,11 @@ class ErrorSubscriberTest extends TestCase
 			}
 		};
 
-		$application        = $this->createMock(AbstractWebApplication::class);
-		$application->input = $mockInput;
+		$application = $this->createMock(AbstractWebApplication::class);
+
+		$application->expects($this->atLeastOnce())
+			->method('getInput')
+			->willReturn($mockInput);
 
 		$application->expects($this->once())
 			->method('get')

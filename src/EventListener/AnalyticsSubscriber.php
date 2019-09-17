@@ -64,8 +64,8 @@ class AnalyticsSubscriber implements SubscriberInterface, LoggerAwareInterface
 		$app = $event->getApplication();
 
 		// On a GET request to the live domain, submit analytics data
-		if ($app->input->getMethod() !== 'GET'
-			|| strpos($app->input->server->getString('HTTP_HOST', ''), 'developer.joomla.org') !== 0)
+		if ($app->getInput()->getMethod() !== 'GET'
+			|| strpos($app->getInput()->server->getString('HTTP_HOST', ''), 'developer.joomla.org') !== 0)
 		{
 			return;
 		}
@@ -75,8 +75,8 @@ class AnalyticsSubscriber implements SubscriberInterface, LoggerAwareInterface
 			->setTrackingId('UA-544070-16')
 			->setClientId(Uuid::uuid4()->toString())
 			->setDocumentPath($app->get('uri.base.path'))
-			->setIpOverride($app->input->server->getString('REMOTE_ADDR', '127.0.0.1'))
-			->setUserAgentOverride($app->input->server->getString('HTTP_USER_AGENT', 'JoomlaStats/1.0'));
+			->setIpOverride($app->getInput()->server->getString('REMOTE_ADDR', '127.0.0.1'))
+			->setUserAgentOverride($app->getInput()->server->getString('HTTP_USER_AGENT', 'JoomlaStats/1.0'));
 
 		// Don't allow sending Analytics data to cause a failure
 		try
