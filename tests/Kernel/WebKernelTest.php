@@ -9,8 +9,8 @@
 namespace Joomla\StatsServer\Tests\Kernel;
 
 use Joomla\Application\AbstractApplication;
-use Joomla\Application\WebApplication;
 use Joomla\StatsServer\Kernel\WebKernel;
+use Joomla\StatsServer\WebApplication;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 

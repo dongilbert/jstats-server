@@ -13,7 +13,6 @@ use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Controller\ContainerControllerResolver;
 use Joomla\Application\Controller\ControllerResolverInterface;
 use Joomla\Application\Web\WebClient;
-use Joomla\Application\WebApplication;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -23,6 +22,7 @@ use Joomla\StatsServer\Controllers\DisplayStatisticsController;
 use Joomla\StatsServer\Controllers\SubmitDataController;
 use Joomla\StatsServer\Repositories\StatisticsRepository;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
+use Joomla\StatsServer\WebApplication;
 use Psr\Log\LoggerInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
