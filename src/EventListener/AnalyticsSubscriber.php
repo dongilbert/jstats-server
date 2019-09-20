@@ -10,6 +10,7 @@ namespace Joomla\StatsServer\EventListener;
 
 use Joomla\Application\ApplicationEvents;
 use Joomla\Application\Event\ApplicationEvent;
+use Joomla\Application\WebApplicationInterface;
 use Joomla\Event\SubscriberInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -62,6 +63,11 @@ class AnalyticsSubscriber implements SubscriberInterface, LoggerAwareInterface
 	public function onBeforeExecute(ApplicationEvent $event): void
 	{
 		$app = $event->getApplication();
+
+		if (!($app instanceof WebApplicationInterface))
+		{
+			return;
+		}
 
 		// On a GET request to the live domain, submit analytics data
 		if ($app->getInput()->getMethod() !== 'GET'
