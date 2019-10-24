@@ -9,12 +9,12 @@
 namespace Joomla\StatsServer\Views\Stats;
 
 use Joomla\StatsServer\Repositories\StatisticsRepository;
-use Joomla\View\BaseJsonView;
+use Joomla\View\JsonView;
 
 /**
  * JSON response for requesting the stats data.
  */
-class StatsJsonView extends BaseJsonView
+class StatsJsonView extends JsonView
 {
 	/**
 	 * Flag if the response should return the raw data.
