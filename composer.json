@@ -25,7 +25,7 @@
         "joomla/uri": "^2.0@dev",
         "joomla/utilities": "^2.0@dev",
         "joomla/view": "^2.0@dev",
-        "league/flysystem": "^1.0.53",
+        "league/flysystem": "^1.0.57",
         "monolog/monolog": "^2.0",
         "psr/log": "^1.1",
         "ramsey/uuid": "^3.8",
@@ -33,11 +33,11 @@
         "theiconic/php-ga-measurement-protocol": "^2.7.1"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.15.1",
+        "friendsofphp/php-cs-fixer": "^2.15.3",
         "joomla/coding-standards": "dev-master",
         "joomla/test": "^2.0@dev",
         "league/flysystem-memory": "^1.0.2",
-        "phpunit/phpunit": "^8.3.4"
+        "phpunit/phpunit": "^8.4.1"
     },
     "autoload": {
         "psr-4": {
