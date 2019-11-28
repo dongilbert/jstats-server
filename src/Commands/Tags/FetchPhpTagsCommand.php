@@ -127,6 +127,12 @@ class FetchPhpTagsCommand extends AbstractTagCommand
 		$nextMinor   = $explodedVersion[1] + 1;
 		$nextRelease = $explodedVersion[0] . '.' . $nextMinor . '.0';
 
+		// There won't be a PHP 7.5, change next release to 8.0 if needed
+		if ($nextRelease === '7.5.0')
+		{
+			$nextRelease = '8.0.0';
+		}
+
 		if (!\in_array($nextRelease, $versions, true))
 		{
 			$versions[] = $nextRelease;
