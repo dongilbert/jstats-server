@@ -62,6 +62,7 @@ class FetchPhpTagsCommand extends AbstractTagCommand
 			'7.1' => '',
 			'7.2' => '',
 			'7.3' => '',
+			'7.4' => '',
 		];
 
 		foreach ($this->getTags($symfonyStyle) as $tag)
