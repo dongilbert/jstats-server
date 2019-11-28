@@ -29,11 +29,11 @@
         "monolog/monolog": "^2.0.1",
         "psr/log": "^1.1.2",
         "ramsey/uuid": "^3.8",
-        "symfony/process": "4.4.*",
+        "symfony/process": "^5.0",
         "theiconic/php-ga-measurement-protocol": "^2.7.1"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.16",
+        "friendsofphp/php-cs-fixer": "^2.16.1",
         "joomla/coding-standards": "dev-master",
         "joomla/test": "^2.0@dev",
         "league/flysystem-memory": "^1.0.2",
