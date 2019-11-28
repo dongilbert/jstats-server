@@ -86,6 +86,21 @@ class FetchPhpTagsCommandTest extends TestCase
 					(object) [
 						'name' => 'php-7.3.4',
 					],
+					(object) [
+						'name' => 'php-7.4.0',
+					],
+					(object) [
+						'name' => 'php-7.4.1',
+					],
+					(object) [
+						'name' => 'php-7.4.2',
+					],
+					(object) [
+						'name' => 'php-7.4.3',
+					],
+					(object) [
+						'name' => 'php-7.4.4',
+					],
 				];
 			}
 		};
@@ -139,7 +154,8 @@ class FetchPhpTagsCommandTest extends TestCase
 		$this->assertContains('7.1.5', $versions, 'The command should add the next patch release for the 7.1 branch to the allowed version list');
 		$this->assertContains('7.2.5', $versions, 'The command should add the next patch release for the 7.2 branch to the allowed version list');
 		$this->assertContains('7.3.5', $versions, 'The command should add the next patch release for the 7.3 branch to the allowed version list');
-		$this->assertContains('7.4.0', $versions, 'The command should add the next minor release to the allowed version list');
+		$this->assertContains('7.4.5', $versions, 'The command should add the next patch release for the 7.4 branch to the allowed version list');
+		$this->assertContains('8.0.0', $versions, 'The command should add the next major release to the allowed version list');
 	}
 
 	/**
@@ -159,7 +175,7 @@ class FetchPhpTagsCommandTest extends TestCase
 				{
 					case 1:
 						$response = new Response;
-						$response = $response->withHeader('Link', '<https://api.github.com/repositories/1903522/tags?page=2>; rel="next", <https://api.github.com/repositories/1903522/tags?page=3>; rel="last"');
+						$response = $response->withHeader('Link', '<https://api.github.com/repositories/1903522/tags?page=2>; rel="next", <https://api.github.com/repositories/1903522/tags?page=4>; rel="last"');
 
 						return $response;
 
@@ -230,6 +246,25 @@ class FetchPhpTagsCommandTest extends TestCase
 								'name' => 'php-7.3.4',
 							],
 						];
+
+					case 4:
+						return [
+							(object) [
+								'name' => 'php-7.4.0',
+							],
+							(object) [
+								'name' => 'php-7.4.1',
+							],
+							(object) [
+								'name' => 'php-7.4.2',
+							],
+							(object) [
+								'name' => 'php-7.4.3',
+							],
+							(object) [
+								'name' => 'php-7.4.4',
+							],
+						];
 				}
 			}
 		};
@@ -276,7 +311,7 @@ class FetchPhpTagsCommandTest extends TestCase
 
 		$screenOutput = $output->fetch();
 
-		$this->assertStringContainsString('Fetching page 2 of 3 pages of tags.', $screenOutput);
+		$this->assertStringContainsString('Fetching page 2 of 4 pages of tags.', $screenOutput);
 		$this->assertStringContainsString('PHP versions updated.', $screenOutput);
 
 		$versions = json_decode($filesystem->read('php.json'), true);
@@ -284,6 +319,7 @@ class FetchPhpTagsCommandTest extends TestCase
 		$this->assertContains('7.1.5', $versions, 'The command should add the next patch release for the 7.1 branch to the allowed version list');
 		$this->assertContains('7.2.5', $versions, 'The command should add the next patch release for the 7.2 branch to the allowed version list');
 		$this->assertContains('7.3.5', $versions, 'The command should add the next patch release for the 7.3 branch to the allowed version list');
-		$this->assertContains('7.4.0', $versions, 'The command should add the next minor release to the allowed version list');
+		$this->assertContains('7.4.5', $versions, 'The command should add the next patch release for the 7.4 branch to the allowed version list');
+		$this->assertContains('8.0.0', $versions, 'The command should add the next major release to the allowed version list');
 	}
 }
