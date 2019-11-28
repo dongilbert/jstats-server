@@ -13,7 +13,6 @@ use Joomla\StatsServer\GitHub\GitHub;
 use League\Flysystem\Filesystem;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Command for processing tags for the PHP project from GitHub
@@ -53,9 +52,7 @@ class FetchPhpTagsCommand extends AbstractTagCommand
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$symfonyStyle = new SymfonyStyle($input, $output);
-
-		$symfonyStyle->title('Fetching PHP Releases');
+		$this->io->title('Fetching PHP Releases');
 
 		$versions          = [];
 		$supportedBranches = [
@@ -65,7 +62,7 @@ class FetchPhpTagsCommand extends AbstractTagCommand
 			'7.4' => '',
 		];
 
-		foreach ($this->getTags($symfonyStyle) as $tag)
+		foreach ($this->getTags() as $tag)
 		{
 			// Replace 'php-' from the tag to get our version number; skip if the segment doesn't exist
 			if (strpos($tag->name, 'php-') !== 0)
@@ -140,12 +137,12 @@ class FetchPhpTagsCommand extends AbstractTagCommand
 
 		if (!$this->filesystem->put('php.json', json_encode($versions)))
 		{
-			$symfonyStyle->error('Failed writing version data to the filesystem.');
+			$this->io->error('Failed writing version data to the filesystem.');
 
 			return 1;
 		}
 
-		$symfonyStyle->success('PHP versions updated.');
+		$this->io->success('PHP versions updated.');
 
 		return 0;
 	}

@@ -13,7 +13,6 @@ use Joomla\StatsServer\GitHub\GitHub;
 use League\Flysystem\Filesystem;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Command for processing tags for the Joomla! CMS from GitHub
@@ -53,14 +52,12 @@ class FetchJoomlaTagsCommand extends AbstractTagCommand
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$symfonyStyle = new SymfonyStyle($input, $output);
-
-		$symfonyStyle->title('Fetching Joomla Releases');
+		$this->io->title('Fetching Joomla Releases');
 
 		$versions    = [];
 		$highVersion = '0.0.0';
 
-		foreach ($this->getTags($symfonyStyle) as $tag)
+		foreach ($this->getTags() as $tag)
 		{
 			$version = $this->validateVersionNumber($tag->name);
 
@@ -114,12 +111,12 @@ class FetchJoomlaTagsCommand extends AbstractTagCommand
 
 		if (!$this->filesystem->put('joomla.json', json_encode($versions)))
 		{
-			$symfonyStyle->error('Failed writing version data to the filesystem.');
+			$this->io->error('Failed writing version data to the filesystem.');
 
 			return 1;
 		}
 
-		$symfonyStyle->success('Joomla! versions updated.');
+		$this->io->success('Joomla! versions updated.');
 
 		return 0;
 	}

@@ -11,6 +11,8 @@ namespace Joomla\StatsServer\Commands\Tags;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\StatsServer\GitHub\GitHub;
 use League\Flysystem\Filesystem;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -31,6 +33,13 @@ abstract class AbstractTagCommand extends AbstractCommand
 	 * @var  Filesystem
 	 */
 	protected $filesystem;
+
+	/**
+	 * Output helper.
+	 *
+	 * @var  SymfonyStyle
+	 */
+	protected $io;
 
 	/**
 	 * The GitHub repository to query.
@@ -61,17 +70,28 @@ abstract class AbstractTagCommand extends AbstractCommand
 	}
 
 	/**
-	 * Get the tags for a repository
+	 * Internal hook to initialise the command after the input has been bound and before the input is validated.
 	 *
-	 * @param   SymfonyStyle  $symfonyStyle  The I/O helper
+	 * @param   InputInterface   $input   The input to inject into the command.
+	 * @param   OutputInterface  $output  The output to inject into the command.
+	 *
+	 * @return  void
+	 */
+	protected function initialise(InputInterface $input, OutputInterface $output): void
+	{
+		$this->io = new SymfonyStyle($input, $output);
+	}
+
+	/**
+	 * Get the tags for a repository
 	 *
 	 * @return  array
 	 */
-	protected function getTags(SymfonyStyle $symfonyStyle): array
+	protected function getTags(): array
 	{
 		$tags = [];
 
-		$symfonyStyle->comment('Fetching page 1 of tags.');
+		$this->io->comment('Fetching page 1 of tags.');
 
 		// Get the first page so we can process the headers to figure out how many times we need to do this
 		$tags = array_merge($tags, $this->github->repositories->getTags($this->repoOwner, $this->repoName, 1));
@@ -90,7 +110,7 @@ abstract class AbstractTagCommand extends AbstractCommand
 
 				for ($page = 2; $page <= $lastPage; $page++)
 				{
-					$symfonyStyle->comment(sprintf('Fetching page %d of %d pages of tags.', $page, $lastPage));
+					$this->io->comment(sprintf('Fetching page %d of %d pages of tags.', $page, $lastPage));
 
 					$tags = array_merge($tags, $this->github->repositories->getTags($this->repoOwner, $this->repoName, $page));
 				}
