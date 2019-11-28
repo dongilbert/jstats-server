@@ -9,6 +9,7 @@
 namespace Joomla\StatsServer\Commands;
 
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -42,10 +43,20 @@ class UpdateCommand extends AbstractCommand
 		$symfonyStyle->title('Update Server');
 		$symfonyStyle->comment('Updating server to git HEAD');
 
+		if (!$this->getHelperSet())
+		{
+			$symfonyStyle->error('The helper set has not been registered to the update command.');
+
+			return 1;
+		}
+
+		/** @var ProcessHelper $processHelper */
+		$processHelper = $this->getHelperSet()->get('process');
+
 		// Pull from remote repo
 		try
 		{
-			(new Process('git pull', APPROOT))->mustRun();
+			$processHelper->mustRun($output, new Process(['git', 'pull'], APPROOT));
 		}
 		catch (ProcessFailedException $e)
 		{
@@ -61,7 +72,7 @@ class UpdateCommand extends AbstractCommand
 		// Run Composer install
 		try
 		{
-			(new Process('composer install --no-dev -o -a', APPROOT))->mustRun();
+			$processHelper->mustRun($output, new Process(['composer', 'install', '--no-dev', '-o', '-a'], APPROOT));
 		}
 		catch (ProcessFailedException $e)
 		{
