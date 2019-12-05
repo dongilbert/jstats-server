@@ -42,21 +42,6 @@ class FetchPhpTagsCommandTest extends TestCase
 			{
 				return [
 					(object) [
-						'name' => 'php-7.1.0',
-					],
-					(object) [
-						'name' => 'php-7.1.1',
-					],
-					(object) [
-						'name' => 'php-7.1.2',
-					],
-					(object) [
-						'name' => 'php-7.1.3',
-					],
-					(object) [
-						'name' => 'php-7.1.4',
-					],
-					(object) [
 						'name' => 'php-7.2.0',
 					],
 					(object) [
@@ -151,7 +136,6 @@ class FetchPhpTagsCommandTest extends TestCase
 
 		$versions = json_decode($filesystem->read('php.json'), true);
 
-		$this->assertContains('7.1.5', $versions, 'The command should add the next patch release for the 7.1 branch to the allowed version list');
 		$this->assertContains('7.2.5', $versions, 'The command should add the next patch release for the 7.2 branch to the allowed version list');
 		$this->assertContains('7.3.5', $versions, 'The command should add the next patch release for the 7.3 branch to the allowed version list');
 		$this->assertContains('7.4.5', $versions, 'The command should add the next patch release for the 7.4 branch to the allowed version list');
@@ -193,25 +177,6 @@ class FetchPhpTagsCommandTest extends TestCase
 					case 1:
 						return [
 							(object) [
-								'name' => 'php-7.1.0',
-							],
-							(object) [
-								'name' => 'php-7.1.1',
-							],
-							(object) [
-								'name' => 'php-7.1.2',
-							],
-							(object) [
-								'name' => 'php-7.1.3',
-							],
-							(object) [
-								'name' => 'php-7.1.4',
-							],
-						];
-
-					case 2:
-						return [
-							(object) [
 								'name' => 'php-7.2.0',
 							],
 							(object) [
@@ -228,7 +193,7 @@ class FetchPhpTagsCommandTest extends TestCase
 							],
 						];
 
-					case 3:
+					case 2:
 						return [
 							(object) [
 								'name' => 'php-7.3.0',
@@ -247,7 +212,7 @@ class FetchPhpTagsCommandTest extends TestCase
 							],
 						];
 
-					case 4:
+					case 3:
 						return [
 							(object) [
 								'name' => 'php-7.4.0',
@@ -316,7 +281,6 @@ class FetchPhpTagsCommandTest extends TestCase
 
 		$versions = json_decode($filesystem->read('php.json'), true);
 
-		$this->assertContains('7.1.5', $versions, 'The command should add the next patch release for the 7.1 branch to the allowed version list');
 		$this->assertContains('7.2.5', $versions, 'The command should add the next patch release for the 7.2 branch to the allowed version list');
 		$this->assertContains('7.3.5', $versions, 'The command should add the next patch release for the 7.3 branch to the allowed version list');
 		$this->assertContains('7.4.5', $versions, 'The command should add the next patch release for the 7.4 branch to the allowed version list');
