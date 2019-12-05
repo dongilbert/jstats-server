@@ -6,7 +6,7 @@
     "homepage": "http://github.com/joomla/statistics-server",
     "license": "GPL-2.0-or-later",
     "require": {
-        "php": "^7.2",
+        "php": "^7.2.5",
         "ext-json": "*",
         "ext-pdo": "*",
         "joomla/application": "^2.0@dev",
@@ -28,8 +28,8 @@
         "league/flysystem": "^1.0.57",
         "monolog/monolog": "^2.0.1",
         "psr/log": "^1.1.2",
-        "ramsey/uuid": "^3.8",
-        "symfony/process": "^5.0",
+        "ramsey/uuid": "^3.9.1",
+        "symfony/process": "^5.0.1",
         "theiconic/php-ga-measurement-protocol": "^2.7.1"
     },
     "require-dev": {
