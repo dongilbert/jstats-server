@@ -11,9 +11,9 @@ namespace Joomla\StatsServer\Controllers;
 use Joomla\Controller\AbstractController;
 use Joomla\StatsServer\Decorators\ValidateVersion;
 use Joomla\StatsServer\Repositories\StatisticsRepository;
+use Laminas\Diactoros\Response\JsonResponse;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
-use Zend\Diactoros\Response\JsonResponse;
 
 /**
  * Controller for processing submitted statistics data.

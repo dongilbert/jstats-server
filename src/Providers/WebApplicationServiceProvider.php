@@ -23,8 +23,8 @@ use Joomla\StatsServer\Controllers\SubmitDataController;
 use Joomla\StatsServer\Repositories\StatisticsRepository;
 use Joomla\StatsServer\Views\Stats\StatsJsonView;
 use Joomla\StatsServer\WebApplication;
+use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Log\LoggerInterface;
-use Zend\Diactoros\Response\JsonResponse;
 
 /**
  * Web application service provider
