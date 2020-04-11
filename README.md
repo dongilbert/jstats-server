@@ -36,3 +36,8 @@ Additionally, the application behavior is affected by the following configuratio
     * `log.level` - The default logging level to use for all application loggers
     * `log.application` - The logging level to use specifically for the `monolog.handler.application` logger; defaults to the `log.level` value
     * `log.database` - The logging level to use specifically for the `monolog.handler.database` logger; defaults to the `log.level` value (Note: if `database.debug` is set to true then this level will ALWAYS correspond to the debug level)
+
+## Deployments
+* Joomla's Jenkins Build server will automatically push any code changes 
+* Whoever merges to this repository then needs to run any migrations required by using the following command from the terminal: `php bin/stats database:migrate`
+* Don’t put anything with triggers that use different delimiters inside the migrations, those don’t get parsed out right by PDO so those bits I do have to manually run on the database when ready
