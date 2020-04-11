@@ -28,7 +28,7 @@ class StatsJsonView extends JsonView
 	 *
 	 * @var  array
 	 */
-	private $dataSources = ['php_version', 'db_type', 'db_version', 'cms_version', 'server_os'];
+	private $dataSources = ['php_version', 'db_type', 'db_version', 'cms_version', 'server_os', 'cms_php_version', 'db_type_version'];
 
 	/**
 	 * Flag if the response should return the recently updated data.
@@ -113,11 +113,13 @@ class StatsJsonView extends JsonView
 			return $this->processSingleSource($items);
 		}
 
-		$php_version = [];
-		$db_type     = [];
-		$db_version  = [];
-		$cms_version = [];
-		$server_os   = [];
+		$php_version     = [];
+		$db_type         = [];
+		$db_version      = [];
+		$cms_version     = [];
+		$server_os       = [];
+		$cms_php_version = [];
+		$db_type_version = [];
 
 		// If we have the entire database, we have to loop within each group to put it all together
 		foreach ($items as $group)
@@ -128,28 +130,67 @@ class StatsJsonView extends JsonView
 			{
 				foreach ($this->dataSources as $source)
 				{
-					if (isset($item[$source]) && $item[$source] !== null)
+					switch ($source)
 					{
-						// Special case, if the server is empty then change the key to "unknown"
-						if ($source === 'server_os' && empty($item[$source]))
-						{
-							$item[$source] = 'unknown';
-						}
+						case 'server_os':
+							if (isset($item[$source]) && $item[$source] !== null)
+							{
+								// Special case, if the server is empty then change the key to "unknown"
+								if (empty($item[$source]))
+								{
+									$item[$source] = 'unknown';
+								}
 
-						${$source}[$item[$source]] = $item['count'];
+								${$source}[$item[$source]] = $item['count'];
 
-						$this->totalItems += $item['count'];
+								$this->totalItems += $item['count'];
+							}
+
+							break;
+
+						case 'cms_php_version':
+							if ((isset($item['cms_version']) && $item['cms_version'] !== null) && (isset($item['php_version']) && $item['php_version'] !== null))
+							{
+								$index = $item['cms_version'] . ' - ' . $item['php_version'];
+								$cms_php_version[$index] = $item['count'];
+
+								$this->totalItems += $item['count'];
+							}
+
+							break;
+
+						case 'db_type_version':
+							if ((isset($item['db_type']) && $item['db_type'] !== null) && (isset($item['db_version']) && $item['db_version'] !== null))
+							{
+								$index = $item['db_type'] . ' - ' . $item['db_version'];
+								$db_type_version[$index] = $item['count'];
+
+								$this->totalItems += $item['count'];
+							}
+
+							break;
+
+						default:
+							if (isset($item[$source]) && $item[$source] !== null)
+							{
+								${$source}[$item[$source]] = $item['count'];
+								$this->totalItems += $item['count'];
+							}
+
+							break;
 					}
 				}
 			}
 		}
 
 		$data = [
-			'php_version' => $php_version,
-			'db_type'     => $db_type,
-			'db_version'  => $db_version,
-			'cms_version' => $cms_version,
-			'server_os'   => $server_os,
+			'php_version'     => $php_version,
+			'db_type'         => $db_type,
+			'db_version'      => $db_version,
+			'cms_version'     => $cms_version,
+			'server_os'       => $server_os,
+			'cms_php_version' => $cms_php_version,
+			'db_type_version' => $db_type_version,
 		];
 
 		$responseData = $this->buildResponseData($data);
@@ -225,17 +266,34 @@ class StatsJsonView extends JsonView
 
 		foreach ($items as $item)
 		{
-			// Special case, if the server is empty then change the key to "unknown"
-			if ($this->source === 'server_os' && empty(trim($item[$this->source])))
+			switch ($this->source)
 			{
-				$item[$this->source] = 'unknown';
+				case 'server_os':
+					// Special case, if the server is empty then change the key to "unknown"
+					if (empty(trim($item[$this->source])))
+					{
+						$item[$this->source] = 'unknown';
+					}
+					$data[$this->source][$item[$this->source]] = $item['count'];
+					break;
+
+				case 'cms_php_version':
+					$index = $item['cms_version'] . ' - ' . $item['php_version'];
+					$data[$this->source][$index] = $item['count'];
+					break;
+
+				case 'db_type_version':
+					$index = $item['db_type'] . ' - ' . $item['db_version'];
+					$data[$this->source][$index] = $item['count'];
+					break;
+
+				default:
+					$data[$this->source][$item[$this->source]] = $item['count'];
+					break;
 			}
 
-			$data[$this->source][$item[$this->source]] = $item['count'];
 			$this->totalItems += $item['count'];
 		}
-
-		unset($generator);
 
 		$responseData = $this->buildResponseData($data);
 
@@ -320,6 +378,8 @@ class StatsJsonView extends JsonView
 					break;
 
 				case 'db_type':
+				case 'cms_php_version':
+				case 'db_type_version':
 				default:
 					// For now, group by the object name and figure out the percentages
 					$sanitizedData = [];
