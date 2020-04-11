@@ -14,7 +14,6 @@ services:
 
 jobs:
   allow_failures:
-    - php: 7.4snapshot
     - php: nightly
   include:
     # App Tests
@@ -27,7 +26,7 @@ jobs:
       script:
         - vendor/bin/phpunit --configuration phpunit.travisci.xml --do-not-cache-result --verbose
     - stage: Test without coverage
-      php: 7.4snapshot
+      php: 7.4
       script:
         - vendor/bin/phpunit --configuration phpunit.travisci.xml --do-not-cache-result --verbose
     - stage: Test without coverage
