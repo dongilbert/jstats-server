@@ -25,7 +25,7 @@ Scrutinizer-CI: [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/joomla
 
 ## Additional Configuration
 
-The `DisplayControllerGet` optionally supports additional configuration values which affect the application's behavior, to include:
+The `DisplayStatisticsController` optionally supports additional configuration values which affect the application's behavior, to include:
 
 * Raw Data Access - The API supports requesting the raw, unfiltered API data by sending a `Joomla-Raw` header with the API request. The value of this must match the `stats.rawdata` configuration key.
 
@@ -36,3 +36,11 @@ Additionally, the application behavior is affected by the following configuratio
     * `log.level` - The default logging level to use for all application loggers
     * `log.application` - The logging level to use specifically for the `monolog.handler.application` logger; defaults to the `log.level` value
     * `log.database` - The logging level to use specifically for the `monolog.handler.database` logger; defaults to the `log.level` value (Note: if `database.debug` is set to true then this level will ALWAYS correspond to the debug level)
+
+## Deployments
+* Joomla's Jenkins server will automatically push any commits to the `master` branch to the production server
+    * TODO - Future iterations of this setup should require a passing Travis-CI build before deploying
+* Because of the use of custom delimiters in the database schema (which are not parsed correctly with PDO), database migrations are not automatically executed
+* If a change is pushed that includes updates to the database schema, then the merger needs to log into the server and run any migrations required; the application's `database:migrate` command will take care of this
+    * `php /path/to/application/bin/stats database:migrate`
+* Don’t put any triggers inside the migrations, those should be added to the main `etc/mysql.sql` schema file then manually run on the database using your preferred database management tool
