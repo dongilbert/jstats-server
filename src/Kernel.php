@@ -14,7 +14,6 @@ use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
-use Joomla\StatsServer\Providers\AnalyticsServiceProvider;
 use Joomla\StatsServer\Providers\ConsoleServiceProvider;
 use Joomla\StatsServer\Providers\DatabaseServiceProvider;
 use Joomla\StatsServer\Providers\EventServiceProvider;
@@ -99,8 +98,7 @@ abstract class Kernel implements ContainerAwareInterface
 		$container = new Container;
 		$container->share('config', $config);
 
-		$container->registerServiceProvider(new AnalyticsServiceProvider)
-			->registerServiceProvider(new ConsoleServiceProvider)
+		$container->registerServiceProvider(new ConsoleServiceProvider)
 			->registerServiceProvider(new DatabaseProvider)
 			->registerServiceProvider(new DatabaseServiceProvider)
 			->registerServiceProvider(new EventServiceProvider)
