@@ -12,8 +12,10 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\Dispatcher;
 use Joomla\Event\DispatcherInterface;
+use Joomla\StatsServer\EventListener\AnalyticsSubscriber;
 use Joomla\StatsServer\EventListener\ErrorSubscriber;
 use Psr\Log\LoggerInterface;
+use TheIconic\Tracking\GoogleAnalytics\Analytics;
 
 /**
  * Event service provider
@@ -32,8 +34,26 @@ class EventServiceProvider implements ServiceProviderInterface
 		$container->alias(Dispatcher::class, DispatcherInterface::class)
 			->share(DispatcherInterface::class, [$this, 'getDispatcherService']);
 
+		$container->share(AnalyticsSubscriber::class, [$this, 'getAnalyticsSubscriberService'])
+			->tag('event.subscriber', [AnalyticsSubscriber::class]);
+
 		$container->share(ErrorSubscriber::class, [$this, 'getErrorSubscriberService'])
 			->tag('event.subscriber', [ErrorSubscriber::class]);
+	}
+
+	/**
+	 * Get the AnalyticsSubscriber service
+	 *
+	 * @param   Container  $container  The DI container.
+	 *
+	 * @return  AnalyticsSubscriber
+	 */
+	public function getAnalyticsSubscriberService(Container $container): AnalyticsSubscriber
+	{
+		$subscriber = new AnalyticsSubscriber($container->get(Analytics::class));
+		$subscriber->setLogger($container->get(LoggerInterface::class));
+
+		return $subscriber;
 	}
 
 	/**
