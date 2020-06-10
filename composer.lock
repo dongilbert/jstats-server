@@ -267,12 +267,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/application.git",
-                "reference": "91c6674fda0d464541ec450bec41d84caa97fd3d"
+                "reference": "981d430345227bcb615676bf2ccce1212b1b5204"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/application/zipball/91c6674fda0d464541ec450bec41d84caa97fd3d",
-                "reference": "91c6674fda0d464541ec450bec41d84caa97fd3d",
+                "url": "https://api.github.com/repos/joomla-framework/application/zipball/981d430345227bcb615676bf2ccce1212b1b5204",
+                "reference": "981d430345227bcb615676bf2ccce1212b1b5204",
                 "shasum": ""
             },
             "require": {
@@ -332,7 +332,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-03-08T16:19:37+00:00"
+            "time": "2020-06-05T11:24:44+00:00"
         },
         {
             "name": "joomla/console",
@@ -340,12 +340,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/console.git",
-                "reference": "038f3a9e1520cbcf358f2a76cf4c6cd18ff82329"
+                "reference": "3e6ff701b2d3ab1067e10da601d6a720c98f01a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/console/zipball/038f3a9e1520cbcf358f2a76cf4c6cd18ff82329",
-                "reference": "038f3a9e1520cbcf358f2a76cf4c6cd18ff82329",
+                "url": "https://api.github.com/repos/joomla-framework/console/zipball/3e6ff701b2d3ab1067e10da601d6a720c98f01a8",
+                "reference": "3e6ff701b2d3ab1067e10da601d6a720c98f01a8",
                 "shasum": ""
             },
             "require": {
@@ -386,7 +386,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-03-07T19:47:08+00:00"
+            "time": "2020-06-05T11:12:12+00:00"
         },
         {
             "name": "joomla/controller",
@@ -394,12 +394,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/controller.git",
-                "reference": "e910711ff9b0795f358b7a9b68213246e724f8be"
+                "reference": "87f90167152730b4d9a9a9ec2ed616986f75cde4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/controller/zipball/e910711ff9b0795f358b7a9b68213246e724f8be",
-                "reference": "e910711ff9b0795f358b7a9b68213246e724f8be",
+                "url": "https://api.github.com/repos/joomla-framework/controller/zipball/87f90167152730b4d9a9a9ec2ed616986f75cde4",
+                "reference": "87f90167152730b4d9a9a9ec2ed616986f75cde4",
                 "shasum": ""
             },
             "require": {
@@ -437,7 +437,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-03-07T19:52:03+00:00"
+            "time": "2020-06-05T11:55:35+00:00"
         },
         {
             "name": "joomla/database",
@@ -445,12 +445,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "b1c3ce4c221a18c695a1aa430cc6410c39d61ecd"
+                "reference": "1332ca4c1ed8411d58898c5c68c1a818ff95bb21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/b1c3ce4c221a18c695a1aa430cc6410c39d61ecd",
-                "reference": "b1c3ce4c221a18c695a1aa430cc6410c39d61ecd",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/1332ca4c1ed8411d58898c5c68c1a818ff95bb21",
+                "reference": "1332ca4c1ed8411d58898c5c68c1a818ff95bb21",
                 "shasum": ""
             },
             "require": {
@@ -502,7 +502,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-03-07T21:04:21+00:00"
+            "time": "2020-06-05T11:27:58+00:00"
         },
         {
             "name": "joomla/di",
@@ -510,12 +510,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/di.git",
-                "reference": "d1e2f8e82d81936df1c454b94d4ea37a3c3075d3"
+                "reference": "ad4fb4cacbda3581137d862a292a2932dba756ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/di/zipball/d1e2f8e82d81936df1c454b94d4ea37a3c3075d3",
-                "reference": "d1e2f8e82d81936df1c454b94d4ea37a3c3075d3",
+                "url": "https://api.github.com/repos/joomla-framework/di/zipball/ad4fb4cacbda3581137d862a292a2932dba756ad",
+                "reference": "ad4fb4cacbda3581137d862a292a2932dba756ad",
                 "shasum": ""
             },
             "require": {
@@ -555,7 +555,7 @@
                 "ioc",
                 "joomla"
             ],
-            "time": "2020-03-07T21:38:48+00:00"
+            "time": "2020-06-05T11:28:10+00:00"
         },
         {
             "name": "joomla/event",
@@ -563,12 +563,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/event.git",
-                "reference": "d3671ae8eb826f349c67a196c1349be596dc69ed"
+                "reference": "534744c33a67e583325540679f880e7cdcfde39f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/event/zipball/d3671ae8eb826f349c67a196c1349be596dc69ed",
-                "reference": "d3671ae8eb826f349c67a196c1349be596dc69ed",
+                "url": "https://api.github.com/repos/joomla-framework/event/zipball/534744c33a67e583325540679f880e7cdcfde39f",
+                "reference": "534744c33a67e583325540679f880e7cdcfde39f",
                 "shasum": ""
             },
             "require": {
@@ -606,7 +606,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-03-07T23:00:02+00:00"
+            "time": "2020-06-05T11:28:34+00:00"
         },
         {
             "name": "joomla/filter",
@@ -614,12 +614,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "f18d584ae2d55c536ef10315ee9c81d05971d318"
+                "reference": "1f89936279c2a6af6d700a2c5f6f5dc40b6ff263"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/f18d584ae2d55c536ef10315ee9c81d05971d318",
-                "reference": "f18d584ae2d55c536ef10315ee9c81d05971d318",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/1f89936279c2a6af6d700a2c5f6f5dc40b6ff263",
+                "reference": "1f89936279c2a6af6d700a2c5f6f5dc40b6ff263",
                 "shasum": ""
             },
             "require": {
@@ -659,7 +659,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-03-07T23:18:42+00:00"
+            "time": "2020-06-10T00:44:15+00:00"
         },
         {
             "name": "joomla/github",
@@ -715,12 +715,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "ada84eeddfc2ae753fbab499b1855308a20d080f"
+                "reference": "ac4afbaeca2e3d2f61839b1437344c1306bfd9ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/ada84eeddfc2ae753fbab499b1855308a20d080f",
-                "reference": "ada84eeddfc2ae753fbab499b1855308a20d080f",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/ac4afbaeca2e3d2f61839b1437344c1306bfd9ed",
+                "reference": "ac4afbaeca2e3d2f61839b1437344c1306bfd9ed",
                 "shasum": ""
             },
             "require": {
@@ -761,7 +761,7 @@
                 "http",
                 "joomla"
             ],
-            "time": "2020-03-08T00:08:50+00:00"
+            "time": "2020-06-05T11:31:04+00:00"
         },
         {
             "name": "joomla/input",
@@ -769,12 +769,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/input.git",
-                "reference": "a1f9503c3787c1f4a4462cd0e4dbe300364b571e"
+                "reference": "156d9e91ca0e154643951a0a728afc854f95b38a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/input/zipball/a1f9503c3787c1f4a4462cd0e4dbe300364b571e",
-                "reference": "a1f9503c3787c1f4a4462cd0e4dbe300364b571e",
+                "url": "https://api.github.com/repos/joomla-framework/input/zipball/156d9e91ca0e154643951a0a728afc854f95b38a",
+                "reference": "156d9e91ca0e154643951a0a728afc854f95b38a",
                 "shasum": ""
             },
             "require": {
@@ -808,7 +808,7 @@
                 "input",
                 "joomla"
             ],
-            "time": "2020-03-08T00:32:37+00:00"
+            "time": "2020-06-05T11:31:52+00:00"
         },
         {
             "name": "joomla/registry",
@@ -816,22 +816,25 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "d4ecf95311e336407873caa3bfa8702c4466a2dc"
+                "reference": "9a3c7f1c0b3ac35737c36eed0348e79fa24be8f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/d4ecf95311e336407873caa3bfa8702c4466a2dc",
-                "reference": "d4ecf95311e336407873caa3bfa8702c4466a2dc",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/9a3c7f1c0b3ac35737c36eed0348e79fa24be8f6",
+                "reference": "9a3c7f1c0b3ac35737c36eed0348e79fa24be8f6",
                 "shasum": ""
             },
             "require": {
-                "joomla/utilities": "^1.4.1|~2.0",
+                "joomla/utilities": "^1.4.1|^2.0",
                 "php": "^7.2.5"
             },
+            "conflict": {
+                "symfony/yaml": "<3.4"
+            },
             "require-dev": {
-                "joomla/coding-standards": "~2.0@alpha",
-                "phpunit/phpunit": "~8.2",
-                "symfony/yaml": "~3.4|~4.0|~5.0"
+                "joomla/coding-standards": "^2.0@alpha",
+                "phpunit/phpunit": "^8.5|^9.0",
+                "symfony/yaml": "^3.4|^4.4|^5.0"
             },
             "suggest": {
                 "symfony/yaml": "Install symfony/yaml if you require YAML support."
@@ -858,7 +861,7 @@
                 "joomla",
                 "registry"
             ],
-            "time": "2019-12-04T01:56:10+00:00"
+            "time": "2020-06-09T00:27:58+00:00"
         },
         {
             "name": "joomla/router",
@@ -866,12 +869,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/router.git",
-                "reference": "68f31fca63fc302c84ace731aff05b8ff2103d18"
+                "reference": "14904beb7b894b1df9b156c783ec05d9aba2872d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/router/zipball/68f31fca63fc302c84ace731aff05b8ff2103d18",
-                "reference": "68f31fca63fc302c84ace731aff05b8ff2103d18",
+                "url": "https://api.github.com/repos/joomla-framework/router/zipball/14904beb7b894b1df9b156c783ec05d9aba2872d",
+                "reference": "14904beb7b894b1df9b156c783ec05d9aba2872d",
                 "shasum": ""
             },
             "require": {
@@ -912,7 +915,7 @@
                 "joomla",
                 "router"
             ],
-            "time": "2020-03-08T03:59:37+00:00"
+            "time": "2020-06-05T11:26:06+00:00"
         },
         {
             "name": "joomla/string",
@@ -920,12 +923,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/string.git",
-                "reference": "d899715bbc4a53520776d0530fb6569c92a6cc69"
+                "reference": "f9fe41afffd28535b29b2875d48eaaf56532412a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/string/zipball/d899715bbc4a53520776d0530fb6569c92a6cc69",
-                "reference": "d899715bbc4a53520776d0530fb6569c92a6cc69",
+                "url": "https://api.github.com/repos/joomla-framework/string/zipball/f9fe41afffd28535b29b2875d48eaaf56532412a",
+                "reference": "f9fe41afffd28535b29b2875d48eaaf56532412a",
                 "shasum": ""
             },
             "require": {
@@ -983,7 +986,7 @@
                 "joomla",
                 "string"
             ],
-            "time": "2020-03-08T05:05:56+00:00"
+            "time": "2020-06-05T11:04:28+00:00"
         },
         {
             "name": "joomla/uri",
@@ -991,12 +994,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/uri.git",
-                "reference": "111ce04c3ad9601e7fad495fccb3121b40f18eb2"
+                "reference": "906d86d5dc7ebec7ccd6140b091e53a4136bf6ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/111ce04c3ad9601e7fad495fccb3121b40f18eb2",
-                "reference": "111ce04c3ad9601e7fad495fccb3121b40f18eb2",
+                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/906d86d5dc7ebec7ccd6140b091e53a4136bf6ad",
+                "reference": "906d86d5dc7ebec7ccd6140b091e53a4136bf6ad",
                 "shasum": ""
             },
             "require": {
@@ -1028,7 +1031,7 @@
                 "joomla",
                 "uri"
             ],
-            "time": "2020-03-08T05:13:29+00:00"
+            "time": "2020-06-05T11:26:35+00:00"
         },
         {
             "name": "joomla/utilities",
@@ -1036,12 +1039,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/utilities.git",
-                "reference": "9ef891f923e3b5250a7caae8a499cf0a2b87152d"
+                "reference": "e15b14b060e524ab869504942440e14473dfb3de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/9ef891f923e3b5250a7caae8a499cf0a2b87152d",
-                "reference": "9ef891f923e3b5250a7caae8a499cf0a2b87152d",
+                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/e15b14b060e524ab869504942440e14473dfb3de",
+                "reference": "e15b14b060e524ab869504942440e14473dfb3de",
                 "shasum": ""
             },
             "require": {
@@ -1074,7 +1077,7 @@
                 "joomla",
                 "utilities"
             ],
-            "time": "2020-03-08T05:16:34+00:00"
+            "time": "2020-06-05T11:26:55+00:00"
         },
         {
             "name": "joomla/view",
@@ -1082,12 +1085,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/view.git",
-                "reference": "5758dd3921cdabc911e61630c364f9ad36d4f303"
+                "reference": "75b8e5c6aefc36b62019c8a2a8b395425d578623"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/view/zipball/5758dd3921cdabc911e61630c364f9ad36d4f303",
-                "reference": "5758dd3921cdabc911e61630c364f9ad36d4f303",
+                "url": "https://api.github.com/repos/joomla-framework/view/zipball/75b8e5c6aefc36b62019c8a2a8b395425d578623",
+                "reference": "75b8e5c6aefc36b62019c8a2a8b395425d578623",
                 "shasum": ""
             },
             "require": {
@@ -1123,7 +1126,7 @@
                 "joomla",
                 "view"
             ],
-            "time": "2020-03-08T05:19:52+00:00"
+            "time": "2020-06-05T11:56:02+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
@@ -2771,16 +2774,16 @@
         },
         {
             "name": "composer/xdebug-handler",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "1ab9842d69e64fb3a01be6b656501032d1b78cb7"
+                "reference": "fa2aaf99e2087f013a14f7432c1cd2dd7d8f1f51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/1ab9842d69e64fb3a01be6b656501032d1b78cb7",
-                "reference": "1ab9842d69e64fb3a01be6b656501032d1b78cb7",
+                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/fa2aaf99e2087f013a14f7432c1cd2dd7d8f1f51",
+                "reference": "fa2aaf99e2087f013a14f7432c1cd2dd7d8f1f51",
                 "shasum": ""
             },
             "require": {
@@ -2811,7 +2814,21 @@
                 "Xdebug",
                 "performance"
             ],
-            "time": "2020-03-01T12:26:26+00:00"
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-06-04T11:16:35+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -3172,12 +3189,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/test.git",
-                "reference": "c43bb1c8042113ea0fdf37b068066d48f1f55272"
+                "reference": "e9cfcf8c218eae790226d49b839c475042d6e46b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/test/zipball/c43bb1c8042113ea0fdf37b068066d48f1f55272",
-                "reference": "c43bb1c8042113ea0fdf37b068066d48f1f55272",
+                "url": "https://api.github.com/repos/joomla-framework/test/zipball/e9cfcf8c218eae790226d49b839c475042d6e46b",
+                "reference": "e9cfcf8c218eae790226d49b839c475042d6e46b",
                 "shasum": ""
             },
             "require": {
@@ -3218,7 +3235,7 @@
                 "reflection",
                 "unit test"
             ],
-            "time": "2020-03-07T19:00:57+00:00"
+            "time": "2020-06-05T11:34:48+00:00"
         },
         {
             "name": "league/flysystem-memory",
