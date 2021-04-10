@@ -6,7 +6,7 @@
     "homepage": "http://github.com/joomla/statistics-server",
     "license": "GPL-2.0-or-later",
     "require": {
-        "php": "^7.4.3",
+        "php": "^7.2.5",
         "ext-json": "*",
         "ext-pdo": "*",
         "joomla/application": "^2.0@beta",
@@ -57,7 +57,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.4.3"
+            "php": "7.2.5"
         }
     }
 }
