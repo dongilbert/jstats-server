@@ -110,6 +110,7 @@ class StatsJsonView extends JsonView
 		{
 			$items = $this->repository->getTimeframeUpdatedItems($this->timeframe, $this->source);
 		}
+
 		if ($this->recent)
 		{
 			$items = $this->repository->getRecentlyUpdatedItems();
