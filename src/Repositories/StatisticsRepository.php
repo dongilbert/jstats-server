@@ -176,7 +176,9 @@ class StatisticsRepository
 				$this->db->getQuery(true)
 					->select($column)
 					->select('COUNT(' . $column . ') AS count')
-					->from('(SELECT * FROM ' . $this->db->quoteName('#__jstats') . ' WHERE modified > DATE_SUB(NOW(), INTERVAL ' . $this->db->quote($timeframe) . ' DAY)) AS tmptable')
+					->from('(SELECT * FROM ' . $this->db->quoteName('#__jstats')
+						. ' WHERE modified > DATE_SUB(NOW(), INTERVAL ' . $this->db->quote($timeframe) . ' DAY)) AS tmptable'
+					)
 					->group($column)
 			)->loadAssocList();
 		}
