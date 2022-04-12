@@ -49,8 +49,12 @@ class DisplayStatisticsController extends AbstractController
 		// Check if a single data source is requested
 		$source = $this->getInput()->getString('source', '');
 
+		// Check if a timeframe is requested
+		$timeframe = $this->getInput()->getInt('timeframe', null);
+
 		$this->view->isAuthorizedRaw($authorizedRaw);
 		$this->view->setSource($source);
+		$this->view->setTimeframe($timeframe);
 
 		$this->getApplication()->setBody($this->view->render());
 
