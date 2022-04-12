@@ -52,6 +52,13 @@ class StatsJsonView extends JsonView
 	private $source = '';
 
 	/**
+	 * The timeframe to return.
+	 *
+	 * @var  integer
+	 */
+	private $timeframe = 0;
+
+	/**
 	 * Count of the number of items.
 	 *
 	 * @var  integer
@@ -99,6 +106,10 @@ class StatsJsonView extends JsonView
 	 */
 	public function render()
 	{
+		if ($this->timeframe > 0)
+		{
+			$items = $this->repository->getTimeframeUpdatedItems($this->timeframe, $this->source);
+		}
 		if ($this->recent)
 		{
 			$items = $this->repository->getRecentlyUpdatedItems();
@@ -214,6 +225,18 @@ class StatsJsonView extends JsonView
 	public function setSource(string $source): void
 	{
 		$this->source = $source;
+	}
+
+	/**
+	 * Set the data source.
+	 *
+	 * @param   string  $source  Data source to return.
+	 *
+	 * @return  void
+	 */
+	public function setTimeframe(int $timeframe): void
+	{
+		$this->timeframe = $timeframe;
 	}
 
 	/**

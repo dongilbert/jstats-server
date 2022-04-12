@@ -139,6 +139,46 @@ class StatisticsRepository
 		return $return;
 	}
 
+
+    /**
+     * Loads the recently updated statistics data from the database.
+     *
+     * Updated within a timeframe, submit a pull request for a different behavior.
+     *
+     * @return  array  An array containing the response data
+     */
+    public function getTimeframeUpdatedItems(int $timeframe = 0, string $showColumn = ''): array
+    {
+        $return  = [];
+        $columns = self::ALLOWED_SOURCES;
+        if ($showColumn !== '') {
+            // The column should exist in the table and be part of the API
+            if (!\in_array($showColumn, self::ALLOWED_SOURCES)) {
+                throw new \InvalidArgumentException('An invalid data source was requested.', 404);
+            }
+
+            $columns = [$showColumn];
+        }
+
+        foreach ($columns as $column) {
+            if (\in_array($column, ['cms_php_version', 'db_type_version'])) {
+                throw new \InvalidArgumentException('An invalid data source was requested.', 404);
+            }
+            $return[$column] = $this->db->setQuery(
+              $this->db->getQuery(true)
+                       ->select($column)
+                       ->select('COUNT(' . $column . ') AS count')
+                       ->from('(SELECT * FROM ' . $this->db->quoteName('#__jstats') . ' WHERE modified > DATE_SUB(NOW(), INTERVAL ' . $this->db->quote($timeframe) .' DAY)) AS tmptable')
+                       ->group($column)
+            )->loadAssocList();
+        }
+
+        if ($showColumn !== '') {
+            return $return[$showColumn];
+        }
+
+        return $return;
+    }
 	/**
 	 * Saves the given data.
 	 *
