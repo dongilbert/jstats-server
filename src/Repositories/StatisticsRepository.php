@@ -169,7 +169,7 @@ class StatisticsRepository
 		{
 			if (\in_array($column, ['cms_php_version', 'db_type_version']))
 			{
-				throw new \InvalidArgumentException('An invalid data source was requested.', 404);
+				continue;
 			}
 
 			$return[$column] = $this->db->setQuery(

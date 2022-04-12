@@ -50,7 +50,7 @@ class DisplayStatisticsController extends AbstractController
 		$source = $this->getInput()->getString('source', '');
 
 		// Check if a timeframe is requested
-		$timeframe = $this->getInput()->getInt('timeframe', null);
+		$timeframe = (int) $this->getInput()->getInt('timeframe', 0);
 
 		$this->view->isAuthorizedRaw($authorizedRaw);
 		$this->view->setSource($source);
