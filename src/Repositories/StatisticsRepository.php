@@ -139,11 +139,13 @@ class StatisticsRepository
 		return $return;
 	}
 
-
 	/**
 	 * Loads the recently updated statistics data from the database.
 	 *
 	 * Updated within a timeframe, submit a pull request for a different behavior.
+	 *
+	 * @param   int     $timeframe   The timeframe in days to consider
+	 * @param   string  $showColumn  The column to return
 	 *
 	 * @return  array  An array containing the response data
 	 */

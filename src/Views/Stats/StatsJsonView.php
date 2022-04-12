@@ -231,7 +231,7 @@ class StatsJsonView extends JsonView
 	/**
 	 * Set the data source.
 	 *
-	 * @param   string  $source  Data source to return.
+	 * @param   string  $timeframe  Timeframe to return.
 	 *
 	 * @return  void
 	 */
